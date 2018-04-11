@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ import android.widget.Toast;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.ImageViewState;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.googlecode.tesseract.android.TessBaseAPI;
 
 import org.mozilla.focus.R;
 import org.mozilla.focus.locale.LocaleAwareAppCompatActivity;
@@ -498,6 +500,13 @@ public class ScreenshotViewerActivity extends LocaleAwareAppCompatActivity imple
                 Uri imageUri = Uri.fromFile(new File(screenshot.getImageUri()));
                 imageSource = ImageSource.uri(imageUri);
                 fileSizeText = getFileSizeText(imgFile.length());
+
+
+                TessBaseAPI baseApi = new TessBaseAPI();
+                baseApi.init("/sdcard/tesseract/", "ind");
+                baseApi.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO);
+                baseApi.setImage(BitmapFactory.decodeFile(screenshot.getImageUri()));
+                Log.d("OCR_TEXT", baseApi.getUTF8Text());
             }
             return null;
         }

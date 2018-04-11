@@ -191,6 +191,8 @@ dependencies {
     annotationProcessor Libs.glide_compiler
     kapt Libs.glide_compiler
 
+    implementation 'com.rmtheis:tess-two:8.0.0'
+
     implementation Libs.support_v4
     implementation Libs.app_compat_v7
     implementation Libs.customtabs
