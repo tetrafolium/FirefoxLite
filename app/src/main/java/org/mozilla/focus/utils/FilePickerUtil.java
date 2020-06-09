@@ -30,13 +30,13 @@ public class FilePickerUtil {
             final String[] mimeTypes) {
         final List<Intent> intents = getIntentsForFilePicker(context, mimeTypes);
 
-        if (intents.size() == 0) {
+        if (intents.isEmpty()) {
             return null;
         }
 
         final Intent base = intents.remove(0);
 
-        if (intents.size() == 0) {
+        if (intents.isEmpty()) {
             return base;
         }
 
@@ -73,7 +73,7 @@ public class FilePickerUtil {
         addActivities(context, createIntent(mimeType), intents, baseIntents);
 
         // If we didn't find any activities, we fall back to the */* mimetype intent
-        if (baseIntents.size() == 0 && intents.size() == 0) {
+        if (baseIntents.isEmpty() && intents.isEmpty()) {
             intents.clear();
 
             baseIntent = createIntent("*/*");

@@ -29,7 +29,9 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class HtmlLoader {
+public class HtmlLoader {    
+
+    private final static byte[] pngHeader = new byte[]{-119, 80, 78, 71, 13, 10, 26, 10};
 
     /**
      * Load a given (html or css) resource file into a String. The input can contain tokens that will
@@ -64,8 +66,6 @@ public class HtmlLoader {
             throw new IllegalStateException("Unable to load error page data", e);
         }
     }
-
-    private final static byte[] pngHeader = new byte[]{-119, 80, 78, 71, 13, 10, 26, 10};
 
     public static String loadDrawableAsDataURI(@NonNull final Context context,
                                                @NonNull final @DrawableRes int resourceID,

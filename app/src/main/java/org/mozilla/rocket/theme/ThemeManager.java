@@ -11,7 +11,12 @@ import java.util.HashSet;
 
 public class ThemeManager {
 
-    private static final String PREF_KEY_STRING_CURRENT_THEME = "pref_key_string_current_theme";
+    private static final String PREF_KEY_STRING_CURRENT_THEME = "pref_key_string_current_theme";    
+
+    private Context baseContext;    
+    private ThemeSet currentThemeSet = ThemeSet.Default;    
+    private HashSet<Themeable> subscribedThemeable = new HashSet<>(3);    
+    private boolean dirty = true;
 
     public interface Themeable {
         void onThemeChanged();
@@ -39,11 +44,6 @@ public class ThemeManager {
             style = styleId;
         }
     }
-
-    private Context baseContext;
-    private ThemeSet currentThemeSet = ThemeSet.Default;
-    private HashSet<Themeable> subscribedThemeable = new HashSet<>(3);
-    private boolean dirty = true;
 
     public ThemeManager(ThemeHost themeHost) {
         baseContext = themeHost.getApplicationContext();

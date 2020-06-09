@@ -197,7 +197,7 @@ public class Browsers {
         }
 
         for (ActivityInfo info : browsers.values()) {
-            if (info != defaultBrowser
+            if (info.equals(defaultBrowser)
                     && !info.packageName.equals(KnownBrowser.FIREFOX.packageName)
                     && !info.packageName.equals(context.getPackageName())) {
                 // There's at least one browser that is not Focus or Firefox and also not the

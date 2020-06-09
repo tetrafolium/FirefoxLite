@@ -8,7 +8,21 @@ import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 @Entity(tableName = "tabs")
-public class TabEntity {
+public class TabEntity {    
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "tab_id")
+    private String id;    
+
+    @ColumnInfo(name = "tab_parent_id")
+    private String parentId;    
+
+    @ColumnInfo(name = "tab_title")
+    private String title;    
+
+    @ColumnInfo(name = "tab_url")
+    private String url;
 
     @Ignore
     public TabEntity(String id, String parentId) {
@@ -21,20 +35,6 @@ public class TabEntity {
         this.title = title;
         this.url = url;
     }
-
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "tab_id")
-    private String id;
-
-    @ColumnInfo(name = "tab_parent_id")
-    private String parentId;
-
-    @ColumnInfo(name = "tab_title")
-    private String title;
-
-    @ColumnInfo(name = "tab_url")
-    private String url;
 
     @NonNull
     public String getId() {

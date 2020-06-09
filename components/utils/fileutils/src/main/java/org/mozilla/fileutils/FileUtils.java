@@ -361,14 +361,14 @@ public class FileUtils {
 
     // An AsyncTask that do something in the background, and applies
     // a function before setting the Livedata.
-    private static class LiveDataTask<T, S> extends AsyncTask<Void, Void, S> {
+    private static class LiveDataTask<T, S> extends AsyncTask<Void, Void, S> {        
+
+        private MutableLiveData<T> liveData;        
+        private Function<T, S> function;
 
         public interface Function<T, S> {
             T apply(S source);
         }
-
-        private MutableLiveData<T> liveData;
-        private Function<T, S> function;
 
         protected LiveDataTask(MutableLiveData<T> liveData, Function<T, S> function) {
             this.liveData = liveData;

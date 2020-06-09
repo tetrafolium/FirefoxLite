@@ -148,7 +148,7 @@ public class ScreenshotItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onQueryComplete(List result) {
-        mIsLastPage = result.size() == 0;
+        mIsLastPage = result.isEmpty();
         if (mIsInitialQuery) {
             mIsInitialQuery = false;
         }
@@ -167,7 +167,7 @@ public class ScreenshotItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onItemDelete(long id) {
         if (id >= 0) {
             remove(getItemPositionById(id));
-            if (mItems.size() == 0) {
+            if (mItems.isEmpty()) {
                 notifyStatusListener(ScreenshotGridFragment.VIEW_TYPE_EMPTY);
             }
         }
@@ -217,10 +217,8 @@ public class ScreenshotItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private int getItemPositionById(long id) {
         for (int i = 0; i < mItems.size(); i++) {
             Object item = mItems.get(i);
-            if (item instanceof Screenshot) {
-                if (id == ((Screenshot) item).getId()) {
-                    return i;
-                }
+            if ((item instanceof Screenshot) && (id == ((Screenshot) item).getId())) {
+                return i;
             }
         }
         return -1;

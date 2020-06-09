@@ -53,7 +53,7 @@ public class DownloadInfoDbHelper {
             if (oldVersion < VERSION_ADD_STATUS_AND_UNREAD) {
                 // add new column status and update all legacy data to 'STATUS_SUCCESSFUL'
                 sqLiteDatabase.execSQL("ALTER TABLE " +  Download.TABLE_DOWNLOAD + " ADD " + Download.STATUS + " INTEGER;");
-                sqLiteDatabase.execSQL("UPDATE " + Download.TABLE_DOWNLOAD + " SET " + Download.STATUS + " = " + String.valueOf(DownloadManager.STATUS_SUCCESSFUL) + ";");
+                sqLiteDatabase.execSQL("UPDATE " + Download.TABLE_DOWNLOAD + " SET " + Download.STATUS + " = " + DownloadManager.STATUS_SUCCESSFUL + ";");
 
                 // add new column unread and mark all legacy data 'IS_READ' = 1
                 sqLiteDatabase.execSQL("ALTER TABLE " +  Download.TABLE_DOWNLOAD + " ADD " + Download.IS_READ + " INTEGER DEFAULT 0;");

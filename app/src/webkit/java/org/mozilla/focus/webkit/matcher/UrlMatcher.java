@@ -44,7 +44,18 @@ public class UrlMatcher implements SharedPreferences.OnSharedPreferenceChangeLis
             ".otf"
     };
 
-    private static final String WEBFONTS = "Webfonts";
+    private static final String WEBFONTS = "Webfonts";    
+
+    private final Map<String, Trie> categories;    
+    private final Set<String> enabledCategories = new HashSet<>();    
+
+    private final EntityList entityList;    
+    // A cached list of previously matched URLs. This MUST be cleared whenever items are removed from enabledCategories.
+    private final HashSet<String> previouslyMatched = new HashSet<>();    
+    // A cahced list of previously approved URLs. This MUST be cleared whenever items are added to enabledCategories.
+    private final HashSet<String> previouslyUnmatched = new HashSet<>();    
+
+    private boolean blockWebfonts = true;
 
     private static Map<String, String> loadDefaultPrefMap(final Context context) {
         Map<String, String> tempMap = new ArrayMap<>();
@@ -60,17 +71,6 @@ public class UrlMatcher implements SharedPreferences.OnSharedPreferenceChangeLis
 
         return Collections.unmodifiableMap(tempMap);
     }
-
-    private final Map<String, Trie> categories;
-    private final Set<String> enabledCategories = new HashSet<>();
-
-    private final EntityList entityList;
-    // A cached list of previously matched URLs. This MUST be cleared whenever items are removed from enabledCategories.
-    private final HashSet<String> previouslyMatched = new HashSet<>();
-    // A cahced list of previously approved URLs. This MUST be cleared whenever items are added to enabledCategories.
-    private final HashSet<String> previouslyUnmatched = new HashSet<>();
-
-    private boolean blockWebfonts = true;
 
     public static UrlMatcher loadMatcher(final Context context, final int blockListFile, final int[] blockListOverrides, final int entityListFile, final int abpindo_adserversListFile) {
         final Map<String, String> categoryPrefMap = loadDefaultPrefMap(context);

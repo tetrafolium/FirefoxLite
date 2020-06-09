@@ -232,13 +232,13 @@ public class ComponentToggleService extends Service {
         }
     }
 
-    private final static class PackageStatusReceiver extends BroadcastReceiver {
+    private final static class PackageStatusReceiver extends BroadcastReceiver {        
+
+        private final Listener mListener;
 
         interface Listener {
             void onPackageChanged(@NonNull Intent intent);
         }
-
-        private final Listener mListener;
 
         PackageStatusReceiver(Listener listener) {
             mListener = listener;

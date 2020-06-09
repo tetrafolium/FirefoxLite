@@ -1803,14 +1803,12 @@ public class SubsamplingScaleImageView extends View {
             try {
                 String[] columns = { MediaStore.Images.Media.ORIENTATION };
                 cursor = context.getContentResolver().query(Uri.parse(sourceUri), columns, null, null, null);
-                if (cursor != null) {
-                    if (cursor.moveToFirst()) {
-                        int orientation = cursor.getInt(0);
-                        if (VALID_ORIENTATIONS.contains(orientation) && orientation != ORIENTATION_USE_EXIF) {
-                            exifOrientation = orientation;
-                        } else {
-                            Log.w(TAG, "Unsupported orientation: " + orientation);
-                        }
+                if ((cursor != null) && (cursor.moveToFirst())) {
+                    int orientation = cursor.getInt(0);
+                    if (VALID_ORIENTATIONS.contains(orientation) && orientation != ORIENTATION_USE_EXIF) {
+                        exifOrientation = orientation;
+                    } else {
+                        Log.w(TAG, "Unsupported orientation: " + orientation);
                     }
                 }
             } catch (Exception e) {
@@ -1889,13 +1887,13 @@ public class SubsamplingScaleImageView extends View {
 
     }
 
-    private static class ScaleAndTranslate {
+    private static class ScaleAndTranslate {        
+        private float scale;        
+        private PointF vTranslate;
         private ScaleAndTranslate(float scale, PointF vTranslate) {
             this.scale = scale;
             this.vTranslate = vTranslate;
         }
-        private float scale;
-        private PointF vTranslate;
     }
 
     /**

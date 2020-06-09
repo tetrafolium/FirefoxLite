@@ -103,7 +103,7 @@ public class WebViewDebugOverlay {
                     if (webView.getChildCount() != 0) {
                         for (int i = 0; i < webView.getChildCount(); ++i) {
                             View child = webView.getChildAt(i);
-                            if (child == drawerLayout) {
+                            if (child.equals(drawerLayout)) {
                                 continue;
                             }
 
@@ -250,12 +250,12 @@ public class WebViewDebugOverlay {
         if (rootView instanceof WebView) {
             WebHistoryItem item = ((WebView) rootView).copyBackForwardList().getCurrentItem();
             if (item != null) {
-                builder.append("(").append(item.getOriginalUrl()).append(")");
+                builder.append('(').append(item.getOriginalUrl()).append(')');
             }
         }
         insertText(builder.toString(), Color.LTGRAY, viewTreeList);
 
-        if (rootView == viewTreeList) {
+        if (rootView.equals(viewTreeList)) {
             return;
         }
 

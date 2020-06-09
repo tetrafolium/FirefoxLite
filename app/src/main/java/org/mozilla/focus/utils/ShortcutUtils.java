@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ShortcutUtils {
 
-    private static final String TAG = "ShortcutUtils";
+    
 
 
     // Request pinned shortcut for both API level

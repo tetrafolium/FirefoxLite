@@ -5,7 +5,7 @@
 
 package org.mozilla.focus.utils;
 
-public class Constants {
+public final class Constants {
 
     /**
      * Activity action, to prompt dialog to grant permission

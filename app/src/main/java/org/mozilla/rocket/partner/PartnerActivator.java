@@ -253,14 +253,14 @@ public class PartnerActivator {
         }
     }
 
-    private static class PingActivation extends ActivationJobs implements Runnable {
+    private static class PingActivation extends ActivationJobs implements Runnable {        
+
+        private static final String TYPE_STRING = "stringValue";        
+        private static final String TYPE_INTEGER = "integerValue";
 
         PingActivation(PartnerActivator partnerActivator) {
             super(partnerActivator);
         }
-
-        private static final String TYPE_STRING = "stringValue";
-        private static final String TYPE_INTEGER = "integerValue";
 
         @Override
         public void run() {

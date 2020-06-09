@@ -29,7 +29,7 @@ import java.util.Locale;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class SearchEngineManager extends BroadcastReceiver {
+public final class SearchEngineManager extends BroadcastReceiver {
     private static final String LOG_TAG = SearchEngineManager.class.getSimpleName();
 
     private static SearchEngineManager instance = new SearchEngineManager();

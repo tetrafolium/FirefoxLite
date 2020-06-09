@@ -112,7 +112,7 @@ import static org.mozilla.rocket.chrome.BottomBarItemAdapter.DOWNLOAD_STATE_WARN
 
 public class HomeFragment extends LocaleAwareFragment implements TopSitesContract.View, TopSitesContract.Model,
         ScreenNavigator.HomeScreen, BannerHelper.HomeBannerHelperListener {
-    private static final String TAG = "HomeFragment";
+    
 
     public static final String TOPSITES_PREF = "topsites_pref";
     public static final String TOP_SITES_V2_PREF = "top_sites_v2_complete";
@@ -155,7 +155,20 @@ public class HomeFragment extends LocaleAwareFragment implements TopSitesContrac
                 refreshTopSites();
             }
         }
-    };
+    };    
+
+    private QueryHandler.AsyncQueryListener mTopSitesQueryListener = sites -> {
+        List<Site> querySites = new ArrayList<>();
+        for (Object site : sites) {
+            if (site instanceof Site) {
+                querySites.add((Site) site);
+            }
+        }
+
+        constructTopSiteList(querySites);
+    };    
+
+    private QueryHandler.AsyncUpdateListener mTopSiteUpdateListener = result -> refreshTopSites();
 
     public static HomeFragment create() {
         return new HomeFragment();
@@ -639,19 +652,6 @@ public class HomeFragment extends LocaleAwareFragment implements TopSitesContrac
         }
     }
 
-    private QueryHandler.AsyncQueryListener mTopSitesQueryListener = sites -> {
-        List<Site> querySites = new ArrayList<>();
-        for (Object site : sites) {
-            if (site instanceof Site) {
-                querySites.add((Site) site);
-            }
-        }
-
-        constructTopSiteList(querySites);
-    };
-
-    private QueryHandler.AsyncUpdateListener mTopSiteUpdateListener = result -> refreshTopSites();
-
     private void refreshTopSites() {
         BrowsingHistoryManager.getInstance().queryTopSites(TOP_SITES_QUERY_LIMIT,
                 TOP_SITES_QUERY_MIN_VIEW_COUNT,
@@ -884,7 +884,7 @@ public class HomeFragment extends LocaleAwareFragment implements TopSitesContrac
             if (handler == null) {
                 return;
             }
-            if (icons.size() == 0) {
+            if (icons.isEmpty()) {
                 scheduleRefresh(handler);
             } else {
                 // Refresh is still scheduled implicitly in SaveBitmapsTask

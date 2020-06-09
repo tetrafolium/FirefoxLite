@@ -44,7 +44,7 @@ public final class DebugUtils {
         }
         final String separator = "Chrome/";
         final int from = userAgent.lastIndexOf(separator) + separator.length();
-        return userAgent.substring(from, userAgent.indexOf(" ", from));
+        return userAgent.substring(from, userAgent.indexOf(' ', from));
     }
 
 }

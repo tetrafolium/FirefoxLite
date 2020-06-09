@@ -62,7 +62,12 @@ public class DownloadTest {
     public static final String HTML_ELEMENT_ID_DOWNLOAD = "download";
     private static final String TAG = "DownloadTest";
 
-    private MockWebServer webServer;
+    private MockWebServer webServer;    
+
+    @Rule
+    public final GrantPermissionRule write_permissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE);    
+    @Rule
+    public final GrantPermissionRule read_permissionRule = GrantPermissionRule.grant(Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @Before
     public void setUp() {
@@ -85,11 +90,6 @@ public class DownloadTest {
             file.delete();
         }
     }
-
-    @Rule
-    public final GrantPermissionRule write_permissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    @Rule
-    public final GrantPermissionRule read_permissionRule = GrantPermissionRule.grant(Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<MainActivity>(MainActivity.class, true, false) {
@@ -148,7 +148,7 @@ public class DownloadTest {
 
         // If there's no removable storage for Downloads, we skip this test
         try {
-            final File dir = StorageUtils.getTargetDirOnRemovableStorageForDownloads(activityRule.getActivity(), "*/*");
+            
 
             // Check if toast is displayed.
             onView(withText(R.string.download_started))
@@ -188,7 +188,7 @@ public class DownloadTest {
         browsePageAndDownload();
 
         try {
-            final File dir = StorageUtils.getTargetDirOnRemovableStorageForDownloads(activityRule.getActivity(), "*/*");
+            
 
             // Open menu
             AndroidTestUtils.tapHomeMenuButton();

@@ -32,18 +32,18 @@ public class FocusStringTest {
 
     @Test (expected = StringIndexOutOfBoundsException.class)
     public void outofBoundsSubstringLarge() throws StringIndexOutOfBoundsException {
-        final String fullStringRaw = "abcd";
-        final FocusString fullString = FocusString.create(fullStringRaw);
+        
+        
 
-        final FocusString substring = fullString.substring(5);
+        
     }
 
     @Test (expected = StringIndexOutOfBoundsException.class)
     public void outofBoundsSubstringNegative() throws StringIndexOutOfBoundsException {
-        final String fullStringRaw = "abcd";
-        final FocusString fullString = FocusString.create(fullStringRaw);
+        
+        
 
-        final FocusString substring = fullString.substring(-1);
+        
     }
 
 

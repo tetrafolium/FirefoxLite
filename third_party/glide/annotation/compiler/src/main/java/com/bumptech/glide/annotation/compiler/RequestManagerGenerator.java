@@ -160,9 +160,8 @@ final class RequestManagerGenerator {
     TypeMirror rawRequestBuilder = processingEnv.getTypeUtils()
         .erasure(requestBuilderType.asType());
 
-    final TypeElement classType =
-        processingEnv.getElementUtils().getTypeElement(Class.class.getCanonicalName());
-    final TypeMirror rawClassType = processingEnv.getTypeUtils().erasure(classType.asType());
+    
+    
 
     return FluentIterable.from(
         processorUtil.findInstanceMethodsReturning(requestManagerType, rawRequestBuilder))

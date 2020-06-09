@@ -195,10 +195,8 @@ class TransactionHelper implements DefaultLifecycleObserver {
         final FragmentManager fragmentManager = this.activity.getSupportFragmentManager();
         final ScreenNavigator.Screen homeFragment =
                 (ScreenNavigator.Screen) fragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG);
-        if (homeFragment != null && homeFragment.getFragment().isVisible()) {
-            if (homeFragment instanceof HomeScreen) {
-                ((HomeScreen) homeFragment).onUrlInputScreenVisible(visible);
-            }
+        if ((homeFragment != null && homeFragment.getFragment().isVisible()) && (homeFragment instanceof HomeScreen)) {
+            ((HomeScreen) homeFragment).onUrlInputScreenVisible(visible);
         }
     }
 
@@ -350,7 +348,7 @@ class TransactionHelper implements DefaultLifecycleObserver {
         @Nullable
         FragmentAnimationAccessor getTopAnimationAccessibleFragment(@NonNull TransactionHelper helper) {
             Fragment top = helper.getLatestCommitFragment();
-            if (top != null && top instanceof FragmentAnimationAccessor) {
+            if (top instanceof FragmentAnimationAccessor) {
                 return (FragmentAnimationAccessor) top;
             }
             return null;

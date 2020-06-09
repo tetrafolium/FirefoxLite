@@ -100,7 +100,7 @@ public class ScreenshotManager {
     @WorkerThread
     private void lazyInitCategories(Context context) {
         try {
-            if (categories.size() != 0) {
+            if (categories.isEmpty()) {
                 return;
             }
             try {
@@ -186,7 +186,7 @@ public class ScreenshotManager {
     }
 
     public int getCategoryVersion() {
-        if (categories.size() == 0) {
+        if (categories.isEmpty()) {
             throw new IllegalStateException("Screenshot category is not ready! Call init before get Version.");
         }
         return categoryVersion;
@@ -198,7 +198,7 @@ public class ScreenshotManager {
 
         try {
             // if category is not ready, return empty string
-            if (categories.size() == 0) {
+            if (categories.isEmpty()) {
                 throw new IllegalStateException("Screenshot category is not ready!");
             }
             final String authority = UrlUtils.stripCommonSubdomains(new URL(url).getAuthority());

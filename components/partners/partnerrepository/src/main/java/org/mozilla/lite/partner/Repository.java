@@ -119,7 +119,7 @@ public abstract class Repository<T extends NewsItem> {
                 }
                 List<T> diff = new ArrayList<>(oldValuesFromCache);
                 diff.removeAll(newValuesFromNetwork);
-                boolean cacheIsDirty = diff.size() != 0;
+                boolean cacheIsDirty = diff.isEmpty();
                 if (cacheIsDirty && onCacheInvalidateListener != null) {
                     onCacheInvalidateListener.onCacheInvalidate();
                 }
@@ -156,10 +156,8 @@ public abstract class Repository<T extends NewsItem> {
                     // data, so still notify the observer means nothing happened since
                     // last fetched.
                     // TODO: use network failure callback instead
-                    if (integerStringPair.first == ResponseData.SOURCE_NETWORK && "".equals(integerStringPair.second)) {
-                        if (onDataChangedListener != null) {
-                            onDataChangedListener.onDataChanged(cloneData());
-                        }
+                    if ((integerStringPair.first == ResponseData.SOURCE_NETWORK && "".equals(integerStringPair.second)) && (onDataChangedListener != null)) {
+                        onDataChangedListener.onDataChanged(cloneData());
                     }
                 }
                 // Removes the subscription and mark as done once network returns, no matter

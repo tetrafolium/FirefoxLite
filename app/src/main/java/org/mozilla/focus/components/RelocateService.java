@@ -199,30 +199,26 @@ public class RelocateService extends IntentService {
 
                 // removable-storage did not exist on app creation, but now it is back
                 // we moved download file to removable-storage, now we should inform user
-                if (!settings.getRemovableStorageStateOnCreate()) {
-
-                    // avoid sending same message continuously
-                    if (settings.getShowedStorageMessage() != Settings.STORAGE_MSG_TYPE_REMOVABLE_AVAILABLE) {
-                        settings.setShowedStorageMessage(Settings.STORAGE_MSG_TYPE_REMOVABLE_AVAILABLE);
-                        final CharSequence msg = getString(R.string.message_start_to_save_to_removable_storage);
-                        broadcastUi(msg);
-                        Log.w(TAG, msg.toString());
-                    }
+                
+                // avoid sending same message continuously
+                if ((!settings.getRemovableStorageStateOnCreate()) && (settings.getShowedStorageMessage() != Settings.STORAGE_MSG_TYPE_REMOVABLE_AVAILABLE)) {
+                    settings.setShowedStorageMessage(Settings.STORAGE_MSG_TYPE_REMOVABLE_AVAILABLE);
+                    final CharSequence msg = getString(R.string.message_start_to_save_to_removable_storage);
+                    broadcastUi(msg);
+                    Log.w(TAG, msg.toString());
                 }
             }
         } catch (NoRemovableStorageException e) {
             // removable-storage existed on app creation, but now it is gone
             // we keep download file in original path, now we should inform user
             broadcastRelocateFinished(rowId);
-            if (settings.getRemovableStorageStateOnCreate()) {
-
-                // avoid sending same message continuously
-                if (settings.getShowedStorageMessage() != Settings.STORAGE_MSG_TYPE_REMOVABLE_UNAVAILABLE) {
-                    settings.setShowedStorageMessage(Settings.STORAGE_MSG_TYPE_REMOVABLE_UNAVAILABLE);
-                    final CharSequence msg = getString(R.string.message_fallback_save_to_primary_external);
-                    broadcastUi(msg);
-                    Log.w(TAG, msg.toString());
-                }
+            
+            // avoid sending same message continuously
+            if ((settings.getRemovableStorageStateOnCreate()) && (settings.getShowedStorageMessage() != Settings.STORAGE_MSG_TYPE_REMOVABLE_UNAVAILABLE)) {
+                settings.setShowedStorageMessage(Settings.STORAGE_MSG_TYPE_REMOVABLE_UNAVAILABLE);
+                final CharSequence msg = getString(R.string.message_fallback_save_to_primary_external);
+                broadcastUi(msg);
+                Log.w(TAG, msg.toString());
             }
 
             e.printStackTrace();
@@ -230,13 +226,11 @@ public class RelocateService extends IntentService {
             // if anything wrong, try to keep original file
             broadcastRelocateFinished(rowId);
             try {
-                if ((destFile != null)
+                if (((destFile != null)
                         && destFile.exists()
                         && destFile.canWrite()
-                        && srcFile.exists()) {
-                    if (destFile.delete()) {
-                        Log.w(TAG, "cannot delete copied file: " + destFile.getAbsolutePath());
-                    }
+                        && srcFile.exists()) && (destFile.delete())) {
+                    Log.w(TAG, "cannot delete copied file: " + destFile.getAbsolutePath());
                 }
             } catch (Exception e2) {
                 e2.printStackTrace();

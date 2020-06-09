@@ -173,7 +173,7 @@ public final class DiskLruCacheTest {
     k2Creator.set(0, "DEF");
     k2Creator.set(1, "G");
     k2Creator.commit();
-    DiskLruCache.Value k1Value = cache.get("k1");
+    
     cache.close();
     assertJournalEquals("DIRTY k1", "CLEAN k1 2 1", "DIRTY k2", "CLEAN k2 3 1", "READ k1");
   }

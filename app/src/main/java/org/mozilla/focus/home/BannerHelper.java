@@ -26,19 +26,24 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BannerHelper {
+public class BannerHelper {    
+
+    private static String TAG = "BannerHelper";    
+
+    private String[] homeBannerconfigArray;    
+
+    @Nullable private HomeBannerHelperListener listener;    
+
+    private static final String UNIT_SEPARATOR = Character.toString((char) 0x1F);    
+    // Please don't rename the string
+    private static final String CURRENT_HOME_BANNER_CONFIG = "CURRENT_BANNER_CONFIG";    
+    private static final String CURRENT_COUPON_BANNER_CONFIG = "CURRENT_COUPON_BANNER_CONFIG";
 
     interface HomeBannerHelperListener {
         void showHomeBannerProcedure(BannerAdapter b);
         void hideHomeBannerProcedure(Void v);
         OnClickListener onBannerClickListener();
     }
-
-    private static String TAG = "BannerHelper";
-
-    private String[] homeBannerconfigArray;
-
-    @Nullable private HomeBannerHelperListener listener;
 
     public void setListener(@Nullable HomeBannerHelperListener listener) {
         this.listener = listener;
@@ -47,13 +52,13 @@ public class BannerHelper {
     private static class LoadRootConfigTask extends SimpleLoadUrlTask {
 
         private AtomicInteger countdown;
-        private String userAgent;
+        private String userAgent;        
+
+        OnRootConfigLoadedListener onRootConfigLoadedListener;
 
         private interface OnRootConfigLoadedListener {
             void onRootConfigLoaded(String[] configArray);
         }
-
-        OnRootConfigLoadedListener onRootConfigLoadedListener;
 
         LoadRootConfigTask(OnRootConfigLoadedListener onRootConfigLoadedListener) {
             this.onRootConfigLoadedListener = onRootConfigLoadedListener;
@@ -92,14 +97,14 @@ public class BannerHelper {
         }
     }
 
-    private static class LoadConfigTask extends SimpleLoadUrlTask {
+    private static class LoadConfigTask extends SimpleLoadUrlTask {        
+
+        private WeakReference<OnConfigLoadedListener> onConfigLoadedListenerRef;        
+        private int index;
 
         private interface OnConfigLoadedListener {
             void onConfigLoaded(String config, int index);
         }
-
-        private WeakReference<OnConfigLoadedListener> onConfigLoadedListenerRef;
-        private int index;
 
         LoadConfigTask(WeakReference<OnConfigLoadedListener> onConfigLoadedListenerRef, int index) {
             this.onConfigLoadedListenerRef = onConfigLoadedListenerRef;
@@ -246,11 +251,6 @@ public class BannerHelper {
             LoggerWrapper.throwOrWarn(TAG, "Failed to open cache directory when deleting banner cache");
         }
     }
-
-    private static final String UNIT_SEPARATOR = Character.toString((char) 0x1F);
-    // Please don't rename the string
-    private static final String CURRENT_HOME_BANNER_CONFIG = "CURRENT_BANNER_CONFIG";
-    private static final String CURRENT_COUPON_BANNER_CONFIG = "CURRENT_COUPON_BANNER_CONFIG";
 
     private static String stringArrayToString(String[] stringArray) {
         return TextUtils.join(UNIT_SEPARATOR, stringArray);

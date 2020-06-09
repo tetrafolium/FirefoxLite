@@ -143,7 +143,7 @@ class FirebaseEvent {
     }
 
     static boolean isInitialized() {
-        return prefKeyWhitelist.size() != 0;
+        return prefKeyWhitelist.isEmpty();
     }
 
     static void setPrefKeyWhitelist(HashMap<String, String> map) {
@@ -167,7 +167,7 @@ class FirebaseEvent {
     }
 
     private boolean equalBundles(Bundle a, Bundle b) {
-        if (a == b) {
+        if (a.equals(b)) {
             return true;
         }
         if (a == null) {

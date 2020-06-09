@@ -9,7 +9,7 @@ import org.mozilla.threadutils.ThreadUtils;
 import java.util.List;
 import java.util.UUID;
 
-public class BookmarkRepository {
+public final class BookmarkRepository {
     private static volatile BookmarkRepository instance;
 
     private BookmarksDatabase bookmarksDatabase;

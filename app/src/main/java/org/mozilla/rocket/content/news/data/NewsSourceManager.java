@@ -14,7 +14,7 @@ import org.mozilla.focus.utils.Settings;
 import org.mozilla.threadutils.ThreadUtils;
 
 
-public class NewsSourceManager {
+public final class NewsSourceManager {
     public static final String TAG = "NewsSource";
 
     // "DainikBhaskar.com" doesn't provide their feed anymore.

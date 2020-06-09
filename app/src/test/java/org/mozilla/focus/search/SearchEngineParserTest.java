@@ -24,16 +24,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
-public class SearchEngineParserTest {
+public class SearchEngineParserTest {    
+
+    private String searchPluginPath;    
+    private String searchEngineIdentifier;
     @ParameterizedRobolectricTestRunner.Parameters(name = "{1}")
     public static Collection<Object[]> searchPlugins() {
         final Collection<Object[]> searchPlugins = new ArrayList<>();
         collectSearchPlugins(searchPlugins, getBasePath());
         return searchPlugins;
     }
-
-    private String searchPluginPath;
-    private String searchEngineIdentifier;
 
     public SearchEngineParserTest(String searchPluginPath, String searchEngineIdentifier) {
         this.searchPluginPath = searchPluginPath;

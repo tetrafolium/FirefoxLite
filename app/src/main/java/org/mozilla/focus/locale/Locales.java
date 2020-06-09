@@ -28,7 +28,7 @@ import java.util.Set;
  * <code>LocaleAwareFragmentActivity</code> or <code>LocaleAwareActivity</code>.
  */
 public class Locales {
-    private static final String LOGTAG = "Locales";
+    
 
     /**
      * Is only required by locale aware activities, AND  Application. In most cases you should be
@@ -58,15 +58,15 @@ public class Locales {
         final String language = locale.getLanguage();
 
         // Modernize certain language codes.
-        if (language.equals("iw")) {
+        if ("iw".equals(language)) {
             return "he";
         }
 
-        if (language.equals("in")) {
+        if ("in".equals(language)) {
             return "id";
         }
 
-        if (language.equals("ji")) {
+        if ("ji".equals(language)) {
             return "yi";
         }
 
@@ -88,7 +88,7 @@ public class Locales {
 
         final String language = getLanguage(locale);
         final String country = locale.getCountry(); // Can be an empty string.
-        if (country.equals("")) {
+        if ("".equals(country)) {
             return language;
         }
         return language + "-" + country;

@@ -63,7 +63,7 @@ public class AndroidBundleSerializer {
             e.printStackTrace();
         }
 
-        if (serializedItemList == null || serializedItemList.size() == 0) {
+        if (serializedItemList == null || serializedItemList.isEmpty()) {
             return null;
         }
 

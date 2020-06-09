@@ -41,7 +41,13 @@ public class Settings {
 
     public final static int PRIORITY_SYSTEM = 0;
     public final static int PRIORITY_FIREBASE = 1;
-    public final static int PRIORITY_USER = 2;
+    public final static int PRIORITY_USER = 2;    
+
+    private final SharedPreferences preferences;    
+    private final Resources resources;    
+    private final EventHistory eventHistory;    
+    private final NewFeatureNotice newFeatureNotice;    
+    private final SettingPreferenceWrapper settingPreferenceWrapper;
 
     @IntDef({PRIORITY_SYSTEM, PRIORITY_FIREBASE, PRIORITY_USER})
     public @interface SettingPriority {
@@ -53,12 +59,6 @@ public class Settings {
         }
         return instance;
     }
-
-    private final SharedPreferences preferences;
-    private final Resources resources;
-    private final EventHistory eventHistory;
-    private final NewFeatureNotice newFeatureNotice;
-    private final SettingPreferenceWrapper settingPreferenceWrapper;
 
     private Settings(Context context) {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);

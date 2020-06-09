@@ -13,13 +13,13 @@ import java.net.URL;
  * Created by anlin on 20/10/2017.
  */
 
-public class GetImgHeaderTask extends AsyncTask<String, Void, String> {
+public class GetImgHeaderTask extends AsyncTask<String, Void, String> {    
+
+    public GetImgHeaderTask.Callback callback;
 
     public interface Callback {
         void setMIMEType(String mimeType);
     }
-
-    public GetImgHeaderTask.Callback callback;
 
     public void setCallback(Callback callback) {
         this.callback = callback;

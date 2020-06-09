@@ -14,8 +14,11 @@ import androidx.lifecycle.Transformations;
  * <p>
  * For now it only tracks whether a browsing session is active or not.
  */
-public class BrowsingSession {
-    private static BrowsingSession instance;
+public final class BrowsingSession {
+    private static BrowsingSession instance;    
+
+    private int blockedTrackers;    
+    private MutableLiveData<Integer> blockedCountData = new MutableLiveData<>();
 
     public static synchronized BrowsingSession getInstance() {
         if (instance == null) {
@@ -23,9 +26,6 @@ public class BrowsingSession {
         }
         return instance;
     }
-
-    private int blockedTrackers;
-    private MutableLiveData<Integer> blockedCountData = new MutableLiveData<>();
 
     private BrowsingSession() {
     }
