@@ -25,7 +25,7 @@ import java.io.Serializable;
  */
 public class ImageViewState implements Serializable {
 
-    public static final ImageViewState ALIGN_TOP = new ImageViewState(0, new PointF(0,0), SubsamplingScaleImageView.ORIENTATION_0);
+    public static final ImageViewState ALIGN_TOP = new ImageViewState(0, new PointF(0, 0), SubsamplingScaleImageView.ORIENTATION_0);
 
     private float scale;
 
