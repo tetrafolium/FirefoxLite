@@ -60,6 +60,8 @@ inspecode:
   #understand:
   #  thresholds: { num-issues: 999 }
 
-  unused:
-    options: [ --single-occurrence, --all-likelihoods ]
-    thresholds: { num-issues: 999 }
+  ### Unused: analyzing unused: <stdin>: hGetContents: invalid argument (invalid byte sequence)
+  ### - https://github.com/tractrix/codelift/issues/1310#issuecomment-419386072 と同じ
+  #unused:
+  #  options: [ --single-occurrence, --all-likelihoods ]
+  #  thresholds: { num-issues: 999 }
