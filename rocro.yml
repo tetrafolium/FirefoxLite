@@ -15,8 +15,9 @@ inspecode:
   cpd:
     thresholds: { num-issues: 999 }
 
-  detekt:
-    thresholds: { num-issues: 999 }
+  #### detekt aborted (codelift#1925)
+  #detekt:
+  #  thresholds: { num-issues: 999 }
 
   #### not supported yet ??
   #fortify:
