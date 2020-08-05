@@ -36,7 +36,7 @@ public final class SearchEngineManager extends BroadcastReceiver {
 
   /**
    * A flag indicating that data has been loaded, or is loading. This lets us
-   * detect if data has been requested without a preceeding init().
+   * detect if data has been requested without a preceding init().
    */
   private boolean loadHasBeenTriggered = false;
 

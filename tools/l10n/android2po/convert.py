@@ -303,7 +303,7 @@ def get_element_text(tag, name, warnfunc=dummy_warn):
                     t = t.strip(WHITESPACE)
 
                 # Resources that start with @ reference other resources.
-                # While we aren't particularily interested in converting
+                # While we aren't particularly interested in converting
                 # those, we also can't do it right now because we wouldn't
                 # be able to differ between literal @ characters and the
                 # reference syntax during import.

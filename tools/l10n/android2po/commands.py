@@ -295,9 +295,9 @@ class InitCommand(Command):
         something_written = False
         if not self.env.config.no_template:
             for kind in self.env.xmlfiles:
-                _, write_happend = self.make_or_get_template(
+                _, write_happened = self.make_or_get_template(
                     kind, do_write=True, update=update)
-                if write_happend:
+                if write_happened:
                     something_written = True
         return something_written
 

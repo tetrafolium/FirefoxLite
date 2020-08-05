@@ -90,7 +90,7 @@ public class PartnerActivator {
     long snoozeDuration = getSnoozeDuration();
     long currentTimeMillis = System.currentTimeMillis();
 
-    //  TODO: Assert timestamp boundry
+    //  TODO: Assert timestamp boundary
     //  currentTimeMillis is older than app release date
     //  lastChecked is older than app release date or newer than future 5 years
     //  snoozeDuration lower than 3600000

@@ -500,7 +500,7 @@ class Environment(object):
         # should exist as well. In particular, the locale/ directory is
         # not part of the standard Android tree and thus likely to not
         # exist yet, so we create it automatically, but ONLY if it wasn't
-        # specified explicitely. If the user gave a specific location,
+        # specified explicitly. If the user gave a specific location,
         # it seems right to let him deal with it fully.
         if not path.exists(self.gettext_dir) and self.auto_gettext_dir:
             os.makedirs(self.gettext_dir)
@@ -562,7 +562,7 @@ class Environment(object):
         else:
             # TODO: These tests essentially disallow any advanced
             # formatting syntax. While that is unlikely to be used
-            # or needed, a better way to test for the existance of
+            # or needed, a better way to test for the existence of
             # a placeholder would probably be to insert a unique string
             # and see if it comes out at the end; or, come up with
             # a proper regex to parse.
@@ -640,7 +640,7 @@ class Environment(object):
 
         This is a little more though than on the Android side, since
         we give the user a lot of flexibility in configuring how the
-        .po files are layed out.
+        .po files are laid out.
 
         Return value is a list of ``Language`` instances.
         """

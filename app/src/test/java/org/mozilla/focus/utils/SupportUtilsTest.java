@@ -124,7 +124,7 @@ public class SupportUtilsTest {
 
   /**
    * This is a pretty boring tests - it exists primarily to verify that we're
-   * actually setting a langtag in the manfiesto URL.
+   * actually setting a langtag in the manifesto URL.
    */
   @Test
   public void getManifestoURL() throws Exception {
