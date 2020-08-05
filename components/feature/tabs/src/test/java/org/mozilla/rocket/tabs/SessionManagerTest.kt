@@ -51,9 +51,9 @@ class SessionManagerTest {
         for (url in urls) {
             // use url as id for convenience
             Session(url, "", url)
-                    .also { sessions.add(it) }
-                    .let { SessionWithState(it, null) }
-                    .also { states.add(it) }
+                .also { sessions.add(it) }
+                .let { SessionWithState(it, null) }
+                .also { states.add(it) }
         }
     }
 
@@ -259,7 +259,7 @@ class SessionManagerTest {
         val tabId1 = mgr.addTab("url1", TabUtil.argument(null, true, false))
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks()
         verify<Observer>(spy1, times(1))
-                .onFocusChanged(ArgumentMatchers.any(Session::class.java), eq(Factor.FACTOR_TAB_ADDED))
+            .onFocusChanged(ArgumentMatchers.any(Session::class.java), eq(Factor.FACTOR_TAB_ADDED))
         Assert.assertEquals(mgr.focusSession!!.id, tabId1)
         mgr.unregister(spy1)
 

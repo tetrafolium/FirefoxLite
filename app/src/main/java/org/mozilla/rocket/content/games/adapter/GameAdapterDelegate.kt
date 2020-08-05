@@ -11,7 +11,7 @@ import org.mozilla.rocket.content.games.GamesViewModel
 
 class GameAdapterDelegate(private val gamesViewModel: GamesViewModel) : AdapterDelegate {
     override fun onCreateViewHolder(view: View): DelegateAdapter.ViewHolder =
-            GameViewHolder(view, gamesViewModel)
+        GameViewHolder(view, gamesViewModel)
 }
 
 class GameViewHolder(
@@ -22,11 +22,11 @@ class GameViewHolder(
         val gameItem = uiModel as GameItem
         name.text = gameItem.name
         GlideApp.with(itemView.context)
-                .asBitmap()
-                .placeholder(R.drawable.placeholder)
-                .fitCenter()
-                .load(gameItem.imageUrl)
-                .into(image)
+            .asBitmap()
+            .placeholder(R.drawable.placeholder)
+            .fitCenter()
+            .load(gameItem.imageUrl)
+            .into(image)
 
         itemView.setOnClickListener { gamesViewModel.onGameItemClicked(gameItem) }
     }

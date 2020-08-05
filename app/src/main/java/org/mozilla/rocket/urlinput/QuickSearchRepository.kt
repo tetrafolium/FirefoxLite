@@ -28,10 +28,10 @@ class QuickSearchRepository(
             globalDataSource: QuickSearchDataSource,
             localeDataSource: QuickSearchDataSource
         ): QuickSearchRepository? =
-                INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: QuickSearchRepository(globalDataSource, localeDataSource).also {
-                        INSTANCE = it
-                    }
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: QuickSearchRepository(globalDataSource, localeDataSource).also {
+                    INSTANCE = it
                 }
+            }
     }
 }

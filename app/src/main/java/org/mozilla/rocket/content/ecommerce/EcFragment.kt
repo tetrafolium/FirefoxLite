@@ -1,16 +1,16 @@
 package org.mozilla.rocket.content.ecommerce
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import org.json.JSONException
 import org.json.JSONObject
 import org.mozilla.banner.BannerAdapter
@@ -104,17 +104,21 @@ class EcFragment : Fragment() {
 
         BannerHelper().initCouponBanner(context, bannerLiveData)
 
-        bannerLiveData.observe(viewLifecycleOwner, Observer {
-            if (it == null) {
-                return@Observer
-            }
+        bannerLiveData.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it == null) {
+                    return@Observer
+                }
 
-            banner?.adapter = BannerAdapter(
+                banner?.adapter = BannerAdapter(
                     it,
                     { arg -> chromeViewModel.openUrl.value = ChromeViewModel.OpenUrlAction(url = arg, withNewTab = true, isFromExternal = false) },
-                    telemetryListener)
-            banner?.visibility = View.VISIBLE
-        })
+                    telemetryListener
+                )
+                banner?.visibility = View.VISIBLE
+            }
+        )
     }
 
     private val telemetryListener = object : TelemetryListener {

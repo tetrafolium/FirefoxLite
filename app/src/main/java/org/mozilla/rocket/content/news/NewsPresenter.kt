@@ -38,7 +38,8 @@ class NewsPresenter(private val newsViewContract: NewsViewContract, private val 
             Observer { items ->
                 newsViewContract.updateNews(items)
                 isLoading = false
-            })
+            }
+        )
 
         newsViewModel.newsSettingsRepository = newsSettingRepo
         newsViewContract.updateSourcePriority()

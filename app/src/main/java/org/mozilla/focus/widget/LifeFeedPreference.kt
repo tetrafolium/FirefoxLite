@@ -3,7 +3,6 @@ package org.mozilla.focus.widget
 import android.content.Context
 import android.preference.ListPreference
 import android.util.AttributeSet
-
 import org.mozilla.focus.R
 
 class LifeFeedPreference : ListPreference {

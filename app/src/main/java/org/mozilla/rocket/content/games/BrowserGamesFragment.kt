@@ -53,19 +53,25 @@ class BrowserGamesFragment : Fragment() {
     }
 
     private fun bindListData() {
-        gamesViewModel.browserGamesItems.observe(this@BrowserGamesFragment, Observer {
-            adapter.setData(it)
-        })
+        gamesViewModel.browserGamesItems.observe(
+            this@BrowserGamesFragment,
+            Observer {
+                adapter.setData(it)
+            }
+        )
     }
 
     private fun bindPageState() {
-        gamesViewModel.browserGamesState.observe(this@BrowserGamesFragment, Observer { state ->
-            when (state) {
-                is GamesViewModel.State.Idle -> showContentView()
-                is GamesViewModel.State.Loading -> showLoadingView()
-                is GamesViewModel.State.Error -> showErrorView()
+        gamesViewModel.browserGamesState.observe(
+            this@BrowserGamesFragment,
+            Observer { state ->
+                when (state) {
+                    is GamesViewModel.State.Idle -> showContentView()
+                    is GamesViewModel.State.Loading -> showLoadingView()
+                    is GamesViewModel.State.Error -> showErrorView()
+                }
             }
-        })
+        )
     }
 
     private fun showLoadingView() {

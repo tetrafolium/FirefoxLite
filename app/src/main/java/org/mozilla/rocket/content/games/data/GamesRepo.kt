@@ -20,89 +20,115 @@ class GamesRepo {
     }
 
     private fun generateFakeData(): List<DelegateAdapter.UiModel> =
-            listOf(
-                CarouselBanner(listOf(
-                        generateFakeBanner(),
-                        generateFakeBanner(),
-                        generateFakeBanner(),
-                        generateFakeBanner(),
-                        generateFakeBanner()
-                )),
-                GameCategory("title 1", listOf(
-                        generateFakeGame(1),
-                        generateFakeGame(2),
-                        generateFakeGame(3),
-                        generateFakeGame(4),
-                        generateFakeGame(5),
-                        generateFakeGame(6)
-                )),
-                GameCategory("title 2", listOf(
-                        generateFakeGame(1),
-                        generateFakeGame(2),
-                        generateFakeGame(3),
-                        generateFakeGame(4),
-                        generateFakeGame(5),
-                        generateFakeGame(6)
-                )),
-                GameCategory("title 3", listOf(
-                        generateFakeGame(1),
-                        generateFakeGame(2),
-                        generateFakeGame(3),
-                        generateFakeGame(4),
-                        generateFakeGame(5),
-                        generateFakeGame(6)
-                )),
-                GameCategory("title 4", listOf(
-                        generateFakeGame(1),
-                        generateFakeGame(2),
-                        generateFakeGame(3),
-                        generateFakeGame(4),
-                        generateFakeGame(5),
-                        generateFakeGame(6)
-                )),
-                GameCategory("title 5", listOf(
-                        generateFakeGame(1),
-                        generateFakeGame(2),
-                        generateFakeGame(3),
-                        generateFakeGame(4),
-                        generateFakeGame(5),
-                        generateFakeGame(6)
-                )),
-                GameCategory("title 6", listOf(
-                        generateFakeGame(1),
-                        generateFakeGame(2),
-                        generateFakeGame(3),
-                        generateFakeGame(4),
-                        generateFakeGame(5),
-                        generateFakeGame(6)
-                )),
-                GameCategory("title 7", listOf(
-                        generateFakeGame(1),
-                        generateFakeGame(2),
-                        generateFakeGame(3),
-                        generateFakeGame(4),
-                        generateFakeGame(5),
-                        generateFakeGame(6)
-                )),
-                GameCategory("title 8", listOf(
-                        generateFakeGame(1),
-                        generateFakeGame(2),
-                        generateFakeGame(3),
-                        generateFakeGame(4),
-                        generateFakeGame(5),
-                        generateFakeGame(6)
-                ))
+        listOf(
+            CarouselBanner(
+                listOf(
+                    generateFakeBanner(),
+                    generateFakeBanner(),
+                    generateFakeBanner(),
+                    generateFakeBanner(),
+                    generateFakeBanner()
+                )
+            ),
+            GameCategory(
+                "title 1",
+                listOf(
+                    generateFakeGame(1),
+                    generateFakeGame(2),
+                    generateFakeGame(3),
+                    generateFakeGame(4),
+                    generateFakeGame(5),
+                    generateFakeGame(6)
+                )
+            ),
+            GameCategory(
+                "title 2",
+                listOf(
+                    generateFakeGame(1),
+                    generateFakeGame(2),
+                    generateFakeGame(3),
+                    generateFakeGame(4),
+                    generateFakeGame(5),
+                    generateFakeGame(6)
+                )
+            ),
+            GameCategory(
+                "title 3",
+                listOf(
+                    generateFakeGame(1),
+                    generateFakeGame(2),
+                    generateFakeGame(3),
+                    generateFakeGame(4),
+                    generateFakeGame(5),
+                    generateFakeGame(6)
+                )
+            ),
+            GameCategory(
+                "title 4",
+                listOf(
+                    generateFakeGame(1),
+                    generateFakeGame(2),
+                    generateFakeGame(3),
+                    generateFakeGame(4),
+                    generateFakeGame(5),
+                    generateFakeGame(6)
+                )
+            ),
+            GameCategory(
+                "title 5",
+                listOf(
+                    generateFakeGame(1),
+                    generateFakeGame(2),
+                    generateFakeGame(3),
+                    generateFakeGame(4),
+                    generateFakeGame(5),
+                    generateFakeGame(6)
+                )
+            ),
+            GameCategory(
+                "title 6",
+                listOf(
+                    generateFakeGame(1),
+                    generateFakeGame(2),
+                    generateFakeGame(3),
+                    generateFakeGame(4),
+                    generateFakeGame(5),
+                    generateFakeGame(6)
+                )
+            ),
+            GameCategory(
+                "title 7",
+                listOf(
+                    generateFakeGame(1),
+                    generateFakeGame(2),
+                    generateFakeGame(3),
+                    generateFakeGame(4),
+                    generateFakeGame(5),
+                    generateFakeGame(6)
+                )
+            ),
+            GameCategory(
+                "title 8",
+                listOf(
+                    generateFakeGame(1),
+                    generateFakeGame(2),
+                    generateFakeGame(3),
+                    generateFakeGame(4),
+                    generateFakeGame(5),
+                    generateFakeGame(6)
+                )
             )
+        )
 
     // TODO: remove test function
     private fun getPlaceholderImageUrl(w: Int, h: Int): String =
-            "https://placeimg.com/$w/$h/animals?whatever=${Random.nextInt(0, 10)}"
+        "https://placeimg.com/$w/$h/animals?whatever=${Random.nextInt(0, 10)}"
 
     // TODO: remove test function
     private fun generateFakeBanner(): CarouselBannerAdapter.BannerItem =
-            getPlaceholderImageUrl(400, 200).run { CarouselBannerAdapter.BannerItem(this, this) }
+        getPlaceholderImageUrl(400, 200).run { CarouselBannerAdapter.BannerItem(this, this) }
 
     // TODO: remove test function
     private fun generateFakeGame(number: Int): GameItem =
-            getPlaceholderImageUrl(100, 100).run { GameItem(number.toString(), this) }
+        getPlaceholderImageUrl(100, 100).run { GameItem(number.toString(), this) }
 }

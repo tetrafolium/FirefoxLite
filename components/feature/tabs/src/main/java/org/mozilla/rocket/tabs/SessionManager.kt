@@ -118,11 +118,13 @@ class SessionManager @JvmOverloads constructor(
 
         return if (TextUtils.isEmpty(url)) {
             null
-        } else addTabInternal(url,
-                TabUtil.getParentId(arguments),
-                TabUtil.isFromExternal(arguments),
-                TabUtil.toFocus(arguments),
-                arguments)
+        } else addTabInternal(
+            url,
+            TabUtil.getParentId(arguments),
+            TabUtil.isFromExternal(arguments),
+            TabUtil.toFocus(arguments),
+            arguments
+        )
     }
 
     /**
@@ -388,10 +390,12 @@ class SessionManager @JvmOverloads constructor(
                 return false
             }
 
-            val id = addTabInternal(null,
-                    source.id,
-                    false,
-                    isUserGesture, null)
+            val id = addTabInternal(
+                null,
+                source.id,
+                false,
+                isUserGesture, null
+            )
 
             val tab = getTab(id) ?: return false // FIXME: why null?
             if (tab.engineSession == null || tab.engineSession!!.tabView == null) {
@@ -404,7 +408,7 @@ class SessionManager @JvmOverloads constructor(
         override fun onCloseWindow(es: TabViewEngineSession) {
             if (source.engineSession === es) {
                 sessions.firstOrNull { it.engineSession == es }
-                        ?.let { session -> closeTab(session.id) }
+                    ?.let { session -> closeTab(session.id) }
             }
         }
     }

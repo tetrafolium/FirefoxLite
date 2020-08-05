@@ -1,11 +1,7 @@
 package org.mozilla.focus.activity
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -16,6 +12,10 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_edit_bookmark.*
 import org.mozilla.focus.R
 import org.mozilla.focus.persistence.BookmarkModel
@@ -31,7 +31,8 @@ class EditBookmarkActivity : BaseActivity() {
     private val itemId: String by lazy { intent.getStringExtra(ITEM_UUID_KEY) }
     private val viewModelFactory: BookmarkViewModel.Factory by lazy {
         BookmarkViewModel.Factory(
-                BookmarkRepository.getInstance(BookmarksDatabase.getInstance(this)))
+            BookmarkRepository.getInstance(BookmarksDatabase.getInstance(this))
+        )
     }
     private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(BookmarkViewModel::class.java) }
     private lateinit var bookmark: BookmarkModel
@@ -107,13 +108,16 @@ class EditBookmarkActivity : BaseActivity() {
             editTextLocation.text.clear()
         }
 
-        viewModel.getBookmarkById(itemId).observe(this, Observer<BookmarkModel> { bookmarkModel ->
-            bookmarkModel?.apply {
-                bookmark = bookmarkModel
-                editTextName.setText(bookmark.title)
-                editTextLocation.setText(bookmark.url)
+        viewModel.getBookmarkById(itemId).observe(
+            this,
+            Observer<BookmarkModel> { bookmarkModel ->
+                bookmarkModel?.apply {
+                    bookmark = bookmarkModel
+                    editTextName.setText(bookmark.title)
+                    editTextLocation.setText(bookmark.url)
+                }
             }
-        })
+        )
     }
 
     override fun onDestroy() {

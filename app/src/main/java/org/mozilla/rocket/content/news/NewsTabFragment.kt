@@ -65,12 +65,15 @@ class NewsTabFragment : Fragment() {
         if (savedInstanceState == null) {
             newsViewModel = activityViewModelProvider(viewModelFactory)
 
-            newsViewModel.newsSettings.observe(viewLifecycleOwner, Observer { settings ->
-                settings?.let {
-                    newsViewModel.clear()
-                    setupViewPager(view, it)
+            newsViewModel.newsSettings.observe(
+                viewLifecycleOwner,
+                Observer { settings ->
+                    settings?.let {
+                        newsViewModel.clear()
+                        setupViewPager(view, it)
+                    }
                 }
-            })
+            )
         }
 
         news_setting.setOnClickListener {

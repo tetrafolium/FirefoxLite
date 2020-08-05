@@ -8,10 +8,10 @@ package org.mozilla.focus.activity
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
 import org.junit.After
@@ -43,9 +43,9 @@ class ScreenshotOnBoardingTest {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         BeforeTestTask.Builder()
-                .enableSreenshotOnBoarding(true)
-                .build()
-                .execute()
+            .enableSreenshotOnBoarding(true)
+            .build()
+            .execute()
         activityTestRule.launchActivity(Intent())
     }
 

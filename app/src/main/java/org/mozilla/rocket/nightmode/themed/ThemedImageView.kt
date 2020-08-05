@@ -1,9 +1,9 @@
 package org.mozilla.rocket.nightmode.themed
 
 import android.content.Context
-import androidx.appcompat.widget.AppCompatImageView
 import android.util.AttributeSet
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
 
 open class ThemedImageView : AppCompatImageView {
 

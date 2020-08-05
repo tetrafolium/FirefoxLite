@@ -5,8 +5,8 @@
 package org.mozilla.rocket.content.news.data
 
 import android.content.Context
-import androidx.preference.Preference
 import android.util.AttributeSet
+import androidx.preference.Preference
 
 // dummy preference for clicking
 class NewsLanguagePreference @JvmOverloads constructor(context: Context, attributes: AttributeSet? = null) :

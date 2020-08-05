@@ -5,11 +5,7 @@
 
 package org.mozilla.focus.urlinput
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
@@ -18,6 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import mozilla.components.browser.domains.autocomplete.ShippedDomainsProvider
 import mozilla.components.ui.autocomplete.InlineAutocompleteEditText
 import org.mozilla.focus.Inject
@@ -39,8 +39,12 @@ import java.util.Locale
 /**
  * Fragment for displaying he URL input controls.
  */
-class UrlInputFragment : Fragment(), UrlInputContract.View, View.OnClickListener,
-        View.OnLongClickListener, ScreenNavigator.UrlInputScreen {
+class UrlInputFragment :
+    Fragment(),
+    UrlInputContract.View,
+    View.OnClickListener,
+    View.OnLongClickListener,
+    ScreenNavigator.UrlInputScreen {
 
     private val autoCompleteProvider: ShippedDomainsProvider = ShippedDomainsProvider()
     private lateinit var presenter: UrlInputContract.Presenter
@@ -59,8 +63,11 @@ class UrlInputFragment : Fragment(), UrlInputContract.View, View.OnClickListener
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         val userAgent = WebViewProvider.getUserAgentString(activity)
-        this.presenter = UrlInputPresenter(SearchEngineManager.getInstance()
-                .getDefaultSearchEngine(activity), userAgent)
+        this.presenter = UrlInputPresenter(
+            SearchEngineManager.getInstance()
+                .getDefaultSearchEngine(activity),
+            userAgent
+        )
         chromeViewModel = Inject.obtainChromeViewModel(activity)
 
         context?.let {
@@ -109,20 +116,23 @@ class UrlInputFragment : Fragment(), UrlInputContract.View, View.OnClickListener
         quickSearchView = view.findViewById(R.id.quick_search_container)
         quickSearchRecyclerView = view.findViewById(R.id.quick_search_recycler_view)
         quickSearchRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        val quickSearchAdapter = QuickSearchAdapter(fun(quickSearch: QuickSearch) {
-            if (TextUtils.isEmpty(urlView.text)) {
-                openUrl(quickSearch.homeUrl)
-            } else {
-                openUrl(quickSearch.generateLink(urlView.originalText))
+        val quickSearchAdapter = QuickSearchAdapter(
+            fun(quickSearch: QuickSearch) {
+                if (TextUtils.isEmpty(urlView.text)) {
+                    openUrl(quickSearch.homeUrl)
+                } else {
+                    openUrl(quickSearch.generateLink(urlView.originalText))
+                }
+                TelemetryWrapper.clickQuickSearchEngine(quickSearch.name)
             }
-            TelemetryWrapper.clickQuickSearchEngine(quickSearch.name)
-        })
+        )
         quickSearchRecyclerView.adapter = quickSearchAdapter
         Inject.obtainQuickSearchViewModel(activity).quickSearchObservable.observe(
-                viewLifecycleOwner,
-                Observer { quickSearchList ->
-                    quickSearchAdapter.submitList(quickSearchList)
-            })
+            viewLifecycleOwner,
+            Observer { quickSearchList ->
+                quickSearchAdapter.submitList(quickSearchList)
+            }
+        )
     }
 
     override fun onStart() {
@@ -254,10 +264,12 @@ class UrlInputFragment : Fragment(), UrlInputContract.View, View.OnClickListener
             val idx = str.toLowerCase(Locale.getDefault()).indexOf(searchKey)
             if (idx != -1) {
                 val builder = SpannableStringBuilder(texts[i])
-                builder.setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
-                        idx,
-                        idx + searchKey.length,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                builder.setSpan(
+                    android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+                    idx,
+                    idx + searchKey.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
                 item.text = builder
             } else {
                 item.text = texts[i]

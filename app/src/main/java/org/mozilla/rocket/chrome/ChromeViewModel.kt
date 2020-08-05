@@ -247,7 +247,7 @@ class ChromeViewModel(
         val url = currentUrl.value
         if (!url.isNullOrEmpty()) {
             val title = currentTitle.value.takeUnless { it.isNullOrEmpty() }
-                    ?: UrlUtils.stripCommonSubdomains(UrlUtils.stripHttp(url))
+                ?: UrlUtils.stripCommonSubdomains(UrlUtils.stripHttp(url))
             bookmarkId = bookmarkRepo.addBookmark(title, url)
         }
 
@@ -310,8 +310,8 @@ class ChromeViewModel(
 
     data class ScreenCaptureTelemetryData(val mode: String, val position: Int) : Parcelable {
         constructor(source: Parcel) : this(
-                source.readString()!!,
-                source.readInt()
+            source.readString()!!,
+            source.readInt()
         )
 
         override fun describeContents() = 0

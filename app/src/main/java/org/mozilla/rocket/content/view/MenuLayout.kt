@@ -77,21 +77,21 @@ class MenuLayout : FrameLayout {
         ) : MenuItem(type, id) {
             override fun createView(context: Context, parent: ViewGroup): View {
                 return LayoutInflater.from(context)
-                        .inflate(R.layout.menu_item_text_image, parent, false).apply {
-                            id = viewId
-                            menu_item_image.apply {
-                                setImageResource(drawableResId)
-                                if (tintResId != null) {
-                                    imageTintList = ContextCompat.getColorStateList(context, tintResId)
-                                }
-                            }
-                            menu_item_text.apply {
-                                setText(textResId)
-                                if (tintResId != null) {
-                                    setTextColor(ContextCompat.getColorStateList(context, tintResId))
-                                }
+                    .inflate(R.layout.menu_item_text_image, parent, false).apply {
+                        id = viewId
+                        menu_item_image.apply {
+                            setImageResource(drawableResId)
+                            if (tintResId != null) {
+                                imageTintList = ContextCompat.getColorStateList(context, tintResId)
                             }
                         }
+                        menu_item_text.apply {
+                            setText(textResId)
+                            if (tintResId != null) {
+                                setTextColor(ContextCompat.getColorStateList(context, tintResId))
+                            }
+                        }
+                    }
             }
         }
     }

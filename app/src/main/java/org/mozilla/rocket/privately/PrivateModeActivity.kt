@@ -5,18 +5,18 @@
 
 package org.mozilla.rocket.privately
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import org.mozilla.focus.BuildConfig
 import org.mozilla.focus.Inject
 import org.mozilla.focus.R
@@ -47,10 +47,11 @@ import org.mozilla.rocket.privately.home.PrivateHomeFragment
 import org.mozilla.rocket.tabs.SessionManager
 import org.mozilla.rocket.tabs.TabsSessionProvider
 
-class PrivateModeActivity : BaseActivity(),
-        ScreenNavigator.Provider,
-        ScreenNavigator.HostActivity,
-        TabsSessionProvider.SessionHost {
+class PrivateModeActivity :
+    BaseActivity(),
+    ScreenNavigator.Provider,
+    ScreenNavigator.HostActivity,
+    TabsSessionProvider.SessionHost {
 
     private val LOG_TAG = "PrivateModeActivity"
     private var sessionManager: SessionManager? = null
@@ -113,36 +114,57 @@ class PrivateModeActivity : BaseActivity(),
     override fun applyLocale() {}
 
     private fun observeChromeAction() {
-        chromeViewModel.openUrl.observe(this, Observer { action ->
-            action?.run {
+        chromeViewModel.openUrl.observe(
+            this,
+            Observer { action ->
+                action?.run {
+                    dismissUrlInput()
+                    startPrivateMode()
+                    screenNavigator.showBrowserScreen(url, false, isFromExternal)
+                }
+            }
+        )
+        chromeViewModel.showUrlInput.observe(
+            this,
+            Observer { url ->
+                if (!supportFragmentManager.isStateSaved) {
+                    screenNavigator.addUrlScreen(url)
+                }
+            }
+        )
+        chromeViewModel.dismissUrlInput.observe(
+            this,
+            Observer {
                 dismissUrlInput()
-                startPrivateMode()
-                screenNavigator.showBrowserScreen(url, false, isFromExternal)
             }
-        })
-        chromeViewModel.showUrlInput.observe(this, Observer { url ->
-            if (!supportFragmentManager.isStateSaved) {
-                screenNavigator.addUrlScreen(url)
-            }
-        })
-        chromeViewModel.dismissUrlInput.observe(this, Observer {
-            dismissUrlInput()
-        })
+        )
         // Reserve to handle more chrome actions for the bottom bar A/B testing
-        chromeViewModel.pinShortcut.observe(this, Observer {
-            onAddToHomeClicked()
-        })
-        chromeViewModel.share.observe(this, Observer {
-            chromeViewModel.currentUrl.value?.let { url ->
-                onShareClicked(url)
+        chromeViewModel.pinShortcut.observe(
+            this,
+            Observer {
+                onAddToHomeClicked()
             }
-        })
-        chromeViewModel.togglePrivateMode.observe(this, Observer {
-            checkShortcutPromotion { pushToBack() }
-        })
-        chromeViewModel.dropCurrentPage.observe(this, Observer {
-            dropBrowserFragment()
-        })
+        )
+        chromeViewModel.share.observe(
+            this,
+            Observer {
+                chromeViewModel.currentUrl.value?.let { url ->
+                    onShareClicked(url)
+                }
+            }
+        )
+        chromeViewModel.togglePrivateMode.observe(
+            this,
+            Observer {
+                checkShortcutPromotion { pushToBack() }
+            }
+        )
+        chromeViewModel.dropCurrentPage.observe(
+            this,
+            Observer {
+                dropBrowserFragment()
+            }
+        )
     }
 
     private fun onAddToHomeClicked() {
@@ -214,16 +236,22 @@ class PrivateModeActivity : BaseActivity(),
     }
 
     private fun monitorOrientationState() {
-        val orientationState = OrientationState(object : NavigationModel {
-            override val navigationState: LiveData<ScreenNavigator.NavigationState>
-                get() = ScreenNavigator.get(this@PrivateModeActivity).navigationState
-        }, portraitStateModel)
+        val orientationState = OrientationState(
+            object : NavigationModel {
+                override val navigationState: LiveData<ScreenNavigator.NavigationState>
+                    get() = ScreenNavigator.get(this@PrivateModeActivity).navigationState
+            },
+            portraitStateModel
+        )
 
-        orientationState.observe(this, Observer { orientation ->
-            orientation?.let {
-                requestedOrientation = it
+        orientationState.observe(
+            this,
+            Observer { orientation ->
+                orientation?.let {
+                    requestedOrientation = it
+                }
             }
-        })
+        )
     }
 
     private fun dropBrowserFragment() {
@@ -318,8 +346,8 @@ class PrivateModeActivity : BaseActivity(),
 
     private fun isIntentFromPrivateShortcut(intent: SafeIntent): Boolean {
         return intent.getBooleanExtra(
-                LaunchIntentDispatcher.LaunchMethod.EXTRA_BOOL_PRIVATE_MODE_SHORTCUT.value,
-                false
+            LaunchIntentDispatcher.LaunchMethod.EXTRA_BOOL_PRIVATE_MODE_SHORTCUT.value,
+            false
         )
     }
 
@@ -335,10 +363,13 @@ class PrivateModeActivity : BaseActivity(),
 
     private fun checkShortcutPromotion(continuation: () -> Unit) {
         ViewModelProviders.of(this)
-                .get(ShortcutViewModel::class.java)
-                .interceptLeavingAndCheckShortcut(this)
-                .observe(this, Observer {
+            .get(ShortcutViewModel::class.java)
+            .interceptLeavingAndCheckShortcut(this)
+            .observe(
+                this,
+                Observer {
                     continuation()
-                })
+                }
+            )
     }
 }

@@ -1,7 +1,6 @@
 package org.mozilla.rocket.content.view
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.util.SparseIntArray
 import android.view.ContextThemeWrapper
@@ -10,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import org.mozilla.focus.R
 import org.mozilla.focus.widget.EqualDistributeGrid
 import org.mozilla.rocket.nightmode.themed.ThemedImageButton

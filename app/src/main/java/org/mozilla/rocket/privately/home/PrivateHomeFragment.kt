@@ -4,18 +4,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.mozilla.rocket.privately.home
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.airbnb.lottie.LottieAnimationView
 import org.mozilla.focus.Inject
 import org.mozilla.focus.R
@@ -28,11 +28,12 @@ import org.mozilla.rocket.content.view.BottomBar
 import org.mozilla.rocket.extension.nonNullObserve
 import org.mozilla.rocket.privately.ShortcutUtils
 import org.mozilla.rocket.privately.ShortcutViewModel
-import org.mozilla.rocket.widget.PromotionDialog
 import org.mozilla.rocket.widget.CustomViewDialogData
+import org.mozilla.rocket.widget.PromotionDialog
 
-class PrivateHomeFragment : LocaleAwareFragment(),
-        ScreenNavigator.HomeScreen {
+class PrivateHomeFragment :
+    LocaleAwareFragment(),
+    ScreenNavigator.HomeScreen {
 
     private lateinit var chromeViewModel: ChromeViewModel
     private lateinit var logoMan: LottieAnimationView
@@ -52,9 +53,12 @@ class PrivateHomeFragment : LocaleAwareFragment(),
         fakeInput = view.findViewById(R.id.pm_home_fake_input)
 
         fakeInput.setOnClickListener { chromeViewModel.showUrlInput.call() }
-        chromeViewModel.isHomePageUrlInputShowing.observe(this, Observer { isShowing ->
-            if (isShowing == true) hideFakeInput() else showFakeInput()
-        })
+        chromeViewModel.isHomePageUrlInputShowing.observe(
+            this,
+            Observer { isShowing ->
+                if (isShowing == true) hideFakeInput() else showFakeInput()
+            }
+        )
         setupBottomBar(view)
         observeViewModel()
 
@@ -98,37 +102,46 @@ class PrivateHomeFragment : LocaleAwareFragment(),
     }
 
     private fun monitorShortcutPromotion(context: Context, model: ShortcutViewModel) {
-        model.eventPromoteShortcut.observe(viewLifecycleOwner, Observer { callback ->
-            val data = CustomViewDialogData().apply {
-                this.drawable = ContextCompat.getDrawable(context, R.drawable.dialog_pbshortcut)
-                this.title = context.getString(R.string.private_browsing_dialog_add_shortcut_title_v2)
-                this.description = context.getString(R.string.private_browsing_dialog_add_shortcut_content_v2)
-                this.positiveText = context.getString(R.string.private_browsing_dialog_add_shortcut_yes_v2)
-                this.negativeText = context.getString(R.string.private_browsing_dialog_add_shortcut_no_v2)
-                this.showCloseButton = true
-            }
+        model.eventPromoteShortcut.observe(
+            viewLifecycleOwner,
+            Observer { callback ->
+                val data = CustomViewDialogData().apply {
+                    this.drawable = ContextCompat.getDrawable(context, R.drawable.dialog_pbshortcut)
+                    this.title = context.getString(R.string.private_browsing_dialog_add_shortcut_title_v2)
+                    this.description = context.getString(R.string.private_browsing_dialog_add_shortcut_content_v2)
+                    this.positiveText = context.getString(R.string.private_browsing_dialog_add_shortcut_yes_v2)
+                    this.negativeText = context.getString(R.string.private_browsing_dialog_add_shortcut_no_v2)
+                    this.showCloseButton = true
+                }
 
-            PromotionDialog(context, data)
+                PromotionDialog(context, data)
                     .onPositive { callback?.onPositive() }
                     .onNegative { callback?.onNegative() }
                     .onClose { callback?.onNegative() }
                     .onCancel { callback?.onCancel() }
                     .setCancellable(false)
                     .show()
-        })
+            }
+        )
     }
 
     private fun monitorShortcutMessage(context: Context, model: ShortcutViewModel) {
-        model.eventShowMessage.observe(viewLifecycleOwner, Observer {
-            val msgId = it ?: return@Observer
-            Toast.makeText(context, msgId, Toast.LENGTH_SHORT).show()
-        })
+        model.eventShowMessage.observe(
+            viewLifecycleOwner,
+            Observer {
+                val msgId = it ?: return@Observer
+                Toast.makeText(context, msgId, Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
     private fun monitorShortcutCreation(context: Context, model: ShortcutViewModel) {
-        model.eventCreateShortcut.observe(viewLifecycleOwner, Observer {
-            ShortcutUtils.createShortcut(context)
-        })
+        model.eventCreateShortcut.observe(
+            viewLifecycleOwner,
+            Observer {
+                ShortcutUtils.createShortcut(context)
+            }
+        )
     }
 
     override fun applyLocale() {

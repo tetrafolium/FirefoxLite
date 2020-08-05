@@ -1,13 +1,13 @@
 package org.mozilla.rocket.chrome
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
 import org.mozilla.focus.R
 import org.mozilla.focus.tabs.TabCounter
@@ -33,7 +33,7 @@ class BottomBarItemAdapter(
     }
 
     private fun convertToItems(types: List<ItemData>): List<BottomBarItem> =
-            types.map(this::convertToItem)
+        types.map(this::convertToItem)
 
     private fun convertToItem(itemData: ItemData): BottomBarItem {
         return when (val type = itemData.type) {
@@ -225,43 +225,43 @@ class BottomBarItemAdapter(
     private class MenuItem(type: Int, id: Int, private val theme: Theme) : BottomBarItem(type, id) {
         override fun onCreateView(context: Context, parent: ViewGroup): View {
             return LayoutInflater.from(context)
-                    .inflate(R.layout.button_more, parent, false)
-                    .apply {
-                        findViewById<ThemedImageButton>(R.id.btn_menu).setTint(context, theme.buttonColorResId)
-                        val downloadColorResId = if (theme == Theme.Light) R.color.paletteDarkBlueC100 else theme.buttonColorResId
-                        findViewById<ThemedImageButton>(R.id.download_unread_indicator).setTint(context, downloadColorResId)
-                    }
+                .inflate(R.layout.button_more, parent, false)
+                .apply {
+                    findViewById<ThemedImageButton>(R.id.btn_menu).setTint(context, theme.buttonColorResId)
+                    val downloadColorResId = if (theme == Theme.Light) R.color.paletteDarkBlueC100 else theme.buttonColorResId
+                    findViewById<ThemedImageButton>(R.id.download_unread_indicator).setTint(context, downloadColorResId)
+                }
         }
     }
 
     private class BookmarkItem(type: Int, id: Int, theme: Theme) : ImageItem(
-            type,
-            id,
-            R.drawable.ic_add_bookmark,
-            if (theme == Theme.Light) R.color.ic_add_bookmark_tint_light else R.color.ic_add_bookmark_tint_dark
+        type,
+        id,
+        R.drawable.ic_add_bookmark,
+        if (theme == Theme.Light) R.color.ic_add_bookmark_tint_light else R.color.ic_add_bookmark_tint_dark
     )
 
     private class RefreshItem(type: Int, id: Int, private val theme: Theme) : BottomBarItem(type, id) {
         override fun onCreateView(context: Context, parent: ViewGroup): View {
             return LayoutInflater.from(context)
-                    .inflate(R.layout.button_refresh, parent, false).apply {
-                        findViewById<ThemedImageButton>(R.id.action_refresh).setTint(context, theme.buttonColorResId)
-                        findViewById<ThemedImageButton>(R.id.action_stop).setTint(context, theme.buttonColorResId)
-                    }
+                .inflate(R.layout.button_refresh, parent, false).apply {
+                    findViewById<ThemedImageButton>(R.id.action_refresh).setTint(context, theme.buttonColorResId)
+                    findViewById<ThemedImageButton>(R.id.action_stop).setTint(context, theme.buttonColorResId)
+                }
         }
     }
 
     private class PrivateHomeItem(type: Int, id: Int) : BottomBarItem(type, id) {
         override fun onCreateView(context: Context, parent: ViewGroup): View {
             return LayoutInflater.from(context)
-                    .inflate(R.layout.button_private_to_normal, parent, false)
+                .inflate(R.layout.button_private_to_normal, parent, false)
         }
     }
 
     private class TrackerItem(type: Int, id: Int) : BottomBarItem(type, id) {
         override fun onCreateView(context: Context, parent: ViewGroup): View {
             return LayoutInflater.from(context)
-                    .inflate(R.layout.button_tracker, parent, false)
+                .inflate(R.layout.button_tracker, parent, false)
         }
     }
 

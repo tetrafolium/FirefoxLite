@@ -1,8 +1,8 @@
 package org.mozilla.rocket.content
 
-import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
+import androidx.fragment.app.FragmentActivity
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

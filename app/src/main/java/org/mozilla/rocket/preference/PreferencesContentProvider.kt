@@ -44,10 +44,12 @@ class PreferencesContentProvider : ContentProvider() {
 
         fun <T> makeUri(prefName: String, op: Int, key: String, value: T): Uri {
             val auth = "content://$AUTHORITY"
-            return Uri.parse("$auth/$prefName?" +
+            return Uri.parse(
+                "$auth/$prefName?" +
                     "$QUERY_PARAM_OP=$op&" +
                     "$QUERY_PARAM_KEY=$key&" +
-                    "$QUERY_PARAM_VALUE=$value")
+                    "$QUERY_PARAM_VALUE=$value"
+            )
         }
 
         inline fun <reified T> put(context: Context, prefName: String, key: String, value: T) {
@@ -90,11 +92,11 @@ class PreferencesContentProvider : ContentProvider() {
 
             val uri = makeUri(prefName, op, key, defaultValue)
             context.contentResolver.query(
-                    uri,
-                    null,
-                    null,
-                    null,
-                    null
+                uri,
+                null,
+                null,
+                null,
+                null
             )?.use {
                 return it.extras.get(key) as T
             }

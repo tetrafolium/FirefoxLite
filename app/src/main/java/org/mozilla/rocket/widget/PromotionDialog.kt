@@ -2,8 +2,8 @@
 package org.mozilla.rocket.widget
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.layout_promotion_dialog.view.*
 import org.mozilla.focus.R
 import org.mozilla.rocket.landing.DialogQueue
@@ -103,12 +103,12 @@ class PromotionDialog(
 
     private fun createDialog(): AlertDialog {
         val dialog = AlertDialog.Builder(context)
-                .setView(view)
-                .setOnCancelListener {
-                    onCancelListener?.invoke()
-                }
-                .setCancelable(cancellable)
-                .create()
+            .setView(view)
+            .setOnCancelListener {
+                onCancelListener?.invoke()
+            }
+            .setCancelable(cancellable)
+            .create()
 
         view.positive_button.setOnClickListener {
             dialog.dismiss()

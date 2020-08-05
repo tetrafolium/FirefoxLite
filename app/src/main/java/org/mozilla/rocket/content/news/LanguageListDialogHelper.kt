@@ -3,7 +3,6 @@ package org.mozilla.rocket.content.news
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.DataSetObserver
-import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.ProgressBar
 import android.widget.RadioButton
+import androidx.appcompat.app.AlertDialog
 import org.mozilla.focus.R
 import org.mozilla.rocket.content.news.data.NewsLanguage
 

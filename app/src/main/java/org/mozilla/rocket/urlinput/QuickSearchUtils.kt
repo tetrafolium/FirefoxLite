@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.mozilla.rocket.urlinput
 
-import androidx.lifecycle.MutableLiveData
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import org.json.JSONException
 import org.json.JSONObject
 import org.mozilla.focus.R
@@ -35,14 +35,14 @@ object QuickSearchUtils {
                 for (i in 0 until jsonArray.length()) {
                     val jsonObj = jsonArray.get(i) as JSONObject
                     val element = QuickSearch(
-                            jsonObj.optString("name"),
-                            TopSitesUtils.TOP_SITE_ASSET_PREFIX + jsonObj.optString("icon"),
-                            jsonObj.optString("searchUrlPattern"),
-                            jsonObj.optString("homeUrl"),
-                            jsonObj.optString("urlPrefix"),
-                            jsonObj.optString("urlSuffix"),
-                            jsonObj.optBoolean("patternEncode"),
-                            jsonObj.optBoolean("permitSpace", true)
+                        jsonObj.optString("name"),
+                        TopSitesUtils.TOP_SITE_ASSET_PREFIX + jsonObj.optString("icon"),
+                        jsonObj.optString("searchUrlPattern"),
+                        jsonObj.optString("homeUrl"),
+                        jsonObj.optString("urlPrefix"),
+                        jsonObj.optString("urlSuffix"),
+                        jsonObj.optBoolean("patternEncode"),
+                        jsonObj.optBoolean("permitSpace", true)
 
                     )
                     list.add(element)

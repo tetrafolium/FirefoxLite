@@ -6,15 +6,15 @@
 package org.mozilla.rocket.content.portal
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
+import androidx.annotation.VisibleForTesting
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import org.mozilla.focus.R
 import org.mozilla.focus.utils.Settings
 import org.mozilla.lite.partner.NewsItem
@@ -153,18 +153,18 @@ class ContentPortalView : CoordinatorLayout {
         bottomSheetBehavior = BottomSheetBehavior.from<View>(bottomSheet)
         bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheetBehavior?.setBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
+                BottomSheetBehavior.BottomSheetCallback() {
 
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    hide()
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                        hide()
+                    }
                 }
-            }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // we don't want to slide other stuff here
-            }
-        })
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                    // we don't want to slide other stuff here
+                }
+            })
     }
 
     /**

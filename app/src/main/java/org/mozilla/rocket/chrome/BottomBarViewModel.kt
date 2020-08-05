@@ -27,11 +27,11 @@ class BottomBarViewModel : ViewModel() {
     companion object {
         @JvmStatic
         val DEFAULT_BOTTOM_BAR_ITEMS: List<ItemData> = Arrays.asList(
-                ItemData(BottomBarItemAdapter.TYPE_TAB_COUNTER),
-                ItemData(BottomBarItemAdapter.TYPE_NEW_TAB),
-                ItemData(BottomBarItemAdapter.TYPE_SEARCH),
-                ItemData(BottomBarItemAdapter.TYPE_CAPTURE),
-                ItemData(BottomBarItemAdapter.TYPE_MENU)
+            ItemData(BottomBarItemAdapter.TYPE_TAB_COUNTER),
+            ItemData(BottomBarItemAdapter.TYPE_NEW_TAB),
+            ItemData(BottomBarItemAdapter.TYPE_SEARCH),
+            ItemData(BottomBarItemAdapter.TYPE_CAPTURE),
+            ItemData(BottomBarItemAdapter.TYPE_MENU)
         )
     }
 }

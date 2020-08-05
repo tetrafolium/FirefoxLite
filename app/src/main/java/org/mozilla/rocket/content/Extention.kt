@@ -1,11 +1,11 @@
 package org.mozilla.rocket.content
 
 import android.content.Context
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import org.mozilla.focus.FocusApplication
 import org.mozilla.rocket.di.AppComponent
 

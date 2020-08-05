@@ -30,24 +30,25 @@ class AppConfigWrapperTest {
         assertEquals(rateDialog, AppConfigWrapper.getRateDialogLaunchTimeThreshold().toInt())
 
         assertEquals(
-                rateNotification,
-                AppConfigWrapper.getRateAppNotificationLaunchTimeThreshold().toInt()
+            rateNotification,
+            AppConfigWrapper.getRateAppNotificationLaunchTimeThreshold().toInt()
         )
 
         assertEquals(
-                shareDialog,
-                AppConfigWrapper.getShareDialogLaunchTimeThreshold(false).toInt()
+            shareDialog,
+            AppConfigWrapper.getShareDialogLaunchTimeThreshold(false).toInt()
         )
 
         assertEquals(
-                shareDialog + rateNotification - rateDialog,
-                AppConfigWrapper.getShareDialogLaunchTimeThreshold(true).toInt()
+            shareDialog + rateNotification - rateDialog,
+            AppConfigWrapper.getShareDialogLaunchTimeThreshold(true).toInt()
         )
     }
 
     @Test
     fun `get migrated news categorize url`() {
-        val lifeFeedProviders = """
+        val lifeFeedProviders =
+            """
             |[
             | {"name":"Newspoint","type":"news","url":"LEGACY_URL"},
             | {"name":"NewspointCategory","type":"news","url":"CATEGORY_URL"}

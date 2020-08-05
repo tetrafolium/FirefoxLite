@@ -1,9 +1,9 @@
 package org.mozilla.rocket.nightmode.themed
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 open class ThemedRecyclerView : RecyclerView {
     private var isNight: Boolean = false

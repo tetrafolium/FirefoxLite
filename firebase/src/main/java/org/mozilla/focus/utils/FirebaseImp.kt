@@ -7,9 +7,9 @@ package org.mozilla.focus.utils
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.Size
 import androidx.annotation.WorkerThread
-import android.util.Log
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId

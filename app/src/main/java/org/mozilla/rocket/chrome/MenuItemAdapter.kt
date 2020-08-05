@@ -23,7 +23,7 @@ class MenuItemAdapter(
     }
 
     private fun convertToItems(types: List<ItemData>): List<MenuItem> =
-            types.map(this::convertToItem)
+        types.map(this::convertToItem)
 
     private fun convertToItem(itemData: ItemData): MenuItem {
         return when (val type = itemData.type) {

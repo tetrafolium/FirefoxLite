@@ -1,10 +1,10 @@
 package org.mozilla.rocket.content.news.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import org.json.JSONArray
 import org.json.JSONException
 import org.mozilla.threadutils.ThreadUtils

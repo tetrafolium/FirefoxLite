@@ -1,13 +1,13 @@
 package org.mozilla.rocket.content.ecommerce
 
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import org.mozilla.focus.R
 import org.mozilla.focus.glide.GlideApp
 import org.mozilla.focus.navigation.ScreenNavigator
@@ -70,11 +70,11 @@ class CouponViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
 
         GlideApp.with(itemView.context)
-                .asBitmap()
-                .placeholder(R.drawable.placeholder)
-                .fitCenter()
-                .load(item.link.image)
-                .into(image)
+            .asBitmap()
+            .placeholder(R.drawable.placeholder)
+            .fitCenter()
+            .load(item.link.image)
+            .into(image)
 
         name?.text = item.link.name
 

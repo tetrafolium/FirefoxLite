@@ -103,14 +103,17 @@ class SharedPreferencePinSiteDelegate(private val context: Context) : PinSiteDel
     }
 
     override fun pin(site: Site) {
-        sites.add(0, Site(
+        sites.add(
+            0,
+            Site(
                 site.id,
                 site.title,
                 site.url,
                 site.viewCount,
                 site.lastViewTimestamp,
                 site.favIconUri
-        ))
+            )
+        )
         save(sites)
     }
 
@@ -220,12 +223,16 @@ class SharedPreferencePinSiteDelegate(private val context: Context) : PinSiteDel
         try {
             for (i in 0 until array.length()) {
                 val obj = array.getJSONObject(i)
-                sites.add(Site(obj.getLong(TopSitesUtils.KEY_ID),
+                sites.add(
+                    Site(
+                        obj.getLong(TopSitesUtils.KEY_ID),
                         obj.getString(TopSitesUtils.KEY_TITLE),
                         obj.getString(TopSitesUtils.KEY_URL),
                         obj.getLong(TopSitesUtils.KEY_VIEW_COUNT),
                         0,
-                        faviconPrefix + getFaviconUrl(obj)))
+                        faviconPrefix + getFaviconUrl(obj)
+                    )
+                )
             }
         } catch (ignored: JSONException) {
         }

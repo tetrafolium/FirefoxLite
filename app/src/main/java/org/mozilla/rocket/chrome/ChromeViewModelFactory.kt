@@ -20,11 +20,11 @@ class ChromeViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ChromeViewModel::class.java)) {
             return ChromeViewModel(
-                    settings,
-                    bookmarkRepo,
-                    privateMode,
-                    browsers,
-                    storageHelper
+                settings,
+                bookmarkRepo,
+                privateMode,
+                browsers,
+                storageHelper
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
@@ -42,14 +42,14 @@ class ChromeViewModelFactory private constructor(
             browsers: Browsers,
             storageHelper: StorageHelper
         ): ChromeViewModelFactory? =
-                INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: ChromeViewModelFactory(
-                            settings,
-                            bookmarkRepo,
-                            privateMode,
-                            browsers,
-                            storageHelper
-                    ).also { INSTANCE = it }
-                }
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: ChromeViewModelFactory(
+                    settings,
+                    bookmarkRepo,
+                    privateMode,
+                    browsers,
+                    storageHelper
+                ).also { INSTANCE = it }
+            }
     }
 }

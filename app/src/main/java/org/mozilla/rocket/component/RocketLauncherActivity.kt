@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.mozilla.focus.R
 import org.mozilla.focus.activity.MainActivity
-import org.mozilla.rocket.privately.PrivateModeActivity
 import org.mozilla.rocket.content.ContentPortalViewState
+import org.mozilla.rocket.privately.PrivateModeActivity
 
 class RocketLauncherActivity : AppCompatActivity() {
 

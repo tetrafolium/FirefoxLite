@@ -123,18 +123,18 @@ class MenuDialog : BottomSheetDialog {
         menuViewModel.menuItems.nonNullObserve(activity, menuItemAdapter::setItems)
 
         chromeViewModel.isTurboModeEnabled.switchFrom(menuViewModel.menuItems)
-                .observe(activity, Observer { menuItemAdapter.setTurboMode(it == true) })
+            .observe(activity, Observer { menuItemAdapter.setTurboMode(it == true) })
         chromeViewModel.isNightMode.switchFrom(menuViewModel.menuItems)
-                .observe(activity, Observer { menuItemAdapter.setNightMode(it?.isEnabled == true) })
+            .observe(activity, Observer { menuItemAdapter.setNightMode(it?.isEnabled == true) })
         chromeViewModel.isBlockImageEnabled.switchFrom(menuViewModel.menuItems)
-                .observe(activity, Observer { menuItemAdapter.setBlockImageEnabled(it == true) })
+            .observe(activity, Observer { menuItemAdapter.setBlockImageEnabled(it == true) })
         chromeViewModel.hasUnreadScreenshot.switchFrom(menuViewModel.menuItems)
-                .observe(activity, Observer { menuItemAdapter.setUnreadScreenshot(it == true) })
+            .observe(activity, Observer { menuItemAdapter.setUnreadScreenshot(it == true) })
         chromeViewModel.navigationState.switchFrom(menuViewModel.menuItems)
-                .map { navigationState -> navigationState.isBrowser }
-                .observe(activity, Observer { menuItemAdapter.setFindInPageEnabled(it) })
+            .map { navigationState -> navigationState.isBrowser }
+            .observe(activity, Observer { menuItemAdapter.setFindInPageEnabled(it) })
         chromeViewModel.isPrivateBrowsingActive.switchFrom(menuViewModel.menuItems)
-                .observe(activity, Observer { menuItemAdapter.setPrivateBrowsingActive(it == true) })
+            .observe(activity, Observer { menuItemAdapter.setPrivateBrowsingActive(it == true) })
     }
 
     private fun overridePendingTransition(enterAnim: Int, exitAnim: Int) {
@@ -204,15 +204,15 @@ class MenuDialog : BottomSheetDialog {
         }
 
         menuViewModel.isBottomBarEnabled.switchFrom(menuViewModel.bottomItems)
-                .observe(activity, Observer { bottomBarItemAdapter.setEnabled(it == true) })
+            .observe(activity, Observer { bottomBarItemAdapter.setEnabled(it == true) })
         chromeViewModel.tabCount.switchFrom(menuViewModel.bottomItems)
-                .observe(activity, Observer { bottomBarItemAdapter.setTabCount(it ?: 0) })
+            .observe(activity, Observer { bottomBarItemAdapter.setTabCount(it ?: 0) })
         chromeViewModel.isRefreshing.switchFrom(menuViewModel.bottomItems)
-                .observe(activity, Observer { bottomBarItemAdapter.setRefreshing(it == true) })
+            .observe(activity, Observer { bottomBarItemAdapter.setRefreshing(it == true) })
         chromeViewModel.canGoForward.switchFrom(menuViewModel.bottomItems)
-                .observe(activity, Observer { bottomBarItemAdapter.setCanGoForward(it == true) })
+            .observe(activity, Observer { bottomBarItemAdapter.setCanGoForward(it == true) })
         chromeViewModel.isCurrentUrlBookmarked.switchFrom(menuViewModel.bottomItems)
-                .observe(activity, Observer { bottomBarItemAdapter.setBookmark(it == true) })
+            .observe(activity, Observer { bottomBarItemAdapter.setBookmark(it == true) })
     }
 
     private fun hidePinShortcutButtonIfNotSupported() {

@@ -33,8 +33,8 @@ open class FocusApplication : LocaleAwareApplication() {
 
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
+            .appModule(AppModule(this))
+            .build()
     }
 
     lateinit var partnerActivator: PartnerActivator

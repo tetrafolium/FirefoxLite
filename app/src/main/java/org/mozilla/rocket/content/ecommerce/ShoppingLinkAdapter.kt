@@ -1,14 +1,14 @@
 package org.mozilla.rocket.content.ecommerce
 
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import org.mozilla.focus.R
 import org.mozilla.focus.navigation.ScreenNavigator
 import org.mozilla.focus.telemetry.TelemetryWrapper
@@ -17,7 +17,7 @@ import org.mozilla.rocket.content.ecommerce.data.ShoppingLink
 
 class ShoppingLinkAdapter : ListAdapter<ShoppingLink, ShoppingLinkViewHolder>(
     COMPARATOR
-        ) {
+) {
 
     companion object {
         const val ITEM_VIEW_TYPE_CONTENT = 0

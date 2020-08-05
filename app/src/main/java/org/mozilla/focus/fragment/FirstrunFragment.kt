@@ -11,14 +11,14 @@ import android.content.pm.ApplicationInfo
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
-import com.google.android.material.tabs.TabLayout
-import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import org.mozilla.focus.R
 import org.mozilla.focus.activity.MainActivity
 import org.mozilla.focus.firstrun.DefaultFirstrunPagerAdapter
@@ -172,9 +172,11 @@ class FirstrunFragment : Fragment(), View.OnClickListener, Screen {
     private fun wrapButtonClickListener(onClickListener: View.OnClickListener): View.OnClickListener {
         return View.OnClickListener { view ->
             if (view.id == R.id.finish) {
-                activity?.sendBroadcast(Intent(activity, PeriodicReceiver::class.java).apply {
-                    action = FirstLaunchWorker.ACTION
-                })
+                activity?.sendBroadcast(
+                    Intent(activity, PeriodicReceiver::class.java).apply {
+                        action = FirstLaunchWorker.ACTION
+                    }
+                )
             }
             onClickListener.onClick(view)
         }

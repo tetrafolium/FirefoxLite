@@ -5,9 +5,9 @@
 package org.mozilla.rocket.urlinput
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import android.content.Context
 
 class LocaleDataSource : QuickSearchDataSource {
 
@@ -27,11 +27,11 @@ class LocaleDataSource : QuickSearchDataSource {
 
         @JvmStatic
         fun getInstance(context: Context): LocaleDataSource? =
-                INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: LocaleDataSource().also {
-                        INSTANCE = it
-                        it.context = context.applicationContext
-                    }
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: LocaleDataSource().also {
+                    INSTANCE = it
+                    it.context = context.applicationContext
                 }
+            }
     }
 }

@@ -2,7 +2,6 @@ package org.mozilla.focus.home
 
 import android.content.Context
 import android.os.Handler
-import androidx.cardview.widget.CardView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import org.mozilla.focus.R
 import org.mozilla.focus.navigation.ScreenNavigator
 import org.mozilla.focus.telemetry.TelemetryWrapper
@@ -133,10 +133,13 @@ class FeatureSurveyViewHelper internal constructor(
     }
 
     private fun dismissSurveyView(btn: View) {
-        Handler().postDelayed({
-            parentView.removeView(rootView)
-            isViewInit = false
-            btn.visibility = View.GONE
-        }, Constants.DISMISS_DELAY)
+        Handler().postDelayed(
+            {
+                parentView.removeView(rootView)
+                isViewInit = false
+                btn.visibility = View.GONE
+            },
+            Constants.DISMISS_DELAY
+        )
     }
 }

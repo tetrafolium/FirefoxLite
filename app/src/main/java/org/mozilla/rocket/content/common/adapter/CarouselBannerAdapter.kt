@@ -49,11 +49,11 @@ class CarouselBannerAdapter(
 
         fun bind(bannerItem: BannerItem) {
             GlideApp.with(containerView.context)
-                    .asBitmap()
-                    .placeholder(R.drawable.placeholder)
-                    .fitCenter()
-                    .load(bannerItem.imageUrl)
-                    .into(image)
+                .asBitmap()
+                .placeholder(R.drawable.placeholder)
+                .fitCenter()
+                .load(bannerItem.imageUrl)
+                .into(image)
 
             containerView.setOnClickListener { onItemClickListener?.invoke(bannerItem) }
         }
