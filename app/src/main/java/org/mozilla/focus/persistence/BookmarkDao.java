@@ -13,27 +13,27 @@ import java.util.List;
 @Dao
 public interface BookmarkDao {
 
-    @Query("SELECT * FROM bookmarks")
-    LiveData<List<BookmarkModel>> loadBookmarks();
+@Query("SELECT * FROM bookmarks")
+LiveData<List<BookmarkModel> > loadBookmarks();
 
-    @Query("SELECT * FROM bookmarks WHERE id = :id")
-    LiveData<BookmarkModel> getBookmarkById(String id);
+@Query("SELECT * FROM bookmarks WHERE id = :id")
+LiveData<BookmarkModel> getBookmarkById(String id);
 
-    @Query("SELECT * FROM bookmarks WHERE url = :url")
-    LiveData<List<BookmarkModel>> getBookmarksByUrl(String url);
+@Query("SELECT * FROM bookmarks WHERE url = :url")
+LiveData<List<BookmarkModel> > getBookmarksByUrl(String url);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addBookmarks(BookmarkModel... bookmark);
+@Insert(onConflict = OnConflictStrategy.REPLACE)
+void addBookmarks(BookmarkModel... bookmark);
 
-    @Update
-    void updateBookmark(BookmarkModel bookmark);
+@Update
+void updateBookmark(BookmarkModel bookmark);
 
-    @Delete
-    void deleteBookmark(BookmarkModel bookmark);
+@Delete
+void deleteBookmark(BookmarkModel bookmark);
 
-    @Query("DELETE FROM bookmarks WHERE url = :url")
-    void deleteBookmarksByUrl(String url);
+@Query("DELETE FROM bookmarks WHERE url = :url")
+void deleteBookmarksByUrl(String url);
 
-    @Query("DELETE FROM bookmarks")
-    void deleteAllBookmarks();
+@Query("DELETE FROM bookmarks")
+void deleteAllBookmarks();
 }

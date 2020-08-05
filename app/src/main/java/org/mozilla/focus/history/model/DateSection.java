@@ -10,13 +10,13 @@ package org.mozilla.focus.history.model;
  */
 
 public class DateSection {
-    private long timestamp;
+private long timestamp;
 
-    public DateSection(long timestamp) {
-        this.timestamp = timestamp;
-    }
+public DateSection(long timestamp) {
+	this.timestamp = timestamp;
+}
 
-    public long getTimestamp() {
-        return this.timestamp;
-    }
+public long getTimestamp() {
+	return this.timestamp;
+}
 }

@@ -9,26 +9,26 @@ import android.app.Activity;
 import androidx.annotation.Nullable;
 
 public final class TabsSessionProvider {
-    public interface SessionHost {
-        SessionManager getSessionManager();
-    }
+public interface SessionHost {
+SessionManager getSessionManager();
+}
 
-    private TabsSessionProvider() {
-    }
+private TabsSessionProvider() {
+}
 
-    public static SessionManager getOrThrow(Activity activity) throws IllegalArgumentException {
-        if (activity instanceof SessionHost) {
-            return ((SessionHost) activity).getSessionManager();
-        }
-        throw new IllegalArgumentException("activity must implement TabsSessionProvider.SessionHost");
-    }
+public static SessionManager getOrThrow(Activity activity) throws IllegalArgumentException {
+	if (activity instanceof SessionHost) {
+		return ((SessionHost) activity).getSessionManager();
+	}
+	throw new IllegalArgumentException("activity must implement TabsSessionProvider.SessionHost");
+}
 
-    @Nullable
-    public static SessionManager getOrNull(Activity activity) {
-        try {
-            return getOrThrow(activity);
-        } catch (Exception e) {
-            return null;
-        }
-    }
+@Nullable
+public static SessionManager getOrNull(Activity activity) {
+	try {
+		return getOrThrow(activity);
+	} catch (Exception e) {
+		return null;
+	}
+}
 }

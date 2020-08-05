@@ -7,51 +7,51 @@ import androidx.annotation.NonNull;
 @Entity(tableName = "bookmarks")
 public class BookmarkModel {
 
-    public BookmarkModel(String id, String title, String url) {
-        this.id = id;
-        this.title = title;
-        this.url = url;
-    }
+public BookmarkModel(String id, String title, String url) {
+	this.id = id;
+	this.title = title;
+	this.url = url;
+}
 
-    @PrimaryKey
-    @NonNull
-    private String id;
+@PrimaryKey
+@NonNull
+private String id;
 
-    private String title;
+private String title;
 
-    private String url;
+private String url;
 
-    @NonNull
-    public String getId() {
-        return id;
-    }
+@NonNull
+public String getId() {
+	return id;
+}
 
-    public void setId(@NonNull String id) {
-        this.id = id;
-    }
+public void setId(@NonNull String id) {
+	this.id = id;
+}
 
-    public String getTitle() {
-        return title;
-    }
+public String getTitle() {
+	return title;
+}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+public void setTitle(String title) {
+	this.title = title;
+}
 
-    public String getUrl() {
-        return url;
-    }
+public String getUrl() {
+	return url;
+}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+public void setUrl(String url) {
+	this.url = url;
+}
 
-    @Override
-    public String toString() {
-        return "BookmarkModel{" +
-               "id='" + id + '\'' +
-               ", title='" + title + '\'' +
-               ", url='" + url + '\'' +
-               '}';
-    }
+@Override
+public String toString() {
+	return "BookmarkModel{" +
+	       "id='" + id + '\'' +
+	       ", title='" + title + '\'' +
+	       ", url='" + url + '\'' +
+	       '}';
+}
 }

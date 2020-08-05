@@ -11,44 +11,44 @@ import android.text.TextUtils;
 
 public final class TabUtil {
 
-    static final String ARG_PARENT_ID = "_tab_parent_";
-    static final String ARG_EXTERNAL = "_tab_external_";
-    static final String ARG_FOCUS = "_tab_focus_";
+static final String ARG_PARENT_ID = "_tab_parent_";
+static final String ARG_EXTERNAL = "_tab_external_";
+static final String ARG_FOCUS = "_tab_focus_";
 
-    private TabUtil() {
-    }
+private TabUtil() {
+}
 
-    /**
-     * To create a bundle which contains dispensable arguments for manipulating tabs.
-     *
-     * @param parentId     id of parent tab
-     * @param fromExternal true if the tab is opened by external app
-     * @param toFocus      true if the tab should be focused after creation
-     * @return the @see{android.os.Bundle} contains arguments
-     */
-    public static Bundle argument(@Nullable final String parentId,
-                                  boolean fromExternal,
-                                  boolean toFocus) {
-        final Bundle bundle = new Bundle();
-        if (!TextUtils.isEmpty(parentId)) {
-            bundle.putString(ARG_PARENT_ID, parentId);
-        }
+/**
+ * To create a bundle which contains dispensable arguments for manipulating tabs.
+ *
+ * @param parentId     id of parent tab
+ * @param fromExternal true if the tab is opened by external app
+ * @param toFocus      true if the tab should be focused after creation
+ * @return the @see{android.os.Bundle} contains arguments
+ */
+public static Bundle argument(@Nullable final String parentId,
+                              boolean fromExternal,
+                              boolean toFocus) {
+	final Bundle bundle = new Bundle();
+	if (!TextUtils.isEmpty(parentId)) {
+		bundle.putString(ARG_PARENT_ID, parentId);
+	}
 
-        bundle.putBoolean(ARG_EXTERNAL, fromExternal);
-        bundle.putBoolean(ARG_FOCUS, toFocus);
-        return bundle;
-    }
+	bundle.putBoolean(ARG_EXTERNAL, fromExternal);
+	bundle.putBoolean(ARG_FOCUS, toFocus);
+	return bundle;
+}
 
-    @Nullable
-    public static String getParentId(@NonNull final Bundle bundle) {
-        return bundle.getString(ARG_PARENT_ID);
-    }
+@Nullable
+public static String getParentId(@NonNull final Bundle bundle) {
+	return bundle.getString(ARG_PARENT_ID);
+}
 
-    public static boolean isFromExternal(@NonNull final Bundle bundle) {
-        return bundle.getBoolean(ARG_EXTERNAL, false);
-    }
+public static boolean isFromExternal(@NonNull final Bundle bundle) {
+	return bundle.getBoolean(ARG_EXTERNAL, false);
+}
 
-    public static boolean toFocus(@NonNull final Bundle bundle) {
-        return bundle.getBoolean(ARG_FOCUS, false);
-    }
+public static boolean toFocus(@NonNull final Bundle bundle) {
+	return bundle.getBoolean(ARG_FOCUS, false);
+}
 }

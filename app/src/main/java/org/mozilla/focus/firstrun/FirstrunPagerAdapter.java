@@ -27,81 +27,81 @@ import java.util.ArrayList;
 
 public class FirstrunPagerAdapter extends PagerAdapter {
 
-    protected ArrayList<FirstrunPage> pages = new ArrayList<>();
-    protected Context context;
-    private View.OnClickListener listener;
+protected ArrayList<FirstrunPage> pages = new ArrayList<>();
+protected Context context;
+private View.OnClickListener listener;
 
-    public FirstrunPagerAdapter(Context context, View.OnClickListener listener) {
-        this.context = context;
-        this.listener = listener;
-    }
+public FirstrunPagerAdapter(Context context, View.OnClickListener listener) {
+	this.context = context;
+	this.listener = listener;
+}
 
-    protected View getView(int position, ViewPager pager) {
-        final View view = LayoutInflater.from(context).inflate(
-                              R.layout.firstrun_page, pager, false);
+protected View getView(int position, ViewPager pager) {
+	final View view = LayoutInflater.from(context).inflate(
+		R.layout.firstrun_page, pager, false);
 
-        final FirstrunPage page = pages.get(position);
+	final FirstrunPage page = pages.get(position);
 
-        final TextView titleView = (TextView) view.findViewById(R.id.title);
-        titleView.setText(page.title);
+	final TextView titleView = (TextView) view.findViewById(R.id.title);
+	titleView.setText(page.title);
 
-        final TextView textView = (TextView) view.findViewById(R.id.text);
-        textView.setText(page.text);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
+	final TextView textView = (TextView) view.findViewById(R.id.text);
+	textView.setText(page.text);
+	textView.setMovementMethod(LinkMovementMethod.getInstance());
 
-        final ImageView imageView = (ImageView) view.findViewById(R.id.image);
-        if (page.lottieString != null) {
-            final LottieDrawable drawable = new LottieDrawable();
-            LottieComposition.Factory.fromAssetFileName(context,
-                    page.lottieString,
-            new OnCompositionLoadedListener() {
-                @Override
-                public void onCompositionLoaded(@Nullable LottieComposition composition) {
-                    drawable.setComposition(composition);
-                }
-            });
-            imageView.setImageDrawable(drawable);
-        } else {
-            imageView.setImageResource(page.imageResource);
-        }
+	final ImageView imageView = (ImageView) view.findViewById(R.id.image);
+	if (page.lottieString != null) {
+		final LottieDrawable drawable = new LottieDrawable();
+		LottieComposition.Factory.fromAssetFileName(context,
+		                                            page.lottieString,
+		                                            new OnCompositionLoadedListener() {
+				@Override
+				public void onCompositionLoaded(@Nullable LottieComposition composition) {
+				        drawable.setComposition(composition);
+				}
+			});
+		imageView.setImageDrawable(drawable);
+	} else {
+		imageView.setImageResource(page.imageResource);
+	}
 
-        final Button buttonView = (Button) view.findViewById(R.id.button);
-        buttonView.setOnClickListener(listener);
-        if (position == pages.size() - 1) {
-            buttonView.setText(R.string.firstrun_close_button);
-            buttonView.setId(R.id.finish);
-        } else {
-            buttonView.setText(R.string.firstrun_next_button);
-            buttonView.setId(R.id.next);
-        }
+	final Button buttonView = (Button) view.findViewById(R.id.button);
+	buttonView.setOnClickListener(listener);
+	if (position == pages.size() - 1) {
+		buttonView.setText(R.string.firstrun_close_button);
+		buttonView.setId(R.id.finish);
+	} else {
+		buttonView.setText(R.string.firstrun_next_button);
+		buttonView.setId(R.id.next);
+	}
 
 
-        return view;
-    }
+	return view;
+}
 
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
-    }
+@Override
+public boolean isViewFromObject(View view, Object object) {
+	return view == object;
+}
 
-    @Override
-    public int getCount() {
-        return pages.size();
-    }
+@Override
+public int getCount() {
+	return pages.size();
+}
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        ViewPager pager = (ViewPager) container;
-        View view = getView(position, pager);
+@Override
+public Object instantiateItem(ViewGroup container, int position) {
+	ViewPager pager = (ViewPager) container;
+	View view = getView(position, pager);
 
-        pager.addView(view);
+	pager.addView(view);
 
-        return view;
-    }
+	return view;
+}
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object view) {
-        container.removeView((View) view);
-    }
+@Override
+public void destroyItem(ViewGroup container, int position, Object view) {
+	container.removeView((View) view);
+}
 
 }

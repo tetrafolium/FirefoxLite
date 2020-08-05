@@ -6,7 +6,7 @@
 package org.mozilla.focus.utils;
 
 public class NoRemovableStorageException extends RuntimeException {
-    public NoRemovableStorageException(String s) {
-        super(s);
-    }
+public NoRemovableStorageException(String s) {
+	super(s);
+}
 }

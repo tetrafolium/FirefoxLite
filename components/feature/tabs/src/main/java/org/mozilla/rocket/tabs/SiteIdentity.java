@@ -9,11 +9,11 @@ import androidx.annotation.IntDef;
 
 @SuppressWarnings("WeakerAccess")
 public class SiteIdentity {
-    public static final int UNKNOWN = 0;
-    public static final int INSECURE = 1;
-    public static final int SECURE = 2;
+public static final int UNKNOWN = 0;
+public static final int INSECURE = 1;
+public static final int SECURE = 2;
 
-    @IntDef({UNKNOWN, INSECURE, SECURE})
-    public @interface SecurityState {
-    }
+@IntDef({UNKNOWN, INSECURE, SECURE})
+public @interface SecurityState {
+}
 }

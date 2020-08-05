@@ -13,23 +13,23 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class InterceptBehavior<V extends View> extends BottomSheetBehavior<V> {
-    private boolean intercept = true;
+private boolean intercept = true;
 
-    public InterceptBehavior(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+public InterceptBehavior(Context context, AttributeSet attrs) {
+	super(context, attrs);
+}
 
-    @Override
-    public boolean onInterceptTouchEvent(CoordinatorLayout parent, V child, MotionEvent event) {
-        return intercept || super.onInterceptTouchEvent(parent, child, event);
-    }
+@Override
+public boolean onInterceptTouchEvent(CoordinatorLayout parent, V child, MotionEvent event) {
+	return intercept || super.onInterceptTouchEvent(parent, child, event);
+}
 
-    @Override
-    public boolean onTouchEvent(CoordinatorLayout parent, V child, MotionEvent event) {
-        return intercept || super.onTouchEvent(parent, child, event);
-    }
+@Override
+public boolean onTouchEvent(CoordinatorLayout parent, V child, MotionEvent event) {
+	return intercept || super.onTouchEvent(parent, child, event);
+}
 
-    void setIntercept(boolean intercept) {
-        this.intercept = intercept;
-    }
+void setIntercept(boolean intercept) {
+	this.intercept = intercept;
+}
 }

@@ -25,38 +25,38 @@ import android.util.AttributeSet;
 import org.mozilla.focus.R;
 
 public class PrivateHomeScreenBackground extends AppCompatImageView {
-    private Paint paint;
+private Paint paint;
 
-    public PrivateHomeScreenBackground(Context context) {
-        super(context, null);
-        init();
-    }
+public PrivateHomeScreenBackground(Context context) {
+	super(context, null);
+	init();
+}
 
-    public PrivateHomeScreenBackground(Context context, AttributeSet attrs) {
-        super(context, attrs, 0);
-        init();
-    }
+public PrivateHomeScreenBackground(Context context, AttributeSet attrs) {
+	super(context, attrs, 0);
+	init();
+}
 
-    public PrivateHomeScreenBackground(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
+public PrivateHomeScreenBackground(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+	super(context, attrs, defStyleAttr);
+	init();
+}
 
-    void init() {
-        Rect rect = new Rect();
-        ((Activity) getContext()).getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home_pattern);
-        paint = new Paint();
-        Shader shader1 = new BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-        int colors[] = {Color.parseColor("#99FFFFFF"), Color.parseColor("#4dFFFFFF"), Color.parseColor("#1aFFFFFF"), Color.parseColor("#00FFFFFF")};
-        float positions[] = {0.0f, 0.4f, 0.7f, 1f};
-        Shader shader2 = new LinearGradient(0, rect.top, 0, rect.bottom, colors, positions, Shader.TileMode.CLAMP);
-        paint.setShader(new ComposeShader(shader2, shader1, PorterDuff.Mode.MULTIPLY));
-    }
+void init() {
+	Rect rect = new Rect();
+	((Activity) getContext()).getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+	Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.home_pattern);
+	paint = new Paint();
+	Shader shader1 = new BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+	int colors[] = {Color.parseColor("#99FFFFFF"), Color.parseColor("#4dFFFFFF"), Color.parseColor("#1aFFFFFF"), Color.parseColor("#00FFFFFF")};
+	float positions[] = {0.0f, 0.4f, 0.7f, 1f};
+	Shader shader2 = new LinearGradient(0, rect.top, 0, rect.bottom, colors, positions, Shader.TileMode.CLAMP);
+	paint.setShader(new ComposeShader(shader2, shader1, PorterDuff.Mode.MULTIPLY));
+}
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
-    }
+@Override
+protected void onDraw(Canvas canvas) {
+	super.onDraw(canvas);
+	canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
+}
 }

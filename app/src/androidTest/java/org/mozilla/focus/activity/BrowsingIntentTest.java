@@ -45,52 +45,52 @@ import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class BrowsingIntentTest {
 
-    private SessionLoadedIdlingResource loadingIdlingResource;
-    private static final String TARGET_URL_SITE_1 = "https://developer.mozilla.org/en-US/";
-    private static final String TARGET_URL_SITE_2 = "https://developer.mozilla.org/en-US/Firefox_for_Android";
+private SessionLoadedIdlingResource loadingIdlingResource;
+private static final String TARGET_URL_SITE_1 = "https://developer.mozilla.org/en-US/";
+private static final String TARGET_URL_SITE_2 = "https://developer.mozilla.org/en-US/Firefox_for_Android";
 
-    @Rule
-    public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
+@Rule
+public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
 
-    @Before
-    public void setUp() {
-        AndroidTestUtils.beforeTest();
-    }
+@Before
+public void setUp() {
+	AndroidTestUtils.beforeTest();
+}
 
-    @After
-    public void tearDown() {
-        if (loadingIdlingResource != null) {
-            IdlingRegistry.getInstance().unregister(loadingIdlingResource);
-        }
-    }
+@After
+public void tearDown() {
+	if (loadingIdlingResource != null) {
+		IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+	}
+}
 
-    @Test
-    public void receivedBrowsingIntent_tabIsCreated() {
-        activityTestRule.launchActivity(new Intent());
-        loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
-        IdlingRegistry.getInstance().register(loadingIdlingResource);
-        sendBrowsingIntent();
+@Test
+public void receivedBrowsingIntent_tabIsCreated() {
+	activityTestRule.launchActivity(new Intent());
+	loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
+	IdlingRegistry.getInstance().register(loadingIdlingResource);
+	sendBrowsingIntent();
 
-        // Check if browser fragment is launched
-        onView(withId(R.id.display_url)).check(matches(isDisplayed()));
+	// Check if browser fragment is launched
+	onView(withId(R.id.display_url)).check(matches(isDisplayed()));
 
-        // Check if target url is resolved and site 1 is loaded
-        onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-        .check(matches(withText(TARGET_URL_SITE_1)));
+	// Check if target url is resolved and site 1 is loaded
+	onView(withId(R.id.display_url)).check(matches(isDisplayed()))
+	.check(matches(withText(TARGET_URL_SITE_1)));
 
-        // Click search button
-        onView(withId(R.id.bottom_bar_search)).perform(click());
+	// Click search button
+	onView(withId(R.id.bottom_bar_search)).perform(click());
 
-        // Browsing site 2
-        onView(withId(R.id.url_edit)).perform(replaceText(TARGET_URL_SITE_2), pressImeActionButton());
-        onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-        .check(matches(withText(TARGET_URL_SITE_2)));
+	// Browsing site 2
+	onView(withId(R.id.url_edit)).perform(replaceText(TARGET_URL_SITE_2), pressImeActionButton());
+	onView(withId(R.id.display_url)).check(matches(isDisplayed()))
+	.check(matches(withText(TARGET_URL_SITE_2)));
 
-        // Currently BrowserFragment need tabSession completes it's job to know if we can go back.
-        // Without an idling resource there is pressBack() will leave the app and make the test crash
-        // TODO: Add idling resource, or extend SessionIdlingResource to not only wait for onTabFinished,
-        // TODO: but also wait for TabSession to complete. See canGoBack() in BrowserFragment
-        // Click back
+	// Currently BrowserFragment need tabSession completes it's job to know if we can go back.
+	// Without an idling resource there is pressBack() will leave the app and make the test crash
+	// TODO: Add idling resource, or extend SessionIdlingResource to not only wait for onTabFinished,
+	// TODO: but also wait for TabSession to complete. See canGoBack() in BrowserFragment
+	// Click back
 //        Espresso.pressBack();
 //
 //        // Check if site 1 is loaded again
@@ -98,55 +98,55 @@ public class BrowsingIntentTest {
 //        IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 //
 
-    }
+}
 
 
-    @Test
-    public void appHasOneTabAndReceiveBrowsingIntent_tabIncreasedAndBrowse() {
+@Test
+public void appHasOneTabAndReceiveBrowsingIntent_tabIncreasedAndBrowse() {
 
-        // Launch activity
-        activityTestRule.launchActivity(new Intent());
+	// Launch activity
+	activityTestRule.launchActivity(new Intent());
 
-        // Click search field
-        onView(withId(R.id.home_fragment_fake_input)).perform(click());
+	// Click search field
+	onView(withId(R.id.home_fragment_fake_input)).perform(click());
 
-        loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
+	loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
 
-        // Browsing site 2
-        onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TARGET_URL_SITE_2), pressImeActionButton());
-        IdlingRegistry.getInstance().register(loadingIdlingResource);
-        onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-        .check(matches(withText(TARGET_URL_SITE_2)));
+	// Browsing site 2
+	onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TARGET_URL_SITE_2), pressImeActionButton());
+	IdlingRegistry.getInstance().register(loadingIdlingResource);
+	onView(withId(R.id.display_url)).check(matches(isDisplayed()))
+	.check(matches(withText(TARGET_URL_SITE_2)));
 
-        SessionManager sessionManager = TabsSessionProvider.getOrThrow(activityTestRule.getActivity());
-        final int tabCount = sessionManager.getTabsCount();
+	SessionManager sessionManager = TabsSessionProvider.getOrThrow(activityTestRule.getActivity());
+	final int tabCount = sessionManager.getTabsCount();
 
 
-        // Receive browsing intent
-        sendBrowsingIntent();
+	// Receive browsing intent
+	sendBrowsingIntent();
 
-        // Check if browser fragment is launched
-        onView(withId(R.id.display_url)).check(matches(isDisplayed()));
+	// Check if browser fragment is launched
+	onView(withId(R.id.display_url)).check(matches(isDisplayed()));
 
-        // Check if target url is resolved and site 1 is loaded
-        onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-        .check(matches(withText(TARGET_URL_SITE_1)));
-        IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+	// Check if target url is resolved and site 1 is loaded
+	onView(withId(R.id.display_url)).check(matches(isDisplayed()))
+	.check(matches(withText(TARGET_URL_SITE_1)));
+	IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
-        // Check if tab count is increased
-        sessionManager = TabsSessionProvider.getOrThrow(activityTestRule.getActivity());
-        Assert.assertTrue(sessionManager.getTabsCount() == tabCount + 1);
+	// Check if tab count is increased
+	sessionManager = TabsSessionProvider.getOrThrow(activityTestRule.getActivity());
+	Assert.assertTrue(sessionManager.getTabsCount() == tabCount + 1);
 
-    }
+}
 
-    private void sendBrowsingIntent() {
-        // Simulate third party app sending browsing url intent to rocket
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(TARGET_URL_SITE_1));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        final Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        intent.setClassName(targetContext, AppConstants.LAUNCHER_ACTIVITY_ALIAS);
-        targetContext.startActivity(intent);
-    }
+private void sendBrowsingIntent() {
+	// Simulate third party app sending browsing url intent to rocket
+	Intent intent = new Intent();
+	intent.setAction(Intent.ACTION_VIEW);
+	intent.setData(Uri.parse(TARGET_URL_SITE_1));
+	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	final Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+	intent.setClassName(targetContext, AppConstants.LAUNCHER_ACTIVITY_ALIAS);
+	targetContext.startActivity(intent);
+}
 }

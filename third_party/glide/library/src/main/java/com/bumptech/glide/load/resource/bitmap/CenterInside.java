@@ -14,49 +14,49 @@ import java.security.MessageDigest;
  * dimension (maintaining the image's aspect ratio).
  */
 public class CenterInside extends BitmapTransformation {
-    private static final String ID = "com.bumptech.glide.load.resource.bitmap.CenterInside";
-    private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
+private static final String ID = "com.bumptech.glide.load.resource.bitmap.CenterInside";
+private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
 
-    public CenterInside() {
-        // Intentionally empty.
-    }
+public CenterInside() {
+	// Intentionally empty.
+}
 
-    /**
-     * Use {@link #CenterInside()}.
-     */
-    @Deprecated
-    public CenterInside(@SuppressWarnings("unused") Context context) {
-        this();
-    }
+/**
+ * Use {@link #CenterInside()}.
+ */
+@Deprecated
+public CenterInside(@SuppressWarnings("unused") Context context) {
+	this();
+}
 
-    /**
-     * Use {@link #CenterInside()}.
-     */
-    @Deprecated
-    public CenterInside(@SuppressWarnings("unused") BitmapPool bitmapPool) {
-        this();
-    }
+/**
+ * Use {@link #CenterInside()}.
+ */
+@Deprecated
+public CenterInside(@SuppressWarnings("unused") BitmapPool bitmapPool) {
+	this();
+}
 
-    @Override
-    protected Bitmap transform(
-        @NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
-        return TransformationUtils.centerInside(pool, toTransform, outWidth, outHeight);
-    }
+@Override
+protected Bitmap transform(
+	@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
+	return TransformationUtils.centerInside(pool, toTransform, outWidth, outHeight);
+}
 
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof CenterInside;
-    }
+@Override
+public boolean equals(Object o) {
+	return o instanceof CenterInside;
+}
 
-    @Override
-    public int hashCode() {
-        return ID.hashCode();
-    }
+@Override
+public int hashCode() {
+	return ID.hashCode();
+}
 
-    @Override
-    public void updateDiskCacheKey(MessageDigest messageDigest) {
-        messageDigest.update(ID_BYTES);
-    }
+@Override
+public void updateDiskCacheKey(MessageDigest messageDigest) {
+	messageDigest.update(ID_BYTES);
+}
 }
 
 

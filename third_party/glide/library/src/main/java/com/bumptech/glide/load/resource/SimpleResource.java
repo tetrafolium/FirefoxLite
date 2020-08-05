@@ -12,30 +12,30 @@ import com.bumptech.glide.util.Preconditions;
  */
 // TODO: there isn't much point in caching these...
 public class SimpleResource<T> implements Resource<T> {
-    protected final T data;
+protected final T data;
 
-    public SimpleResource(T data) {
-        this.data = Preconditions.checkNotNull(data);
-    }
+public SimpleResource(T data) {
+	this.data = Preconditions.checkNotNull(data);
+}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public Class<T> getResourceClass() {
-        return (Class<T>) data.getClass();
-    }
+@SuppressWarnings("unchecked")
+@Override
+public Class<T> getResourceClass() {
+	return (Class<T>) data.getClass();
+}
 
-    @Override
-    public final T get() {
-        return data;
-    }
+@Override
+public final T get() {
+	return data;
+}
 
-    @Override
-    public final int getSize() {
-        return 1;
-    }
+@Override
+public final int getSize() {
+	return 1;
+}
 
-    @Override
-    public void recycle() {
-        // no op
-    }
+@Override
+public void recycle() {
+	// no op
+}
 }

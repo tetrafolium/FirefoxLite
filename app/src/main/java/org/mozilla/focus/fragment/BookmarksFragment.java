@@ -30,78 +30,78 @@ import javax.annotation.Nonnull;
 
 
 public class BookmarksFragment extends PanelFragment implements BookmarkAdapter.BookmarkPanelListener {
-    private RecyclerView recyclerView;
-    private View emptyView;
-    private BookmarkAdapter adapter;
-    private BookmarkViewModel viewModel;
+private RecyclerView recyclerView;
+private View emptyView;
+private BookmarkAdapter adapter;
+private BookmarkViewModel viewModel;
 
-    public static BookmarksFragment newInstance() {
-        return new BookmarksFragment();
-    }
+public static BookmarksFragment newInstance() {
+	return new BookmarksFragment();
+}
 
-    @Override
-    public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        recyclerView = v.findViewById(R.id.recyclerview);
-        emptyView = v.findViewById(R.id.empty_view_container);
-        return v;
-    }
+@Override
+public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+	View v = inflater.inflate(R.layout.fragment_bookmarks, container, false);
+	recyclerView = v.findViewById(R.id.recyclerview);
+	emptyView = v.findViewById(R.id.empty_view_container);
+	return v;
+}
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+@Override
+public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
 
-        BookmarkViewModel.Factory factory = new BookmarkViewModel.Factory(
-            BookmarkRepository.getInstance(BookmarksDatabase.getInstance(getActivity())));
+	BookmarkViewModel.Factory factory = new BookmarkViewModel.Factory(
+		BookmarkRepository.getInstance(BookmarksDatabase.getInstance(getActivity())));
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        adapter = new BookmarkAdapter(this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(layoutManager);
+	LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+	adapter = new BookmarkAdapter(this);
+	recyclerView.setAdapter(adapter);
+	recyclerView.setLayoutManager(layoutManager);
 
-        viewModel = ViewModelProviders.of(getActivity(), factory)
-                    .get(BookmarkViewModel.class);
-        viewModel.getBookmarks().observe(this, bookmarks -> adapter.setData(bookmarks));
+	viewModel = ViewModelProviders.of(getActivity(), factory)
+	            .get(BookmarkViewModel.class);
+	viewModel.getBookmarks().observe(this, bookmarks->adapter.setData(bookmarks));
 
-        onStatus(VIEW_TYPE_NON_EMPTY);
-    }
+	onStatus(VIEW_TYPE_NON_EMPTY);
+}
 
-    @Override
-    public void tryLoadMore() {
-        // Do nothing for now.
-    }
+@Override
+public void tryLoadMore() {
+	// Do nothing for now.
+}
 
-    @Override
-    public void onStatus(int status) {
-        if (VIEW_TYPE_EMPTY == status) {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        } else if (VIEW_TYPE_NON_EMPTY == status) {
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        } else {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.GONE);
-        }
-    }
+@Override
+public void onStatus(int status) {
+	if (VIEW_TYPE_EMPTY == status) {
+		recyclerView.setVisibility(View.GONE);
+		emptyView.setVisibility(View.VISIBLE);
+	} else if (VIEW_TYPE_NON_EMPTY == status) {
+		recyclerView.setVisibility(View.VISIBLE);
+		emptyView.setVisibility(View.GONE);
+	} else {
+		recyclerView.setVisibility(View.GONE);
+		emptyView.setVisibility(View.GONE);
+	}
+}
 
-    @Override
-    public void onItemClicked(String url) {
-        ScreenNavigator.get(getContext()).showBrowserScreen(url, true, false);
-        closePanel();
-        TelemetryWrapper.bookmarkOpenItem();
-    }
+@Override
+public void onItemClicked(String url) {
+	ScreenNavigator.get(getContext()).showBrowserScreen(url, true, false);
+	closePanel();
+	TelemetryWrapper.bookmarkOpenItem();
+}
 
-    @Override
-    public void onItemDeleted(BookmarkModel bookmark) {
-        viewModel.deleteBookmark(bookmark);
-        TelemetryWrapper.bookmarkRemoveItem();
-    }
+@Override
+public void onItemDeleted(BookmarkModel bookmark) {
+	viewModel.deleteBookmark(bookmark);
+	TelemetryWrapper.bookmarkRemoveItem();
+}
 
-    @Override
-    public void onItemEdited(BookmarkModel bookmark) {
-        startActivity(new Intent(getContext(), EditBookmarkActivity.class).putExtra(EditBookmarkActivityKt.ITEM_UUID_KEY, bookmark.getId()));
-        TelemetryWrapper.bookmarkEditItem();
-    }
+@Override
+public void onItemEdited(BookmarkModel bookmark) {
+	startActivity(new Intent(getContext(), EditBookmarkActivity.class).putExtra(EditBookmarkActivityKt.ITEM_UUID_KEY, bookmark.getId()));
+	TelemetryWrapper.bookmarkEditItem();
+}
 }

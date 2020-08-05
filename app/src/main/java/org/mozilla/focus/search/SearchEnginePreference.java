@@ -18,43 +18,43 @@ import org.mozilla.focus.utils.Settings;
  * Preference for setting the default search engine.
  */
 public class SearchEnginePreference extends DialogPreference {
-    public SearchEnginePreference(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+public SearchEnginePreference(Context context, AttributeSet attrs) {
+	super(context, attrs);
+}
 
-    public SearchEnginePreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
+public SearchEnginePreference(Context context, AttributeSet attrs, int defStyleAttr) {
+	super(context, attrs, defStyleAttr);
+}
 
-    @Override
-    protected void onAttachedToActivity() {
-        setSummary(SearchEngineManager.getInstance().getDefaultSearchEngine(getContext()).getName());
-        super.onAttachedToActivity();
-    }
+@Override
+protected void onAttachedToActivity() {
+	setSummary(SearchEngineManager.getInstance().getDefaultSearchEngine(getContext()).getName());
+	super.onAttachedToActivity();
+}
 
-    @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-        final SearchEngineAdapter adapter = new SearchEngineAdapter(getContext());
+@Override
+protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+	final SearchEngineAdapter adapter = new SearchEngineAdapter(getContext());
 
-        builder.setTitle(R.string.preference_dialog_title_search_engine);
+	builder.setTitle(R.string.preference_dialog_title_search_engine);
 
-        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                persistSearchEngine(adapter.getItem(which));
+	builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			        persistSearchEngine(adapter.getItem(which));
 
-                dialog.dismiss();
-            }
-        });
+			        dialog.dismiss();
+			}
+		});
 
-        builder.setPositiveButton(null, null);
-        builder.setNegativeButton(null, this);
-    }
+	builder.setPositiveButton(null, null);
+	builder.setNegativeButton(null, this);
+}
 
-    private void persistSearchEngine(SearchEngine searchEngine) {
-        setSummary(searchEngine.getName());
+private void persistSearchEngine(SearchEngine searchEngine) {
+	setSummary(searchEngine.getName());
 
-        Settings.getInstance(getContext())
-        .setDefaultSearchEngine(searchEngine);
-    }
+	Settings.getInstance(getContext())
+	.setDefaultSearchEngine(searchEngine);
+}
 }

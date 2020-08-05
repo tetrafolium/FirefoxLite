@@ -44,242 +44,242 @@ import java.util.List;
 
 public class TabTrayAdapter extends RecyclerView.Adapter<TabTrayAdapter.ViewHolder> {
 
-    private List<Session> tabs = new ArrayList<>();
-    private Session focusedTab;
+private List<Session> tabs = new ArrayList<>();
+private Session focusedTab;
 
-    private TabClickListener tabClickListener;
+private TabClickListener tabClickListener;
 
-    private RequestManager requestManager;
+private RequestManager requestManager;
 
-    private HashMap<String, Drawable> localIconCache = new HashMap<>();
+private HashMap<String, Drawable> localIconCache = new HashMap<>();
 
-    private boolean isNight;
+private boolean isNight;
 
-    TabTrayAdapter(RequestManager requestManager) {
-        this.requestManager = requestManager;
-    }
+TabTrayAdapter(RequestManager requestManager) {
+	this.requestManager = requestManager;
+}
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final ViewHolder holder = new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.item_tab_tray, parent, false));
+@Override
+public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	final ViewHolder holder = new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+							 R.layout.item_tab_tray, parent, false));
 
-        InternalTabClickListener listener = new InternalTabClickListener(holder, tabClickListener);
+	InternalTabClickListener listener = new InternalTabClickListener(holder, tabClickListener);
 
-        holder.itemView.setOnClickListener(listener);
-        holder.closeButton.setOnClickListener(listener);
-        return holder;
-    }
+	holder.itemView.setOnClickListener(listener);
+	holder.closeButton.setOnClickListener(listener);
+	return holder;
+}
 
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.itemView.setSelected(tabs.get(position) == focusedTab);
+@Override
+public void onBindViewHolder(final ViewHolder holder, int position) {
+	holder.itemView.setSelected(tabs.get(position) == focusedTab);
 
-        Resources resources = holder.itemView.getResources();
+	Resources resources = holder.itemView.getResources();
 
-        Session tab = tabs.get(position);
+	Session tab = tabs.get(position);
 
-        String title = getTitle(tab, holder);
-        holder.websiteTitle.setText(TextUtils.isEmpty(title) ?
-                                    resources.getString(R.string.app_name) : title);
+	String title = getTitle(tab, holder);
+	holder.websiteTitle.setText(TextUtils.isEmpty(title) ?
+	                            resources.getString(R.string.app_name) : title);
 
-        String url = tab.getUrl();
-        if (!TextUtils.isEmpty(url)) {
-            holder.websiteSubtitle.setText(tab.getUrl());
-        }
+	String url = tab.getUrl();
+	if (!TextUtils.isEmpty(url)) {
+		holder.websiteSubtitle.setText(tab.getUrl());
+	}
 
-        setFavicon(tab, holder);
-        holder.rootView.setNightMode(isNight);
-        holder.websiteTitle.setNightMode(isNight);
-        holder.websiteSubtitle.setNightMode(isNight);
-    }
+	setFavicon(tab, holder);
+	holder.rootView.setNightMode(isNight);
+	holder.websiteTitle.setNightMode(isNight);
+	holder.websiteSubtitle.setNightMode(isNight);
+}
 
-    @Override
-    public void onViewRecycled(ViewHolder holder) {
-        holder.websiteTitle.setText("");
-        holder.websiteSubtitle.setText("");
-        updateFavicon(holder, null);
-    }
+@Override
+public void onViewRecycled(ViewHolder holder) {
+	holder.websiteTitle.setText("");
+	holder.websiteSubtitle.setText("");
+	updateFavicon(holder, null);
+}
 
-    @Override
-    public int getItemCount() {
-        return tabs.size();
-    }
+@Override
+public int getItemCount() {
+	return tabs.size();
+}
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        if (recyclerView instanceof ThemedRecyclerView) {
-            ThemedRecyclerView themedRecyclerView = (ThemedRecyclerView) recyclerView;
-            this.isNight = themedRecyclerView.isNightMode();
-        }
-    }
+@Override
+public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+	super.onAttachedToRecyclerView(recyclerView);
+	if (recyclerView instanceof ThemedRecyclerView) {
+		ThemedRecyclerView themedRecyclerView = (ThemedRecyclerView) recyclerView;
+		this.isNight = themedRecyclerView.isNightMode();
+	}
+}
 
-    void setTabClickListener(TabClickListener tabClickListener) {
-        this.tabClickListener = tabClickListener;
-    }
+void setTabClickListener(TabClickListener tabClickListener) {
+	this.tabClickListener = tabClickListener;
+}
 
-    void setData(List<Session> tabs) {
-        this.tabs.clear();
-        this.tabs.addAll(tabs);
-    }
+void setData(List<Session> tabs) {
+	this.tabs.clear();
+	this.tabs.addAll(tabs);
+}
 
-    List<Session> getData() {
-        return this.tabs;
-    }
+List<Session> getData() {
+	return this.tabs;
+}
 
-    void setFocusedTab(Session tab) {
-        focusedTab = tab;
-    }
+void setFocusedTab(Session tab) {
+	focusedTab = tab;
+}
 
-    Session getFocusedTab() {
-        return focusedTab;
-    }
+Session getFocusedTab() {
+	return focusedTab;
+}
 
-    private String getTitle(Session tab, ViewHolder holder) {
-        String newTitle = tab.getTitle();
-        String currentTitle = String.valueOf(holder.websiteTitle.getText());
+private String getTitle(Session tab, ViewHolder holder) {
+	String newTitle = tab.getTitle();
+	String currentTitle = String.valueOf(holder.websiteTitle.getText());
 
-        if (TextUtils.isEmpty(newTitle)) {
-            return TextUtils.isEmpty(currentTitle) ? "" : currentTitle;
-        }
+	if (TextUtils.isEmpty(newTitle)) {
+		return TextUtils.isEmpty(currentTitle) ? "" : currentTitle;
+	}
 
-        return newTitle;
-    }
+	return newTitle;
+}
 
-    private void setFavicon(Session tab, final ViewHolder holder) {
-        String uri = tab.getUrl();
-        if (TextUtils.isEmpty(uri)) {
-            return;
-        }
+private void setFavicon(Session tab, final ViewHolder holder) {
+	String uri = tab.getUrl();
+	if (TextUtils.isEmpty(uri)) {
+		return;
+	}
 
-        loadCachedFavicon(tab, holder);
-    }
+	loadCachedFavicon(tab, holder);
+}
 
-    private void loadCachedFavicon(final Session tab, final ViewHolder holder) {
-        RequestOptions options = new RequestOptions()
-        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-        .dontAnimate();
+private void loadCachedFavicon(final Session tab, final ViewHolder holder) {
+	RequestOptions options = new RequestOptions()
+	                         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+	                         .dontAnimate();
 
-        Bitmap favicon = tab.getFavicon();
-        FaviconModel model = new FaviconModel(tab.getUrl(),
-                                              DimenUtils.getFavIconType(holder.itemView.getResources(), favicon),
-                                              favicon);
+	Bitmap favicon = tab.getFavicon();
+	FaviconModel model = new FaviconModel(tab.getUrl(),
+	                                      DimenUtils.getFavIconType(holder.itemView.getResources(), favicon),
+	                                      favicon);
 
-        requestManager
-        .load(model)
-        .apply(options)
-        .listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                        Target<Drawable> target,
-                                        boolean isFirstResource) {
-                loadGeneratedFavicon(tab, holder);
-                return true;
-            }
+	requestManager
+	.load(model)
+	.apply(options)
+	.listener(new RequestListener<Drawable>() {
+			@Override
+			public boolean onLoadFailed(@Nullable GlideException e, Object model,
+			                            Target<Drawable> target,
+			                            boolean isFirstResource) {
+			        loadGeneratedFavicon(tab, holder);
+			        return true;
+			}
 
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model,
-                                           Target<Drawable> target,
-                                           DataSource dataSource,
-                                           boolean isFirstResource) {
-                return false;
-            }
-        })
-        .into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(Drawable resource,
-                                        Transition<? super Drawable> transition) {
-                updateFavicon(holder, resource);
-            }
-        });
-    }
+			@Override
+			public boolean onResourceReady(Drawable resource, Object model,
+			                               Target<Drawable> target,
+			                               DataSource dataSource,
+			                               boolean isFirstResource) {
+			        return false;
+			}
+		})
+	.into(new SimpleTarget<Drawable>() {
+			@Override
+			public void onResourceReady(Drawable resource,
+			                            Transition<? super Drawable> transition) {
+			        updateFavicon(holder, resource);
+			}
+		});
+}
 
-    private void loadGeneratedFavicon(Session tab, final ViewHolder holder) {
-        Character symbol = FavIconUtils.getRepresentativeCharacter(tab.getUrl());
-        Bitmap favicon = tab.getFavicon();
-        int backgroundColor = (favicon == null) ? Color.WHITE : FavIconUtils.getDominantColor(favicon);
-        String key = symbol.toString() + "_" + Integer.toHexString(backgroundColor);
+private void loadGeneratedFavicon(Session tab, final ViewHolder holder) {
+	Character symbol = FavIconUtils.getRepresentativeCharacter(tab.getUrl());
+	Bitmap favicon = tab.getFavicon();
+	int backgroundColor = (favicon == null) ? Color.WHITE : FavIconUtils.getDominantColor(favicon);
+	String key = symbol.toString() + "_" + Integer.toHexString(backgroundColor);
 
-        if (localIconCache.containsKey(key)) {
-            updateFavicon(holder, localIconCache.get(key));
-        } else {
-            BitmapDrawable drawable = new BitmapDrawable(holder.itemView.getResources(),
-                    DimenUtils.getInitialBitmap(holder.itemView.getResources(), symbol, backgroundColor));
-            localIconCache.put(key, drawable);
-            updateFavicon(holder, drawable);
-        }
-    }
+	if (localIconCache.containsKey(key)) {
+		updateFavicon(holder, localIconCache.get(key));
+	} else {
+		BitmapDrawable drawable = new BitmapDrawable(holder.itemView.getResources(),
+		                                             DimenUtils.getInitialBitmap(holder.itemView.getResources(), symbol, backgroundColor));
+		localIconCache.put(key, drawable);
+		updateFavicon(holder, drawable);
+	}
+}
 
-    private void updateFavicon(ViewHolder holder, @Nullable Drawable drawable) {
-        if (drawable != null) {
-            holder.websiteIcon.setImageDrawable(drawable);
-            holder.websiteIcon.setBackgroundColor(Color.TRANSPARENT);
-        } else {
-            holder.websiteIcon.setImageResource(R.drawable.favicon_default);
-            holder.websiteIcon.setBackgroundColor(ContextCompat.getColor(
-                    holder.websiteIcon.getContext(),
-                    R.color.tabTrayItemIconBackground));
-        }
-    }
+private void updateFavicon(ViewHolder holder, @Nullable Drawable drawable) {
+	if (drawable != null) {
+		holder.websiteIcon.setImageDrawable(drawable);
+		holder.websiteIcon.setBackgroundColor(Color.TRANSPARENT);
+	} else {
+		holder.websiteIcon.setImageResource(R.drawable.favicon_default);
+		holder.websiteIcon.setBackgroundColor(ContextCompat.getColor(
+							      holder.websiteIcon.getContext(),
+							      R.color.tabTrayItemIconBackground));
+	}
+}
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        ThemedRelativeLayout rootView;
-        ThemedTextView websiteTitle;
-        ThemedTextView websiteSubtitle;
-        View closeButton;
-        ImageView websiteIcon;
+static class ViewHolder extends RecyclerView.ViewHolder {
+ThemedRelativeLayout rootView;
+ThemedTextView websiteTitle;
+ThemedTextView websiteSubtitle;
+View closeButton;
+ImageView websiteIcon;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            rootView = itemView.findViewById(R.id.root_view);
-            websiteTitle = itemView.findViewById(R.id.website_title);
-            websiteSubtitle = itemView.findViewById(R.id.website_subtitle);
-            closeButton = itemView.findViewById(R.id.close_button);
-            websiteIcon = itemView.findViewById(R.id.website_icon);
-        }
-    }
+ViewHolder(View itemView) {
+	super(itemView);
+	rootView = itemView.findViewById(R.id.root_view);
+	websiteTitle = itemView.findViewById(R.id.website_title);
+	websiteSubtitle = itemView.findViewById(R.id.website_subtitle);
+	closeButton = itemView.findViewById(R.id.close_button);
+	websiteIcon = itemView.findViewById(R.id.website_icon);
+}
+}
 
-    static class InternalTabClickListener implements View.OnClickListener {
-        private ViewHolder holder;
-        private TabClickListener tabClickListener;
+static class InternalTabClickListener implements View.OnClickListener {
+private ViewHolder holder;
+private TabClickListener tabClickListener;
 
-        InternalTabClickListener(ViewHolder holder, TabClickListener tabClickListener) {
-            this.holder = holder;
-            this.tabClickListener = tabClickListener;
-        }
+InternalTabClickListener(ViewHolder holder, TabClickListener tabClickListener) {
+	this.holder = holder;
+	this.tabClickListener = tabClickListener;
+}
 
-        @Override
-        public void onClick(View v) {
-            if (tabClickListener == null) {
-                return;
-            }
+@Override
+public void onClick(View v) {
+	if (tabClickListener == null) {
+		return;
+	}
 
-            int pos = holder.getAdapterPosition();
-            if (pos != RecyclerView.NO_POSITION) {
-                dispatchOnClick(v, pos);
-            }
-        }
+	int pos = holder.getAdapterPosition();
+	if (pos != RecyclerView.NO_POSITION) {
+		dispatchOnClick(v, pos);
+	}
+}
 
-        private void dispatchOnClick(View v, int position) {
-            switch (v.getId()) {
-            case R.id.root_view:
-                tabClickListener.onTabClick(position);
-                break;
+private void dispatchOnClick(View v, int position) {
+	switch (v.getId()) {
+	case R.id.root_view:
+		tabClickListener.onTabClick(position);
+		break;
 
-            case R.id.close_button:
-                tabClickListener.onTabCloseClick(position);
-                break;
+	case R.id.close_button:
+		tabClickListener.onTabCloseClick(position);
+		break;
 
-            default:
-                break;
-            }
-        }
-    }
+	default:
+		break;
+	}
+}
+}
 
-    public interface TabClickListener {
-        void onTabClick(int tabPosition);
+public interface TabClickListener {
+void onTabClick(int tabPosition);
 
-        void onTabCloseClick(int tabPosition);
-    }
+void onTabCloseClick(int tabPosition);
+}
 }

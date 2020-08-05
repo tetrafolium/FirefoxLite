@@ -16,110 +16,110 @@ import android.webkit.WebView;
 import org.mozilla.rocket.tabs.web.DownloadCallback;
 
 public interface TabView {
-    class HitTarget {
-        public final TabView source;
-        public final boolean isLink;
-        public final String linkURL;
+class HitTarget {
+public final TabView source;
+public final boolean isLink;
+public final String linkURL;
 
-        public final boolean isImage;
-        public final String imageURL;
+public final boolean isImage;
+public final String imageURL;
 
-        public HitTarget(@NonNull final TabView source,
-                         final boolean isLink,
-                         final String linkURL,
-                         final boolean isImage,
-                         final String imageURL) {
+public HitTarget(@NonNull final TabView source,
+                 final boolean isLink,
+                 final String linkURL,
+                 final boolean isImage,
+                 final String imageURL) {
 
-            if (isLink && linkURL == null) {
-                throw new IllegalStateException("link hittarget must contain URL");
-            }
+	if (isLink && linkURL == null) {
+		throw new IllegalStateException("link hittarget must contain URL");
+	}
 
-            if (isImage && imageURL == null) {
-                throw new IllegalStateException("image hittarget must contain URL");
-            }
+	if (isImage && imageURL == null) {
+		throw new IllegalStateException("image hittarget must contain URL");
+	}
 
-            this.source = source;
-            this.isLink = isLink;
-            this.linkURL = linkURL;
-            this.isImage = isImage;
-            this.imageURL = imageURL;
-        }
-    }
+	this.source = source;
+	this.isLink = isLink;
+	this.linkURL = linkURL;
+	this.isImage = isImage;
+	this.imageURL = imageURL;
+}
+}
 
-    interface FullscreenCallback {
-        void fullScreenExited();
-    }
+interface FullscreenCallback {
+void fullScreenExited();
+}
 
-    interface FindListener {
-        void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting);
-    }
+interface FindListener {
+void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting);
+}
 
-    /**
-     * Enable/Disable content blocking for this session (Only the blockers that are enabled in the app's settings will be turned on/off).
-     */
-    void setContentBlockingEnabled(boolean enabled);
+/**
+ * Enable/Disable content blocking for this session (Only the blockers that are enabled in the app's settings will be turned on/off).
+ */
+void setContentBlockingEnabled(boolean enabled);
 
-    /**
-     * Be invoked by TabChromeClient.onCreateWindow to transport this new-created-window to its parent window.
-     *
-     * @param msg The message to send when once a new WebView has been created
-     */
-    void bindOnNewWindowCreation(@NonNull final Message msg);
+/**
+ * Be invoked by TabChromeClient.onCreateWindow to transport this new-created-window to its parent window.
+ *
+ * @param msg The message to send when once a new WebView has been created
+ */
+void bindOnNewWindowCreation(@NonNull final Message msg);
 
-    void setImageBlockingEnabled(boolean enabled);
+void setImageBlockingEnabled(boolean enabled);
 
-    boolean isBlockingEnabled();
+boolean isBlockingEnabled();
 
-    void setJavaScriptBlockingEnabled(boolean enabled);
+void setJavaScriptBlockingEnabled(boolean enabled);
 
-    void performExitFullScreen();
+void performExitFullScreen();
 
-    void setViewClient(@Nullable TabViewClient viewClient);
+void setViewClient(@Nullable TabViewClient viewClient);
 
-    void setChromeClient(@Nullable TabChromeClient chromeClient);
+void setChromeClient(@Nullable TabChromeClient chromeClient);
 
-    void setDownloadCallback(DownloadCallback callback);
+void setDownloadCallback(DownloadCallback callback);
 
-    void setFindListener(FindListener callback);
+void setFindListener(FindListener callback);
 
-    void onPause();
+void onPause();
 
-    void onResume();
+void onResume();
 
-    void destroy();
+void destroy();
 
-    void reload();
+void reload();
 
-    void stopLoading();
+void stopLoading();
 
-    String getUrl();
+String getUrl();
 
-    String getTitle();
+String getTitle();
 
-    @SiteIdentity.SecurityState
-    int getSecurityState();
+@SiteIdentity.SecurityState
+int getSecurityState();
 
-    void loadUrl(String url);
+void loadUrl(String url);
 
-    void cleanup();
+void cleanup();
 
-    void goForward();
+void goForward();
 
-    void goBack();
+void goBack();
 
-    boolean canGoForward();
+boolean canGoForward();
 
-    boolean canGoBack();
+boolean canGoBack();
 
-    void restoreViewState(Bundle inState);
+void restoreViewState(Bundle inState);
 
-    void saveViewState(Bundle outState);
+void saveViewState(Bundle outState);
 
-    void insertBrowsingHistory();
+void insertBrowsingHistory();
 
-    View getView();
+View getView();
 
-    void buildDrawingCache(boolean autoScale);
+void buildDrawingCache(boolean autoScale);
 
-    Bitmap getDrawingCache(boolean autoScale);
+Bitmap getDrawingCache(boolean autoScale);
 }

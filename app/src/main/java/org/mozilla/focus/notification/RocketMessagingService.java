@@ -15,29 +15,29 @@ import org.mozilla.focus.utils.AppConstants;
 // Prov
 public class RocketMessagingService extends FirebaseMessagingServiceWrapper {
 
-    //
-    @Override
-    public void onRemoteMessage(Intent intent, String title, String body) {
-        if (!TelemetryWrapper.isTelemetryEnabled(this)) {
-            return;
-        }
-        // RocketLauncherActivity will handle this intent
-        intent.setClassName(getApplicationContext(), AppConstants.LAUNCHER_ACTIVITY_ALIAS);
+//
+@Override
+public void onRemoteMessage(Intent intent, String title, String body) {
+	if (!TelemetryWrapper.isTelemetryEnabled(this)) {
+		return;
+	}
+	// RocketLauncherActivity will handle this intent
+	intent.setClassName(getApplicationContext(), AppConstants.LAUNCHER_ACTIVITY_ALIAS);
 
-        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-                                            PendingIntent.FLAG_ONE_SHOT);
+	final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+	                                                              PendingIntent.FLAG_ONE_SHOT);
 
-        final NotificationCompat.Builder builder = NotificationUtil.importantBuilder(this)
-                .setContentIntent(pendingIntent);
+	final NotificationCompat.Builder builder = NotificationUtil.importantBuilder(this)
+	                                           .setContentIntent(pendingIntent);
 
-        if (title != null) {
-            builder.setContentTitle(title);
-        }
+	if (title != null) {
+		builder.setContentTitle(title);
+	}
 
-        if (body != null) {
-            builder.setContentText(body);
-        }
+	if (body != null) {
+		builder.setContentText(body);
+	}
 
-        NotificationUtil.sendNotification(this, NotificationId.FIREBASE_AD_HOC, builder);
-    }
+	NotificationUtil.sendNotification(this, NotificationId.FIREBASE_AD_HOC, builder);
+}
 }

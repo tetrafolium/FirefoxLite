@@ -9,16 +9,16 @@ import org.mozilla.focus.activity.SettingsActivity;
 import org.mozilla.focus.components.ComponentToggleService;
 
 public class ConfigActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
 
-        startService(new Intent(getApplicationContext(), ComponentToggleService.class));
+	startService(new Intent(getApplicationContext(), ComponentToggleService.class));
 
-        final Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+	final Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	startActivity(intent);
 
-        finishAndRemoveTask();
-    }
+	finishAndRemoveTask();
+}
 }

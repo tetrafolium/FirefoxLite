@@ -15,28 +15,28 @@ import java.util.regex.Pattern;
  */
 public class MimeUtils {
 
-    private static final Pattern textPattern = Pattern.compile("^text/[0-9,a-z,A-Z,-,*]+?$");
-    private static final Pattern imgPattern = Pattern.compile("^image/[0-9,a-z,A-Z,-,*]+?$");
-    private static final Pattern audioPattern = Pattern.compile("^audio/[0-9,a-z,A-Z,-,*]+?$");
-    private static final Pattern videoPattern = Pattern.compile("^video/[0-9,a-z,A-Z,-,*]+?$");
+private static final Pattern textPattern = Pattern.compile("^text/[0-9,a-z,A-Z,-,*]+?$");
+private static final Pattern imgPattern = Pattern.compile("^image/[0-9,a-z,A-Z,-,*]+?$");
+private static final Pattern audioPattern = Pattern.compile("^audio/[0-9,a-z,A-Z,-,*]+?$");
+private static final Pattern videoPattern = Pattern.compile("^video/[0-9,a-z,A-Z,-,*]+?$");
 
-    private MimeUtils() {
-        throw new RuntimeException("Do not initialize util class");
-    }
+private MimeUtils() {
+	throw new RuntimeException("Do not initialize util class");
+}
 
-    public static boolean isText(@Nullable String type) {
-        return !TextUtils.isEmpty(type) && textPattern.matcher(type).find();
-    }
+public static boolean isText(@Nullable String type) {
+	return !TextUtils.isEmpty(type) && textPattern.matcher(type).find();
+}
 
-    public static boolean isImage(@Nullable String type) {
-        return !TextUtils.isEmpty(type) && imgPattern.matcher(type).find();
-    }
+public static boolean isImage(@Nullable String type) {
+	return !TextUtils.isEmpty(type) && imgPattern.matcher(type).find();
+}
 
-    public static boolean isAudio(@Nullable String type) {
-        return !TextUtils.isEmpty(type) && audioPattern.matcher(type).find();
-    }
+public static boolean isAudio(@Nullable String type) {
+	return !TextUtils.isEmpty(type) && audioPattern.matcher(type).find();
+}
 
-    public static boolean isVideo(@Nullable String type) {
-        return !TextUtils.isEmpty(type) && videoPattern.matcher(type).find();
-    }
+public static boolean isVideo(@Nullable String type) {
+	return !TextUtils.isEmpty(type) && videoPattern.matcher(type).find();
+}
 }

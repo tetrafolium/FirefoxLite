@@ -27,70 +27,70 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class MenuTest {
 
-    // Defer the startup of the activity cause we want to avoid First Run / Share App / Rate App dialogs
-    @Rule
-    public final ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, true, false);
+// Defer the startup of the activity cause we want to avoid First Run / Share App / Rate App dialogs
+@Rule
+public final ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, true, false);
 
-    @Before
-    public void setUp() {
-        // Set the share preferences and start the activity
-        AndroidTestUtils.beforeTest();
-    }
+@Before
+public void setUp() {
+	// Set the share preferences and start the activity
+	AndroidTestUtils.beforeTest();
+}
 
-    /**
-     * Test case no: TC0034
-     * Test case name: menu layout
-     * Steps:
-     * 1. Launch Rocket
-     * 2. check visible -
-     * - first row : Bookmarks, Downloads, History, My shots
-     * - second row : Turbo mode (default enabled), Private browsing, Night mode, Block images
-     * - Third row : Find in page, Clear cache, Settings, Exit
-     */
-    @Test
-    public void checkMenuLayout() {
+/**
+ * Test case no: TC0034
+ * Test case name: menu layout
+ * Steps:
+ * 1. Launch Rocket
+ * 2. check visible -
+ * - first row : Bookmarks, Downloads, History, My shots
+ * - second row : Turbo mode (default enabled), Private browsing, Night mode, Block images
+ * - Third row : Find in page, Clear cache, Settings, Exit
+ */
+@Test
+public void checkMenuLayout() {
 
-        activityRule.launchActivity(new Intent());
+	activityRule.launchActivity(new Intent());
 
-        // Open menu
-        AndroidTestUtils.tapHomeMenuButton();
+	// Open menu
+	AndroidTestUtils.tapHomeMenuButton();
 
-        // check downloads,
-        onView(withId(R.id.menu_download)).check(matches(isDisplayed()));
+	// check downloads,
+	onView(withId(R.id.menu_download)).check(matches(isDisplayed()));
 
-        // check bookmarks
-        onView(withId(R.id.menu_bookmark)).check(matches(isDisplayed()));
+	// check bookmarks
+	onView(withId(R.id.menu_bookmark)).check(matches(isDisplayed()));
 
-        // check history
-        onView(withId(R.id.menu_history)).check(matches(isDisplayed()));
+	// check history
+	onView(withId(R.id.menu_history)).check(matches(isDisplayed()));
 
-        // check my shots
-        onView(withId(R.id.menu_screenshots)).check(matches(isDisplayed()));
+	// check my shots
+	onView(withId(R.id.menu_screenshots)).check(matches(isDisplayed()));
 
-        // check turbo mode displayed, enabled
-        onView(withId(R.id.menu_turbomode)).check(matches(isEnabled()));
+	// check turbo mode displayed, enabled
+	onView(withId(R.id.menu_turbomode)).check(matches(isEnabled()));
 
-        onView(withId(R.id.menu_turbomode)).check(matches(isDisplayed()));
+	onView(withId(R.id.menu_turbomode)).check(matches(isDisplayed()));
 
-        // check private mode displayed
-        onView(withId(R.id.btn_private_browsing)).check(matches(isDisplayed()));
+	// check private mode displayed
+	onView(withId(R.id.btn_private_browsing)).check(matches(isDisplayed()));
 
-        // check night mode displayed
-        onView(withId(R.id.menu_night_mode)).check(matches(isDisplayed()));
+	// check night mode displayed
+	onView(withId(R.id.menu_night_mode)).check(matches(isDisplayed()));
 
-        // check block img displayed
-        onView(withId(R.id.menu_blockimg)).check(matches(isDisplayed()));
+	// check block img displayed
+	onView(withId(R.id.menu_blockimg)).check(matches(isDisplayed()));
 
-        // check find in page displayed
-        onView(withId(R.id.menu_find_in_page)).check(matches(isDisplayed()));
+	// check find in page displayed
+	onView(withId(R.id.menu_find_in_page)).check(matches(isDisplayed()));
 
-        // check clear cached displayed
-        onView(withId(R.id.menu_delete)).check(matches(isDisplayed()));
+	// check clear cached displayed
+	onView(withId(R.id.menu_delete)).check(matches(isDisplayed()));
 
-        // check settings displayed
-        onView(withId(R.id.menu_preferences)).check(matches(isDisplayed()));
+	// check settings displayed
+	onView(withId(R.id.menu_preferences)).check(matches(isDisplayed()));
 
-        // check exit displayed
-        onView(withId(R.id.menu_exit)).check(matches(isDisplayed()));
-    }
+	// check exit displayed
+	onView(withId(R.id.menu_exit)).check(matches(isDisplayed()));
+}
 }

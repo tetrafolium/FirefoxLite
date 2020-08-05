@@ -22,69 +22,69 @@ import org.mozilla.focus.R;
  */
 public class FileChooseAction {
 
-    public static final int REQUEST_CODE_CHOOSE_FILE = 103;
+public static final int REQUEST_CODE_CHOOSE_FILE = 103;
 
-    private Fragment hostFragment;
-    private ValueCallback<Uri[]> callback;
-    private WebChromeClient.FileChooserParams params;
-    private Uri[] uris;
+private Fragment hostFragment;
+private ValueCallback<Uri[]> callback;
+private WebChromeClient.FileChooserParams params;
+private Uri[] uris;
 
-    public FileChooseAction(@NonNull Fragment hostFragment,
-                            @NonNull ValueCallback<Uri[]> callback,
-                            @NonNull WebChromeClient.FileChooserParams params) {
-        this.hostFragment = hostFragment;
-        this.callback = callback;
-        this.params = params;
-    }
+public FileChooseAction(@NonNull Fragment hostFragment,
+                        @NonNull ValueCallback<Uri[]> callback,
+                        @NonNull WebChromeClient.FileChooserParams params) {
+	this.hostFragment = hostFragment;
+	this.callback = callback;
+	this.params = params;
+}
 
-    public void cancel() {
-        this.callback.onReceiveValue(null);
-    }
+public void cancel() {
+	this.callback.onReceiveValue(null);
+}
 
-    /**
-     * Callback when back from a File-choose-activity
-     *
-     * @param resultCode
-     * @param data
-     * @return true if this action is done
-     */
-    public boolean onFileChose(int resultCode, Intent data) {
-        if (this.callback == null) {
-            return true;
-        }
+/**
+ * Callback when back from a File-choose-activity
+ *
+ * @param resultCode
+ * @param data
+ * @return true if this action is done
+ */
+public boolean onFileChose(int resultCode, Intent data) {
+	if (this.callback == null) {
+		return true;
+	}
 
-        if ((resultCode != Activity.RESULT_OK) || (data == null)) {
-            this.callback.onReceiveValue(null);
-            this.callback = null;
-            return true;
-        }
+	if ((resultCode != Activity.RESULT_OK) || (data == null)) {
+		this.callback.onReceiveValue(null);
+		this.callback = null;
+		return true;
+	}
 
-        try {
-            final Uri uri = data.getData();
-            uris = (uri == null) ? null : new Uri[] {uri};
+	try {
+		final Uri uri = data.getData();
+		uris = (uri == null) ? null : new Uri[] {uri};
 
-            // FIXME: check permission before access the uri
-            // if file locates on external storage and we haven't granted permission
-            // we might get exception here. but try won't work here.
-            this.callback.onReceiveValue(uris);
-        } catch (Exception e) {
-            this.callback.onReceiveValue(null);
-            e.printStackTrace();
-        }
+		// FIXME: check permission before access the uri
+		// if file locates on external storage and we haven't granted permission
+		// we might get exception here. but try won't work here.
+		this.callback.onReceiveValue(uris);
+	} catch (Exception e) {
+		this.callback.onReceiveValue(null);
+		e.printStackTrace();
+	}
 
-        this.callback = null;
-        return true;
-    }
+	this.callback = null;
+	return true;
+}
 
-    public void startChooserActivity() {
-        hostFragment.startActivityForResult(createChooserIntent(this.params), REQUEST_CODE_CHOOSE_FILE);
-    }
+public void startChooserActivity() {
+	hostFragment.startActivityForResult(createChooserIntent(this.params), REQUEST_CODE_CHOOSE_FILE);
+}
 
-    private Intent createChooserIntent(WebChromeClient.FileChooserParams params) {
-        final String[] mimeTypes = params.getAcceptTypes();
-        CharSequence title = params.getTitle();
-        title = TextUtils.isEmpty(title) ? hostFragment.getString(R.string.file_picker_title) : title;
+private Intent createChooserIntent(WebChromeClient.FileChooserParams params) {
+	final String[] mimeTypes = params.getAcceptTypes();
+	CharSequence title = params.getTitle();
+	title = TextUtils.isEmpty(title) ? hostFragment.getString(R.string.file_picker_title) : title;
 
-        return FilePickerUtil.getFilePickerIntent(hostFragment.getActivity(), title, mimeTypes);
-    }
+	return FilePickerUtil.getFilePickerIntent(hostFragment.getActivity(), title, mimeTypes);
+}
 }

@@ -36,58 +36,58 @@ import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class OnboardingScreenshot extends BaseScreenshot {
 
-    @Rule
-    public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
+@Rule
+public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
 
-    @Before
-    public void setUp() {
-        new BeforeTestTask.Builder()
-        .setSkipFirstRun(false)
-        .build()
-        .execute();
-        activityTestRule.launchActivity(new Intent());
-        Screengrab.setDefaultScreenshotStrategy(new FalconScreenshotStrategy(activityTestRule.getActivity()));
-    }
-    @Test
-    public void screenshotOnboardingPage() {
+@Before
+public void setUp() {
+	new BeforeTestTask.Builder()
+	.setSkipFirstRun(false)
+	.build()
+	.execute();
+	activityTestRule.launchActivity(new Intent());
+	Screengrab.setDefaultScreenshotStrategy(new FalconScreenshotStrategy(activityTestRule.getActivity()));
+}
+@Test
+public void screenshotOnboardingPage() {
 
-        // Check if turbo mode switch is on
-        onView(allOf(withId(R.id.switch_widget), isDisplayed())).check(matches(isChecked()));
-        Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_1);
+	// Check if turbo mode switch is on
+	onView(allOf(withId(R.id.switch_widget), isDisplayed())).check(matches(isChecked()));
+	Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_1);
 
-        // Click next button in the first on boarding page
-        onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
-        Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_2);
+	// Click next button in the first on boarding page
+	onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
+	Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_2);
 
-        // Click next button in the second on boarding page
-        onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
-        Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_3);
+	// Click next button in the second on boarding page
+	onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
+	Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_3);
 
-        // Click next button in the third on boarding page
-        onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
-        Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_4);
+	// Click next button in the third on boarding page
+	onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
+	Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_4);
 
-        // Click finish button to finish on boarding
-        onView(allOf(withId(R.id.finish), isDisplayed())).perform(click());
+	// Click finish button to finish on boarding
+	onView(allOf(withId(R.id.finish), isDisplayed())).perform(click());
 
-        // Show my shot onboarding view
-        activityTestRule.getActivity().runOnUiThread(activityTestRule.getActivity()::showMyShotOnBoarding);
+	// Show my shot onboarding view
+	activityTestRule.getActivity().runOnUiThread(activityTestRule.getActivity() ::showMyShotOnBoarding);
 
-        onView(withText(R.string.my_shot_on_boarding_message)).inRoot(isDialog()).check(matches(isDisplayed()));
-        Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_MY_SHOT);
-        // Dismiss my shot onboarding view
-        onView(withText(R.string.my_shot_on_boarding_message)).inRoot(isDialog()).perform(click());
+	onView(withText(R.string.my_shot_on_boarding_message)).inRoot(isDialog()).check(matches(isDisplayed()));
+	Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_MY_SHOT);
+	// Dismiss my shot onboarding view
+	onView(withText(R.string.my_shot_on_boarding_message)).inRoot(isDialog()).perform(click());
 
-        // Turn on night mode
-        onView(withId(R.id.menu_night_mode)).perform(click());
+	// Turn on night mode
+	onView(withId(R.id.menu_night_mode)).perform(click());
 
-        // Dismiss adjust brightness dialog and open menu
-        onView(withId(R.id.brightness_root)).perform(click());
-        AndroidTestUtils.tapHomeMenuButton();
+	// Dismiss adjust brightness dialog and open menu
+	onView(withId(R.id.brightness_root)).perform(click());
+	AndroidTestUtils.tapHomeMenuButton();
 
-        onView(withText(R.string.night_mode_on_boarding_message)).inRoot(isDialog()).check(matches(isDisplayed()));
-        Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_NIGHT_MODE);
-        onView(withText(R.string.night_mode_on_boarding_message)).inRoot(isDialog()).perform(click());
+	onView(withText(R.string.night_mode_on_boarding_message)).inRoot(isDialog()).check(matches(isDisplayed()));
+	Screengrab.screenshot(ScreenshotNamingUtils.ONBOARDING_NIGHT_MODE);
+	onView(withText(R.string.night_mode_on_boarding_message)).inRoot(isDialog()).perform(click());
 
-    }
+}
 }

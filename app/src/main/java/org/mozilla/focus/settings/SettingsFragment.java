@@ -36,153 +36,153 @@ import org.mozilla.telemetry.TelemetryHolder;
 import java.util.Locale;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private boolean localeUpdated;
-    private static int debugClicks = 0;
-    private static final int DEBUG_CLICKS_THRESHOLD = 19;
-    private final static String PREF_KEY_ROOT = "root_preferences";
+private boolean localeUpdated;
+private static int debugClicks = 0;
+private static final int DEBUG_CLICKS_THRESHOLD = 19;
+private final static String PREF_KEY_ROOT = "root_preferences";
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+@Override
+public void onCreate(@Nullable Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
 
-        addPreferencesFromResource(R.xml.settings);
-        final PreferenceScreen rootPreferences = (PreferenceScreen) findPreference(PREF_KEY_ROOT);
-        if (!AppConstants.isDevBuild() && !AppConstants.isFirebaseBuild() && !AppConstants.isNightlyBuild()) {
-            Preference developmentCategory = findPreference(getString(R.string.pref_key_category_development));
-            rootPreferences.removePreference(developmentCategory);
+	addPreferencesFromResource(R.xml.settings);
+	final PreferenceScreen rootPreferences = (PreferenceScreen) findPreference(PREF_KEY_ROOT);
+	if (!AppConstants.isDevBuild() && !AppConstants.isFirebaseBuild() && !AppConstants.isNightlyBuild()) {
+		Preference developmentCategory = findPreference(getString(R.string.pref_key_category_development));
+		rootPreferences.removePreference(developmentCategory);
 
-            Preference experimentCategory = findPreference(getString(R.string.pref_key_category_experiment));
-            rootPreferences.removePreference(experimentCategory);
-        }
+		Preference experimentCategory = findPreference(getString(R.string.pref_key_category_experiment));
+		rootPreferences.removePreference(experimentCategory);
+	}
 
-        final Preference preferenceNightMode = findPreference(getString(R.string.pref_key_night_mode_brightness));
-        preferenceNightMode.setEnabled(Settings.getInstance(getActivity()).isNightModeEnable());
+	final Preference preferenceNightMode = findPreference(getString(R.string.pref_key_night_mode_brightness));
+	preferenceNightMode.setEnabled(Settings.getInstance(getActivity()).isNightModeEnable());
 
-    }
+}
 
-    @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        Resources resources = getResources();
-        String keyClicked = preference.getKey();
+@Override
+public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+	Resources resources = getResources();
+	String keyClicked = preference.getKey();
 
-        TelemetryWrapper.settingsClickEvent(keyClicked);
+	TelemetryWrapper.settingsClickEvent(keyClicked);
 
-        if (keyClicked.equals(resources.getString(R.string.pref_key_give_feedback))) {
-            DialogUtils.createRateAppDialog(preference.getContext()).show();
-        } else if (keyClicked.equals(resources.getString(R.string.pref_key_share_with_friends))) {
-            if (!debugingFirebase()) {
-                DialogUtils.createShareAppDialog(preference.getContext()).show();
-            }
-        } else if (keyClicked.equals(resources.getString(R.string.pref_key_about))) {
-            final Intent intent = InfoActivity.getAboutIntent(preference.getContext());
-            startActivity(intent);
-        } else if (keyClicked.equals(resources.getString(R.string.pref_key_night_mode_brightness))) {
-            Settings.getInstance(preference.getContext()).setNightModeSpotlight(true);
-            startActivity(AdjustBrightnessDialog.Intents.INSTANCE.getStartIntentFromSetting(preference.getContext()));
-        } else if (keyClicked.equals(resources.getString(R.string.pref_key_default_browser))) {
-            TelemetryWrapper.clickDefaultBrowserInSetting();
-        } else if (keyClicked.equals(resources.getString(R.string.pref_key_private_mode_shortcut))) {
-            TelemetryWrapper.clickPrivateShortcutItemInSettings();
-            ShortcutUtils.Companion.createShortcut(preference.getContext().getApplicationContext());
-        }
+	if (keyClicked.equals(resources.getString(R.string.pref_key_give_feedback))) {
+		DialogUtils.createRateAppDialog(preference.getContext()).show();
+	} else if (keyClicked.equals(resources.getString(R.string.pref_key_share_with_friends))) {
+		if (!debugingFirebase()) {
+			DialogUtils.createShareAppDialog(preference.getContext()).show();
+		}
+	} else if (keyClicked.equals(resources.getString(R.string.pref_key_about))) {
+		final Intent intent = InfoActivity.getAboutIntent(preference.getContext());
+		startActivity(intent);
+	} else if (keyClicked.equals(resources.getString(R.string.pref_key_night_mode_brightness))) {
+		Settings.getInstance(preference.getContext()).setNightModeSpotlight(true);
+		startActivity(AdjustBrightnessDialog.Intents.INSTANCE.getStartIntentFromSetting(preference.getContext()));
+	} else if (keyClicked.equals(resources.getString(R.string.pref_key_default_browser))) {
+		TelemetryWrapper.clickDefaultBrowserInSetting();
+	} else if (keyClicked.equals(resources.getString(R.string.pref_key_private_mode_shortcut))) {
+		TelemetryWrapper.clickPrivateShortcutItemInSettings();
+		ShortcutUtils.Companion.createShortcut(preference.getContext().getApplicationContext());
+	}
 
-        return super.onPreferenceTreeClick(preferenceScreen, preference);
-    }
+	return super.onPreferenceTreeClick(preferenceScreen, preference);
+}
 
-    private boolean debugingFirebase() {
-        debugClicks++;
-        if (debugClicks > DEBUG_CLICKS_THRESHOLD) {
-            final Intent debugShare = new Intent();
-            debugShare.setAction(Intent.ACTION_SEND);
-            debugShare.setType("text/plain");
-            String testingId = "";
-            final FirebaseContract firebase = FirebaseHelper.getFirebase();
-            if (firebase != null) {
-                testingId += firebase.getFcmToken() + "\n\n";
-            }
-            testingId += TelemetryHolder.get().getClientId();
-            debugShare.putExtra(Intent.EXTRA_TEXT, testingId);
-            startActivity(Intent.createChooser(debugShare, "This token is only for QA to test in Nightly and debug build"));
-            return true;
-        }
-        return false;
-    }
+private boolean debugingFirebase() {
+	debugClicks++;
+	if (debugClicks > DEBUG_CLICKS_THRESHOLD) {
+		final Intent debugShare = new Intent();
+		debugShare.setAction(Intent.ACTION_SEND);
+		debugShare.setType("text/plain");
+		String testingId = "";
+		final FirebaseContract firebase = FirebaseHelper.getFirebase();
+		if (firebase != null) {
+			testingId += firebase.getFcmToken() + "\n\n";
+		}
+		testingId += TelemetryHolder.get().getClientId();
+		debugShare.putExtra(Intent.EXTRA_TEXT, testingId);
+		startActivity(Intent.createChooser(debugShare, "This token is only for QA to test in Nightly and debug build"));
+		return true;
+	}
+	return false;
+}
 
-    @Override
-    public void onResume() {
-        super.onResume();
+@Override
+public void onResume() {
+	super.onResume();
 
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+	getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-        final DefaultBrowserPreference preference = (DefaultBrowserPreference) findPreference(getString(R.string.pref_key_default_browser));
-        if (preference != null) {
-            preference.onFragmentResume();
-        }
-    }
+	final DefaultBrowserPreference preference = (DefaultBrowserPreference) findPreference(getString(R.string.pref_key_default_browser));
+	if (preference != null) {
+		preference.onFragmentResume();
+	}
+}
 
-    @Override
-    public void onPause() {
-        super.onPause();
+@Override
+public void onPause() {
+	super.onPause();
 
-        final DefaultBrowserPreference preference = (DefaultBrowserPreference) findPreference(getString(R.string.pref_key_default_browser));
-        if (preference != null) {
-            preference.onFragmentPause();
-        }
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-    }
+	final DefaultBrowserPreference preference = (DefaultBrowserPreference) findPreference(getString(R.string.pref_key_default_browser));
+	if (preference != null) {
+		preference.onFragmentPause();
+	}
+	getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+}
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        // special handling for locale selection
-        if (key.equals(getString(R.string.pref_key_locale))) {
-            // Updating the locale leads to onSharedPreferenceChanged being triggered again in some
-            // cases. To avoid an infinite loop we won't update the preference a second time. This
-            // fragment gets replaced at the end of this method anyways.
-            if (localeUpdated) {
-                return;
-            }
-            localeUpdated = true;
+@Override
+public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+	// special handling for locale selection
+	if (key.equals(getString(R.string.pref_key_locale))) {
+		// Updating the locale leads to onSharedPreferenceChanged being triggered again in some
+		// cases. To avoid an infinite loop we won't update the preference a second time. This
+		// fragment gets replaced at the end of this method anyways.
+		if (localeUpdated) {
+			return;
+		}
+		localeUpdated = true;
 
-            final ListPreference languagePreference = (ListPreference) findPreference(getString(R.string.pref_key_locale));
-            final String value = languagePreference.getValue();
+		final ListPreference languagePreference = (ListPreference) findPreference(getString(R.string.pref_key_locale));
+		final String value = languagePreference.getValue();
 
-            final LocaleManager localeManager = LocaleManager.getInstance();
+		final LocaleManager localeManager = LocaleManager.getInstance();
 
-            final Locale locale;
-            if (TextUtils.isEmpty(value)) {
-                localeManager.resetToSystemLocale(getActivity());
-                locale = localeManager.getCurrentLocale(getActivity());
-            } else {
-                locale = Locales.parseLocaleCode(value);
-                localeManager.setSelectedLocale(getActivity(), value);
-            }
-            TelemetryWrapper.settingsLocaleChangeEvent(key, String.valueOf(locale), TextUtils.isEmpty(value));
-            localeManager.updateConfiguration(getActivity(), locale);
+		final Locale locale;
+		if (TextUtils.isEmpty(value)) {
+			localeManager.resetToSystemLocale(getActivity());
+			locale = localeManager.getCurrentLocale(getActivity());
+		} else {
+			locale = Locales.parseLocaleCode(value);
+			localeManager.setSelectedLocale(getActivity(), value);
+		}
+		TelemetryWrapper.settingsLocaleChangeEvent(key, String.valueOf(locale), TextUtils.isEmpty(value));
+		localeManager.updateConfiguration(getActivity(), locale);
 
-            // Manually notify SettingsActivity of locale changes (in most other cases activities
-            // will detect changes in onActivityResult(), but that doesn't apply to SettingsActivity).
-            getActivity().onConfigurationChanged(getActivity().getResources().getConfiguration());
+		// Manually notify SettingsActivity of locale changes (in most other cases activities
+		// will detect changes in onActivityResult(), but that doesn't apply to SettingsActivity).
+		getActivity().onConfigurationChanged(getActivity().getResources().getConfiguration());
 
-            // And ensure that the calling LocaleAware*Activity knows that the locale changed:
-            getActivity().setResult(SettingsActivity.ACTIVITY_RESULT_LOCALE_CHANGED);
+		// And ensure that the calling LocaleAware*Activity knows that the locale changed:
+		getActivity().setResult(SettingsActivity.ACTIVITY_RESULT_LOCALE_CHANGED);
 
-            // The easiest way to ensure we update the language is by replacing the entire fragment:
-            getFragmentManager().beginTransaction()
-            .replace(R.id.container, new SettingsFragment())
-            .commit();
-            return;
-            // we'll handle the pref_key_telemetry by TelemetrySwitchPreference
-        } else if (!key.equals(getString(R.string.pref_key_telemetry))) {
-            // For other events, we handle them here.
-            TelemetryWrapper.settingsEvent(key, String.valueOf(sharedPreferences.getAll().get(key)), false);
-        }
+		// The easiest way to ensure we update the language is by replacing the entire fragment:
+		getFragmentManager().beginTransaction()
+		.replace(R.id.container, new SettingsFragment())
+		.commit();
+		return;
+		// we'll handle the pref_key_telemetry by TelemetrySwitchPreference
+	} else if (!key.equals(getString(R.string.pref_key_telemetry))) {
+		// For other events, we handle them here.
+		TelemetryWrapper.settingsEvent(key, String.valueOf(sharedPreferences.getAll().get(key)), false);
+	}
 
 
-        if (key.equals(getString(R.string.pref_key_storage_clear_browsing_data))) {
-            //Clear browsing data Callback function is not here
-            //Go to Class CleanBrowsingDataPreference -> onDialogClosed
-        } else if (key.equals(getString(R.string.pref_key_storage_save_downloads_to))) {
-            //Save downloads/cache/offline pages to SD card/Internal storage Callback function
-        }
-    }
+	if (key.equals(getString(R.string.pref_key_storage_clear_browsing_data))) {
+		//Clear browsing data Callback function is not here
+		//Go to Class CleanBrowsingDataPreference -> onDialogClosed
+	} else if (key.equals(getString(R.string.pref_key_storage_save_downloads_to))) {
+		//Save downloads/cache/offline pages to SD card/Internal storage Callback function
+	}
+}
 }

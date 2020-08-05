@@ -7,8 +7,8 @@ package org.mozilla.focus.widget;
 
 public interface BackKeyHandleable {
 
-    /**
-     * @return true, if the handler already handle back key
-     */
-    boolean onBackPressed();
+/**
+ * @return true, if the handler already handle back key
+ */
+boolean onBackPressed();
 }

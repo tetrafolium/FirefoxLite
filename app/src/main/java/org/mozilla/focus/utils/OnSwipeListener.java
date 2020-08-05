@@ -6,27 +6,27 @@
 package org.mozilla.focus.utils;
 
 public interface OnSwipeListener {
-    default void onSwipeRight() {
-    }
+default void onSwipeRight() {
+}
 
-    default void onSwipeLeft() {
-    }
+default void onSwipeLeft() {
+}
 
-    default void onSwipeUp() {
-    }
+default void onSwipeUp() {
+}
 
-    default void onSwipeDown() {
-    }
+default void onSwipeDown() {
+}
 
-    default void onLongPress() {
-    }
+default void onLongPress() {
+}
 
-    default boolean onDoubleTap() {
-        return false;
-    }
+default boolean onDoubleTap() {
+	return false;
+}
 
-    default boolean onSingleTapConfirmed() {
-        return false;
-    }
+default boolean onSingleTapConfirmed() {
+	return false;
+}
 
 }

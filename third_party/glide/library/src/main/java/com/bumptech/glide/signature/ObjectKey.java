@@ -14,36 +14,36 @@ import java.security.MessageDigest;
  * key.</p>
  */
 public final class ObjectKey implements Key {
-    private final Object object;
+private final Object object;
 
-    public ObjectKey(Object object) {
-        this.object = Preconditions.checkNotNull(object);
-    }
+public ObjectKey(Object object) {
+	this.object = Preconditions.checkNotNull(object);
+}
 
-    @Override
-    public String toString() {
-        return "ObjectKey{"
-               + "object=" + object
-               + '}';
-    }
+@Override
+public String toString() {
+	return "ObjectKey{"
+	       + "object=" + object
+	       + '}';
+}
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof ObjectKey) {
-            ObjectKey other = (ObjectKey) o;
-            return object.equals(other.object);
-        }
-        return false;
-    }
+@Override
+public boolean equals(Object o) {
+	if (o instanceof ObjectKey) {
+		ObjectKey other = (ObjectKey) o;
+		return object.equals(other.object);
+	}
+	return false;
+}
 
-    @Override
-    public int hashCode() {
-        return object.hashCode();
-    }
+@Override
+public int hashCode() {
+	return object.hashCode();
+}
 
-    @Override
-    public void updateDiskCacheKey(MessageDigest messageDigest) {
-        messageDigest.update(object.toString().getBytes(CHARSET));
-    }
+@Override
+public void updateDiskCacheKey(MessageDigest messageDigest) {
+	messageDigest.update(object.toString().getBytes(CHARSET));
+}
 }
 

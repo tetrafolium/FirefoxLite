@@ -15,50 +15,50 @@ import java.net.URL;
 
 public class GetImgHeaderTask extends AsyncTask<String, Void, String> {
 
-    public interface Callback {
-        void setMIMEType(String mimeType);
-    }
+public interface Callback {
+void setMIMEType(String mimeType);
+}
 
-    public GetImgHeaderTask.Callback callback;
+public GetImgHeaderTask.Callback callback;
 
-    public void setCallback(Callback callback) {
-        this.callback = callback;
-    }
+public void setCallback(Callback callback) {
+	this.callback = callback;
+}
 
-    @Override
-    protected String doInBackground(String... params) {
-        TrafficStats.setThreadStatsTag(SocketTags.DOWNLOADS);
-        HttpURLConnection connection = null;
-        String contentType = "";
-        int responseCode = 0;
-        try {
+@Override
+protected String doInBackground(String... params) {
+	TrafficStats.setThreadStatsTag(SocketTags.DOWNLOADS);
+	HttpURLConnection connection = null;
+	String contentType = "";
+	int responseCode = 0;
+	try {
 
-            connection = (HttpURLConnection) new URL(params[0]).openConnection();
-            connection.setRequestMethod("HEAD");
-            contentType = connection.getContentType();
-            responseCode = connection.getResponseCode();
+		connection = (HttpURLConnection) new URL(params[0]).openConnection();
+		connection.setRequestMethod("HEAD");
+		contentType = connection.getContentType();
+		responseCode = connection.getResponseCode();
 
-            connection.disconnect();
+		connection.disconnect();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
+	} catch (IOException e) {
+		e.printStackTrace();
+	} finally {
+		if (connection != null) {
+			connection.disconnect();
+		}
+	}
 
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            return contentType;
-        } else {
-            return null;
-        }
-    }
+	if (responseCode == HttpURLConnection.HTTP_OK) {
+		return contentType;
+	} else {
+		return null;
+	}
+}
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+@Override
+protected void onPostExecute(String s) {
+	super.onPostExecute(s);
 
-        this.callback.setMIMEType(s);
-    }
+	this.callback.setMIMEType(s);
+}
 }

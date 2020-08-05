@@ -14,64 +14,64 @@ import java.util.List;
 
 public class TopSitesPresenter implements TopSitesContract.Presenter {
 
-    private TopSitesContract.View view;
-    private TopSitesContract.Model model;
+private TopSitesContract.View view;
+private TopSitesContract.Model model;
 
-    private List<Site> sites;
+private List<Site> sites;
 
-    public TopSitesPresenter() {
-        this.sites = new ArrayList<>();
-    }
+public TopSitesPresenter() {
+	this.sites = new ArrayList<>();
+}
 
-    @Override
-    public void setView(@NonNull TopSitesContract.View view) {
-        this.view = view;
-    }
+@Override
+public void setView(@NonNull TopSitesContract.View view) {
+	this.view = view;
+}
 
-    @Override
-    public void setModel(TopSitesContract.Model model) {
-        this.model = model;
-    }
+@Override
+public void setModel(TopSitesContract.Model model) {
+	this.model = model;
+}
 
-    @Override
-    public void populateSites() {
-        if (this.view != null) {
-            this.view.showSites(this.sites);
-        }
-    }
+@Override
+public void populateSites() {
+	if (this.view != null) {
+		this.view.showSites(this.sites);
+	}
+}
 
-    @Override
-    public void addSite(@NonNull Site site) {
-        this.sites.add(site);
-        if (this.view != null) {
-            this.view.appendSite(site);
-        }
-    }
+@Override
+public void addSite(@NonNull Site site) {
+	this.sites.add(site);
+	if (this.view != null) {
+		this.view.appendSite(site);
+	}
+}
 
-    @Override
-    public void removeSite(@NonNull Site site) {
-        this.sites.remove(site);
-        if (this.view != null) {
-            this.view.removeSite(site);
-        }
-    }
+@Override
+public void removeSite(@NonNull Site site) {
+	this.sites.remove(site);
+	if (this.view != null) {
+		this.view.removeSite(site);
+	}
+}
 
-    @Override
-    public void pinSite(@NonNull Site site, Runnable onUpdateComplete) {
-        this.model.pinSite(site, onUpdateComplete);
-    }
+@Override
+public void pinSite(@NonNull Site site, Runnable onUpdateComplete) {
+	this.model.pinSite(site, onUpdateComplete);
+}
 
-    @Override
-    public void setSites(List<Site> sites) {
-        if (sites != null) {
-            this.sites = sites;
-        } else {
-            this.sites = new ArrayList<>();
-        }
-    }
+@Override
+public void setSites(List<Site> sites) {
+	if (sites != null) {
+		this.sites = sites;
+	} else {
+		this.sites = new ArrayList<>();
+	}
+}
 
-    @Override
-    public List<Site> getSites() {
-        return this.sites;
-    }
+@Override
+public List<Site> getSites() {
+	return this.sites;
+}
 }

@@ -16,50 +16,50 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 public class DownloadTest {
-    @Test
-    public void testGetters() {
-        final Download download = new Download(
-            "https://www.mozilla.org/image.png",
-            null,
-            "Focus/1.0",
-            "Content-Disposition: attachment; filename=\"filename.png\"",
-            "image/png",
-            1024,
-            false);
+@Test
+public void testGetters() {
+	final Download download = new Download(
+		"https://www.mozilla.org/image.png",
+		null,
+		"Focus/1.0",
+		"Content-Disposition: attachment; filename=\"filename.png\"",
+		"image/png",
+		1024,
+		false);
 
-        assertEquals("https://www.mozilla.org/image.png", download.getUrl());
-        assertEquals("Focus/1.0", download.getUserAgent());
-        assertEquals("Content-Disposition: attachment; filename=\"filename.png\"", download.getContentDisposition());
-        assertEquals("image/png", download.getMimeType());
-        assertEquals(1024, download.getContentLength());
-    }
+	assertEquals("https://www.mozilla.org/image.png", download.getUrl());
+	assertEquals("Focus/1.0", download.getUserAgent());
+	assertEquals("Content-Disposition: attachment; filename=\"filename.png\"", download.getContentDisposition());
+	assertEquals("image/png", download.getMimeType());
+	assertEquals(1024, download.getContentLength());
+}
 
-    @Test
-    public void testParcelable() {
-        final Parcel parcel = Parcel.obtain();
+@Test
+public void testParcelable() {
+	final Parcel parcel = Parcel.obtain();
 
-        {
-            final Download download = new Download(
-                "https://www.mozilla.org/image.png",
-                null,
-                "Focus/1.0",
-                "Content-Disposition: attachment; filename=\"filename.png\"",
-                "image/png",
-                1024,
-                false);
-            download.writeToParcel(parcel, 0);
-        }
+	{
+		final Download download = new Download(
+			"https://www.mozilla.org/image.png",
+			null,
+			"Focus/1.0",
+			"Content-Disposition: attachment; filename=\"filename.png\"",
+			"image/png",
+			1024,
+			false);
+		download.writeToParcel(parcel, 0);
+	}
 
-        parcel.setDataPosition(0);
+	parcel.setDataPosition(0);
 
-        {
-            final Download download = Download.CREATOR.createFromParcel(parcel);
+	{
+		final Download download = Download.CREATOR.createFromParcel(parcel);
 
-            assertEquals("https://www.mozilla.org/image.png", download.getUrl());
-            assertEquals("Focus/1.0", download.getUserAgent());
-            assertEquals("Content-Disposition: attachment; filename=\"filename.png\"", download.getContentDisposition());
-            assertEquals("image/png", download.getMimeType());
-            assertEquals(1024, download.getContentLength());
-        }
-    }
+		assertEquals("https://www.mozilla.org/image.png", download.getUrl());
+		assertEquals("Focus/1.0", download.getUserAgent());
+		assertEquals("Content-Disposition: attachment; filename=\"filename.png\"", download.getContentDisposition());
+		assertEquals("image/png", download.getMimeType());
+		assertEquals(1024, download.getContentLength());
+	}
+}
 }

@@ -1,5 +1,5 @@
 package org.mozilla.banner;
 
 public interface OnClickListener {
-    void onClick(String arg);
+void onClick(String arg);
 }

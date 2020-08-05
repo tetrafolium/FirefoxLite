@@ -12,74 +12,74 @@ import java.util.List;
 
 public class TabTrayPresenter implements TabTrayContract.Presenter {
 
-    private TabTrayContract.View view;
-    private TabTrayContract.Model model;
+private TabTrayContract.View view;
+private TabTrayContract.Model model;
 
-    TabTrayPresenter(final TabTrayContract.View view, final TabTrayContract.Model model) {
-        this.view = view;
-        this.model = model;
-        this.model.loadTabs(new TabTrayContract.Model.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete() {
-                view.initData(model.getTabs(), model.getFocusedTab());
-            }
-        });
-    }
+TabTrayPresenter(final TabTrayContract.View view, final TabTrayContract.Model model) {
+	this.view = view;
+	this.model = model;
+	this.model.loadTabs(new TabTrayContract.Model.OnLoadCompleteListener() {
+			@Override
+			public void onLoadComplete() {
+			        view.initData(model.getTabs(), model.getFocusedTab());
+			}
+		});
+}
 
-    @Override
-    public void viewReady() {
-        final List<Session> tabs = model.getTabs();
-        if (tabs.isEmpty()) {
-            view.closeTabTray();
-        } else {
-            model.subscribe(new TabTrayContract.Model.Observer() {
-                @Override
-                public void onUpdate(List<Session> newTabs) {
-                    view.refreshData(newTabs, model.getFocusedTab());
-                    model.loadTabs(null);
-                }
+@Override
+public void viewReady() {
+	final List<Session> tabs = model.getTabs();
+	if (tabs.isEmpty()) {
+		view.closeTabTray();
+	} else {
+		model.subscribe(new TabTrayContract.Model.Observer() {
+				@Override
+				public void onUpdate(List<Session> newTabs) {
+				        view.refreshData(newTabs, model.getFocusedTab());
+				        model.loadTabs(null);
+				}
 
-                @Override
-                public void onTabUpdate(Session tab) {
-                    view.refreshTabData(tab);
-                }
-            });
-            view.showFocusedTab(tabs.indexOf(model.getFocusedTab()));
-        }
-    }
+				@Override
+				public void onTabUpdate(Session tab) {
+				        view.refreshTabData(tab);
+				}
+			});
+		view.showFocusedTab(tabs.indexOf(model.getFocusedTab()));
+	}
+}
 
-    @Override
-    public void tabClicked(final int tabPosition) {
-        model.switchTab(tabPosition);
-        view.tabSwitched(tabPosition);
-    }
+@Override
+public void tabClicked(final int tabPosition) {
+	model.switchTab(tabPosition);
+	view.tabSwitched(tabPosition);
+}
 
-    @Override
-    public void tabCloseClicked(int tabPosition) {
-        model.removeTab(tabPosition);
+@Override
+public void tabCloseClicked(int tabPosition) {
+	model.removeTab(tabPosition);
 
-        List<Session> newTabs = model.getTabs();
-        int newFocusTab = newTabs.indexOf(model.getFocusedTab());
+	List<Session> newTabs = model.getTabs();
+	int newFocusTab = newTabs.indexOf(model.getFocusedTab());
 
-        if (newTabs.isEmpty()) {
-            view.closeTabTray();
-            view.navigateToHome();
-        } else if (newFocusTab >= 0 && newFocusTab < newTabs.size()) {
-            model.switchTab(newFocusTab);
-        }
-    }
+	if (newTabs.isEmpty()) {
+		view.closeTabTray();
+		view.navigateToHome();
+	} else if (newFocusTab >= 0 && newFocusTab < newTabs.size()) {
+		model.switchTab(newFocusTab);
+	}
+}
 
-    @Override
-    public void tabTrayClosed() {
-        model.unsubscribe();
-    }
+@Override
+public void tabTrayClosed() {
+	model.unsubscribe();
+}
 
-    @Override
-    public void closeAllTabs() {
-        view.refreshData(new ArrayList<Session>(), null);
-        view.closeTabTray();
-        view.navigateToHome();
+@Override
+public void closeAllTabs() {
+	view.refreshData(new ArrayList<Session>(), null);
+	view.closeTabTray();
+	view.navigateToHome();
 
-        model.clearTabs();
-    }
+	model.clearTabs();
+}
 }

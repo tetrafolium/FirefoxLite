@@ -8,19 +8,19 @@ import org.mozilla.rocket.nightmode.themed.ThemedRelativeLayout;
 
 public class SquaredLayout extends FrameLayout {
 
-    public SquaredLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+public SquaredLayout(Context context, AttributeSet attrs) {
+	super(context, attrs);
+}
 
-    public SquaredLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
+public SquaredLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+	super(context, attrs, defStyleAttr);
+}
 
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+	super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int squareMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY);
+	int squareMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY);
 
-        super.onMeasure(squareMeasureSpec, squareMeasureSpec);
-    }
+	super.onMeasure(squareMeasureSpec, squareMeasureSpec);
+}
 }

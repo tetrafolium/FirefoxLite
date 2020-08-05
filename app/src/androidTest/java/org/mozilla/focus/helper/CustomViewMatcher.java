@@ -9,22 +9,23 @@ import org.hamcrest.TypeSafeMatcher;
 /** CustomViewMatcher is a help class to collect all customize view matchers that Espresso doesn't support **/
 public class CustomViewMatcher {
 
-    public static Matcher<View> isActivate() {
-        return new IsActivateMatcher();
-    }
+public static Matcher<View> isActivate() {
+	return new IsActivateMatcher();
+}
 
-    static final class IsActivateMatcher extends TypeSafeMatcher<View> {
-        private IsActivateMatcher() {}
+static final class IsActivateMatcher extends TypeSafeMatcher<View> {
+private IsActivateMatcher() {
+}
 
-        @Override
-        public void describeTo(Description description) {
-            description.appendText("is activate");
-        }
+@Override
+public void describeTo(Description description) {
+	description.appendText("is activate");
+}
 
-        @Override
-        public boolean matchesSafely(View view) {
-            return view.isActivated();
-        }
-    }
+@Override
+public boolean matchesSafely(View view) {
+	return view.isActivated();
+}
+}
 
 }

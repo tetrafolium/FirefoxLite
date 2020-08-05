@@ -19,31 +19,31 @@ import com.google.firebase.messaging.RemoteMessage;
  */
 abstract public class FirebaseMessagingServiceWrapper extends FirebaseMessagingService {
 
-    public static final String PUSH_OPEN_URL = "push_open_url";
-    public static final String PUSH_COMMAND = "push_command";
+public static final String PUSH_OPEN_URL = "push_open_url";
+public static final String PUSH_COMMAND = "push_command";
 
-    abstract public void onRemoteMessage(Intent intent, String title, String body);
+abstract public void onRemoteMessage(Intent intent, String title, String body);
 
-    @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        // This happens when the app is running in foreground, and the user clicks on the push
-        // notification with payload "PUSH_OPEN_URL"
-        if (remoteMessage.getNotification() != null) {
+@Override
+public void onMessageReceived(RemoteMessage remoteMessage) {
+	// This happens when the app is running in foreground, and the user clicks on the push
+	// notification with payload "PUSH_OPEN_URL"
+	if (remoteMessage.getNotification() != null) {
 
-            final Intent intent = new Intent();
-            // check if message contains data payload
-            if (remoteMessage.getData() != null) {
-                intent.putExtra(PUSH_OPEN_URL, remoteMessage.getData().get(PUSH_OPEN_URL));
-                intent.putExtra(PUSH_COMMAND, remoteMessage.getData().get(PUSH_COMMAND));
-            }
-            final String title = remoteMessage.getNotification().getTitle();
-            final String body = remoteMessage.getNotification().getBody();
+		final Intent intent = new Intent();
+		// check if message contains data payload
+		if (remoteMessage.getData() != null) {
+			intent.putExtra(PUSH_OPEN_URL, remoteMessage.getData().get(PUSH_OPEN_URL));
+			intent.putExtra(PUSH_COMMAND, remoteMessage.getData().get(PUSH_COMMAND));
+		}
+		final String title = remoteMessage.getNotification().getTitle();
+		final String body = remoteMessage.getNotification().getBody();
 
-            // We have a remote message from gcm, let the child decides what to do with it.
-            onRemoteMessage(intent, title, body);
-        }
+		// We have a remote message from gcm, let the child decides what to do with it.
+		onRemoteMessage(intent, title, body);
+	}
 
-    }
+}
 
 
 }

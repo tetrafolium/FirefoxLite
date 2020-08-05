@@ -26,60 +26,61 @@ import static org.hamcrest.core.AllOf.allOf;
 
 public final class RecyclerViewTestUtils {
 
-    public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
-        checkNotNull(itemMatcher);
-        return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("has item at position " + position + ": ");
-                itemMatcher.describeTo(description);
-            }
+public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
+	checkNotNull(itemMatcher);
+	return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
+		       @Override
+		       public void describeTo(Description description) {
+			       description.appendText("has item at position " + position + ": ");
+			       itemMatcher.describeTo(description);
+		       }
 
-            @Override
-            protected boolean matchesSafely(final RecyclerView view) {
-                final RecyclerView.ViewHolder viewHolder = view.findViewHolderForAdapterPosition(position);
-                if (viewHolder == null) {
-                    // has no item on such position
-                    return false;
-                }
-                return itemMatcher.matches(viewHolder.itemView);
-            }
-        };
-    }
+		       @Override
+		       protected boolean matchesSafely(final RecyclerView view) {
+			       final RecyclerView.ViewHolder viewHolder = view.findViewHolderForAdapterPosition(position);
+			       if (viewHolder == null) {
+				       // has no item on such position
+				       return false;
+			       }
+			       return itemMatcher.matches(viewHolder.itemView);
+		       }
+	};
+}
 
-    public static ViewAction clickChildViewWithId(final int id) {
-        return new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return null;
-            }
+public static ViewAction clickChildViewWithId(final int id) {
+	return new ViewAction() {
+		       @Override
+		       public Matcher<View> getConstraints() {
+			       return null;
+		       }
 
-            @Override
-            public String getDescription() {
-                return "Click on a child view with specified id.";
-            }
+		       @Override
+		       public String getDescription() {
+			       return "Click on a child view with specified id.";
+		       }
 
-            @Override
-            public void perform(UiController uiController, View view) {
-                View v = view.findViewById(id);
-                v.performClick();
-            }
-        };
-    }
+		       @Override
+		       public void perform(UiController uiController, View view) {
+			       View v = view.findViewById(id);
+			       v.performClick();
+		       }
+	};
+}
 
-    public static int getCountFromRecyclerView(@IdRes int recyclerViewId) {
-        final int[] COUNT = {0};
-        Matcher matcher = new TypeSafeMatcher<View>() {
-            @Override
-            protected boolean matchesSafely(View item) {
-                COUNT[0] = ((RecyclerView) item).getAdapter().getItemCount();
-                return true;
-            }
-            @Override
-            public void describeTo(Description description) {}
-        };
-        onView(allOf(withId(recyclerViewId), isDisplayed())).check(matches(matcher));
-        return COUNT[0];
-    }
+public static int getCountFromRecyclerView(@IdRes int recyclerViewId) {
+	final int[] COUNT = {0};
+	Matcher matcher = new TypeSafeMatcher<View>() {
+		@Override
+		protected boolean matchesSafely(View item) {
+			COUNT[0] = ((RecyclerView) item).getAdapter().getItemCount();
+			return true;
+		}
+		@Override
+		public void describeTo(Description description) {
+		}
+	};
+	onView(allOf(withId(recyclerViewId), isDisplayed())).check(matches(matcher));
+	return COUNT[0];
+}
 
 }

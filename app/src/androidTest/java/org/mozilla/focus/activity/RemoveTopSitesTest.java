@@ -48,145 +48,145 @@ import static org.mozilla.focus.utils.RecyclerViewTestUtils.atPosition;
 @RunWith(AndroidJUnit4.class)
 public class RemoveTopSitesTest {
 
-    @Rule
-    public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
+@Rule
+public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
 
-    private List<Site> siteList;
-    private Context context;
-    private String removeLabel;
+private List<Site> siteList;
+private Context context;
+private String removeLabel;
 
-    @Before
-    public void setUp() throws JSONException {
-        AndroidTestUtils.beforeTest();
-        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        removeLabel = context.getString(R.string.remove);
-        prepareTopSiteList();
-        activityTestRule.launchActivity(new Intent());
-    }
+@Before
+public void setUp() throws JSONException {
+	AndroidTestUtils.beforeTest();
+	context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+	removeLabel = context.getString(R.string.remove);
+	prepareTopSiteList();
+	activityTestRule.launchActivity(new Intent());
+}
 
-    /**
-     * Test case no: TC0086
-     * Test case name: One top site deleted
-     * Steps:
-     * 1. Launch app
-     * 2. long click to delete top site
-     */
-    @Test
-    public void deleteTopSite_deleteSuccessfully() {
+/**
+ * Test case no: TC0086
+ * Test case name: One top site deleted
+ * Steps:
+ * 1. Launch app
+ * 2. long click to delete top site
+ */
+@Test
+public void deleteTopSite_deleteSuccessfully() {
 
-        // Pick a test site to delete
-        final int siteIndex = new Random().nextInt(siteList.size());
-        final Site testSite = siteList.get(siteIndex);
+	// Pick a test site to delete
+	final int siteIndex = new Random().nextInt(siteList.size());
+	final Site testSite = siteList.get(siteIndex);
 
-        onView(withId(R.id.main_list)).check(matches(isDisplayed()));
+	onView(withId(R.id.main_list)).check(matches(isDisplayed()));
 
-        // Check the title of test site is matched
-        onView(withId(R.id.main_list))
-        .check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
+	// Check the title of test site is matched
+	onView(withId(R.id.main_list))
+	.check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
 
-        // Long click the test site
-        onView(ViewMatchers.withId(R.id.main_list))
-        .perform(RecyclerViewActions.actionOnItemAtPosition(siteIndex, longClick()));
+	// Long click the test site
+	onView(ViewMatchers.withId(R.id.main_list))
+	.perform(RecyclerViewActions.actionOnItemAtPosition(siteIndex, longClick()));
 
-        // Check the remove button is displayed
-        onView(withText(removeLabel)).check(matches(isDisplayed()));
+	// Check the remove button is displayed
+	onView(withText(removeLabel)).check(matches(isDisplayed()));
 
-        // Click the remove button
-        onView(withText(removeLabel))
-        .inRoot(RootMatchers.isPlatformPopup())
-        .perform(click());
+	// Click the remove button
+	onView(withText(removeLabel))
+	.inRoot(RootMatchers.isPlatformPopup())
+	.perform(click());
 
-        // Check the test site is removed
-        onView(withId(R.id.main_list))
-        .check(matches(not(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle()))))));
-    }
+	// Check the test site is removed
+	onView(withId(R.id.main_list))
+	.check(matches(not(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle()))))));
+}
 
-    /**
-     * Test case no: TC0172
-     * Test case name: cancel removing top site action
-     * Steps:
-     * 1. Launch app
-     * 2. Long click to remove one top site
-     * 3. Press back key
-     */
-    @Test
-    public void deleteTopSiteAndCancel_topSiteIsStillThere() {
+/**
+ * Test case no: TC0172
+ * Test case name: cancel removing top site action
+ * Steps:
+ * 1. Launch app
+ * 2. Long click to remove one top site
+ * 3. Press back key
+ */
+@Test
+public void deleteTopSiteAndCancel_topSiteIsStillThere() {
 
-        // Pick a test site to test
-        final int siteIndex = new Random().nextInt(siteList.size());
-        final Site testSite = siteList.get(siteIndex);
+	// Pick a test site to test
+	final int siteIndex = new Random().nextInt(siteList.size());
+	final Site testSite = siteList.get(siteIndex);
 
-        onView(withId(R.id.main_list)).check(matches(isDisplayed()));
+	onView(withId(R.id.main_list)).check(matches(isDisplayed()));
 
-        // Check the title of test site is matched
-        onView(withId(R.id.main_list))
-        .check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
+	// Check the title of test site is matched
+	onView(withId(R.id.main_list))
+	.check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
 
-        // Long click the test site
-        onView(ViewMatchers.withId(R.id.main_list))
-        .perform(RecyclerViewActions.actionOnItemAtPosition(siteIndex, longClick()));
+	// Long click the test site
+	onView(ViewMatchers.withId(R.id.main_list))
+	.perform(RecyclerViewActions.actionOnItemAtPosition(siteIndex, longClick()));
 
-        // Check the remove button is displayed
-        onView(withText(removeLabel))
-        .check(matches(isDisplayed()));
+	// Check the remove button is displayed
+	onView(withText(removeLabel))
+	.check(matches(isDisplayed()));
 
-        // Press the back key
-        Espresso.pressBack();
+	// Press the back key
+	Espresso.pressBack();
 
-        // Check the title of test site is matched
-        onView(withId(R.id.main_list))
-        .check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
-    }
+	// Check the title of test site is matched
+	onView(withId(R.id.main_list))
+	.check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
+}
 
-    /**
-     * Test case no: TC0007
-     * Test case name: All top sites are deleted sequentially
-     * Steps:
-     * 1. Launch app
-     * 2. remove top site
-     * 3. repeat step 2 until all topsites removed
-     * 4. exit app
-     * 5. relaunch app
-     */
-    @Test
-    public void deleteAllTopSitesAndRelaunchApp_defaultTopSitesAreLoaded() {
+/**
+ * Test case no: TC0007
+ * Test case name: All top sites are deleted sequentially
+ * Steps:
+ * 1. Launch app
+ * 2. remove top site
+ * 3. repeat step 2 until all topsites removed
+ * 4. exit app
+ * 5. relaunch app
+ */
+@Test
+public void deleteAllTopSitesAndRelaunchApp_defaultTopSitesAreLoaded() {
 
-        // Get the count of top sites
-        final int countTopSite = RecyclerViewTestUtils.getCountFromRecyclerView(R.id.main_list);
+	// Get the count of top sites
+	final int countTopSite = RecyclerViewTestUtils.getCountFromRecyclerView(R.id.main_list);
 
-        // Iterate each top site and delete it
-        for (int i = 0; i < countTopSite; i++) {
-            // Long click the first top site
-            onView(withId(R.id.main_list))
-            .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
+	// Iterate each top site and delete it
+	for (int i = 0; i < countTopSite; i++) {
+		// Long click the first top site
+		onView(withId(R.id.main_list))
+		.perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
-            // Check the remove button is displayed
-            onView(withText(removeLabel)).check(matches(isDisplayed()));
+		// Check the remove button is displayed
+		onView(withText(removeLabel)).check(matches(isDisplayed()));
 
-            // Click the remove button
-            onView(withText(removeLabel))
-            .inRoot(RootMatchers.isPlatformPopup())
-            .perform(click());
-        }
+		// Click the remove button
+		onView(withText(removeLabel))
+		.inRoot(RootMatchers.isPlatformPopup())
+		.perform(click());
+	}
 
-        // Exit app
-        Espresso.pressBackUnconditionally();
+	// Exit app
+	Espresso.pressBackUnconditionally();
 
-        // Relaunch app
-        activityTestRule.launchActivity(new Intent());
+	// Relaunch app
+	activityTestRule.launchActivity(new Intent());
 
-        // Check if default top sites are loaded again
-        Assert.assertTrue(countTopSite == RecyclerViewTestUtils.getCountFromRecyclerView(R.id.main_list));
+	// Check if default top sites are loaded again
+	Assert.assertTrue(countTopSite == RecyclerViewTestUtils.getCountFromRecyclerView(R.id.main_list));
 
-    }
+}
 
-    private void prepareTopSiteList() throws JSONException {
-        final JSONArray jsonArray = new JSONArray(Inject.getDefaultTopSites(context));
-        siteList = TopSitesUtils.paresJsonToList(context, jsonArray);
+private void prepareTopSiteList() throws JSONException {
+	final JSONArray jsonArray = new JSONArray(Inject.getDefaultTopSites(context));
+	siteList = TopSitesUtils.paresJsonToList(context, jsonArray);
 
-        Assert.assertNotNull(siteList);
-        Assert.assertTrue(siteList.size() > 0);
+	Assert.assertNotNull(siteList);
+	Assert.assertTrue(siteList.size() > 0);
 
-    }
+}
 
 }

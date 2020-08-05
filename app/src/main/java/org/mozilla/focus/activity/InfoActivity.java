@@ -24,68 +24,68 @@ import org.mozilla.focus.utils.SupportUtils;
  * for showing any web based content, including About/Help/Rights, and also SUMO pages.
  */
 public class InfoActivity extends BaseActivity {
-    private static final String EXTRA_URL = "extra_url";
-    private static final String EXTRA_TITLE = "extra_title";
-    private InfoFragment infoFragment;
+private static final String EXTRA_URL = "extra_url";
+private static final String EXTRA_TITLE = "extra_title";
+private InfoFragment infoFragment;
 
-    public static final Intent getIntentFor(final Context context, final String url, final String title) {
-        final Intent intent = new Intent(context, InfoActivity.class);
+public static final Intent getIntentFor(final Context context, final String url, final String title) {
+	final Intent intent = new Intent(context, InfoActivity.class);
 
-        intent.putExtra(EXTRA_URL, url);
-        intent.putExtra(EXTRA_TITLE, title);
+	intent.putExtra(EXTRA_URL, url);
+	intent.putExtra(EXTRA_TITLE, title);
 
-        return intent;
-    }
+	return intent;
+}
 
-    public static final Intent getAboutIntent(final Context context) {
-        final Resources resources = Locales.getLocalizedResources(context);
+public static final Intent getAboutIntent(final Context context) {
+	final Resources resources = Locales.getLocalizedResources(context);
 
-        // We can't use "about:" because webview silently swallows about: pages, hence we use
-        // a custom scheme.
-        return getIntentFor(context, SupportUtils.FOCUS_ABOUT_URL, resources.getString(R.string.menu_about));
-    }
+	// We can't use "about:" because webview silently swallows about: pages, hence we use
+	// a custom scheme.
+	return getIntentFor(context, SupportUtils.FOCUS_ABOUT_URL, resources.getString(R.string.menu_about));
+}
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_info);
+	setContentView(R.layout.activity_info);
 
-        final String url = getIntent().getStringExtra(EXTRA_URL);
-        final String title = getIntent().getStringExtra(EXTRA_TITLE);
+	final String url = getIntent().getStringExtra(EXTRA_URL);
+	final String title = getIntent().getStringExtra(EXTRA_TITLE);
 
-        infoFragment = InfoFragment.create(url);
-        getSupportFragmentManager().beginTransaction()
-        .replace(R.id.infofragment, infoFragment)
-        .commit();
+	infoFragment = InfoFragment.create(url);
+	getSupportFragmentManager().beginTransaction()
+	.replace(R.id.infofragment, infoFragment)
+	.commit();
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(title);
+	final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+	toolbar.setTitle(title);
 
-        setSupportActionBar(toolbar);
+	setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+	getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
+	toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			        finish();
+			}
+		});
+}
 
-    @Override
-    public void onBackPressed() {
-        if (infoFragment != null && infoFragment.canGoBack()) {
-            infoFragment.goBack();
-            return;
-        }
-        super.onBackPressed();
-    }
+@Override
+public void onBackPressed() {
+	if (infoFragment != null && infoFragment.canGoBack()) {
+		infoFragment.goBack();
+		return;
+	}
+	super.onBackPressed();
+}
 
-    @Override
-    public void applyLocale() {
+@Override
+public void applyLocale() {
 
-    }
+}
 }

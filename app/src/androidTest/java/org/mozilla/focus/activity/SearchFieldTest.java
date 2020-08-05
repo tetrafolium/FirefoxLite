@@ -43,136 +43,136 @@ import static org.hamcrest.Matchers.not;
 @RunWith(AndroidJUnit4.class)
 public class SearchFieldTest {
 
-    private static final String TYPED_GENERAL_TEXT = "zerda";
-    private static final String TYPED_GREEK_TEXT = "αβπΣ";
-    private static final String TYPED_SCIENCE_SYMBOLS_TEXT = "√°C °F";
+private static final String TYPED_GENERAL_TEXT = "zerda";
+private static final String TYPED_GREEK_TEXT = "αβπΣ";
+private static final String TYPED_SCIENCE_SYMBOLS_TEXT = "√°C °F";
 
-    private SessionLoadedIdlingResource loadingIdlingResource;
+private SessionLoadedIdlingResource loadingIdlingResource;
 
-    @Rule
-    public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
+@Rule
+public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
 
-    @Before
-    public void setUp() {
-        // Load mock search engines
-        SearchEngineManager.getInstance().loadSearchEngines(InstrumentationRegistry.getContext());
-        AndroidTestUtils.beforeTest();
-        activityTestRule.launchActivity(new Intent());
-    }
+@Before
+public void setUp() {
+	// Load mock search engines
+	SearchEngineManager.getInstance().loadSearchEngines(InstrumentationRegistry.getContext());
+	AndroidTestUtils.beforeTest();
+	activityTestRule.launchActivity(new Intent());
+}
 
-    @After
-    public void tearDown() throws Exception {
-        if (loadingIdlingResource != null) {
-            IdlingRegistry.getInstance().unregister(loadingIdlingResource);
-        }
-    }
+@After
+public void tearDown() throws Exception {
+	if (loadingIdlingResource != null) {
+		IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+	}
+}
 
-    /**
-     * Test case no: TC0009
-     * Test case name: Clear search
-     * Steps:
-     * 1. Launch app
-     * 2. Tap search field
-     * 3. Check clear button not displayed
-     * 4. type text
-     * 5. click clear button
-     * 6. check text cleared
-     * 7. type some text and press back twice
-     * 8. check we are on homepage
-     * 9. click search field again
-     * 10. type text
-     * 11. click outside search field
-     * 12. check we are on homepage
-     */
-    @Test
-    public void typeTextInSearchFieldAndClear_textIsClearedAndBackToHome() {
+/**
+ * Test case no: TC0009
+ * Test case name: Clear search
+ * Steps:
+ * 1. Launch app
+ * 2. Tap search field
+ * 3. Check clear button not displayed
+ * 4. type text
+ * 5. click clear button
+ * 6. check text cleared
+ * 7. type some text and press back twice
+ * 8. check we are on homepage
+ * 9. click search field again
+ * 10. type text
+ * 11. click outside search field
+ * 12. check we are on homepage
+ */
+@Test
+public void typeTextInSearchFieldAndClear_textIsClearedAndBackToHome() {
 
-        // Click home search field
-        onView(allOf(withId(R.id.home_fragment_fake_input), isDisplayed())).perform(click());
+	// Click home search field
+	onView(allOf(withId(R.id.home_fragment_fake_input), isDisplayed())).perform(click());
 
-        // Check clear button is not displayed when there's no text
-        onView(withId(R.id.clear)).check(matches(not(isDisplayed())));
+	// Check clear button is not displayed when there's no text
+	onView(withId(R.id.clear)).check(matches(not(isDisplayed())));
 
-        // Type some text
-        onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TYPED_GENERAL_TEXT));
+	// Type some text
+	onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TYPED_GENERAL_TEXT));
 
-        // Click clear button
-        onView(allOf(withId(R.id.clear), isDisplayed())).perform(click());
+	// Click clear button
+	onView(allOf(withId(R.id.clear), isDisplayed())).perform(click());
 
-        // Check if the text is cleared
-        onView(allOf(withId(R.id.url_edit), isDisplayed())).check(matches(withText("")));
+	// Check if the text is cleared
+	onView(allOf(withId(R.id.url_edit), isDisplayed())).check(matches(withText("")));
 
-        // Type some text and press back twice
-        onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TYPED_GENERAL_TEXT), closeSoftKeyboard());
+	// Type some text and press back twice
+	onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TYPED_GENERAL_TEXT), closeSoftKeyboard());
 
-        // Back to home
-        Espresso.pressBack();
+	// Back to home
+	Espresso.pressBack();
 
-        // Check if we are back to home and click home search field again
-        onView(allOf(withId(R.id.home_fragment_fake_input), isDisplayed())).perform(click());
+	// Check if we are back to home and click home search field again
+	onView(allOf(withId(R.id.home_fragment_fake_input), isDisplayed())).perform(click());
 
-        // Type some text
-        onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TYPED_GENERAL_TEXT));
+	// Type some text
+	onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TYPED_GENERAL_TEXT));
 
-        // Click outside the search field and soft keyboard
-        onView(allOf(withId(R.id.dismiss), isDisplayed())).perform(click());
+	// Click outside the search field and soft keyboard
+	onView(allOf(withId(R.id.dismiss), isDisplayed())).perform(click());
 
-        // Check if we are back to home
-        onView(withId(R.id.home_fragment_fake_input)).check(matches(isDisplayed()));
+	// Check if we are back to home
+	onView(withId(R.id.home_fragment_fake_input)).check(matches(isDisplayed()));
 
-    }
+}
 
-    /**
-     * Test case no: TC0011
-     * Test case name: Search special characters
-     * Steps:
-     * 1. Launch app
-     * 2. Tap search field
-     * 3. Type Greek special character
-     * 4. wait for page loaded
-     * 5. check url matches with SearchEngine.buildSearchUrl()
-     * 6. check search button
-     * 7. type some text and press back twice
-     * 8. check we are on homepage
-     * 9. click search field again
-     * 10. Type some science characters
-     * 11. Wait for the page is loaded
-     * 12. Check if current url is matched with SearchEngine.buildSearchUrl()
-     */
-    @Test
-    public void typeSpecialCharactersInSearchField_searchIsPerformingAccordingly() {
+/**
+ * Test case no: TC0011
+ * Test case name: Search special characters
+ * Steps:
+ * 1. Launch app
+ * 2. Tap search field
+ * 3. Type Greek special character
+ * 4. wait for page loaded
+ * 5. check url matches with SearchEngine.buildSearchUrl()
+ * 6. check search button
+ * 7. type some text and press back twice
+ * 8. check we are on homepage
+ * 9. click search field again
+ * 10. Type some science characters
+ * 11. Wait for the page is loaded
+ * 12. Check if current url is matched with SearchEngine.buildSearchUrl()
+ */
+@Test
+public void typeSpecialCharactersInSearchField_searchIsPerformingAccordingly() {
 
-        // Get the default search engine
-        final SearchEngine defaultSearchEngine = SearchEngineManager.getInstance().getDefaultSearchEngine(InstrumentationRegistry.getInstrumentation().getTargetContext());
-        loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
+	// Get the default search engine
+	final SearchEngine defaultSearchEngine = SearchEngineManager.getInstance().getDefaultSearchEngine(InstrumentationRegistry.getInstrumentation().getTargetContext());
+	loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
 
-        // Click home search field
-        onView(allOf(withId(R.id.home_fragment_fake_input), isDisplayed())).perform(click());
+	// Click home search field
+	onView(allOf(withId(R.id.home_fragment_fake_input), isDisplayed())).perform(click());
 
-        // Type some greek characters
-        onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TYPED_GREEK_TEXT), pressImeActionButton());
+	// Type some greek characters
+	onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TYPED_GREEK_TEXT), pressImeActionButton());
 
-        // Wait for the page is loaded
-        IdlingRegistry.getInstance().register(loadingIdlingResource);
+	// Wait for the page is loaded
+	IdlingRegistry.getInstance().register(loadingIdlingResource);
 
-        // Check if current url is matched with SearchEngine.buildSearchUrl()
-        onView(AllOf.allOf(withId(R.id.display_url), isDisplayed())).check(matches(withText(defaultSearchEngine.buildSearchUrl((TYPED_GREEK_TEXT)))));
+	// Check if current url is matched with SearchEngine.buildSearchUrl()
+	onView(AllOf.allOf(withId(R.id.display_url), isDisplayed())).check(matches(withText(defaultSearchEngine.buildSearchUrl((TYPED_GREEK_TEXT)))));
 
-        // Since we will click search button later and UrlInputFragment will be displayed so we need to unregister IdlingResource here
-        IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+	// Since we will click search button later and UrlInputFragment will be displayed so we need to unregister IdlingResource here
+	IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
-        // Click search button
-        new BottomBarRobot().clickBrowserBottomBarItem(R.id.bottom_bar_search);
+	// Click search button
+	new BottomBarRobot().clickBrowserBottomBarItem(R.id.bottom_bar_search);
 
-        // Type some science characters
-        onView(withId(R.id.url_edit)).perform(clearText()).perform(replaceText(TYPED_SCIENCE_SYMBOLS_TEXT), pressImeActionButton());
+	// Type some science characters
+	onView(withId(R.id.url_edit)).perform(clearText()).perform(replaceText(TYPED_SCIENCE_SYMBOLS_TEXT), pressImeActionButton());
 
-        // Wait for the page is loaded
-        IdlingRegistry.getInstance().register(loadingIdlingResource);
+	// Wait for the page is loaded
+	IdlingRegistry.getInstance().register(loadingIdlingResource);
 
-        // Check if current url is matched with SearchEngine.buildSearchUrl()
-        onView(AllOf.allOf(withId(R.id.display_url), isDisplayed())).check(matches(withText(defaultSearchEngine.buildSearchUrl((TYPED_SCIENCE_SYMBOLS_TEXT)))));
-        IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+	// Check if current url is matched with SearchEngine.buildSearchUrl()
+	onView(AllOf.allOf(withId(R.id.display_url), isDisplayed())).check(matches(withText(defaultSearchEngine.buildSearchUrl((TYPED_SCIENCE_SYMBOLS_TEXT)))));
+	IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
-    }
+}
 }

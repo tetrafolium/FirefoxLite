@@ -25,173 +25,173 @@ import java.util.ArrayList;
  * for more.
  */
 public class SafeIntent {
-    private static final String LOGTAG = "Gecko" + SafeIntent.class.getSimpleName();
+private static final String LOGTAG = "Gecko" + SafeIntent.class.getSimpleName();
 
-    private final Intent intent;
+private final Intent intent;
 
-    public SafeIntent(final Intent intent) {
-        this.intent = intent;
-    }
+public SafeIntent(final Intent intent) {
+	this.intent = intent;
+}
 
-    public boolean hasExtra(String name) {
-        try {
-            return intent.hasExtra(name);
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't determine if intent had an extra: OOM. Malformed?");
-            return false;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't determine if intent had an extra.", e);
-            return false;
-        }
-    }
+public boolean hasExtra(String name) {
+	try {
+		return intent.hasExtra(name);
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't determine if intent had an extra: OOM. Malformed?");
+		return false;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't determine if intent had an extra.", e);
+		return false;
+	}
+}
 
-    public boolean getBooleanExtra(final String name, final boolean defaultValue) {
-        try {
-            return intent.getBooleanExtra(name, defaultValue);
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
-            return defaultValue;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent extras.", e);
-            return defaultValue;
-        }
-    }
+public boolean getBooleanExtra(final String name, final boolean defaultValue) {
+	try {
+		return intent.getBooleanExtra(name, defaultValue);
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
+		return defaultValue;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent extras.", e);
+		return defaultValue;
+	}
+}
 
-    public int getIntExtra(final String name, final int defaultValue) {
-        try {
-            return intent.getIntExtra(name, defaultValue);
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
-            return defaultValue;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent extras.", e);
-            return defaultValue;
-        }
-    }
+public int getIntExtra(final String name, final int defaultValue) {
+	try {
+		return intent.getIntExtra(name, defaultValue);
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
+		return defaultValue;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent extras.", e);
+		return defaultValue;
+	}
+}
 
-    public String getStringExtra(final String name) {
-        try {
-            return intent.getStringExtra(name);
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
-            return null;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent extras.", e);
-            return null;
-        }
-    }
+public String getStringExtra(final String name) {
+	try {
+		return intent.getStringExtra(name);
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
+		return null;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent extras.", e);
+		return null;
+	}
+}
 
-    @Nullable
-    public Bundle getExtras() {
-        try {
-            return intent.getExtras();
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
-            return null;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent extras.", e);
-            return null;
-        }
-    }
+@Nullable
+public Bundle getExtras() {
+	try {
+		return intent.getExtras();
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
+		return null;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent extras.", e);
+		return null;
+	}
+}
 
-    public SafeBundle getBundleExtra(final String name) {
-        try {
-            final Bundle bundle = intent.getBundleExtra(name);
-            if (bundle != null) {
-                return new SafeBundle(bundle);
-            } else {
-                return null;
-            }
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
-            return null;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent extras.", e);
-            return null;
-        }
-    }
+public SafeBundle getBundleExtra(final String name) {
+	try {
+		final Bundle bundle = intent.getBundleExtra(name);
+		if (bundle != null) {
+			return new SafeBundle(bundle);
+		} else {
+			return null;
+		}
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
+		return null;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent extras.", e);
+		return null;
+	}
+}
 
-    public CharSequence getCharSequenceExtra(final String name) {
-        try {
-            return intent.getCharSequenceExtra(name);
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
-            return null;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent extras.", e);
-            return null;
-        }
-    }
+public CharSequence getCharSequenceExtra(final String name) {
+	try {
+		return intent.getCharSequenceExtra(name);
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
+		return null;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent extras.", e);
+		return null;
+	}
+}
 
-    public <T extends Parcelable> T getParcelableExtra(final String name) {
-        try {
-            return intent.getParcelableExtra(name);
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
-            return null;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent extras.", e);
-            return null;
-        }
-    }
+public <T extends Parcelable> T getParcelableExtra(final String name) {
+	try {
+		return intent.getParcelableExtra(name);
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
+		return null;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent extras.", e);
+		return null;
+	}
+}
 
-    public <T extends Parcelable> ArrayList<T> getParcelableArrayListExtra(final String name) {
-        try {
-            return intent.getParcelableArrayListExtra(name);
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
-            return null;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent extras.", e);
-            return null;
-        }
-    }
+public <T extends Parcelable> ArrayList<T> getParcelableArrayListExtra(final String name) {
+	try {
+		return intent.getParcelableArrayListExtra(name);
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent extras: OOM. Malformed?");
+		return null;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent extras.", e);
+		return null;
+	}
+}
 
-    public String getAction() {
-        return intent.getAction();
-    }
+public String getAction() {
+	return intent.getAction();
+}
 
-    public int getFlags() {
-        return intent.getFlags();
-    }
+public int getFlags() {
+	return intent.getFlags();
+}
 
-    public String getDataString() {
-        try {
-            return intent.getDataString();
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent data string: OOM. Malformed?");
-            return null;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent data string.", e);
-            return null;
-        }
-    }
+public String getDataString() {
+	try {
+		return intent.getDataString();
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent data string: OOM. Malformed?");
+		return null;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent data string.", e);
+		return null;
+	}
+}
 
-    public ArrayList<String> getStringArrayListExtra(final String name) {
-        try {
-            return intent.getStringArrayListExtra(name);
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent data string: OOM. Malformed?");
-            return null;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent data string.", e);
-            return null;
-        }
-    }
+public ArrayList<String> getStringArrayListExtra(final String name) {
+	try {
+		return intent.getStringArrayListExtra(name);
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent data string: OOM. Malformed?");
+		return null;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent data string.", e);
+		return null;
+	}
+}
 
-    public Uri getData() {
-        try {
-            return intent.getData();
-        } catch (OutOfMemoryError e) {
-            Log.w(LOGTAG, "Couldn't get intent data: OOM. Malformed?");
-            return null;
-        } catch (RuntimeException e) {
-            Log.w(LOGTAG, "Couldn't get intent data.", e);
-            return null;
-        }
-    }
+public Uri getData() {
+	try {
+		return intent.getData();
+	} catch (OutOfMemoryError e) {
+		Log.w(LOGTAG, "Couldn't get intent data: OOM. Malformed?");
+		return null;
+	} catch (RuntimeException e) {
+		Log.w(LOGTAG, "Couldn't get intent data.", e);
+		return null;
+	}
+}
 
-    public Intent getUnsafe() {
-        return intent;
-    }
+public Intent getUnsafe() {
+	return intent;
+}
 }

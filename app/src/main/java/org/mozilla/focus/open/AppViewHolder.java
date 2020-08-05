@@ -13,19 +13,19 @@ import android.widget.TextView;
 import org.mozilla.focus.R;
 
 public class AppViewHolder extends RecyclerView.ViewHolder {
-    private final TextView titleView;
-    private final ImageView iconView;
+private final TextView titleView;
+private final ImageView iconView;
 
-    public AppViewHolder(View itemView) {
-        super(itemView);
+public AppViewHolder(View itemView) {
+	super(itemView);
 
-        titleView = (TextView) itemView.findViewById(R.id.title);
-        iconView = (ImageView) itemView.findViewById(R.id.icon);
-    }
+	titleView = (TextView) itemView.findViewById(R.id.title);
+	iconView = (ImageView) itemView.findViewById(R.id.icon);
+}
 
-    public void bind(AppAdapter.App app) {
-        titleView.setText(app.getLabel());
+public void bind(AppAdapter.App app) {
+	titleView.setText(app.getLabel());
 
-        iconView.setImageDrawable(app.loadIcon());
-    }
+	iconView.setImageDrawable(app.loadIcon());
+}
 }

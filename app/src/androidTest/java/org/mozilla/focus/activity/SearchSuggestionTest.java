@@ -42,57 +42,57 @@ import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class SearchSuggestionTest {
 
-    @Rule
-    public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
+@Rule
+public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
 
-    private Context context;
+private Context context;
 
-    @Before
-    public void setUp() {
-        // Load mock search engines
-        SearchEngineManager.getInstance().loadSearchEngines(InstrumentationRegistry.getContext());
-        AndroidTestUtils.beforeTest();
-        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-    }
+@Before
+public void setUp() {
+	// Load mock search engines
+	SearchEngineManager.getInstance().loadSearchEngines(InstrumentationRegistry.getContext());
+	AndroidTestUtils.beforeTest();
+	context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+}
 
-    /**
-     * Test case no: TC0008
-     * Test case name: Search suggestion
-     * Steps:
-     * 1. Launch app
-     * 2. Tap search field
-     * 3. while typing, search suggestion is displayed at most 5
-     * 4. tap first suggestion
-     * 5. check current url is matched with defaultSearchEngine.buildSearchUrl()
-     */
-    @Test
-    public void clickSearchSuggestion_browseByDefaultSearchEngine() throws UiObjectNotFoundException, UnsupportedEncodingException {
-        activityTestRule.launchActivity(new Intent());
+/**
+ * Test case no: TC0008
+ * Test case name: Search suggestion
+ * Steps:
+ * 1. Launch app
+ * 2. Tap search field
+ * 3. while typing, search suggestion is displayed at most 5
+ * 4. tap first suggestion
+ * 5. check current url is matched with defaultSearchEngine.buildSearchUrl()
+ */
+@Test
+public void clickSearchSuggestion_browseByDefaultSearchEngine() throws UiObjectNotFoundException, UnsupportedEncodingException {
+	activityTestRule.launchActivity(new Intent());
 
-        // Get the default search engine
-        final SearchEngine defaultSearchEngine = SearchEngineManager.getInstance().getDefaultSearchEngine(context);
-        final SessionLoadedIdlingResource loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
+	// Get the default search engine
+	final SearchEngine defaultSearchEngine = SearchEngineManager.getInstance().getDefaultSearchEngine(context);
+	final SessionLoadedIdlingResource loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
 
-        // Click search field
-        onView(allOf(withId(R.id.home_fragment_fake_input), isDisplayed())).perform(click());
+	// Click search field
+	onView(allOf(withId(R.id.home_fragment_fake_input), isDisplayed())).perform(click());
 
-        // Type search text
-        onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(typeText("zerda"));
+	// Type search text
+	onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(typeText("zerda"));
 
-        // Check if the suggestion count is shown at most 5
-        onView(allOf(withId(R.id.search_suggestion), isDisplayed())).check(matches(CountChildViewMatcher.withChildViewCount(5, withId(R.id.suggestion_item))));
+	// Check if the suggestion count is shown at most 5
+	onView(allOf(withId(R.id.search_suggestion), isDisplayed())).check(matches(CountChildViewMatcher.withChildViewCount(5, withId(R.id.suggestion_item))));
 
-        // Pick a suggestion to click
-        final String text = GetTextViewMatcher.getText(GetNthChildViewMatcher.nthChildOf(withId(R.id.search_suggestion), 0));
-        onView(allOf(withId(R.id.suggestion_item), withText(text), isDisplayed())).perform(click());
+	// Pick a suggestion to click
+	final String text = GetTextViewMatcher.getText(GetNthChildViewMatcher.nthChildOf(withId(R.id.search_suggestion), 0));
+	onView(allOf(withId(R.id.suggestion_item), withText(text), isDisplayed())).perform(click());
 
-        // Wait for page is loaded
-        IdlingRegistry.getInstance().register(loadingIdlingResource);
+	// Wait for page is loaded
+	IdlingRegistry.getInstance().register(loadingIdlingResource);
 
-        // Check if current url is matched with SearchEngine.buildSearchUrl()
-        onView(allOf(withId(R.id.display_url), isDisplayed())).check(matches(withText(defaultSearchEngine.buildSearchUrl((text)))));
+	// Check if current url is matched with SearchEngine.buildSearchUrl()
+	onView(allOf(withId(R.id.display_url), isDisplayed())).check(matches(withText(defaultSearchEngine.buildSearchUrl((text)))));
 
-        IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+	IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
-    }
+}
 }

@@ -25,66 +25,66 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 public class SearchEngineParserTest {
-    @ParameterizedRobolectricTestRunner.Parameters(name = "{1}")
-    public static Collection<Object[]> searchPlugins() {
-        final Collection<Object[]> searchPlugins = new ArrayList<>();
-        collectSearchPlugins(searchPlugins, getBasePath());
-        return searchPlugins;
-    }
+@ParameterizedRobolectricTestRunner.Parameters(name = "{1}")
+public static Collection<Object[]> searchPlugins() {
+	final Collection<Object[]> searchPlugins = new ArrayList<>();
+	collectSearchPlugins(searchPlugins, getBasePath());
+	return searchPlugins;
+}
 
-    private String searchPluginPath;
-    private String searchEngineIdentifier;
+private String searchPluginPath;
+private String searchEngineIdentifier;
 
-    public SearchEngineParserTest(String searchPluginPath, String searchEngineIdentifier) {
-        this.searchPluginPath = searchPluginPath;
-        this.searchEngineIdentifier = searchEngineIdentifier;
-    }
+public SearchEngineParserTest(String searchPluginPath, String searchEngineIdentifier) {
+	this.searchPluginPath = searchPluginPath;
+	this.searchEngineIdentifier = searchEngineIdentifier;
+}
 
-    @Test
-    public void testParser() throws Exception {
-        final InputStream stream = new FileInputStream(searchPluginPath);
-        final SearchEngine searchEngine = SearchEngineParser.load(searchEngineIdentifier, stream);
-        assertEquals(searchEngineIdentifier, searchEngine.getIdentifier());
+@Test
+public void testParser() throws Exception {
+	final InputStream stream = new FileInputStream(searchPluginPath);
+	final SearchEngine searchEngine = SearchEngineParser.load(searchEngineIdentifier, stream);
+	assertEquals(searchEngineIdentifier, searchEngine.getIdentifier());
 
-        assertNotNull(searchEngine.getName());
-        assertFalse(TextUtils.isEmpty(searchEngine.getName()));
+	assertNotNull(searchEngine.getName());
+	assertFalse(TextUtils.isEmpty(searchEngine.getName()));
 
-        assertNotNull(searchEngine.getIcon());
+	assertNotNull(searchEngine.getIcon());
 
-        final String searchTerm = UUID.randomUUID().toString();
-        final String searchUrl = searchEngine.buildSearchUrl(searchTerm);
+	final String searchTerm = UUID.randomUUID().toString();
+	final String searchUrl = searchEngine.buildSearchUrl(searchTerm);
 
-        assertNotNull(searchUrl);
-        assertFalse(TextUtils.isEmpty(searchUrl));
-        assertTrue(searchUrl.contains(searchTerm));
+	assertNotNull(searchUrl);
+	assertFalse(TextUtils.isEmpty(searchUrl));
+	assertTrue(searchUrl.contains(searchTerm));
 
-        stream.close();
-    }
+	stream.close();
+}
 
-    private static void collectSearchPlugins(Collection<Object[]> searchPlugins, File path) {
-        if (!path.isDirectory()) {
-            throw new AssertionError("Not a directory: " + path.getAbsolutePath());
-        }
+private static void collectSearchPlugins(Collection<Object[]> searchPlugins, File path) {
+	if (!path.isDirectory()) {
+		throw new AssertionError("Not a directory: " + path.getAbsolutePath());
+	}
 
-        final String[] entries = path.list();
+	final String[] entries = path.list();
 
-        if (entries == null) {
-            throw new AssertionError("No files in directory " + path.getAbsolutePath());
-        }
+	if (entries == null) {
+		throw new AssertionError("No files in directory " + path.getAbsolutePath());
+	}
 
-        for (String entry : entries) {
-            final File file = new File(path, entry);
+	for (String entry : entries) {
+		final File file = new File(path, entry);
 
-            if (file.isDirectory()) {
-                collectSearchPlugins(searchPlugins, file);
-            } else if (entry.endsWith(".xml")) {
-                searchPlugins.add(new Object[] { file.getAbsolutePath(), entry.substring(0, entry.length() - 4) });
-            }
-        }
-    }
+		if (file.isDirectory()) {
+			collectSearchPlugins(searchPlugins, file);
+		} else if (entry.endsWith(".xml")) {
+			searchPlugins.add(new Object[] { file.getAbsolutePath(), entry.substring(0, entry.length() - 4) });
+		}
+	}
+}
 
-    private static File getBasePath() {
-        final ClassLoader classLoader = SearchEngineParserTest.class.getClassLoader();
-        return new File(classLoader.getResource("search").getFile());
-    }
+private static File getBasePath() {
+	final ClassLoader classLoader = SearchEngineParserTest.class.getClassLoader();
+	return new File(classLoader.getResource("search").getFile());
+}
 }

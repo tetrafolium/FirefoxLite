@@ -13,31 +13,31 @@ import javax.lang.model.element.TypeElement;
  * classes found annotated with {@link GlideExtension}.
  */
 final class ExtensionProcessor {
-    private final ProcessorUtil processorUtil;
-    private final IndexerGenerator indexerGenerator;
+private final ProcessorUtil processorUtil;
+private final IndexerGenerator indexerGenerator;
 
-    ExtensionProcessor(ProcessorUtil processorUtil, IndexerGenerator indexerGenerator) {
-        this.processorUtil = processorUtil;
-        this.indexerGenerator = indexerGenerator;
-    }
+ExtensionProcessor(ProcessorUtil processorUtil, IndexerGenerator indexerGenerator) {
+	this.processorUtil = processorUtil;
+	this.indexerGenerator = indexerGenerator;
+}
 
-    boolean processExtensions(Set<? extends TypeElement> set, RoundEnvironment env) {
-        List<TypeElement> elements = processorUtil.getElementsFor(GlideExtension.class, env);
-        processorUtil.debugLog("Processing types : " + elements);
-        for (TypeElement typeElement : elements) {
-            GlideExtensionValidator.validateExtension(typeElement);
-            processorUtil.debugLog("Processing elements: " + typeElement.getEnclosedElements());
-        }
+boolean processExtensions(Set<? extends TypeElement> set, RoundEnvironment env) {
+	List<TypeElement> elements = processorUtil.getElementsFor(GlideExtension.class, env);
+	processorUtil.debugLog("Processing types : " + elements);
+	for (TypeElement typeElement : elements) {
+		GlideExtensionValidator.validateExtension(typeElement);
+		processorUtil.debugLog("Processing elements: " + typeElement.getEnclosedElements());
+	}
 
-        if (elements.isEmpty()) {
-            return false;
-        }
-        TypeSpec spec = indexerGenerator.generate(elements);
-        processorUtil.writeIndexer(spec);
-        return true;
-    }
+	if (elements.isEmpty()) {
+		return false;
+	}
+	TypeSpec spec = indexerGenerator.generate(elements);
+	processorUtil.writeIndexer(spec);
+	return true;
+}
 
-    Set<String> getSupportedAnnotationTypes() {
-        return Collections.singleton(GlideExtension.class.getName());
-    }
+Set<String> getSupportedAnnotationTypes() {
+	return Collections.singleton(GlideExtension.class.getName());
+}
 }

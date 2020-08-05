@@ -29,18 +29,18 @@ import java.io.InputStream;
 
 @GlideModule
 public class FocusGlideModule extends AppGlideModule {
-    @Override
-    public void registerComponents(Context context, Glide glide, Registry registry) {
-        registry.prepend(InputStream.class, Bitmap.class, new RegionFileDecoder(glide, getScreenWidth(context)));
-        registry.prepend(FaviconModel.class, FaviconModel.class, new FaviconModelLoaderFactory());
-        registry.prepend(FaviconModel.class, Bitmap.class, new FaviconDecoder(context, glide));
-    }
+@Override
+public void registerComponents(Context context, Glide glide, Registry registry) {
+	registry.prepend(InputStream.class, Bitmap.class, new RegionFileDecoder(glide, getScreenWidth(context)));
+	registry.prepend(FaviconModel.class, FaviconModel.class, new FaviconModelLoaderFactory());
+	registry.prepend(FaviconModel.class, Bitmap.class, new FaviconDecoder(context, glide));
+}
 
-    private int getScreenWidth(Context context) {
-        WindowManager window = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = window.getDefaultDisplay();
-        Point screen = new Point();
-        display.getSize(screen);
-        return screen.x;
-    }
+private int getScreenWidth(Context context) {
+	WindowManager window = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+	Display display = window.getDefaultDisplay();
+	Point screen = new Point();
+	display.getSize(screen);
+	return screen.x;
+}
 }

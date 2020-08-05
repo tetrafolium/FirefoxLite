@@ -10,10 +10,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class BrowsingSessionTest {
-    @Test
-    public void testSingleton() {
-        assertNotNull(BrowsingSession.getInstance());
+@Test
+public void testSingleton() {
+	assertNotNull(BrowsingSession.getInstance());
 
-        assertEquals(BrowsingSession.getInstance(), BrowsingSession.getInstance());
-    }
+	assertEquals(BrowsingSession.getInstance(), BrowsingSession.getInstance());
+}
 }

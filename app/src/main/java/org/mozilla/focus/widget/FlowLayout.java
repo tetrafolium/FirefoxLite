@@ -13,84 +13,84 @@ import android.view.ViewGroup;
 import org.mozilla.focus.R;
 
 public class FlowLayout extends ViewGroup {
-    private int mSpacing;
+private int mSpacing;
 
-    public FlowLayout(Context context) {
-        super(context);
-    }
+public FlowLayout(Context context) {
+	super(context);
+}
 
-    public FlowLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
-        mSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_spacing,
-                                           (int) context.getResources().getDimension(R.dimen.flow_layout_spacing));
-        a.recycle();
-    }
+public FlowLayout(Context context, AttributeSet attrs) {
+	super(context, attrs);
+	TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
+	mSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_spacing,
+	                                   (int) context.getResources().getDimension(R.dimen.flow_layout_spacing));
+	a.recycle();
+}
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
-        final int childCount = getChildCount();
-        int rowWidth = 0;
-        int totalWidth = 0;
-        int totalHeight = 0;
-        boolean firstChild = true;
+@Override
+protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+	final int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+	final int childCount = getChildCount();
+	int rowWidth = 0;
+	int totalWidth = 0;
+	int totalHeight = 0;
+	boolean firstChild = true;
 
-        for (int i = 0; i < childCount; i++) {
-            final View child = getChildAt(i);
-            if (child.getVisibility() == GONE) {
-                continue;
-            }
+	for (int i = 0; i < childCount; i++) {
+		final View child = getChildAt(i);
+		if (child.getVisibility() == GONE) {
+			continue;
+		}
 
-            measureChild(child, widthMeasureSpec, heightMeasureSpec);
+		measureChild(child, widthMeasureSpec, heightMeasureSpec);
 
-            final int childWidth = child.getMeasuredWidth();
-            final int childHeight = child.getMeasuredHeight();
+		final int childWidth = child.getMeasuredWidth();
+		final int childHeight = child.getMeasuredHeight();
 
-            if (firstChild || (rowWidth + childWidth > parentWidth)) {
-                rowWidth = 0;
-                totalHeight += childHeight;
-                if (!firstChild) {
-                    totalHeight += mSpacing;
-                }
-                firstChild = false;
-            }
+		if (firstChild || (rowWidth + childWidth > parentWidth)) {
+			rowWidth = 0;
+			totalHeight += childHeight;
+			if (!firstChild) {
+				totalHeight += mSpacing;
+			}
+			firstChild = false;
+		}
 
-            rowWidth += childWidth;
+		rowWidth += childWidth;
 
-            if (rowWidth > totalWidth) {
-                totalWidth = rowWidth;
-            }
+		if (rowWidth > totalWidth) {
+			totalWidth = rowWidth;
+		}
 
-            rowWidth += mSpacing;
-        }
+		rowWidth += mSpacing;
+	}
 
-        setMeasuredDimension(totalWidth, totalHeight);
-    }
+	setMeasuredDimension(totalWidth, totalHeight);
+}
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        final int childCount = getChildCount();
-        final int totalWidth = r - l;
-        int x = 0;
-        int y = getMeasuredHeight();
-        int prevChildHeight = 0;
+@Override
+protected void onLayout(boolean changed, int l, int t, int r, int b) {
+	final int childCount = getChildCount();
+	final int totalWidth = r - l;
+	int x = 0;
+	int y = getMeasuredHeight();
+	int prevChildHeight = 0;
 
-        for (int i = 0; i < childCount; i++) {
-            final View child = getChildAt(i);
-            if (child.getVisibility() == GONE) {
-                continue;
-            }
+	for (int i = 0; i < childCount; i++) {
+		final View child = getChildAt(i);
+		if (child.getVisibility() == GONE) {
+			continue;
+		}
 
-            final int childWidth = child.getMeasuredWidth();
-            final int childHeight = child.getMeasuredHeight();
-            if (x + childWidth > totalWidth) {
-                x = 0;
-                y -= prevChildHeight + mSpacing;
-            }
-            prevChildHeight = childHeight;
-            child.layout(x, y - childHeight, x + childWidth, y);
-            x += childWidth + mSpacing;
-        }
-    }
+		final int childWidth = child.getMeasuredWidth();
+		final int childHeight = child.getMeasuredHeight();
+		if (x + childWidth > totalWidth) {
+			x = 0;
+			y -= prevChildHeight + mSpacing;
+		}
+		prevChildHeight = childHeight;
+		child.layout(x, y - childHeight, x + childWidth, y);
+		x += childWidth + mSpacing;
+	}
+}
 }

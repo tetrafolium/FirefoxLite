@@ -17,38 +17,38 @@ import org.mozilla.focus.utils.SwipeMotionDetector;
 
 public class SwipeMotionLayout extends ConstraintLayout {
 
-    private SwipeMotionDetector swipeMotionDetector;
+private SwipeMotionDetector swipeMotionDetector;
 
-    public SwipeMotionLayout(Context context) {
-        this(context, null);
-    }
+public SwipeMotionLayout(Context context) {
+	this(context, null);
+}
 
-    public SwipeMotionLayout(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
+public SwipeMotionLayout(Context context, AttributeSet attrs) {
+	this(context, attrs, 0);
+}
 
-    public SwipeMotionLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
+public SwipeMotionLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+	super(context, attrs, defStyleAttr);
+}
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        boolean shouldIntercept = super.onInterceptTouchEvent(ev);
+@Override
+public boolean onInterceptTouchEvent(MotionEvent ev) {
+	boolean shouldIntercept = super.onInterceptTouchEvent(ev);
 
-        if (shouldIntercept && swipeMotionDetector != null) {
-            swipeMotionDetector.onTouch(this, ev);
-        }
+	if (shouldIntercept && swipeMotionDetector != null) {
+		swipeMotionDetector.onTouch(this, ev);
+	}
 
-        return shouldIntercept;
-    }
+	return shouldIntercept;
+}
 
-    public void setOnSwipeListener(OnSwipeListener onSwipeListener) {
-        if (onSwipeListener != null) {
-            swipeMotionDetector = new SwipeMotionDetector(getContext(), onSwipeListener);
-            setOnTouchListener(swipeMotionDetector);
-        } else {
-            swipeMotionDetector = null;
-            setOnTouchListener(null);
-        }
-    }
+public void setOnSwipeListener(OnSwipeListener onSwipeListener) {
+	if (onSwipeListener != null) {
+		swipeMotionDetector = new SwipeMotionDetector(getContext(), onSwipeListener);
+		setOnTouchListener(swipeMotionDetector);
+	} else {
+		swipeMotionDetector = null;
+		setOnTouchListener(null);
+	}
+}
 }

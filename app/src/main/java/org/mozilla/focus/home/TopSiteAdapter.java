@@ -32,118 +32,118 @@ import java.util.List;
 
 class TopSiteAdapter extends RecyclerView.Adapter<SiteViewHolder> {
 
-    private List<Site> sites = new ArrayList<>();
-    private final View.OnClickListener clickListener;
-    private final View.OnLongClickListener longClickListener;
-    private final PinSiteManager pinSiteManager;
+private List<Site> sites = new ArrayList<>();
+private final View.OnClickListener clickListener;
+private final View.OnLongClickListener longClickListener;
+private final PinSiteManager pinSiteManager;
 
-    TopSiteAdapter(@NonNull List<Site> sites,
-                   @Nullable View.OnClickListener clickListener,
-                   @Nullable View.OnLongClickListener longClickListener,
-                   @NonNull PinSiteManager pinSiteManager) {
-        this.sites.addAll(sites);
-        this.clickListener = clickListener;
-        this.longClickListener = longClickListener;
-        this.pinSiteManager = pinSiteManager;
-    }
+TopSiteAdapter(@NonNull List<Site> sites,
+               @Nullable View.OnClickListener clickListener,
+               @Nullable View.OnLongClickListener longClickListener,
+               @NonNull PinSiteManager pinSiteManager) {
+	this.sites.addAll(sites);
+	this.clickListener = clickListener;
+	this.longClickListener = longClickListener;
+	this.pinSiteManager = pinSiteManager;
+}
 
-    @NotNull
-    @Override
-    public SiteViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(parent.getContext())
-                          .inflate(R.layout.item_top_site, parent, false);
+@NotNull
+@Override
+public SiteViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+	final View view = LayoutInflater.from(parent.getContext())
+	                  .inflate(R.layout.item_top_site, parent, false);
 
-        return new SiteViewHolder(view);
-    }
+	return new SiteViewHolder(view);
+}
 
-    private int addWhiteToColorCode(int colorCode, @SuppressWarnings("SameParameterValue") float percentage) {
-        int result = (int) (colorCode + 0xFF * percentage / 2);
-        if (result > 0xFF) {
-            result = 0xFF;
-        }
-        return result;
-    }
+private int addWhiteToColorCode(int colorCode, @SuppressWarnings("SameParameterValue") float percentage) {
+	int result = (int) (colorCode + 0xFF * percentage / 2);
+	if (result > 0xFF) {
+		result = 0xFF;
+	}
+	return result;
+}
 
-    @Override
-    public void onBindViewHolder(@NotNull SiteViewHolder holder, int position) {
-        final Site site = sites.get(position);
-        holder.text.setText(site.getTitle());
+@Override
+public void onBindViewHolder(@NotNull SiteViewHolder holder, int position) {
+	final Site site = sites.get(position);
+	holder.text.setText(site.getTitle());
 
-        // Tried AsyncTask and other simple offloading, the performance drops significantly.
-        // FIXME: 9/21/18 by saving bitmap color, cause FaviconUtils.getDominantColor runs slow.
-        // Favicon
-        Bitmap favicon = StrictModeViolation.tempGrant(StrictMode.ThreadPolicy.Builder::permitDiskReads, () -> {
-            return getFavicon(holder.itemView.getContext(), site);
-        });
-        holder.img.setVisibility(View.VISIBLE);
-        holder.img.setImageBitmap(favicon);
+	// Tried AsyncTask and other simple offloading, the performance drops significantly.
+	// FIXME: 9/21/18 by saving bitmap color, cause FaviconUtils.getDominantColor runs slow.
+	// Favicon
+	Bitmap favicon = StrictModeViolation.tempGrant(StrictMode.ThreadPolicy.Builder::permitDiskReads, ()->{
+			return getFavicon(holder.itemView.getContext(), site);
+		});
+	holder.img.setVisibility(View.VISIBLE);
+	holder.img.setImageBitmap(favicon);
 
-        // Background color
-        int backgroundColor = calculateBackgroundColor(favicon);
-        ViewCompat.setBackgroundTintList(holder.img, ColorStateList.valueOf(backgroundColor));
+	// Background color
+	int backgroundColor = calculateBackgroundColor(favicon);
+	ViewCompat.setBackgroundTintList(holder.img, ColorStateList.valueOf(backgroundColor));
 
-        // Pin
-        holder.pinView.setVisibility(pinSiteManager.isPinned(site) ? View.VISIBLE : View.GONE);
-        holder.pinView.setPinColor(backgroundColor);
+	// Pin
+	holder.pinView.setVisibility(pinSiteManager.isPinned(site) ? View.VISIBLE : View.GONE);
+	holder.pinView.setPinColor(backgroundColor);
 
-        // let click listener knows which site is clicked
-        holder.itemView.setTag(site);
+	// let click listener knows which site is clicked
+	holder.itemView.setTag(site);
 
-        if (clickListener != null) {
-            holder.itemView.setOnClickListener(clickListener);
-        }
-        if (longClickListener != null) {
-            holder.itemView.setOnLongClickListener(longClickListener);
-        }
-    }
+	if (clickListener != null) {
+		holder.itemView.setOnClickListener(clickListener);
+	}
+	if (longClickListener != null) {
+		holder.itemView.setOnLongClickListener(longClickListener);
+	}
+}
 
-    private Bitmap getFavicon(Context context, Site site) {
-        String faviconUri = site.getFavIconUri();
-        Bitmap favicon = null;
-        if (faviconUri != null) {
-            favicon = FavIconUtils.getBitmapFromUri(context, faviconUri);
-        }
+private Bitmap getFavicon(Context context, Site site) {
+	String faviconUri = site.getFavIconUri();
+	Bitmap favicon = null;
+	if (faviconUri != null) {
+		favicon = FavIconUtils.getBitmapFromUri(context, faviconUri);
+	}
 
-        return getBestFavicon(context.getResources(), site.getUrl(), favicon);
-    }
+	return getBestFavicon(context.getResources(), site.getUrl(), favicon);
+}
 
-    private Bitmap getBestFavicon(Resources res, String url, @Nullable Bitmap favicon) {
-        if (favicon == null) {
-            return createFavicon(res, url, Color.WHITE);
-        } else if (DimenUtils.iconTooBlurry(res, favicon.getWidth())) {
-            return createFavicon(res, url, FavIconUtils.getDominantColor(favicon));
-        } else {
-            return favicon;
-        }
-    }
+private Bitmap getBestFavicon(Resources res, String url, @Nullable Bitmap favicon) {
+	if (favicon == null) {
+		return createFavicon(res, url, Color.WHITE);
+	} else if (DimenUtils.iconTooBlurry(res, favicon.getWidth())) {
+		return createFavicon(res, url, FavIconUtils.getDominantColor(favicon));
+	} else {
+		return favicon;
+	}
+}
 
-    private Bitmap createFavicon(Resources resources, String url, int backgroundColor) {
-        return DimenUtils.getInitialBitmap(resources, FavIconUtils.getRepresentativeCharacter(url),
-                                           backgroundColor);
-    }
+private Bitmap createFavicon(Resources resources, String url, int backgroundColor) {
+	return DimenUtils.getInitialBitmap(resources, FavIconUtils.getRepresentativeCharacter(url),
+	                                   backgroundColor);
+}
 
-    private int calculateBackgroundColor(Bitmap favicon) {
-        int dominantColor = FavIconUtils.getDominantColor(favicon);
-        int alpha = (dominantColor & 0xFF000000);
-        // Add 25% white to dominant Color
-        int red = addWhiteToColorCode((dominantColor & 0x00FF0000) >> 16, 0.25f) << 16;
-        int green = addWhiteToColorCode((dominantColor & 0x0000FF00) >> 8, 0.25f) << 8;
-        int blue = addWhiteToColorCode((dominantColor & 0x000000FF), 0.25f);
-        return alpha + red + green + blue;
-    }
+private int calculateBackgroundColor(Bitmap favicon) {
+	int dominantColor = FavIconUtils.getDominantColor(favicon);
+	int alpha = (dominantColor & 0xFF000000);
+	// Add 25% white to dominant Color
+	int red = addWhiteToColorCode((dominantColor & 0x00FF0000) >> 16, 0.25f) << 16;
+	int green = addWhiteToColorCode((dominantColor & 0x0000FF00) >> 8, 0.25f) << 8;
+	int blue = addWhiteToColorCode((dominantColor & 0x000000FF), 0.25f);
+	return alpha + red + green + blue;
+}
 
-    @Override
-    public int getItemCount() {
-        return sites.size();
-    }
+@Override
+public int getItemCount() {
+	return sites.size();
+}
 
-    void addSite(int index, @NonNull Site toAdd) {
-        this.sites.add(index, toAdd);
-        notifyItemInserted(index);
-    }
+void addSite(int index, @NonNull Site toAdd) {
+	this.sites.add(index, toAdd);
+	notifyItemInserted(index);
+}
 
-    public void setSites(@NonNull List<Site> sites) {
-        this.sites = sites;
-        notifyDataSetChanged();
-    }
+public void setSites(@NonNull List<Site> sites) {
+	this.sites = sites;
+	notifyDataSetChanged();
+}
 }

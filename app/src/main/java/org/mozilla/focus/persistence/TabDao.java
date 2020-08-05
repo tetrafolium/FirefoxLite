@@ -12,21 +12,21 @@ import java.util.List;
 @Dao
 public abstract class TabDao {
 
-    @Query("SELECT * FROM tabs")
-    public abstract List<TabEntity> getTabs();
+@Query("SELECT * FROM tabs")
+public abstract List<TabEntity> getTabs();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertTabs(TabEntity... tab);
+@Insert(onConflict = OnConflictStrategy.REPLACE)
+public abstract void insertTabs(TabEntity... tab);
 
-    @Delete
-    public abstract void deleteTab(TabEntity tab);
+@Delete
+public abstract void deleteTab(TabEntity tab);
 
-    @Query("DELETE FROM tabs")
-    public abstract void deleteAllTabs();
+@Query("DELETE FROM tabs")
+public abstract void deleteAllTabs();
 
-    @Transaction
-    public void deleteAllTabsAndInsertTabsInTransaction(TabEntity... tab) {
-        deleteAllTabs();
-        insertTabs(tab);
-    }
+@Transaction
+public void deleteAllTabsAndInsertTabsInTransaction(TabEntity... tab) {
+	deleteAllTabs();
+	insertTabs(tab);
+}
 }

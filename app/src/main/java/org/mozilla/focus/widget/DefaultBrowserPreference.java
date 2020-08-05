@@ -33,206 +33,206 @@ import org.mozilla.focus.utils.SupportUtils;
 @TargetApi(Build.VERSION_CODES.N)
 public class DefaultBrowserPreference extends Preference {
 
-    public final static String EXTRA_RESOLVE_BROWSER = "_intent_to_resolve_browser_";
+public final static String EXTRA_RESOLVE_BROWSER = "_intent_to_resolve_browser_";
 
-    private Switch switchView;
+private Switch switchView;
 
-    private DefaultBrowserAction action;
+private DefaultBrowserAction action;
 
-    @SuppressWarnings("unused") // Instantiated from XML
-    public DefaultBrowserPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        setWidgetLayoutResource(R.layout.preference_default_browser);
-        init();
-    }
+@SuppressWarnings("unused")     // Instantiated from XML
+public DefaultBrowserPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+	super(context, attrs, defStyleAttr);
+	setWidgetLayoutResource(R.layout.preference_default_browser);
+	init();
+}
 
-    @SuppressWarnings("unused") // Instantiated from XML
-    public DefaultBrowserPreference(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setWidgetLayoutResource(R.layout.preference_default_browser);
-        init();
-    }
+@SuppressWarnings("unused")     // Instantiated from XML
+public DefaultBrowserPreference(Context context, AttributeSet attrs) {
+	super(context, attrs);
+	setWidgetLayoutResource(R.layout.preference_default_browser);
+	init();
+}
 
-    @Override
-    protected void onBindView(View view) {
-        super.onBindView(view);
-        switchView = (Switch) view.findViewById(R.id.switch_widget);
-        update();
-    }
+@Override
+protected void onBindView(View view) {
+	super.onBindView(view);
+	switchView = (Switch) view.findViewById(R.id.switch_widget);
+	update();
+}
 
-    public void update() {
-        if (switchView != null) {
-            final boolean isDefaultBrowser = Browsers.isDefaultBrowser(getContext());
+public void update() {
+	if (switchView != null) {
+		final boolean isDefaultBrowser = Browsers.isDefaultBrowser(getContext());
 
-            switchView.setChecked(isDefaultBrowser);
-            if (ComponentToggleService.isAlive(getContext())) {
-                setEnabled(false);
-                setSummary(R.string.preference_default_browser_is_setting);
-            } else {
-                setEnabled(true);
-                setSummary(null);
-            }
+		switchView.setChecked(isDefaultBrowser);
+		if (ComponentToggleService.isAlive(getContext())) {
+			setEnabled(false);
+			setSummary(R.string.preference_default_browser_is_setting);
+		} else {
+			setEnabled(true);
+			setSummary(null);
+		}
 
-            Settings.updatePrefDefaultBrowserIfNeeded(getContext(), isDefaultBrowser);
-        }
-    }
+		Settings.updatePrefDefaultBrowserIfNeeded(getContext(), isDefaultBrowser);
+	}
+}
 
-    @Override
-    protected void onClick() {
-        action.onPrefClicked();
-    }
+@Override
+protected void onClick() {
+	action.onPrefClicked();
+}
 
-    public void onFragmentResume() {
-        this.update();
-        action.onFragmentResume();
-    }
+public void onFragmentResume() {
+	this.update();
+	action.onFragmentResume();
+}
 
-    public void onFragmentPause() {
-        action.onFragmentPause();
-    }
+public void onFragmentPause() {
+	action.onFragmentPause();
+}
 
-    private void init() {
-        if (action == null) {
-            action = ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M))
-                     ? new DefaultAction(this)
-                     : new LowSdkAction(this);
+private void init() {
+	if (action == null) {
+		action = ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M))
+		     ? new DefaultAction(this)
+		     : new LowSdkAction(this);
 
-        }
-    }
+	}
+}
 
-    private void openAppDetailSettings(Context context) {
-        //  TODO: extract this to util module
-        Intent intent = new Intent();
-        intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        //  fromParts might be faster than parse: ex. Uri.parse("package://"+context.getPackageName());
-        Uri uri = Uri.fromParts("package", context.getPackageName(), null);
-        intent.setData(uri);
-        context.startActivity(intent);
-    }
+private void openAppDetailSettings(Context context) {
+	//  TODO: extract this to util module
+	Intent intent = new Intent();
+	intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+	//  fromParts might be faster than parse: ex. Uri.parse("package://"+context.getPackageName());
+	Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+	intent.setData(uri);
+	context.startActivity(intent);
+}
 
-    private void clearDefaultBrowser(Context context) {
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName(context, ComponentToggleService.class));
-        context.startService(intent);
-    }
+private void clearDefaultBrowser(Context context) {
+	Intent intent = new Intent();
+	intent.setComponent(new ComponentName(context, ComponentToggleService.class));
+	context.startService(intent);
+}
 
-    private void openSumoPage(Context context) {
-        final Intent intent = InfoActivity.getIntentFor(context, SupportUtils.getSumoURLForTopic(context, "rocket-default"), getTitle().toString());
-        context.startActivity(intent);
-    }
+private void openSumoPage(Context context) {
+	final Intent intent = InfoActivity.getIntentFor(context, SupportUtils.getSumoURLForTopic(context, "rocket-default"), getTitle().toString());
+	context.startActivity(intent);
+}
 
-    private void triggerWebOpen() {
-        Intent viewIntent = new Intent(Intent.ACTION_VIEW);
-        viewIntent.setData(Uri.parse("http://mozilla.org"));
+private void triggerWebOpen() {
+	Intent viewIntent = new Intent(Intent.ACTION_VIEW);
+	viewIntent.setData(Uri.parse("http://mozilla.org"));
 
-        //  Put a mojo to force MainActivity finish it's self, we probably need an intent flag to handle the task problem (reorder/parent/top)
-        viewIntent.putExtra(EXTRA_RESOLVE_BROWSER, true);
-        getContext().startActivity(viewIntent);
-    }
+	//  Put a mojo to force MainActivity finish it's self, we probably need an intent flag to handle the task problem (reorder/parent/top)
+	viewIntent.putExtra(EXTRA_RESOLVE_BROWSER, true);
+	getContext().startActivity(viewIntent);
+}
 
-    /**
-     * To define necessary actions for setting default-browser.
-     */
-    private interface DefaultBrowserAction {
-        void onPrefClicked();
+/**
+ * To define necessary actions for setting default-browser.
+ */
+private interface DefaultBrowserAction {
+void onPrefClicked();
 
-        void onFragmentResume();
+void onFragmentResume();
 
-        void onFragmentPause();
-    }
+void onFragmentPause();
+}
 
-    private static class DefaultAction implements DefaultBrowserAction {
-        DefaultBrowserPreference pref;
+private static class DefaultAction implements DefaultBrowserAction {
+DefaultBrowserPreference pref;
 
-        DefaultAction(@NonNull final DefaultBrowserPreference pref) {
-            this.pref = pref;
-        }
+DefaultAction(@NonNull final DefaultBrowserPreference pref) {
+	this.pref = pref;
+}
 
-        public void onPrefClicked() {
-            // fire an intent and start related activity immediately
-            if (!IntentUtils.openDefaultAppsSettings(pref.getContext())) {
-                pref.openSumoPage(pref.getContext());
-            }
-        }
+public void onPrefClicked() {
+	// fire an intent and start related activity immediately
+	if (!IntentUtils.openDefaultAppsSettings(pref.getContext())) {
+		pref.openSumoPage(pref.getContext());
+	}
+}
 
-        public void onFragmentResume() {
+public void onFragmentResume() {
 
-        }
+}
 
-        public void onFragmentPause() {
-        }
-    }
+public void onFragmentPause() {
+}
+}
 
-    /**
-     * For android sdk version older than N
-     */
-    private static class LowSdkAction implements DefaultBrowserAction {
-        DefaultBrowserPreference pref;
-        BroadcastReceiver receiver;
+/**
+ * For android sdk version older than N
+ */
+private static class LowSdkAction implements DefaultBrowserAction {
+DefaultBrowserPreference pref;
+BroadcastReceiver receiver;
 
-        LowSdkAction(@NonNull final DefaultBrowserPreference pref) {
-            this.pref = pref;
-            this.receiver = new ServiceReceiver(pref);
-        }
+LowSdkAction(@NonNull final DefaultBrowserPreference pref) {
+	this.pref = pref;
+	this.receiver = new ServiceReceiver(pref);
+}
 
-        public void onPrefClicked() {
-            final Context context = pref.getContext();
-            final boolean isDefaultBrowser = Browsers.isDefaultBrowser(context);
-            final boolean hasDefaultBrowser = Browsers.hasDefaultBrowser(context);
+public void onPrefClicked() {
+	final Context context = pref.getContext();
+	final boolean isDefaultBrowser = Browsers.isDefaultBrowser(context);
+	final boolean hasDefaultBrowser = Browsers.hasDefaultBrowser(context);
 
-            if (isDefaultBrowser) {
-                pref.openAppDetailSettings(context);
-            } else if (hasDefaultBrowser) {
-                pref.setEnabled(false);
-                pref.setSummary(R.string.preference_default_browser_is_setting);
-                pref.clearDefaultBrowser(context);
-            } else {
-                pref.triggerWebOpen();
-            }
-        }
+	if (isDefaultBrowser) {
+		pref.openAppDetailSettings(context);
+	} else if (hasDefaultBrowser) {
+		pref.setEnabled(false);
+		pref.setSummary(R.string.preference_default_browser_is_setting);
+		pref.clearDefaultBrowser(context);
+	} else {
+		pref.triggerWebOpen();
+	}
+}
 
-        public void onFragmentResume() {
-            LocalBroadcastManager.getInstance(pref.getContext())
-            .registerReceiver(this.receiver, ComponentToggleService.SERVICE_STOP_INTENT_FILTER);
-        }
+public void onFragmentResume() {
+	LocalBroadcastManager.getInstance(pref.getContext())
+	.registerReceiver(this.receiver, ComponentToggleService.SERVICE_STOP_INTENT_FILTER);
+}
 
-        public void onFragmentPause() {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                LocalBroadcastManager.getInstance(pref.getContext())
-                .unregisterReceiver(this.receiver);
-            }
-        }
-    }
+public void onFragmentPause() {
+	if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+		LocalBroadcastManager.getInstance(pref.getContext())
+		.unregisterReceiver(this.receiver);
+	}
+}
+}
 
-    private static class ServiceReceiver extends BroadcastReceiver {
-        DefaultBrowserPreference pref;
+private static class ServiceReceiver extends BroadcastReceiver {
+DefaultBrowserPreference pref;
 
-        ServiceReceiver(DefaultBrowserPreference pref) {
-            this.pref = pref;
-        }
+ServiceReceiver(DefaultBrowserPreference pref) {
+	this.pref = pref;
+}
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // update UI
-            pref.update();
+@Override
+public void onReceive(Context context, Intent intent) {
+	// update UI
+	pref.update();
 
-            // SettingsActivity is in foreground(because this BroadcastReceiver is working),
-            // to remove notification which created by Service
-            NotificationManagerCompat.from(context).cancel(ComponentToggleService.NOTIFICATION_ID);
+	// SettingsActivity is in foreground(because this BroadcastReceiver is working),
+	// to remove notification which created by Service
+	NotificationManagerCompat.from(context).cancel(ComponentToggleService.NOTIFICATION_ID);
 
-            final boolean isDefaultBrowser = Browsers.isDefaultBrowser(context);
-            final boolean hasDefaultBrowser = Browsers.hasDefaultBrowser(context);
+	final boolean isDefaultBrowser = Browsers.isDefaultBrowser(context);
+	final boolean hasDefaultBrowser = Browsers.hasDefaultBrowser(context);
 
-            // The default-browser-config should be cleared, if the service finished its job.
-            // if not been cleared, we regards it as 'fail'
-            if (hasDefaultBrowser && !isDefaultBrowser) {
-                TelemetryWrapper.onDefaultBrowserServiceFailed();
-            }
+	// The default-browser-config should be cleared, if the service finished its job.
+	// if not been cleared, we regards it as 'fail'
+	if (hasDefaultBrowser && !isDefaultBrowser) {
+		TelemetryWrapper.onDefaultBrowserServiceFailed();
+	}
 
-            // if service finished its job, lets fire an intent to choose myself as default browser
-            if (!isDefaultBrowser && !hasDefaultBrowser) {
-                pref.triggerWebOpen();
-            }
-        }
-    }
+	// if service finished its job, lets fire an intent to choose myself as default browser
+	if (!isDefaultBrowser && !hasDefaultBrowser) {
+		pref.triggerWebOpen();
+	}
+}
+}
 }

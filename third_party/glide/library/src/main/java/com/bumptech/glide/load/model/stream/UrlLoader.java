@@ -15,35 +15,35 @@ import java.net.URL;
  * load the data.
  */
 public class UrlLoader implements ModelLoader<URL, InputStream> {
-    private final ModelLoader<GlideUrl, InputStream> glideUrlLoader;
+private final ModelLoader<GlideUrl, InputStream> glideUrlLoader;
 
-    public UrlLoader(ModelLoader<GlideUrl, InputStream> glideUrlLoader) {
-        this.glideUrlLoader = glideUrlLoader;
-    }
+public UrlLoader(ModelLoader<GlideUrl, InputStream> glideUrlLoader) {
+	this.glideUrlLoader = glideUrlLoader;
+}
 
-    @Override
-    public LoadData<InputStream> buildLoadData(URL model, int width, int height, Options options) {
-        return glideUrlLoader.buildLoadData(new GlideUrl(model), width, height, options);
-    }
+@Override
+public LoadData<InputStream> buildLoadData(URL model, int width, int height, Options options) {
+	return glideUrlLoader.buildLoadData(new GlideUrl(model), width, height, options);
+}
 
-    @Override
-    public boolean handles(URL model) {
-        return true;
-    }
+@Override
+public boolean handles(URL model) {
+	return true;
+}
 
-    /**
-     * Factory for loading {@link InputStream}s from {@link URL}s.
-     */
-    public static class StreamFactory implements ModelLoaderFactory<URL, InputStream> {
+/**
+ * Factory for loading {@link InputStream}s from {@link URL}s.
+ */
+public static class StreamFactory implements ModelLoaderFactory<URL, InputStream> {
 
-        @Override
-        public ModelLoader<URL, InputStream> build(MultiModelLoaderFactory multiFactory) {
-            return new UrlLoader(multiFactory.build(GlideUrl.class, InputStream.class));
-        }
+@Override
+public ModelLoader<URL, InputStream> build(MultiModelLoaderFactory multiFactory) {
+	return new UrlLoader(multiFactory.build(GlideUrl.class, InputStream.class));
+}
 
-        @Override
-        public void teardown() {
-            // Do nothing.
-        }
-    }
+@Override
+public void teardown() {
+	// Do nothing.
+}
+}
 }

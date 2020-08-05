@@ -9,40 +9,40 @@ import androidx.viewpager.widget.ViewPager;
  */
 public class ViewPagerIdlingResource implements IdlingResource {
 
-    private boolean mIdle = true; // Default to idle since we can't query the scroll state.
+private boolean mIdle = true;     // Default to idle since we can't query the scroll state.
 
-    private ResourceCallback mResourceCallback;
+private ResourceCallback mResourceCallback;
 
-    public ViewPagerIdlingResource(ViewPager viewPager) {
-        viewPager.addOnPageChangeListener(new ViewPagerListener());
+public ViewPagerIdlingResource(ViewPager viewPager) {
+	viewPager.addOnPageChangeListener(new ViewPagerListener());
 
-    }
+}
 
-    @Override
-    public String getName() {
-        return ViewPagerIdlingResource.class.getSimpleName();
-    }
+@Override
+public String getName() {
+	return ViewPagerIdlingResource.class.getSimpleName();
+}
 
-    @Override
-    public boolean isIdleNow() {
-        return mIdle;
-    }
+@Override
+public boolean isIdleNow() {
+	return mIdle;
+}
 
-    @Override
-    public void registerIdleTransitionCallback(ResourceCallback resourceCallback) {
-        mResourceCallback = resourceCallback;
-    }
+@Override
+public void registerIdleTransitionCallback(ResourceCallback resourceCallback) {
+	mResourceCallback = resourceCallback;
+}
 
-    private class ViewPagerListener extends ViewPager.SimpleOnPageChangeListener {
+private class ViewPagerListener extends ViewPager.SimpleOnPageChangeListener {
 
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            mIdle = (state == ViewPager.SCROLL_STATE_IDLE
-                     // Treat dragging as idle, or Espresso will block itself when swiping.
-                     || state == ViewPager.SCROLL_STATE_DRAGGING);
-            if (mIdle && mResourceCallback != null) {
-                mResourceCallback.onTransitionToIdle();
-            }
-        }
-    }
+@Override
+public void onPageScrollStateChanged(int state) {
+	mIdle = (state == ViewPager.SCROLL_STATE_IDLE
+	         // Treat dragging as idle, or Espresso will block itself when swiping.
+	         || state == ViewPager.SCROLL_STATE_DRAGGING);
+	if (mIdle && mResourceCallback != null) {
+		mResourceCallback.onTransitionToIdle();
+	}
+}
+}
 }

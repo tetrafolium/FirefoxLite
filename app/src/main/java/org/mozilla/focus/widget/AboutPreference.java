@@ -12,15 +12,15 @@ import android.util.AttributeSet;
 import org.mozilla.focus.R;
 
 public class AboutPreference extends Preference {
-    public AboutPreference(Context context, AttributeSet attrs,
-                           int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        final String title = getContext().getResources().getString(R.string.preference_about);
+public AboutPreference(Context context, AttributeSet attrs,
+                       int defStyleAttr) {
+	super(context, attrs, defStyleAttr);
+	final String title = getContext().getResources().getString(R.string.preference_about);
 
-        setTitle(title);
-    }
+	setTitle(title);
+}
 
-    public AboutPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
+public AboutPreference(Context context, AttributeSet attrs) {
+	this(context, attrs, 0);
+}
 }

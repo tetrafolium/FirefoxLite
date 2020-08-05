@@ -7,16 +7,16 @@ import android.widget.ImageView;
  * Efficiently displays multiple Drawables loaded serially into a single {@link android.view.View}.
  */
 public class DrawableThumbnailImageViewTarget extends ThumbnailImageViewTarget<Drawable> {
-    public DrawableThumbnailImageViewTarget(ImageView view) {
-        super(view);
-    }
+public DrawableThumbnailImageViewTarget(ImageView view) {
+	super(view);
+}
 
-    public DrawableThumbnailImageViewTarget(ImageView view, boolean waitForLayout) {
-        super(view, waitForLayout);
-    }
+public DrawableThumbnailImageViewTarget(ImageView view, boolean waitForLayout) {
+	super(view, waitForLayout);
+}
 
-    @Override
-    protected Drawable getDrawable(Drawable resource) {
-        return resource;
-    }
+@Override
+protected Drawable getDrawable(Drawable resource) {
+	return resource;
+}
 }

@@ -47,211 +47,211 @@ import java.util.concurrent.TimeoutException;
  * @param <R> The type of the resource that will be loaded.
  */
 public class RequestFutureTarget<R> implements FutureTarget<R>,
-    Runnable {
-    private static final Waiter DEFAULT_WAITER = new Waiter();
+	                                       Runnable {
+private static final Waiter DEFAULT_WAITER = new Waiter();
 
-    private final Handler mainHandler;
-    private final int width;
-    private final int height;
-    // Exists for testing only.
-    private final boolean assertBackgroundThread;
-    private final Waiter waiter;
+private final Handler mainHandler;
+private final int width;
+private final int height;
+// Exists for testing only.
+private final boolean assertBackgroundThread;
+private final Waiter waiter;
 
-    @Nullable private R resource;
-    @Nullable private Request request;
-    private boolean isCancelled;
-    private boolean resultReceived;
-    private boolean loadFailed;
+@Nullable private R resource;
+@Nullable private Request request;
+private boolean isCancelled;
+private boolean resultReceived;
+private boolean loadFailed;
 
-    /**
-     * Constructor for a RequestFutureTarget. Should not be used directly.
-     */
-    public RequestFutureTarget(Handler mainHandler, int width, int height) {
-        this(mainHandler, width, height, true, DEFAULT_WAITER);
-    }
+/**
+ * Constructor for a RequestFutureTarget. Should not be used directly.
+ */
+public RequestFutureTarget(Handler mainHandler, int width, int height) {
+	this(mainHandler, width, height, true, DEFAULT_WAITER);
+}
 
-    RequestFutureTarget(Handler mainHandler, int width, int height, boolean assertBackgroundThread,
-                        Waiter waiter) {
-        this.mainHandler = mainHandler;
-        this.width = width;
-        this.height = height;
-        this.assertBackgroundThread = assertBackgroundThread;
-        this.waiter = waiter;
-    }
+RequestFutureTarget(Handler mainHandler, int width, int height, boolean assertBackgroundThread,
+                    Waiter waiter) {
+	this.mainHandler = mainHandler;
+	this.width = width;
+	this.height = height;
+	this.assertBackgroundThread = assertBackgroundThread;
+	this.waiter = waiter;
+}
 
-    @Override
-    public synchronized boolean cancel(boolean mayInterruptIfRunning) {
-        if (isDone()) {
-            return false;
-        }
-        isCancelled = true;
-        waiter.notifyAll(this);
-        if (mayInterruptIfRunning) {
-            clearOnMainThread();
-        }
-        return true;
-    }
+@Override
+public synchronized boolean cancel(boolean mayInterruptIfRunning) {
+	if (isDone()) {
+		return false;
+	}
+	isCancelled = true;
+	waiter.notifyAll(this);
+	if (mayInterruptIfRunning) {
+		clearOnMainThread();
+	}
+	return true;
+}
 
-    @Override
-    public synchronized boolean isCancelled() {
-        return isCancelled;
-    }
+@Override
+public synchronized boolean isCancelled() {
+	return isCancelled;
+}
 
-    @Override
-    public synchronized boolean isDone() {
-        return isCancelled || resultReceived || loadFailed;
-    }
+@Override
+public synchronized boolean isDone() {
+	return isCancelled || resultReceived || loadFailed;
+}
 
-    @Override
-    public R get() throws InterruptedException, ExecutionException {
-        try {
-            return doGet(null);
-        } catch (TimeoutException e) {
-            throw new AssertionError(e);
-        }
-    }
+@Override
+public R get() throws InterruptedException, ExecutionException {
+	try {
+		return doGet(null);
+	} catch (TimeoutException e) {
+		throw new AssertionError(e);
+	}
+}
 
-    @Override
-    public R get(long time, TimeUnit timeUnit)
-    throws InterruptedException, ExecutionException, TimeoutException {
-        return doGet(timeUnit.toMillis(time));
-    }
+@Override
+public R get(long time, TimeUnit timeUnit)
+throws InterruptedException, ExecutionException, TimeoutException {
+	return doGet(timeUnit.toMillis(time));
+}
 
-    /**
-     * A callback that should never be invoked directly.
-     */
-    @Override
-    public void getSize(SizeReadyCallback cb) {
-        cb.onSizeReady(width, height);
-    }
+/**
+ * A callback that should never be invoked directly.
+ */
+@Override
+public void getSize(SizeReadyCallback cb) {
+	cb.onSizeReady(width, height);
+}
 
-    @Override
-    public void removeCallback(SizeReadyCallback cb) {
-        // Do nothing because we do not retain references to SizeReadyCallbacks.
-    }
+@Override
+public void removeCallback(SizeReadyCallback cb) {
+	// Do nothing because we do not retain references to SizeReadyCallbacks.
+}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setRequest(@Nullable Request request) {
-        this.request = request;
-    }
+/**
+ * {@inheritDoc}
+ */
+@Override
+public void setRequest(@Nullable Request request) {
+	this.request = request;
+}
 
-    @Override
-    @Nullable
-    public Request getRequest() {
-        return request;
-    }
+@Override
+@Nullable
+public Request getRequest() {
+	return request;
+}
 
-    /**
-     * A callback that should never be invoked directly.
-     */
-    @Override
-    public void onLoadCleared(Drawable placeholder) {
-        // Do nothing.
-    }
+/**
+ * A callback that should never be invoked directly.
+ */
+@Override
+public void onLoadCleared(Drawable placeholder) {
+	// Do nothing.
+}
 
-    /**
-     * A callback that should never be invoked directly.
-     */
-    @Override
-    public void onLoadStarted(Drawable placeholder) {
-        // Do nothing.
-    }
+/**
+ * A callback that should never be invoked directly.
+ */
+@Override
+public void onLoadStarted(Drawable placeholder) {
+	// Do nothing.
+}
 
-    /**
-     * A callback that should never be invoked directly.
-     */
-    @Override
-    public synchronized void onLoadFailed(Drawable errorDrawable) {
-        loadFailed = true;
-        waiter.notifyAll(this);
-    }
+/**
+ * A callback that should never be invoked directly.
+ */
+@Override
+public synchronized void onLoadFailed(Drawable errorDrawable) {
+	loadFailed = true;
+	waiter.notifyAll(this);
+}
 
-    /**
-     * A callback that should never be invoked directly.
-     */
-    @Override
-    public synchronized void onResourceReady(R resource, Transition<? super R> transition) {
-        // We might get a null result.
-        resultReceived = true;
-        this.resource = resource;
-        waiter.notifyAll(this);
-    }
+/**
+ * A callback that should never be invoked directly.
+ */
+@Override
+public synchronized void onResourceReady(R resource, Transition<? super R> transition) {
+	// We might get a null result.
+	resultReceived = true;
+	this.resource = resource;
+	waiter.notifyAll(this);
+}
 
-    private synchronized R doGet(Long timeoutMillis)
-    throws ExecutionException, InterruptedException, TimeoutException {
-        if (assertBackgroundThread && !isDone()) {
-            Util.assertBackgroundThread();
-        }
+private synchronized R doGet(Long timeoutMillis)
+throws ExecutionException, InterruptedException, TimeoutException {
+	if (assertBackgroundThread && !isDone()) {
+		Util.assertBackgroundThread();
+	}
 
-        if (isCancelled) {
-            throw new CancellationException();
-        } else if (loadFailed) {
-            throw new ExecutionException(new IllegalStateException("Load failed"));
-        } else if (resultReceived) {
-            return resource;
-        }
+	if (isCancelled) {
+		throw new CancellationException();
+	} else if (loadFailed) {
+		throw new ExecutionException(new IllegalStateException("Load failed"));
+	} else if (resultReceived) {
+		return resource;
+	}
 
-        if (timeoutMillis == null) {
-            waiter.waitForTimeout(this, 0);
-        } else if (timeoutMillis > 0) {
-            waiter.waitForTimeout(this, timeoutMillis);
-        }
+	if (timeoutMillis == null) {
+		waiter.waitForTimeout(this, 0);
+	} else if (timeoutMillis > 0) {
+		waiter.waitForTimeout(this, timeoutMillis);
+	}
 
-        if (Thread.interrupted()) {
-            throw new InterruptedException();
-        } else if (loadFailed) {
-            throw new ExecutionException(new IllegalStateException("Load failed"));
-        } else if (isCancelled) {
-            throw new CancellationException();
-        } else if (!resultReceived) {
-            throw new TimeoutException();
-        }
+	if (Thread.interrupted()) {
+		throw new InterruptedException();
+	} else if (loadFailed) {
+		throw new ExecutionException(new IllegalStateException("Load failed"));
+	} else if (isCancelled) {
+		throw new CancellationException();
+	} else if (!resultReceived) {
+		throw new TimeoutException();
+	}
 
-        return resource;
-    }
+	return resource;
+}
 
-    /**
-     * A callback that should never be invoked directly.
-     */
-    @Override
-    public void run() {
-        if (request != null) {
-            request.clear();
-            request = null;
-        }
-    }
+/**
+ * A callback that should never be invoked directly.
+ */
+@Override
+public void run() {
+	if (request != null) {
+		request.clear();
+		request = null;
+	}
+}
 
-    private void clearOnMainThread() {
-        mainHandler.post(this);
-    }
+private void clearOnMainThread() {
+	mainHandler.post(this);
+}
 
-    @Override
-    public void onStart() {
-        // Do nothing.
-    }
+@Override
+public void onStart() {
+	// Do nothing.
+}
 
-    @Override
-    public void onStop() {
-        // Do nothing.
-    }
+@Override
+public void onStop() {
+	// Do nothing.
+}
 
-    @Override
-    public void onDestroy() {
-        // Do nothing.
-    }
+@Override
+public void onDestroy() {
+	// Do nothing.
+}
 
-    // Visible for testing.
-    static class Waiter {
+// Visible for testing.
+static class Waiter {
 
-        public void waitForTimeout(Object toWaitOn, long timeoutMillis) throws InterruptedException {
-            toWaitOn.wait(timeoutMillis);
-        }
+public void waitForTimeout(Object toWaitOn, long timeoutMillis) throws InterruptedException {
+	toWaitOn.wait(timeoutMillis);
+}
 
-        public void notifyAll(Object toNotify) {
-            toNotify.notifyAll();
-        }
-    }
+public void notifyAll(Object toNotify) {
+	toNotify.notifyAll();
+}
+}
 }

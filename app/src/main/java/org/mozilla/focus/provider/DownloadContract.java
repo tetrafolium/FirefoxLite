@@ -16,27 +16,27 @@ import org.mozilla.focus.BuildConfig;
  */
 
 public class DownloadContract {
-    public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider.downloadprovider";
-    public static final Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
-    public static final String PATH = "download_info";
-    public static final int CODE = 2;
+public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider.downloadprovider";
+public static final Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
+public static final String PATH = "download_info";
+public static final int CODE = 2;
 
-    public static final class Download implements BaseColumns {
-        private Download() {
-        }
+public static final class Download implements BaseColumns {
+private Download() {
+}
 
-        ;
+;
 
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "download_info");
+public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "download_info");
 
-        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd." + BuildConfig.APPLICATION_ID + ".provider.downloadprovider.downloadinfo";
+public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd." + BuildConfig.APPLICATION_ID + ".provider.downloadprovider.downloadinfo";
 
-        public static final String TABLE_DOWNLOAD = "download_info";
-        public static final String DOWNLOAD_ID = "download_id";
-        // TODO: 2/2/18 This is actually a file uri, change the naming if necessary
-        public static final String FILE_PATH = "file_path";
-        public static final String STATUS = DownloadManager.COLUMN_STATUS;
-        public static final String IS_READ = "is_read";
+public static final String TABLE_DOWNLOAD = "download_info";
+public static final String DOWNLOAD_ID = "download_id";
+// TODO: 2/2/18 This is actually a file uri, change the naming if necessary
+public static final String FILE_PATH = "file_path";
+public static final String STATUS = DownloadManager.COLUMN_STATUS;
+public static final String IS_READ = "is_read";
 
-    }
+}
 }

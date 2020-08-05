@@ -10,15 +10,15 @@ import androidx.annotation.Nullable;
  */
 public interface LazyHeaderFactory {
 
-    /**
-     * Returns an http header, or {@code null} if no header could be built.
-     *
-     * <p>Returning {@code null} or an empty String from this method will result in this particular
-     * key/value being excluded from the headers provided in the request. If there are multiple
-     * factories or values for a particular key, any non-null values will still be included for that
-     * key.
-     */
-    @Nullable
-    String buildHeader();
+/**
+ * Returns an http header, or {@code null} if no header could be built.
+ *
+ * <p>Returning {@code null} or an empty String from this method will result in this particular
+ * key/value being excluded from the headers provided in the request. If there are multiple
+ * factories or values for a particular key, any non-null values will still be included for that
+ * key.
+ */
+@Nullable
+String buildHeader();
 
 }

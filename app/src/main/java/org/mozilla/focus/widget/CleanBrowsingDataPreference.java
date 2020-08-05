@@ -34,83 +34,83 @@ import java.util.Set;
 
 public class CleanBrowsingDataPreference extends MultiSelectListPreference {
 
-    public CleanBrowsingDataPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
+public CleanBrowsingDataPreference(Context context, AttributeSet attrs) {
+	this(context, attrs, 0);
+}
 
-    public CleanBrowsingDataPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
+public CleanBrowsingDataPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+	super(context, attrs, defStyleAttr);
+}
 
-    @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-        super.onPrepareDialogBuilder(builder);
-        builder.setTitle(null);
-    }
+@Override
+protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+	super.onPrepareDialogBuilder(builder);
+	builder.setTitle(null);
+}
 
-    @Override
-    protected void onDialogClosed(boolean positiveResult) {
-        super.onDialogClosed(positiveResult);
-        if (positiveResult) {
-            Resources resources = getContext().getResources();
-            //  On click positive callback here get current value by getValues();
-            for (String value : getValues()) {
-                if (resources.getString(R.string.pref_value_clear_browsing_history).equals(value)) {
-                    BrowsingHistoryManager.getInstance().deleteAll(null);
-                    TopSitesUtils.clearTopSiteData(getContext());
+@Override
+protected void onDialogClosed(boolean positiveResult) {
+	super.onDialogClosed(positiveResult);
+	if (positiveResult) {
+		Resources resources = getContext().getResources();
+		//  On click positive callback here get current value by getValues();
+		for (String value : getValues()) {
+			if (resources.getString(R.string.pref_value_clear_browsing_history).equals(value)) {
+				BrowsingHistoryManager.getInstance().deleteAll(null);
+				TopSitesUtils.clearTopSiteData(getContext());
 
-                    /*  TODO: Use interface (PinSiteManager) instead of implementation
-                        (SharedPreferencePinSiteDelegate) */
-                    SharedPreferencePinSiteDelegate.Companion.resetPinSiteData(getContext());
+				/*  TODO: Use interface (PinSiteManager) instead of implementation
+				    (SharedPreferencePinSiteDelegate) */
+				SharedPreferencePinSiteDelegate.Companion.resetPinSiteData(getContext());
 
-                } else if (resources.getString(R.string.pref_value_clear_cookies).equals(value)) {
-                    CookieManager.getInstance().removeAllCookies(null);
-                    // Also clear cookies in private mode process if the process exist
-                    if (PrivateMode.getInstance(getContext()).hasPrivateSession()) {
-                        // If there's a private mode process running, below intent will reach
-                        // PrivateModeActivity's onNewIntent, thus the activity won't appear again.
-                        // (assume that onNewIntent will always runs before onStart()
-                        // Fixme: we should rely on another Android component for IPC to clear CookieManager
-                        // Fixme: rather than rely on PrivateModeActivity cause it will cause UI issue easily
-                        final Intent intent = PrivateSessionNotificationService.
-                                              buildIntent(getContext().getApplicationContext(), true);
-                        getContext().startActivity(intent);
-                    }
-                } else if (resources.getString(R.string.pref_value_clear_cache).equals(value)) {
-                    FileUtils.clearCache(getContext());
-                } else if (resources.getString(R.string.pref_value_clear_form_history).equals(value)) {
-                    WebViewDatabase.getInstance(getContext()).clearFormData();
-                }
-                TelemetryWrapper.settingsEvent(getKey(), value, false);
-            }
+			} else if (resources.getString(R.string.pref_value_clear_cookies).equals(value)) {
+				CookieManager.getInstance().removeAllCookies(null);
+				// Also clear cookies in private mode process if the process exist
+				if (PrivateMode.getInstance(getContext()).hasPrivateSession()) {
+					// If there's a private mode process running, below intent will reach
+					// PrivateModeActivity's onNewIntent, thus the activity won't appear again.
+					// (assume that onNewIntent will always runs before onStart()
+					// Fixme: we should rely on another Android component for IPC to clear CookieManager
+					// Fixme: rather than rely on PrivateModeActivity cause it will cause UI issue easily
+					final Intent intent = PrivateSessionNotificationService.
+					                      buildIntent(getContext().getApplicationContext(), true);
+					getContext().startActivity(intent);
+				}
+			} else if (resources.getString(R.string.pref_value_clear_cache).equals(value)) {
+				FileUtils.clearCache(getContext());
+			} else if (resources.getString(R.string.pref_value_clear_form_history).equals(value)) {
+				WebViewDatabase.getInstance(getContext()).clearFormData();
+			}
+			TelemetryWrapper.settingsEvent(getKey(), value, false);
+		}
 
-            if (getValues().size() > 0) {
-                Toast.makeText(getContext(), R.string.message_cleared_browsing_data, Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+		if (getValues().size() > 0) {
+			Toast.makeText(getContext(), R.string.message_cleared_browsing_data, Toast.LENGTH_SHORT).show();
+		}
+	}
+}
 
-    private Object flattenToJsonObject(Set<String> values) {
-        final JSONObject object = new JSONObject();
+private Object flattenToJsonObject(Set<String> values) {
+	final JSONObject object = new JSONObject();
 
-        final String[] preferenceKeys = getContext().getResources().getStringArray(R.array.clean_browsing_data_values);
-        if (preferenceKeys.length <= 0) {
-            return object;
-        }
+	final String[] preferenceKeys = getContext().getResources().getStringArray(R.array.clean_browsing_data_values);
+	if (preferenceKeys.length <= 0) {
+		return object;
+	}
 
-        for (String key : preferenceKeys) {
-            try {
-                if (values.contains(key)) {
-                    object.put(key, Boolean.TRUE.toString());
-                } else {
-                    object.put(key, JSONObject.NULL);
-                }
-            } catch (JSONException e) {
-                throw new AssertionError("Preference value can't be serialized to JSON", e);
-            }
-        }
+	for (String key : preferenceKeys) {
+		try {
+			if (values.contains(key)) {
+				object.put(key, Boolean.TRUE.toString());
+			} else {
+				object.put(key, JSONObject.NULL);
+			}
+		} catch (JSONException e) {
+			throw new AssertionError("Preference value can't be serialized to JSON", e);
+		}
+	}
 
-        return object;
-    }
+	return object;
+}
 
 }

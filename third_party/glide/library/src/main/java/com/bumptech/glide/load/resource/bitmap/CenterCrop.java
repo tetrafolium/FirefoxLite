@@ -14,43 +14,43 @@ import java.security.MessageDigest;
  * Does not maintain the image's aspect ratio
  */
 public class CenterCrop extends BitmapTransformation {
-    private static final String ID = "com.bumptech.glide.load.resource.bitmap.CenterCrop";
-    private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
+private static final String ID = "com.bumptech.glide.load.resource.bitmap.CenterCrop";
+private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
 
-    public CenterCrop() {
-        // Intentionally empty.
-    }
+public CenterCrop() {
+	// Intentionally empty.
+}
 
-    @Deprecated
-    public CenterCrop(@SuppressWarnings("unused") Context context) {
-        this();
-    }
+@Deprecated
+public CenterCrop(@SuppressWarnings("unused") Context context) {
+	this();
+}
 
-    @Deprecated
-    public CenterCrop(@SuppressWarnings("unused") BitmapPool bitmapPool) {
-        this();
-    }
+@Deprecated
+public CenterCrop(@SuppressWarnings("unused") BitmapPool bitmapPool) {
+	this();
+}
 
-    // Bitmap doesn't implement equals, so == and .equals are equivalent here.
-    @SuppressWarnings("PMD.CompareObjectsWithEquals")
-    @Override
-    protected Bitmap transform(
-        @NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
-        return TransformationUtils.centerCrop(pool, toTransform, outWidth, outHeight);
-    }
+// Bitmap doesn't implement equals, so == and .equals are equivalent here.
+@SuppressWarnings("PMD.CompareObjectsWithEquals")
+@Override
+protected Bitmap transform(
+	@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
+	return TransformationUtils.centerCrop(pool, toTransform, outWidth, outHeight);
+}
 
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof CenterCrop;
-    }
+@Override
+public boolean equals(Object o) {
+	return o instanceof CenterCrop;
+}
 
-    @Override
-    public int hashCode() {
-        return ID.hashCode();
-    }
+@Override
+public int hashCode() {
+	return ID.hashCode();
+}
 
-    @Override
-    public void updateDiskCacheKey(MessageDigest messageDigest) {
-        messageDigest.update(ID_BYTES);
-    }
+@Override
+public void updateDiskCacheKey(MessageDigest messageDigest) {
+	messageDigest.update(ID_BYTES);
+}
 }

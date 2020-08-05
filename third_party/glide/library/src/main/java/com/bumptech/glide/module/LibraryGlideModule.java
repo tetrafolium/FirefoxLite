@@ -16,8 +16,8 @@ import com.bumptech.glide.Registry;
  * the conflicting modules.
  */
 public abstract class LibraryGlideModule implements RegistersComponents {
-    @Override
-    public void registerComponents(Context context, Glide glide, Registry registry) {
-        // Default empty impl.
-    }
+@Override
+public void registerComponents(Context context, Glide glide, Registry registry) {
+	// Default empty impl.
+}
 }

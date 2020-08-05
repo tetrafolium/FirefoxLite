@@ -22,24 +22,24 @@ import android.widget.ImageView;
  */
 public abstract class ThumbnailImageViewTarget<T> extends ImageViewTarget<T> {
 
-    public ThumbnailImageViewTarget(ImageView view) {
-        super(view);
-    }
+public ThumbnailImageViewTarget(ImageView view) {
+	super(view);
+}
 
-    public ThumbnailImageViewTarget(ImageView view, boolean waitForLayout) {
-        super(view, waitForLayout);
-    }
+public ThumbnailImageViewTarget(ImageView view, boolean waitForLayout) {
+	super(view, waitForLayout);
+}
 
-    @Override
-    protected void setResource(@Nullable T resource) {
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        Drawable result = getDrawable(resource);
-        if (layoutParams != null && layoutParams.width > 0 && layoutParams.height > 0) {
-            result = new FixedSizeDrawable(result, layoutParams.width, layoutParams.height);
-        }
+@Override
+protected void setResource(@Nullable T resource) {
+	ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+	Drawable result = getDrawable(resource);
+	if (layoutParams != null && layoutParams.width > 0 && layoutParams.height > 0) {
+		result = new FixedSizeDrawable(result, layoutParams.width, layoutParams.height);
+	}
 
-        view.setImageDrawable(result);
-    }
+	view.setImageDrawable(result);
+}
 
-    protected abstract Drawable getDrawable(T resource);
+protected abstract Drawable getDrawable(T resource);
 }

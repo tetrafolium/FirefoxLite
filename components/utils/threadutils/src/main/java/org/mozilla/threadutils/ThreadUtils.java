@@ -18,59 +18,59 @@ import java.util.concurrent.atomic.AtomicInteger;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class ThreadUtils {
-    private static final ExecutorService backgroundExecutorService = Executors.newSingleThreadExecutor(getIoPrioritisedFactory());
-    private static final Handler handler = new Handler(Looper.getMainLooper());
-    private static final Thread uiThread = Looper.getMainLooper().getThread();
+private static final ExecutorService backgroundExecutorService = Executors.newSingleThreadExecutor(getIoPrioritisedFactory());
+private static final Handler handler = new Handler(Looper.getMainLooper());
+private static final Thread uiThread = Looper.getMainLooper().getThread();
 
-    @SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "We don't care about the results here")
-    public static void postToBackgroundThread(final Runnable runnable) {
-        backgroundExecutorService.submit(runnable);
-    }
+@SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "We don't care about the results here")
+public static void postToBackgroundThread(final Runnable runnable) {
+	backgroundExecutorService.submit(runnable);
+}
 
-    public static <V> Future<V> postToBackgroundThread(final Callable<V> callable) {
-        return backgroundExecutorService.submit(callable);
-    }
+public static <V> Future<V> postToBackgroundThread(final Callable<V> callable) {
+	return backgroundExecutorService.submit(callable);
+}
 
-    public static void postToMainThread(final Runnable runnable) {
-        handler.post(runnable);
-    }
+public static void postToMainThread(final Runnable runnable) {
+	handler.post(runnable);
+}
 
-    public static void postToMainThreadDelayed(final Runnable runnable, long delayMillis) {
-        handler.postDelayed(runnable, delayMillis);
-    }
+public static void postToMainThreadDelayed(final Runnable runnable, long delayMillis) {
+	handler.postDelayed(runnable, delayMillis);
+}
 
-    public static void assertOnUiThread() {
-        final Thread currentThread = Thread.currentThread();
-        final long currentThreadId = currentThread.getId();
-        final long expectedThreadId = uiThread.getId();
+public static void assertOnUiThread() {
+	final Thread currentThread = Thread.currentThread();
+	final long currentThreadId = currentThread.getId();
+	final long expectedThreadId = uiThread.getId();
 
-        if (currentThreadId == expectedThreadId) {
-            return;
-        }
+	if (currentThreadId == expectedThreadId) {
+		return;
+	}
 
-        throw new IllegalThreadStateException("Expected UI thread, but running on " + currentThread.getName());
-    }
+	throw new IllegalThreadStateException("Expected UI thread, but running on " + currentThread.getName());
+}
 
-    private static ThreadFactory getIoPrioritisedFactory() {
-        return new CustomThreadFactory("pool-io-background", Thread.NORM_PRIORITY - 1);
-    }
+private static ThreadFactory getIoPrioritisedFactory() {
+	return new CustomThreadFactory("pool-io-background", Thread.NORM_PRIORITY - 1);
+}
 
-    private static class CustomThreadFactory implements ThreadFactory {
-        private final String threadName;
-        private final int threadPriority;
-        private final AtomicInteger mNumber = new AtomicInteger();
+private static class CustomThreadFactory implements ThreadFactory {
+private final String threadName;
+private final int threadPriority;
+private final AtomicInteger mNumber = new AtomicInteger();
 
-        public CustomThreadFactory(String threadName, int threadPriority) {
-            super();
-            this.threadName = threadName;
-            this.threadPriority = threadPriority;
-        }
+public CustomThreadFactory(String threadName, int threadPriority) {
+	super();
+	this.threadName = threadName;
+	this.threadPriority = threadPriority;
+}
 
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread thread = new Thread(r, threadName + "-" + mNumber.getAndIncrement());
-            thread.setPriority(threadPriority);
-            return thread;
-        }
-    }
+@Override
+public Thread newThread(Runnable r) {
+	Thread thread = new Thread(r, threadName + "-" + mNumber.getAndIncrement());
+	thread.setPriority(threadPriority);
+	return thread;
+}
+}
 }

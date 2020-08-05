@@ -11,14 +11,14 @@ import org.mozilla.focus.utils.DimenUtils;
 import org.mozilla.icon.FavIconUtils;
 
 public class FaviconModel {
-    String url;
-    @DimenUtils.FavIconType
-    int type;
-    Bitmap originalIcon;
+String url;
+@DimenUtils.FavIconType
+int type;
+Bitmap originalIcon;
 
-    FaviconModel(String url, @DimenUtils.FavIconType int type, Bitmap favicon) {
-        this.url = url;
-        this.type = type;
-        this.originalIcon = favicon;
-    }
+FaviconModel(String url, @DimenUtils.FavIconType int type, Bitmap favicon) {
+	this.url = url;
+	this.type = type;
+	this.originalIcon = favicon;
+}
 }

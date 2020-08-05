@@ -18,34 +18,34 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 public class DrawableUtils {
-    public static Drawable loadAndTintDrawable(@NonNull Context context, @DrawableRes int resourceId, @ColorInt int color) {
-        final Drawable drawable = context.getResources().getDrawable(resourceId, context.getTheme());
-        final Drawable wrapped = DrawableCompat.wrap(drawable.mutate());
-        DrawableCompat.setTint(wrapped, color);
-        return wrapped;
-    }
+public static Drawable loadAndTintDrawable(@NonNull Context context, @DrawableRes int resourceId, @ColorInt int color) {
+	final Drawable drawable = context.getResources().getDrawable(resourceId, context.getTheme());
+	final Drawable wrapped = DrawableCompat.wrap(drawable.mutate());
+	DrawableCompat.setTint(wrapped, color);
+	return wrapped;
+}
 
-    public static Bitmap getBitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
+public static Bitmap getBitmap(Drawable drawable) {
+	if (drawable instanceof BitmapDrawable) {
+		return ((BitmapDrawable) drawable).getBitmap();
+	}
+	Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+	Canvas canvas = new Canvas(bitmap);
+	drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+	drawable.draw(canvas);
 
-        return bitmap;
+	return bitmap;
 
-    }
+}
 
-    @Nullable
-    public static Drawable getAndroidDrawable(Context context, @Nullable String drawableName) {
-        String packageName = context.getPackageName();
-        int resourceId = context.getResources().getIdentifier(drawableName, "drawable", packageName);
-        if (resourceId == 0) {
-            return null;
-        } else {
-            return context.getDrawable(resourceId);
-        }
-    }
+@Nullable
+public static Drawable getAndroidDrawable(Context context, @Nullable String drawableName) {
+	String packageName = context.getPackageName();
+	int resourceId = context.getResources().getIdentifier(drawableName, "drawable", packageName);
+	if (resourceId == 0) {
+		return null;
+	} else {
+		return context.getDrawable(resourceId);
+	}
+}
 }

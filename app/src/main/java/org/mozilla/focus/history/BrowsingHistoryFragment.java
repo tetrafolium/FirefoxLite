@@ -26,85 +26,85 @@ import org.mozilla.rocket.chrome.ChromeViewModel;
 
 public class BrowsingHistoryFragment extends PanelFragment implements View.OnClickListener, ItemClosingPanelFragmentStatusListener {
 
-    private RecyclerView mRecyclerView;
-    private ViewGroup mContainerEmptyView, mContainerRecyclerView;
-    private HistoryItemAdapter mAdapter;
+private RecyclerView mRecyclerView;
+private ViewGroup mContainerEmptyView, mContainerRecyclerView;
+private HistoryItemAdapter mAdapter;
 
-    public static BrowsingHistoryFragment newInstance() {
-        return new BrowsingHistoryFragment();
-    }
+public static BrowsingHistoryFragment newInstance() {
+	return new BrowsingHistoryFragment();
+}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_browsing_history, container, false);
-        v.findViewById(R.id.browsing_history_btn_clear).setOnClickListener(this);
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+	View v = inflater.inflate(R.layout.fragment_browsing_history, container, false);
+	v.findViewById(R.id.browsing_history_btn_clear).setOnClickListener(this);
 
-        mContainerRecyclerView = (ViewGroup) v.findViewById(R.id.browsing_history_recycler_view_container);
-        mContainerEmptyView = (ViewGroup) v.findViewById(R.id.empty_view_container);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.browsing_history_recycler_view);
-        return v;
-    }
+	mContainerRecyclerView = (ViewGroup) v.findViewById(R.id.browsing_history_recycler_view_container);
+	mContainerEmptyView = (ViewGroup) v.findViewById(R.id.empty_view_container);
+	mRecyclerView = (RecyclerView) v.findViewById(R.id.browsing_history_recycler_view);
+	return v;
+}
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new HistoryItemAdapter(mRecyclerView, getActivity(), this);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(layoutManager);
-    }
+@Override
+public void onViewCreated(View view, Bundle savedInstanceState) {
+	super.onViewCreated(view, savedInstanceState);
+	LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+	mAdapter = new HistoryItemAdapter(mRecyclerView, getActivity(), this);
+	mRecyclerView.setAdapter(mAdapter);
+	mRecyclerView.setLayoutManager(layoutManager);
+}
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-        case R.id.browsing_history_btn_clear:
-            // if Fragment is detached but AlertDialog still on the screen, we might get null context in callback
-            final Context ctx = getContext();
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
-            builder.setTitle(R.string.browsing_history_dialog_confirm_clear_message);
-            builder.setPositiveButton(R.string.browsing_history_dialog_btn_clear, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (ctx == null) {
-                        return;
-                    }
-                    mAdapter.clear();
-                    TopSitesUtils.getDefaultSitesJsonArrayFromAssets(ctx);
-                    ChromeViewModel chromeViewModel = Inject.obtainChromeViewModel(getActivity());
-                    chromeViewModel.getClearBrowsingHistory().call();
-                    TelemetryWrapper.clearHistory();
-                }
-            });
-            builder.setNegativeButton(R.string.action_cancel, null);
-            builder.create().show();
-            break;
-        default:
-            break;
-        }
-    }
+@Override
+public void onClick(View v) {
+	switch (v.getId()) {
+	case R.id.browsing_history_btn_clear:
+		// if Fragment is detached but AlertDialog still on the screen, we might get null context in callback
+		final Context ctx = getContext();
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
+		builder.setTitle(R.string.browsing_history_dialog_confirm_clear_message);
+		builder.setPositiveButton(R.string.browsing_history_dialog_btn_clear, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				        if (ctx == null) {
+				                return;
+					}
+				        mAdapter.clear();
+				        TopSitesUtils.getDefaultSitesJsonArrayFromAssets(ctx);
+				        ChromeViewModel chromeViewModel = Inject.obtainChromeViewModel(getActivity());
+				        chromeViewModel.getClearBrowsingHistory().call();
+				        TelemetryWrapper.clearHistory();
+				}
+			});
+		builder.setNegativeButton(R.string.action_cancel, null);
+		builder.create().show();
+		break;
+	default:
+		break;
+	}
+}
 
-    @Override
-    public void onStatus(@ViewStatus int status) {
-        if (VIEW_TYPE_EMPTY == status) {
-            mContainerRecyclerView.setVisibility(View.GONE);
-            mContainerEmptyView.setVisibility(View.VISIBLE);
-        } else if (VIEW_TYPE_NON_EMPTY == status) {
-            mContainerRecyclerView.setVisibility(View.VISIBLE);
-            mContainerEmptyView.setVisibility(View.GONE);
-        } else {
-            mContainerRecyclerView.setVisibility(View.GONE);
-            mContainerEmptyView.setVisibility(View.GONE);
-        }
-    }
+@Override
+public void onStatus(@ViewStatus int status) {
+	if (VIEW_TYPE_EMPTY == status) {
+		mContainerRecyclerView.setVisibility(View.GONE);
+		mContainerEmptyView.setVisibility(View.VISIBLE);
+	} else if (VIEW_TYPE_NON_EMPTY == status) {
+		mContainerRecyclerView.setVisibility(View.VISIBLE);
+		mContainerEmptyView.setVisibility(View.GONE);
+	} else {
+		mContainerRecyclerView.setVisibility(View.GONE);
+		mContainerEmptyView.setVisibility(View.GONE);
+	}
+}
 
-    @Override
-    public void onItemClicked() {
-        closePanel();
-    }
+@Override
+public void onItemClicked() {
+	closePanel();
+}
 
-    @Override
-    public void tryLoadMore() {
-        mAdapter.tryLoadMore();
-    }
+@Override
+public void tryLoadMore() {
+	mAdapter.tryLoadMore();
+}
 }

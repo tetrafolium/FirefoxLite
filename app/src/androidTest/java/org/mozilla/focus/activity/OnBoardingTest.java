@@ -37,71 +37,71 @@ import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class OnBoardingTest {
 
-    @Rule
-    public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
-    private ViewPagerIdlingResource viewPagerIdlingResource;
+@Rule
+public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
+private ViewPagerIdlingResource viewPagerIdlingResource;
 
-    @Before
-    public void setUp() {
-        new BeforeTestTask.Builder()
-        .setSkipFirstRun(false)
-        .build()
-        .execute();
-        activityTestRule.launchActivity(new Intent());
-    }
+@Before
+public void setUp() {
+	new BeforeTestTask.Builder()
+	.setSkipFirstRun(false)
+	.build()
+	.execute();
+	activityTestRule.launchActivity(new Intent());
+}
 
-    /**
-     * Test case no: TC_0033
-     * Test case name: Go through onboarding
-     * Steps:
-     * 1. Launch Rocket
-     * 2. check turbo mode is selected on first onbording page
-     * 3. move forward and backfard to check 4 pages of onboarding are displayed correctly
-     * 4. open menu
-     * 5. check turbo mode is selected
-     */
-    @FlakyTest
-    @Test
-    public void turnOnTurboModeDuringOnBoarding_turboModeIsOnInMenu() {
+/**
+ * Test case no: TC_0033
+ * Test case name: Go through onboarding
+ * Steps:
+ * 1. Launch Rocket
+ * 2. check turbo mode is selected on first onbording page
+ * 3. move forward and backfard to check 4 pages of onboarding are displayed correctly
+ * 4. open menu
+ * 5. check turbo mode is selected
+ */
+@FlakyTest
+@Test
+public void turnOnTurboModeDuringOnBoarding_turboModeIsOnInMenu() {
 
-        // Check if turbo mode switch is on
-        onView(allOf(withId(R.id.switch_widget), isDisplayed())).check(matches(isChecked()));
+	// Check if turbo mode switch is on
+	onView(allOf(withId(R.id.switch_widget), isDisplayed())).check(matches(isChecked()));
 
-        // Click next button in the first on-boarding page
-        onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
+	// Click next button in the first on-boarding page
+	onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
 
-        // Click next button in the second on-boarding page
-        onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
+	// Click next button in the second on-boarding page
+	onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
 
-        // Register view pager idling resource
-        viewPagerIdlingResource = new ViewPagerIdlingResource(activityTestRule.getActivity().findViewById(R.id.pager));
+	// Register view pager idling resource
+	viewPagerIdlingResource = new ViewPagerIdlingResource(activityTestRule.getActivity().findViewById(R.id.pager));
 
-        IdlingRegistry.getInstance().register(viewPagerIdlingResource);
+	IdlingRegistry.getInstance().register(viewPagerIdlingResource);
 
-        // Swipe right to go to second on-boarding page
-        onView(allOf(withId(R.id.image), isDisplayed())).perform(swipeRight());
+	// Swipe right to go to second on-boarding page
+	onView(allOf(withId(R.id.image), isDisplayed())).perform(swipeRight());
 
-        // Swipe left to go to to third on-boarding page
-        onView(allOf(withId(R.id.image), isDisplayed())).perform(swipeLeft());
+	// Swipe left to go to to third on-boarding page
+	onView(allOf(withId(R.id.image), isDisplayed())).perform(swipeLeft());
 
-        // Unregister view pager idling resource
-        IdlingRegistry.getInstance().unregister(viewPagerIdlingResource);
+	// Unregister view pager idling resource
+	IdlingRegistry.getInstance().unregister(viewPagerIdlingResource);
 
-        // Click next button in the third on boarding page
-        onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
+	// Click next button in the third on boarding page
+	onView(allOf(withId(R.id.next), isDisplayed())).perform(click());
 
-        // Click finish button to finish on boarding
-        onView(allOf(withId(R.id.finish), isDisplayed())).perform(click());
+	// Click finish button to finish on boarding
+	onView(allOf(withId(R.id.finish), isDisplayed())).perform(click());
 
-        // Open home menu
-        AndroidTestUtils.tapHomeMenuButton();
+	// Open home menu
+	AndroidTestUtils.tapHomeMenuButton();
 
-        // Check if turbo mode is on
-        onView(withId(R.id.menu_turbomode)).check(matches(isDisplayed())).check(matches(isSelected()));
+	// Check if turbo mode is on
+	onView(withId(R.id.menu_turbomode)).check(matches(isDisplayed())).check(matches(isSelected()));
 
-        // Close menu
-        Espresso.pressBack();
+	// Close menu
+	Espresso.pressBack();
 
-    }
+}
 
 }

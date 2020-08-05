@@ -8,13 +8,13 @@ package com.bumptech.glide.manager;
  * simply defaults to notifying new listeners that they are started. </p>
  */
 class ApplicationLifecycle implements Lifecycle {
-    @Override
-    public void addListener(LifecycleListener listener) {
-        listener.onStart();
-    }
+@Override
+public void addListener(LifecycleListener listener) {
+	listener.onStart();
+}
 
-    @Override
-    public void removeListener(LifecycleListener listener) {
-        // Do nothing.
-    }
+@Override
+public void removeListener(LifecycleListener listener) {
+	// Do nothing.
+}
 }

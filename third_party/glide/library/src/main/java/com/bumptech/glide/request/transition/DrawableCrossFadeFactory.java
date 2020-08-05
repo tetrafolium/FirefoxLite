@@ -14,66 +14,66 @@ import com.bumptech.glide.load.DataSource;
  * the memory cache this factory produces an {@link NoTransition}.
  */
 public class DrawableCrossFadeFactory implements TransitionFactory<Drawable> {
-    private final int duration;
-    private final boolean isCrossFadeEnabled;
-    private DrawableCrossFadeTransition resourceTransition;
+private final int duration;
+private final boolean isCrossFadeEnabled;
+private DrawableCrossFadeTransition resourceTransition;
 
-    protected DrawableCrossFadeFactory(int duration, boolean isCrossFadeEnabled) {
-        this.duration = duration;
-        this.isCrossFadeEnabled = isCrossFadeEnabled;
-    }
+protected DrawableCrossFadeFactory(int duration, boolean isCrossFadeEnabled) {
+	this.duration = duration;
+	this.isCrossFadeEnabled = isCrossFadeEnabled;
+}
 
-    @Override
-    public Transition<Drawable> build(DataSource dataSource, boolean isFirstResource) {
-        return dataSource == DataSource.MEMORY_CACHE
-               ? NoTransition.<Drawable>get() : getResourceTransition();
-    }
+@Override
+public Transition<Drawable> build(DataSource dataSource, boolean isFirstResource) {
+	return dataSource == DataSource.MEMORY_CACHE
+	       ? NoTransition.<Drawable>get() : getResourceTransition();
+}
 
-    private Transition<Drawable> getResourceTransition() {
-        if (resourceTransition == null) {
-            resourceTransition = new DrawableCrossFadeTransition(duration, isCrossFadeEnabled);
-        }
-        return resourceTransition;
-    }
+private Transition<Drawable> getResourceTransition() {
+	if (resourceTransition == null) {
+		resourceTransition = new DrawableCrossFadeTransition(duration, isCrossFadeEnabled);
+	}
+	return resourceTransition;
+}
 
-    /**
-     * A Builder for {@link DrawableCrossFadeFactory}.
-     */
-    public static class Builder {
-        private static final int DEFAULT_DURATION_MS = 300;
-        private int durationMillis;
-        private boolean isCrossFadeEnabled;
+/**
+ * A Builder for {@link DrawableCrossFadeFactory}.
+ */
+public static class Builder {
+private static final int DEFAULT_DURATION_MS = 300;
+private int durationMillis;
+private boolean isCrossFadeEnabled;
 
-        public Builder() {
-            this(DEFAULT_DURATION_MS);
-        }
+public Builder() {
+	this(DEFAULT_DURATION_MS);
+}
 
-        /**
-         * @param durationMillis The duration of the cross fade animation in milliseconds.
-         */
-        public Builder(int durationMillis) {
-            this.durationMillis = durationMillis;
-        }
+/**
+ * @param durationMillis The duration of the cross fade animation in milliseconds.
+ */
+public Builder(int durationMillis) {
+	this.durationMillis = durationMillis;
+}
 
-        /**
-         * Enables or disables animating the alpha of the {@link Drawable} the cross fade will animate
-         * from.
-         *
-         * <p>Defaults to {@code false}.
-         *
-         * @param isCrossFadeEnabled If {@code true} the previous {@link Drawable}'s alpha will be
-         *     animated from 100 to 0 while the new {@link Drawable}'s alpha is
-         *     animated from 0 to 100. Otherwise the previous {@link Drawable}'s
-         *     alpha will remain at 100 throughout the animation. See
-         *     {@link android.graphics.drawable.TransitionDrawable#setCrossFadeEnabled(boolean)}
-         */
-        public Builder setCrossFadeEnabled(boolean isCrossFadeEnabled) {
-            this.isCrossFadeEnabled = isCrossFadeEnabled;
-            return this;
-        }
+/**
+ * Enables or disables animating the alpha of the {@link Drawable} the cross fade will animate
+ * from.
+ *
+ * <p>Defaults to {@code false}.
+ *
+ * @param isCrossFadeEnabled If {@code true} the previous {@link Drawable}'s alpha will be
+ *     animated from 100 to 0 while the new {@link Drawable}'s alpha is
+ *     animated from 0 to 100. Otherwise the previous {@link Drawable}'s
+ *     alpha will remain at 100 throughout the animation. See
+ *     {@link android.graphics.drawable.TransitionDrawable#setCrossFadeEnabled(boolean)}
+ */
+public Builder setCrossFadeEnabled(boolean isCrossFadeEnabled) {
+	this.isCrossFadeEnabled = isCrossFadeEnabled;
+	return this;
+}
 
-        public DrawableCrossFadeFactory build() {
-            return new DrawableCrossFadeFactory(durationMillis, isCrossFadeEnabled);
-        }
-    }
+public DrawableCrossFadeFactory build() {
+	return new DrawableCrossFadeFactory(durationMillis, isCrossFadeEnabled);
+}
+}
 }

@@ -27,78 +27,78 @@ import org.mozilla.focus.utils.SupportUtils;
 public class NotificationActionBroadcastReceiver extends BroadcastReceiver {
 
 
-    private static final String TAG = "NotifyActionReceiver";
+private static final String TAG = "NotifyActionReceiver";
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if (intent == null) {
-            return;
-        }
-        final String action = intent.getAction();
-        final Bundle bundle = intent.getExtras();
-        if (bundle == null || action == null || !IntentUtils.ACTION_NOTIFICATION.equals(action)) {
-            return;
-        }
-        Intent nexStep = null;
+@Override
+public void onReceive(Context context, Intent intent) {
+	if (intent == null) {
+		return;
+	}
+	final String action = intent.getAction();
+	final Bundle bundle = intent.getExtras();
+	if (bundle == null || action == null || !IntentUtils.ACTION_NOTIFICATION.equals(action)) {
+		return;
+	}
+	Intent nexStep = null;
 
-        if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_ACTION_RATE_STAR)) {
+	if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_ACTION_RATE_STAR)) {
 
-            IntentUtils.goToPlayStore(context);
+		IntentUtils.goToPlayStore(context);
 
-            TelemetryWrapper.clickRateApp(TelemetryWrapper.Value.POSITIVE, TelemetryWrapper.Extra_Value.NOTIFICATION);
+		TelemetryWrapper.clickRateApp(TelemetryWrapper.Value.POSITIVE, TelemetryWrapper.Extra_Value.NOTIFICATION);
 
-            NotificationManagerCompat.from(context).cancel(NotificationId.LOVE_FIREFOX);
+		NotificationManagerCompat.from(context).cancel(NotificationId.LOVE_FIREFOX);
 
-        } else if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_ACTION_FEEDBACK)) {
+	} else if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_ACTION_FEEDBACK)) {
 
-            nexStep = IntentUtils.createInternalOpenUrlIntent(context,
-                      context.getString(R.string.rate_app_feedback_url), true);
+		nexStep = IntentUtils.createInternalOpenUrlIntent(context,
+		                                                  context.getString(R.string.rate_app_feedback_url), true);
 
-            // Users set negative feedback, don't ask them to rate/feedback again.
-            Settings.getInstance(context).setShareAppDialogDidShow();
+		// Users set negative feedback, don't ask them to rate/feedback again.
+		Settings.getInstance(context).setShareAppDialogDidShow();
 
-            TelemetryWrapper.clickRateApp(TelemetryWrapper.Value.NEGATIVE, TelemetryWrapper.Extra_Value.NOTIFICATION);
+		TelemetryWrapper.clickRateApp(TelemetryWrapper.Value.NEGATIVE, TelemetryWrapper.Extra_Value.NOTIFICATION);
 
-            NotificationManagerCompat.from(context).cancel(NotificationId.LOVE_FIREFOX);
+		NotificationManagerCompat.from(context).cancel(NotificationId.LOVE_FIREFOX);
 
-        } else if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_CLICK_DEFAULT_BROWSER)) {
+	} else if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_CLICK_DEFAULT_BROWSER)) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                nexStep = new Intent(android.provider.Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS);
-            } else {
-                final String fallbackTitle = context.getString(R.string.preference_default_browser) + "\uD83D\uDE4C";
-                nexStep = InfoActivity.getIntentFor(context, SupportUtils.getSumoURLForTopic(context, "rocket-default"), fallbackTitle);
-            }
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			nexStep = new Intent(android.provider.Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS);
+		} else {
+			final String fallbackTitle = context.getString(R.string.preference_default_browser) + "\uD83D\uDE4C";
+			nexStep = InfoActivity.getIntentFor(context, SupportUtils.getSumoURLForTopic(context, "rocket-default"), fallbackTitle);
+		}
 
-            TelemetryWrapper.clickDefaultSettingNotification();
+		TelemetryWrapper.clickDefaultSettingNotification();
 
-            NotificationManagerCompat.from(context).cancel(NotificationId.DEFAULT_BROWSER);
+		NotificationManagerCompat.from(context).cancel(NotificationId.DEFAULT_BROWSER);
 
-        } else if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_CLICK_LOVE_FIREFOX)) {
-            nexStep = new Intent();
-            nexStep.setClassName(context, AppConstants.LAUNCHER_ACTIVITY_ALIAS);
-            nexStep.putExtra(IntentUtils.EXTRA_SHOW_RATE_DIALOG, true);
+	} else if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_CLICK_LOVE_FIREFOX)) {
+		nexStep = new Intent();
+		nexStep.setClassName(context, AppConstants.LAUNCHER_ACTIVITY_ALIAS);
+		nexStep.putExtra(IntentUtils.EXTRA_SHOW_RATE_DIALOG, true);
 
-            TelemetryWrapper.clickRateApp(null, TelemetryWrapper.Extra_Value.NOTIFICATION);
+		TelemetryWrapper.clickRateApp(null, TelemetryWrapper.Extra_Value.NOTIFICATION);
 
-            NotificationManagerCompat.from(context).cancel(NotificationId.LOVE_FIREFOX);
+		NotificationManagerCompat.from(context).cancel(NotificationId.LOVE_FIREFOX);
 
-        } else if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_CLICK_PRIVACY_POLICY_UPDATE)) {
-            nexStep = IntentUtils.createInternalOpenUrlIntent(context, SupportUtils.getPrivacyURL(), true);
+	} else if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_CLICK_PRIVACY_POLICY_UPDATE)) {
+		nexStep = IntentUtils.createInternalOpenUrlIntent(context, SupportUtils.getPrivacyURL(), true);
 
-            // TODO: telemetry
+		// TODO: telemetry
 
-            NotificationManagerCompat.from(context).cancel(NotificationId.PRIVACY_POLICY_UPDATE);
+		NotificationManagerCompat.from(context).cancel(NotificationId.PRIVACY_POLICY_UPDATE);
 
-        } else {
-            Log.e(TAG, "Not a valid action");
-        }
+	} else {
+		Log.e(TAG, "Not a valid action");
+	}
 
-        bundle.clear();
-        if (nexStep != null) {
-            nexStep.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(nexStep);
-        }
-    }
+	bundle.clear();
+	if (nexStep != null) {
+		nexStep.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(nexStep);
+	}
+}
 
 }

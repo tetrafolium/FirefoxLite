@@ -28,76 +28,76 @@ import static org.mozilla.focus.telemetry.TelemetryWrapper.Extra_Value.PRIVATE_M
 
 public class ScreenshotCaptureTask extends AsyncTask<Object, Void, String> {
 
-    private final Context context;
-    private ChromeViewModel.ScreenCaptureTelemetryData telemetryData;
+private final Context context;
+private ChromeViewModel.ScreenCaptureTelemetryData telemetryData;
 
-    public ScreenshotCaptureTask(Context context, ChromeViewModel.ScreenCaptureTelemetryData telemetryData) {
-        this.context = context.getApplicationContext();
-        this.telemetryData = telemetryData;
-    }
+public ScreenshotCaptureTask(Context context, ChromeViewModel.ScreenCaptureTelemetryData telemetryData) {
+	this.context = context.getApplicationContext();
+	this.telemetryData = telemetryData;
+}
 
-    @Override
-    protected String doInBackground(Object... params) {
-        String title = (String) params[0];
-        String url = (String) params[1];
-        Bitmap content = (Bitmap) params[2];
-        long timestamp = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault());
+@Override
+protected String doInBackground(Object... params) {
+	String title = (String) params[0];
+	String url = (String) params[1];
+	Bitmap content = (Bitmap) params[2];
+	long timestamp = System.currentTimeMillis();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault());
 
-        try {
-            final String path = saveBitmapToStorage(context, "Screenshot_" + sdf.format(new Date(timestamp)), content);
-            // Failed to save
-            if (!TextUtils.isEmpty(path)) {
-                FileUtils.notifyMediaScanner(context, path);
+	try {
+		final String path = saveBitmapToStorage(context, "Screenshot_" + sdf.format(new Date(timestamp)), content);
+		// Failed to save
+		if (!TextUtils.isEmpty(path)) {
+			FileUtils.notifyMediaScanner(context, path);
 
-                Screenshot screenshot = new Screenshot(title, url, timestamp, path);
-                ScreenshotManager.getInstance().insert(screenshot, null);
+			Screenshot screenshot = new Screenshot(title, url, timestamp, path);
+			ScreenshotManager.getInstance().insert(screenshot, null);
 
-                // We don't collect data in private mode now
-                if (!PRIVATE_MODE.equals(telemetryData.getMode())) {
-                    TelemetryWrapper.clickToolbarCapture(ScreenshotManager.getInstance().getCategory(context, url), ScreenshotManager.getInstance().getCategoryVersion(),
-                                                         telemetryData.getMode(), telemetryData.getPosition());
-                }
-            }
+			// We don't collect data in private mode now
+			if (!PRIVATE_MODE.equals(telemetryData.getMode())) {
+				TelemetryWrapper.clickToolbarCapture(ScreenshotManager.getInstance().getCategory(context, url), ScreenshotManager.getInstance().getCategoryVersion(),
+				                                     telemetryData.getMode(), telemetryData.getPosition());
+			}
+		}
 
-            return path;
-        } catch (IOException ex) {
-            return null;
-        }
-    }
+		return path;
+	} catch (IOException ex) {
+		return null;
+	}
+}
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
-        value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
-        justification = "We have nothing to do when the delete fails.")
-    private static String saveBitmapToStorage(Context context, String fileName, Bitmap bitmap) throws IOException {
-        File folder = StorageUtils.getTargetDirForSaveScreenshot(context);
-        if (!FileUtils.ensureDir(folder)) {
-            throw new IOException("Can't create folder");
-        }
-        String path = null;
-        fileName = fileName.concat(".png");
+@edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
+	value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
+	justification = "We have nothing to do when the delete fails.")
+private static String saveBitmapToStorage(Context context, String fileName, Bitmap bitmap) throws IOException {
+	File folder = StorageUtils.getTargetDirForSaveScreenshot(context);
+	if (!FileUtils.ensureDir(folder)) {
+		throw new IOException("Can't create folder");
+	}
+	String path = null;
+	fileName = fileName.concat(".png");
 
-        File file = new File(folder, fileName);
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(file);
-            if (bitmap.compress(Bitmap.CompressFormat.PNG, DimenUtils.PNG_QUALITY_DONT_CARE, fos)) {
-                fos.flush();
-                path = file.getPath();
-            } else {
-                file.delete();
-                path = null;
-            }
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                }
-            }
-        }
-        return path;
-    }
+	File file = new File(folder, fileName);
+	FileOutputStream fos = null;
+	try {
+		fos = new FileOutputStream(file);
+		if (bitmap.compress(Bitmap.CompressFormat.PNG, DimenUtils.PNG_QUALITY_DONT_CARE, fos)) {
+			fos.flush();
+			path = file.getPath();
+		} else {
+			file.delete();
+			path = null;
+		}
+	} finally {
+		if (fos != null) {
+			try {
+				fos.close();
+			} catch (IOException e) {
+			}
+		}
+	}
+	return path;
+}
 
 }
 
