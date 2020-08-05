@@ -679,16 +679,7 @@ public class BrowserFragment
 
   private interface DoWithThemeManager { void doIt(ThemeManager themeManager); }
 
-  private static void doWithActivity(Activity activity,
-                                     DoWithThemeManager doWithThemeManager) {
-    if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
-      return;
-    }
-    if (activity instanceof ThemeManager.ThemeHost) {
-      ThemeManager.ThemeHost themeHost = (ThemeManager.ThemeHost)activity;
-      doWithThemeManager.doIt(themeHost.getThemeManager());
-    }
-  }
+  
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {

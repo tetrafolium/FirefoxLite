@@ -58,7 +58,7 @@ public class DownloadInfoDbHelper {
                                " ADD " + Download.STATUS + " INTEGER;");
         sqLiteDatabase.execSQL(
             "UPDATE " + Download.TABLE_DOWNLOAD + " SET " + Download.STATUS +
-            " = " + String.valueOf(DownloadManager.STATUS_SUCCESSFUL) + ";");
+            " = " + DownloadManager.STATUS_SUCCESSFUL + ";");
 
         // add new column unread and mark all legacy data 'IS_READ' = 1
         sqLiteDatabase.execSQL("ALTER TABLE " + Download.TABLE_DOWNLOAD +

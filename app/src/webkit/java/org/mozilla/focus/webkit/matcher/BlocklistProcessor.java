@@ -55,7 +55,7 @@ public class BlocklistProcessor {
     while (reader.hasNext()) {
       final String name = reader.nextName();
 
-      if (name.equals("categories")) {
+      if ("categories".equals(name)) {
         extractCategories(reader, categoryMap, listType);
       } else {
         reader.skipValue();

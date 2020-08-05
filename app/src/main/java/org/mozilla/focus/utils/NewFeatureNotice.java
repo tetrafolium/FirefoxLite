@@ -7,14 +7,14 @@ import androidx.annotation.VisibleForTesting;
 import org.mozilla.rocket.home.pinsite.PinSiteManager;
 import org.mozilla.rocket.home.pinsite.PinSiteManagerKt;
 
-public class NewFeatureNotice {
+public final class NewFeatureNotice {
 
   private static final String PREF_KEY_BOOLEAN_FIRSTRUN_SHOWN =
       "firstrun_shown";
   private static final String PREF_KEY_INT_FEATURE_UPGRADE_VERSION =
       "firstrun_upgrade_version";
 
-  private static final int MULTI_TAB_FROM_VERSION_1_0_TO_2_0 = 1;
+  
   private static final int FIREBASE_FROM_VERSION_2_0_TO_2_1 = 2;
   private static final int LITE_FROM_VERSION_2_1_TO_4_0 = 3;
   private static final int LITE_FROM_VERSION_4_0_TO_1_1_4 = 4;

@@ -15,7 +15,12 @@ import androidx.annotation.CheckResult;
  * which case can just transpose positions as needed.
  */
 public abstract class FocusString {
-  protected final String string;
+  protected final String string;  
+
+  // offset at the start of the  _raw_ input String
+  final int offsetStart;  
+  // offset at the end of the _raw_ input String
+  final int offsetEnd;
 
   protected abstract boolean isReversed();
 
@@ -36,11 +41,6 @@ public abstract class FocusString {
   }
 
   public int length() { return offsetEnd - offsetStart; }
-
-  // offset at the start of the  _raw_ input String
-  final int offsetStart;
-  // offset at the end of the _raw_ input String
-  final int offsetEnd;
 
   @CheckResult
   public FocusString reverse() {

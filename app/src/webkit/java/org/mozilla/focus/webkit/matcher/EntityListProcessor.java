@@ -13,7 +13,7 @@ import org.mozilla.focus.webkit.matcher.util.FocusString;
  * Parses an entitylist json file, and returns an EntityList representation
  * thereof.
  */
-/* package-private */ class EntityListProcessor {
+/* package-private */ final class EntityListProcessor {
 
   private final EntityList entityMap = new EntityList();
 
@@ -46,7 +46,7 @@ import org.mozilla.focus.webkit.matcher.util.FocusString;
     while (reader.hasNext()) {
       final String itemName = reader.nextName();
 
-      if (itemName.equals("properties")) {
+      if ("properties".equals(itemName)) {
         reader.beginArray();
 
         while (reader.hasNext()) {
@@ -54,7 +54,7 @@ import org.mozilla.focus.webkit.matcher.util.FocusString;
         }
 
         reader.endArray();
-      } else if (itemName.equals("resources")) {
+      } else if ("resources".equals(itemName)) {
         reader.beginArray();
 
         while (reader.hasNext()) {

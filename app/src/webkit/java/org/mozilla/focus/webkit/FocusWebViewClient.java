@@ -184,10 +184,8 @@ import org.mozilla.urlutils.UrlUtils;
     // reloads (we also erroneously show the favicon URL in the toolbar, but
     // that's less noticeable). Hence we check whether this error is from the
     // desired page, or a page resource:
-    if (error.getUrl().equals(currentPageURL)) {
-      if (this.errorPageDelegate != null) {
-        this.errorPageDelegate.onReceivedSslError(view, handler, error);
-      }
+    if ((error.getUrl().equals(currentPageURL)) && (this.errorPageDelegate != null)) {
+      this.errorPageDelegate.onReceivedSslError(view, handler, error);
     }
   }
 
@@ -259,12 +257,10 @@ import org.mozilla.urlutils.UrlUtils;
       this.debugOverlay.recordLifecycle("onReceivedHttpError:" + url.toString(),
                                         false);
 
-      if (request.isForMainFrame() &&
-          TextUtils.equals(currentPageURL, url.toString())) {
-        if (this.errorPageDelegate != null) {
-          this.errorPageDelegate.onReceivedHttpError(view, request,
-                                                     errorResponse);
-        }
+      if ((request.isForMainFrame() &&
+          TextUtils.equals(currentPageURL, url.toString())) && (this.errorPageDelegate != null)) {
+        this.errorPageDelegate.onReceivedHttpError(view, request,
+                                                   errorResponse);
       }
     }
   }

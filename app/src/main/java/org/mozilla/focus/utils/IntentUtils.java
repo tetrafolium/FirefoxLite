@@ -37,8 +37,7 @@ public class IntentUtils {
   @VisibleForTesting
   public static final String MARKET_INTENT_URI_PACKAGE_PREFIX =
       "market://details?id=";
-  private static final String EXTRA_BROWSER_FALLBACK_URL =
-      "browser_fallback_url";
+  
   public static final String EXTRA_IS_INTERNAL_REQUEST = "is_internal_request";
   public static final String EXTRA_OPEN_NEW_TAB = "open_new_tab";
   public static final String EXTRA_SHOW_RATE_DIALOG = "show_rate_dialog";
@@ -98,93 +97,13 @@ public class IntentUtils {
     return true;
   }
 
-  private static boolean handleUnsupportedLink(final Context context,
-                                               final TabView webView,
-                                               final Intent intent) {
-    final String fallbackUrl =
-        intent.getStringExtra(EXTRA_BROWSER_FALLBACK_URL);
-    if (fallbackUrl != null) {
-      webView.loadUrl(fallbackUrl);
-      return true;
-    }
-
-    if (intent.getPackage() != null) {
-      // The url included the target package:
-      final String marketUri =
-          MARKET_INTENT_URI_PACKAGE_PREFIX + intent.getPackage();
-      final Intent marketIntent =
-          new Intent(Intent.ACTION_VIEW, Uri.parse(marketUri));
-      marketIntent.addCategory(Intent.CATEGORY_BROWSABLE);
-
-      final PackageManager packageManager = context.getPackageManager();
-      final ResolveInfo info = packageManager.resolveActivity(marketIntent, 0);
-      final CharSequence marketTitle = info.loadLabel(packageManager);
-      showConfirmationDialog(
-          context, marketIntent,
-          context.getString(R.string.external_app_prompt_no_app_title),
-          R.string.external_app_prompt_no_app, marketTitle);
-
-      // Stop loading, we essentially have a result.
-      return true;
-    }
-
-    // If there's really no way to handle this, we just let the browser handle
-    // this URL (which then shows the unsupported protocol page).
-    return false;
-  }
+  
 
   // We only need one param for both scenarios, hence we use just one "param"
   // argument. If we ever end up needing more or a variable number we can change
   // this, but java varargs are a bit messy so let's try to avoid that seeing as
   // it's not needed right now.
-  private static void showConfirmationDialog(
-      final Context context, final Intent targetIntent, final String title,
-      final @StringRes int messageResource, final CharSequence param) {
-    final AlertDialog.Builder builder =
-        new AlertDialog.Builder(context, R.style.DialogStyle);
-
-    final CharSequence ourAppName = context.getString(R.string.app_name);
-
-    builder.setTitle(title);
-
-    builder.setMessage(
-        context.getResources().getString(messageResource, ourAppName, param));
-
-    builder.setPositiveButton(
-        R.string.action_ok, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(final DialogInterface dialog, final int which) {
-            context.startActivity(targetIntent);
-          }
-        });
-
-    builder.setNegativeButton(
-        R.string.action_cancel, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(final DialogInterface dialog, final int which) {
-            dialog.dismiss();
-          }
-        });
-
-    // TODO: remove this, or enable it - depending on how we decide to handle
-    // the multiple-app/>1 case in future.
-    //            if (matchingActivities.size() > 1) {
-    //                builder.setNeutralButton(R.string.external_app_prompt_other,
-    //                new DialogInterface.OnClickListener() {
-    //                    @Override
-    //                    public void onClick(DialogInterface dialog, int which)
-    //                    {
-    //                        final String chooserTitle =
-    //                        activity.getResources().getString(R.string.external_multiple_apps_matched_exit);
-    //                        final Intent chooserIntent =
-    //                        Intent.createChooser(intent, chooserTitle);
-    //                        activity.startActivity(chooserIntent);
-    //                    }
-    //                });
-    //            }
-
-    builder.show();
-  }
+  
 
   public static void intentOpenFile(Context context, String fileUriStr,
                                     String mimeType) {

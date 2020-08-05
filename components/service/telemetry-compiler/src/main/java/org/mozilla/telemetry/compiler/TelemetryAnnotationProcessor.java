@@ -24,7 +24,7 @@ import org.mozilla.telemetry.annotation.TelemetryExtra;
 
 public class TelemetryAnnotationProcessor extends AbstractProcessor {
 
-  private static final String FILE_MAPPING = "amplitdue.json";
+  
   static final String FILE_README = "./docs/events.md";       // tracked
   static final String FILE_CSV = "./app/build/amplitude.csv"; // not tracked
 
@@ -37,7 +37,7 @@ public class TelemetryAnnotationProcessor extends AbstractProcessor {
     private static final int MAX_LENGTH_VALUE = 80;
     private static final int MAX_EXTRA_KEYS = 200;
     private static final int MAX_LENGTH_EXTRA_KEY = 15;
-    private static final int MAX_LENGTH_EXTRA_VALUE = 80;
+    
   }
 
   @Override
@@ -58,7 +58,7 @@ public class TelemetryAnnotationProcessor extends AbstractProcessor {
     Collection<? extends Element> annotatedElements =
         env.getElementsAnnotatedWith(TelemetryDoc.class);
 
-    if (annotatedElements.size() == 0) {
+    if (annotatedElements.isEmpty()) {
       return false;
     }
     try {
@@ -129,7 +129,7 @@ public class TelemetryAnnotationProcessor extends AbstractProcessor {
         // extras may have ',' so we add a placeholder '"' for csv files
         sb.append('"');
         for (TelemetryExtra extra : annotation.extras()) {
-          sb.append(extra.name()).append("=").append(extra.value() + ',');
+          sb.append(extra.name()).append('=').append(extra.value() + ',');
         }
         sb.append('"');
         sb.append(end);

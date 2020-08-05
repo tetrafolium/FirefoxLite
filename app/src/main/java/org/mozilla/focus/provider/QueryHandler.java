@@ -215,15 +215,7 @@ public class QueryHandler extends AsyncQueryHandler {
     return screenshot;
   }
 
-  private static byte[] bitmapToBytes(Bitmap bitmap) {
-    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    bitmap.compress(Bitmap.CompressFormat.PNG, DimenUtils.PNG_QUALITY_DONT_CARE,
-                    stream);
-    return stream.toByteArray();
-  }
+  
 
-  private static Bitmap bytesToBitmap(byte[] data) {
-    return data == null ? null
-                        : BitmapFactory.decodeByteArray(data, 0, data.length);
-  }
+  
 }

@@ -378,7 +378,7 @@ final class RequestOptionsGenerator {
       equivalentInstanceMethodName = "dontTransform";
     } else if ("noAnimation".equals(staticMethodName)) {
       equivalentInstanceMethodName = "dontAnimate";
-    } else if (staticMethodName.equals("option")) {
+    } else if ("option".equals(staticMethodName)) {
       equivalentInstanceMethodName = "set";
     } else {
       throw new IllegalArgumentException("Unrecognized static method name: " +

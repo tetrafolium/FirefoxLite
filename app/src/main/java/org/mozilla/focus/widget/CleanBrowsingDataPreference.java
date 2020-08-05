@@ -98,28 +98,5 @@ public class CleanBrowsingDataPreference extends MultiSelectListPreference {
     }
   }
 
-  private Object flattenToJsonObject(Set<String> values) {
-    final JSONObject object = new JSONObject();
-
-    final String[] preferenceKeys = getContext().getResources().getStringArray(
-        R.array.clean_browsing_data_values);
-    if (preferenceKeys.length <= 0) {
-      return object;
-    }
-
-    for (String key : preferenceKeys) {
-      try {
-        if (values.contains(key)) {
-          object.put(key, Boolean.TRUE.toString());
-        } else {
-          object.put(key, JSONObject.NULL);
-        }
-      } catch (JSONException e) {
-        throw new AssertionError("Preference value can't be serialized to JSON",
-                                 e);
-      }
-    }
-
-    return object;
-  }
+  
 }

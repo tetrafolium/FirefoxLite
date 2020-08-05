@@ -24,7 +24,7 @@ import org.mozilla.icon.FavIconUtils;
 
 public class ShortcutUtils {
 
-  private static final String TAG = "ShortcutUtils";
+  
 
   // Request pinned shortcut for both API level
   public static void requestPinShortcut(@NonNull final Context context,

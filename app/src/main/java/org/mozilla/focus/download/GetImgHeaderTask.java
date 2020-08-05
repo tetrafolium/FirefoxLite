@@ -11,11 +11,11 @@ import org.mozilla.focus.network.SocketTags;
  * Created by anlin on 20/10/2017.
  */
 
-public class GetImgHeaderTask extends AsyncTask<String, Void, String> {
-
-  public interface Callback { void setMIMEType(String mimeType); }
+public class GetImgHeaderTask extends AsyncTask<String, Void, String> {  
 
   public GetImgHeaderTask.Callback callback;
+
+  public interface Callback { void setMIMEType(String mimeType); }
 
   public void setCallback(Callback callback) { this.callback = callback; }
 

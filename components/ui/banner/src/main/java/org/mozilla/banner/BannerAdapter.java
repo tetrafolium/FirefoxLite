@@ -16,17 +16,17 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerViewHolder> {
 
   private static final String LOG_TAG = "BannerAdapter";
   private static final boolean LOG_CONDITION =
-      "release".equals(BuildConfig.BUILD_TYPE);
+      "release".equals(BuildConfig.BUILD_TYPE);  
+
+  private Context context;  
+  private List<BannerDAO> DAOs;  
+  private OnClickListener onClickListener;  
+  private TelemetryListener telemetryListener;  
+  private static final int UNKNOWN_VIEW_TYPE = -1;
 
   @IntDef({UNKNOWN_VIEW_TYPE, BasicViewHolder.VIEW_TYPE,
            SingleButtonViewHolder.VIEW_TYPE, FourSitesViewHolder.VIEW_TYPE})
   @interface ViewType {}
-
-  private Context context;
-  private List<BannerDAO> DAOs;
-  private OnClickListener onClickListener;
-  private TelemetryListener telemetryListener;
-  private static final int UNKNOWN_VIEW_TYPE = -1;
 
   @Override
   public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {

@@ -38,11 +38,11 @@ public class FloatingActionButtonBehavior
   @Override
   public boolean layoutDependsOn(CoordinatorLayout parent,
                                  FloatingActionButton child, View dependency) {
-    if (button != child) {
+    if (button.equals(child)) {
       button = child;
     }
 
-    if (dependency instanceof AppBarLayout && layout != dependency) {
+    if (dependency instanceof AppBarLayout && layout.equals(dependency)) {
       layout = (AppBarLayout)dependency;
       layout.addOnOffsetChangedListener(this);
 

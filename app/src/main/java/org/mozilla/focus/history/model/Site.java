@@ -15,7 +15,21 @@ import androidx.room.PrimaryKey;
 import org.mozilla.focus.utils.AppConstants;
 
 @Entity(tableName = "browsing_history", indices = { @Index("view_count") })
-public class Site {
+public class Site {  
+
+  @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "_id") private long id;  
+
+  private String title;  
+
+  @NonNull private String url;  
+
+  @Ignore @NonNull private boolean isDefault = false;  
+
+  @ColumnInfo(name = "view_count") private long viewCount;  
+
+  @ColumnInfo(name = "last_view_timestamp") private long lastViewTimestamp;  
+
+  @ColumnInfo(name = "fav_icon_uri") private String favIconUri;
 
   public Site(long id, String title, @NonNull String url, long viewCount,
               long lastViewTimestamp, String favIconUri) {
@@ -26,20 +40,6 @@ public class Site {
     this.lastViewTimestamp = lastViewTimestamp;
     this.favIconUri = favIconUri;
   }
-
-  @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "_id") private long id;
-
-  private String title;
-
-  @NonNull private String url;
-
-  @Ignore @NonNull private boolean isDefault = false;
-
-  @ColumnInfo(name = "view_count") private long viewCount;
-
-  @ColumnInfo(name = "last_view_timestamp") private long lastViewTimestamp;
-
-  @ColumnInfo(name = "fav_icon_uri") private String favIconUri;
 
   public long getId() { return this.id; }
 

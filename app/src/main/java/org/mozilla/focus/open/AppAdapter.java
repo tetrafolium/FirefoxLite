@@ -18,7 +18,10 @@ import java.util.Comparator;
 import java.util.List;
 import org.mozilla.focus.R;
 
-public class AppAdapter extends RecyclerView.Adapter<AppViewHolder> {
+public class AppAdapter extends RecyclerView.Adapter<AppViewHolder> {  
+
+  private List<App> apps;  
+  private OnAppSelectedListener listener;
   /* package-private */ static class App {
     private Context context;
     private ActivityInfo info;
@@ -42,9 +45,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppViewHolder> {
   /* package-private */ interface OnAppSelectedListener {
     void onAppSelected(App app);
   }
-
-  private List<App> apps;
-  private OnAppSelectedListener listener;
 
   public AppAdapter(Context context, ActivityInfo[] infoArray) {
     final List<App> apps = new ArrayList<>(infoArray.length);

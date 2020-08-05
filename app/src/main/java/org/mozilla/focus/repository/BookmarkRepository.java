@@ -7,7 +7,7 @@ import org.mozilla.focus.persistence.BookmarkModel;
 import org.mozilla.focus.persistence.BookmarksDatabase;
 import org.mozilla.threadutils.ThreadUtils;
 
-public class BookmarkRepository {
+public final class BookmarkRepository {
   private static volatile BookmarkRepository instance;
 
   private BookmarksDatabase bookmarksDatabase;

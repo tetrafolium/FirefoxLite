@@ -87,7 +87,7 @@ public class BrowsingHistoryManager {
     }
 
     mListeners.remove(listener);
-    if (mListeners.size() == 0) {
+    if (mListeners.isEmpty()) {
       ContentResolver resolver = mResolver.get();
       if (resolver != null) {
         resolver.unregisterContentObserver(mContentObserver);

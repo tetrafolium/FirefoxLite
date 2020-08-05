@@ -74,11 +74,22 @@ public class ScreenshotViewerActivity extends BaseActivity
   private static final int ACTION_SHARE = ACTION_VIEW + 2;
   private static final int ACTION_DELETE = ACTION_VIEW + 3;
 
-  private static final int REQUEST_CODE_VIEW_SCREENSHOT = 101;
+  
   private static final int REQUEST_CODE_EDIT_SCREENSHOT = 102;
-  private static final int REQUEST_CODE_SHARE_SCREENSHOT = 103;
-  private static final int REQUEST_CODE_DELETE_SCREENSHOT = 104;
-  private static final long DELAY_MILLIS_TO_SHOW_PROGRESS_BAR = 700;
+  
+  
+  private static final long DELAY_MILLIS_TO_SHOW_PROGRESS_BAR = 700;  
+
+  private static final String EXTRA_SCREENSHOT = "extra_screenshot";  
+
+  private Toolbar mBottomToolBar;  
+  private ImageView mImgPlaceholder;  
+  private SubsamplingScaleImageView mImgScreenshot;  
+  private Screenshot mScreenshot;  
+  private ProgressBar mProgressBar;  
+  
+  private ArrayList<ImageInfo> mInfoItems = new ArrayList<>();  
+  private boolean mIsImageReady = false;
 
   public static final void goScreenshotViewerActivityOnResult(Activity activity,
                                                               Screenshot item) {
@@ -86,17 +97,6 @@ public class ScreenshotViewerActivity extends BaseActivity
     intent.putExtra(EXTRA_SCREENSHOT, item);
     activity.startActivityForResult(intent, REQ_CODE_VIEW_SCREENSHOT);
   }
-
-  private static final String EXTRA_SCREENSHOT = "extra_screenshot";
-
-  private Toolbar mBottomToolBar;
-  private ImageView mImgPlaceholder;
-  private SubsamplingScaleImageView mImgScreenshot;
-  private Screenshot mScreenshot;
-  private ProgressBar mProgressBar;
-  private Uri mImageUri;
-  private ArrayList<ImageInfo> mInfoItems = new ArrayList<>();
-  private boolean mIsImageReady = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -224,12 +224,10 @@ public class ScreenshotViewerActivity extends BaseActivity
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode == 0) {
-      if (requestCode == REQUEST_CODE_EDIT_SCREENSHOT) {
+    if ((resultCode == 0) && (requestCode == REQUEST_CODE_EDIT_SCREENSHOT)) {
 
-        setupView(true);
-        initScreenshotInfo(false);
-      }
+      setupView(true);
+      initScreenshotInfo(false);
     }
     permissionHandler.onActivityResult(this, requestCode, resultCode, data);
   }
@@ -338,11 +336,7 @@ public class ScreenshotViewerActivity extends BaseActivity
     }
   }
 
-  private boolean checkPermissions() {
-    int permissionState = ActivityCompat.checkSelfPermission(
-        this, Manifest.permission.READ_EXTERNAL_STORAGE);
-    return permissionState == PackageManager.PERMISSION_GRANTED;
-  }
+  
 
   private void onEditClick() {
     ThreadUtils.postToBackgroundThread(new Runnable() {

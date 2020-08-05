@@ -85,7 +85,7 @@ public class SupportUtils {
     case "https":
       // localhost allows zero dot
       if (!host.contains(".")) {
-        return host.equals("localhost");
+        return "localhost".equals(host);
       }
 
       // .a.b.c  and a.b.c. are not allowed

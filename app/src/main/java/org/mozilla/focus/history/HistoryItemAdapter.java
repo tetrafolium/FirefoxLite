@@ -210,7 +210,7 @@ public class HistoryItemAdapter
 
   @Override
   public void onQueryComplete(List result) {
-    mIsLastPage = result.size() == 0;
+    mIsLastPage = result.isEmpty();
     if (mIsInitialQuery) {
       mIsInitialQuery = false;
     }
@@ -236,7 +236,7 @@ public class HistoryItemAdapter
         notifyStatusListener(BrowsingHistoryFragment.VIEW_TYPE_EMPTY);
       } else {
         remove(getItemPositionById(id));
-        if (mItems.size() == 0) {
+        if (mItems.isEmpty()) {
           notifyStatusListener(BrowsingHistoryFragment.VIEW_TYPE_EMPTY);
         }
       }
@@ -298,10 +298,8 @@ public class HistoryItemAdapter
   private int getItemPositionById(long id) {
     for (int i = 0; i < mItems.size(); i++) {
       Object item = mItems.get(i);
-      if (item instanceof Site) {
-        if (id == ((Site)item).getId()) {
-          return i;
-        }
+      if ((item instanceof Site) && (id == ((Site)item).getId())) {
+        return i;
       }
     }
     return -1;

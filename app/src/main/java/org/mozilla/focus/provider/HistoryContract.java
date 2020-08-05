@@ -20,24 +20,24 @@ public class HistoryContract {
   public static final Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
   public static final String TABLE_NAME = "browsing_history";
 
-  public static final class BrowsingHistory implements BaseColumns {
-
-    private BrowsingHistory() {}
+  public static final class BrowsingHistory implements BaseColumns {    
 
     public static final Uri CONTENT_URI =
-        Uri.withAppendedPath(AUTHORITY_URI, TABLE_NAME);
+        Uri.withAppendedPath(AUTHORITY_URI, TABLE_NAME);    
 
     public static final String CONTENT_TYPE =
         "vnd.android.cursor.dir/vnd." + BuildConfig.APPLICATION_ID +
-        ".provider.historyprovider.browsinghistory";
+        ".provider.historyprovider.browsinghistory";    
 
-    public static final String TITLE = "title";
-    public static final String URL = "url";
-    public static final String VIEW_COUNT = "view_count";
-    public static final String LAST_VIEW_TIMESTAMP = "last_view_timestamp";
+    public static final String TITLE = "title";    
+    public static final String URL = "url";    
+    public static final String VIEW_COUNT = "view_count";    
+    public static final String LAST_VIEW_TIMESTAMP = "last_view_timestamp";    
     // v1
-    public static final String FAV_ICON = "fav_icon";
+    public static final String FAV_ICON = "fav_icon";    
     // v2
     public static final String FAV_ICON_URI = "fav_icon_uri";
+
+    private BrowsingHistory() {}
   }
 }

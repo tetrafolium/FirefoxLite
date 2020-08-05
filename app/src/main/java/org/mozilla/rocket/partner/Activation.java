@@ -4,7 +4,7 @@ import android.util.MalformedJsonException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-class Activation {
+final class Activation {
 
   final String owner;
   final long version;

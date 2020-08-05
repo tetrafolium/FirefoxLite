@@ -16,7 +16,11 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import org.mozilla.focus.R;
 
-public class FirstrunUpgradePagerAdapter extends PagerAdapter {
+public class FirstrunUpgradePagerAdapter extends PagerAdapter {  
+
+  private final Context context;  
+  private final View.OnClickListener listener;  
+  private final FirstrunUpgradePagerAdapter.FirstrunPage[] pages;
 
   private static class FirstrunPage {
     public final String title;
@@ -36,10 +40,6 @@ public class FirstrunUpgradePagerAdapter extends PagerAdapter {
     }
   }
 
-  private final Context context;
-  private final View.OnClickListener listener;
-  private final FirstrunUpgradePagerAdapter.FirstrunPage[] pages;
-
   public FirstrunUpgradePagerAdapter(Context context,
                                      View.OnClickListener listener) {
     this.context = context;
@@ -54,7 +54,7 @@ public class FirstrunUpgradePagerAdapter extends PagerAdapter {
 
   @Override
   public boolean isViewFromObject(View view, Object object) {
-    return view == object;
+    return view.equals(object);
   }
 
   @Override

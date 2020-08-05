@@ -15,7 +15,7 @@ import org.mozilla.focus.utils.StorageUtils;
 import org.mozilla.threadutils.ThreadUtils;
 
 public class DataSavingPathPreference extends ListPreference {
-  private static final String LOG_TAG = "DataSavingPathPreference";
+  
 
   private boolean hasRemovableStorage = false;
 

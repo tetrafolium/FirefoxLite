@@ -5,19 +5,19 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "bookmarks")
-public class BookmarkModel {
+public class BookmarkModel {  
+
+  @PrimaryKey @NonNull private String id;  
+
+  private String title;  
+
+  private String url;
 
   public BookmarkModel(String id, String title, String url) {
     this.id = id;
     this.title = title;
     this.url = url;
   }
-
-  @PrimaryKey @NonNull private String id;
-
-  private String title;
-
-  private String url;
 
   @NonNull
   public String getId() {

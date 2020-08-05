@@ -26,7 +26,7 @@ import org.mozilla.focus.locale.Locales;
 import org.mozilla.focus.utils.IOUtils;
 import org.mozilla.focus.utils.Settings;
 
-public class SearchEngineManager extends BroadcastReceiver {
+public final class SearchEngineManager extends BroadcastReceiver {
   private static final String LOG_TAG =
       SearchEngineManager.class.getSimpleName();
 

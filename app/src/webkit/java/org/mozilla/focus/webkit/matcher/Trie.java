@@ -8,7 +8,10 @@ import android.util.Pair;
 import android.util.SparseArray;
 import org.mozilla.focus.webkit.matcher.util.FocusString;
 
-/* package-private */ class Trie {
+/* package-private */ class Trie {  
+
+  public final SparseArray<Trie> children = new SparseArray<>();  
+  public boolean terminator = false;
 
   /**
    * Trie that adds storage for a whitelist (itself another trie) on each node.
@@ -42,9 +45,6 @@ import org.mozilla.focus.webkit.matcher.util.FocusString;
       node.whitelist = whitelist;
     }
   }
-
-  public final SparseArray<Trie> children = new SparseArray<>();
-  public boolean terminator = false;
 
   public Trie findNode(final FocusString string) {
     if (terminator) {

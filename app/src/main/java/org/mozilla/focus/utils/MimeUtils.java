@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * Simple utility to help check MIME type. Its matching algorithm is not perfect
  * but enough for now.
  */
-public class MimeUtils {
+public final class MimeUtils {
 
   private static final Pattern textPattern =
       Pattern.compile("^text/[0-9,a-z,A-Z,-,*]+?$");
