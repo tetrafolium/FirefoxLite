@@ -38,8 +38,8 @@ public class ViewPagerIdlingResource implements IdlingResource {
         @Override
         public void onPageScrollStateChanged(int state) {
             mIdle = (state == ViewPager.SCROLL_STATE_IDLE
-                    // Treat dragging as idle, or Espresso will block itself when swiping.
-                    || state == ViewPager.SCROLL_STATE_DRAGGING);
+                     // Treat dragging as idle, or Espresso will block itself when swiping.
+                     || state == ViewPager.SCROLL_STATE_DRAGGING);
             if (mIdle && mResourceCallback != null) {
                 mResourceCallback.onTransitionToIdle();
             }

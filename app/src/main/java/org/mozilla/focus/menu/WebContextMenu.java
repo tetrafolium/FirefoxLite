@@ -101,10 +101,10 @@ public class WebContextMenu {
      * menu callbacks.
      */
     private static void setupMenuForHitTarget(final @NonNull boolean inPrivate,
-                                              final @NonNull Dialog dialog,
-                                              final @NonNull NavigationView navigationView,
-                                              final @NonNull DownloadCallback callback,
-                                              final @NonNull TabView.HitTarget hitTarget) {
+            final @NonNull Dialog dialog,
+            final @NonNull NavigationView navigationView,
+            final @NonNull DownloadCallback callback,
+            final @NonNull TabView.HitTarget hitTarget) {
         navigationView.inflateMenu(R.menu.menu_browser_context);
 
         final String targetUrl = hitTarget.isLink ? hitTarget.linkURL : hitTarget.imageURL;
@@ -122,7 +122,7 @@ public class WebContextMenu {
         navigationView.getMenu().findItem(R.id.menu_image_copy).setVisible(hitTarget.isImage);
 
         navigationView.getMenu().findItem(R.id.menu_image_save).setVisible(
-                hitTarget.isImage && UrlUtils.isHttpOrHttps(hitTarget.imageURL));
+            hitTarget.isImage && UrlUtils.isHttpOrHttps(hitTarget.imageURL));
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -130,67 +130,67 @@ public class WebContextMenu {
                 dialog.dismiss();
 
                 switch (item.getItemId()) {
-                    case R.id.menu_new_tab:
-                    case R.id.menu_new_tab_image:
-                        openInNewTab(hitTarget.source, dialog, targetUrl);
-                        return true;
-                    case R.id.menu_link_share: {
-                        TelemetryWrapper.shareLinkEvent();
-                        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                        shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, hitTarget.linkURL);
-                        dialog.getContext().startActivity(Intent.createChooser(shareIntent, dialog.getContext().getString(R.string.share_dialog_title)));
-                        return true;
+                case R.id.menu_new_tab:
+                case R.id.menu_new_tab_image:
+                    openInNewTab(hitTarget.source, dialog, targetUrl);
+                    return true;
+                case R.id.menu_link_share: {
+                    TelemetryWrapper.shareLinkEvent();
+                    final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, hitTarget.linkURL);
+                    dialog.getContext().startActivity(Intent.createChooser(shareIntent, dialog.getContext().getString(R.string.share_dialog_title)));
+                    return true;
+                }
+                case R.id.menu_image_share: {
+                    TelemetryWrapper.shareImageEvent();
+                    final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, hitTarget.imageURL);
+                    dialog.getContext().startActivity(Intent.createChooser(shareIntent, dialog.getContext().getString(R.string.share_dialog_title)));
+                    return true;
+                }
+                case R.id.menu_image_save: {
+                    if (URLUtil.guessFileName(hitTarget.imageURL, null, null).endsWith(DEFAULT_DOWNLOAD_EXTENSION)) {
+                        GetImgHeaderTask getImgHeaderTask = new GetImgHeaderTask();
+                        getImgHeaderTask.setCallback(new GetImgHeaderTask.Callback() {
+                            @Override
+                            public void setMIMEType(String mimeType) {
+                                final Download download = new Download(hitTarget.imageURL, null, null, null, mimeType, -1, true);
+                                callback.onDownloadStart(download);
+                            }
+                        });
+
+                        getImgHeaderTask.execute(hitTarget.imageURL);
+                    } else {
+                        final Download download = new Download(hitTarget.imageURL, null, null, null, null, -1, true);
+                        callback.onDownloadStart(download);
                     }
-                    case R.id.menu_image_share: {
-                        TelemetryWrapper.shareImageEvent();
-                        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                        shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, hitTarget.imageURL);
-                        dialog.getContext().startActivity(Intent.createChooser(shareIntent, dialog.getContext().getString(R.string.share_dialog_title)));
-                        return true;
+
+                    TelemetryWrapper.saveImageEvent();
+                    return true;
+                }
+                case R.id.menu_link_copy:
+                case R.id.menu_image_copy:
+                    final ClipboardManager clipboard = (ClipboardManager)
+                                                       dialog.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    final Uri uri;
+
+                    if (item.getItemId() == R.id.menu_link_copy) {
+                        TelemetryWrapper.copyLinkEvent();
+                        uri = Uri.parse(hitTarget.linkURL);
+                    } else if (item.getItemId() == R.id.menu_image_copy) {
+                        TelemetryWrapper.copyImageEvent();
+                        uri = Uri.parse(hitTarget.imageURL);
+                    } else {
+                        throw new IllegalStateException("Unknown hitTarget type - cannot copy to clipboard");
                     }
-                    case R.id.menu_image_save: {
-                        if (URLUtil.guessFileName(hitTarget.imageURL, null, null).endsWith(DEFAULT_DOWNLOAD_EXTENSION)) {
-                            GetImgHeaderTask getImgHeaderTask = new GetImgHeaderTask();
-                            getImgHeaderTask.setCallback(new GetImgHeaderTask.Callback() {
-                                @Override
-                                public void setMIMEType(String mimeType) {
-                                    final Download download = new Download(hitTarget.imageURL, null, null, null, mimeType, -1, true);
-                                    callback.onDownloadStart(download);
-                                }
-                            });
 
-                            getImgHeaderTask.execute(hitTarget.imageURL);
-                        } else {
-                            final Download download = new Download(hitTarget.imageURL, null, null, null, null, -1, true);
-                            callback.onDownloadStart(download);
-                        }
-
-                        TelemetryWrapper.saveImageEvent();
-                        return true;
-                    }
-                    case R.id.menu_link_copy:
-                    case R.id.menu_image_copy:
-                        final ClipboardManager clipboard = (ClipboardManager)
-                                dialog.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                        final Uri uri;
-
-                        if (item.getItemId() == R.id.menu_link_copy) {
-                            TelemetryWrapper.copyLinkEvent();
-                            uri = Uri.parse(hitTarget.linkURL);
-                        } else if (item.getItemId() == R.id.menu_image_copy) {
-                            TelemetryWrapper.copyImageEvent();
-                            uri = Uri.parse(hitTarget.imageURL);
-                        } else {
-                            throw new IllegalStateException("Unknown hitTarget type - cannot copy to clipboard");
-                        }
-
-                        final ClipData clip = ClipData.newUri(dialog.getContext().getContentResolver(), "URI", uri);
-                        clipboard.setPrimaryClip(clip);
-                        return true;
-                    default:
-                        throw new IllegalArgumentException("Unhandled menu item id=" + item.getItemId());
+                    final ClipData clip = ClipData.newUri(dialog.getContext().getContentResolver(), "URI", uri);
+                    clipboard.setPrimaryClip(clip);
+                    return true;
+                default:
+                    throw new IllegalArgumentException("Unhandled menu item id=" + item.getItemId());
                 }
             }
         });
@@ -198,8 +198,8 @@ public class WebContextMenu {
 
     private static boolean canOpenInNewTab(Activity activity, String url) {
         return activity != null &&
-                !TextUtils.isEmpty(url) &&
-                TabsSessionProvider.getOrNull(activity) != null;
+               !TextUtils.isEmpty(url) &&
+               TabsSessionProvider.getOrNull(activity) != null;
     }
 
     private static void openInNewTab(final TabView source, final Dialog dialog, final String url) {

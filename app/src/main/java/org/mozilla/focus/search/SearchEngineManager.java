@@ -72,7 +72,7 @@ public class SearchEngineManager extends BroadcastReceiver {
             public void run() {
                 loadFromDisk(context);
             }
-        }.start();
+        } .start();
     }
 
     @WorkerThread

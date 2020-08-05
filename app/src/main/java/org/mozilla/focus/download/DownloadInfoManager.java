@@ -66,83 +66,83 @@ public class DownloadInfoManager {
         @Override
         protected void onInsertComplete(int token, Object cookie, Uri uri) {
             switch (token) {
-                case TOKEN:
-                    if (cookie != null) {
-                        final long id = uri == null ? -1 : Long.parseLong(uri.getLastPathSegment());
-                        ((AsyncInsertListener) cookie).onInsertComplete(id);
-                    }
-                    break;
-                default:
-                    break;
+            case TOKEN:
+                if (cookie != null) {
+                    final long id = uri == null ? -1 : Long.parseLong(uri.getLastPathSegment());
+                    ((AsyncInsertListener) cookie).onInsertComplete(id);
+                }
+                break;
+            default:
+                break;
             }
         }
 
         @Override
         protected void onDeleteComplete(int token, Object cookie, int result) {
             switch (token) {
-                case TOKEN:
-                    if (cookie != null) {
-                        AsyncDeleteWrapper wrapper = ((AsyncDeleteWrapper) cookie);
-                        if (wrapper.listener != null) {
-                            wrapper.listener.onDeleteComplete(result, wrapper.id);
-                        }
+            case TOKEN:
+                if (cookie != null) {
+                    AsyncDeleteWrapper wrapper = ((AsyncDeleteWrapper) cookie);
+                    if (wrapper.listener != null) {
+                        wrapper.listener.onDeleteComplete(result, wrapper.id);
                     }
-                    break;
-                default:
-                    break;
+                }
+                break;
+            default:
+                break;
             }
         }
 
         @Override
         protected void onUpdateComplete(int token, Object cookie, int result) {
             switch (token) {
-                case TOKEN:
-                    if (cookie != null) {
-                        ((AsyncUpdateListener) cookie).onUpdateComplete(result);
-                    }
-                    break;
-                default:
-                    break;
+            case TOKEN:
+                if (cookie != null) {
+                    ((AsyncUpdateListener) cookie).onUpdateComplete(result);
+                }
+                break;
+            default:
+                break;
             }
         }
 
         @Override
         protected void onQueryComplete(int token, final Object cookie, final Cursor cursor) {
             switch (token) {
-                case TOKEN:
-                    ThreadUtils.postToBackgroundThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (cookie != null) {
-                                final List<DownloadInfo> downloadInfoList = new ArrayList<>();
-                                if (cursor != null) {
-                                    try {
-                                        while (cursor.moveToNext()) {
-                                            final DownloadInfo downloadInfo = cursorToDownloadInfo(cursor);
-                                            downloadInfoList.add(downloadInfo);
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    } finally {
-                                        CursorUtils.closeCursorSafely(cursor);
+            case TOKEN:
+                ThreadUtils.postToBackgroundThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (cookie != null) {
+                            final List<DownloadInfo> downloadInfoList = new ArrayList<>();
+                            if (cursor != null) {
+                                try {
+                                    while (cursor.moveToNext()) {
+                                        final DownloadInfo downloadInfo = cursorToDownloadInfo(cursor);
+                                        downloadInfoList.add(downloadInfo);
                                     }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    CursorUtils.closeCursorSafely(cursor);
                                 }
-
-                                ThreadUtils.postToMainThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((AsyncQueryListener) cookie).onQueryComplete(downloadInfoList);
-                                    }
-                                });
-                            } else {
-                                CursorUtils.closeCursorSafely(cursor);
                             }
+
+                            ThreadUtils.postToMainThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ((AsyncQueryListener) cookie).onQueryComplete(downloadInfoList);
+                                }
+                            });
+                        } else {
+                            CursorUtils.closeCursorSafely(cursor);
                         }
-                    });
-                    break;
-                default:
-                    CursorUtils.closeCursorSafely(cursor);
-                    break;
+                    }
+                });
+                break;
+            default:
+                CursorUtils.closeCursorSafely(cursor);
+                break;
             }
         }
     }
@@ -186,22 +186,22 @@ public class DownloadInfoManager {
 
     public void insert(DownloadInfo downloadInfo, AsyncInsertListener listener) {
         mQueryHandler.startInsert(TOKEN, listener
-                , Download.CONTENT_URI, getContentValuesFromDownloadInfo(downloadInfo));
+                                  , Download.CONTENT_URI, getContentValuesFromDownloadInfo(downloadInfo));
     }
 
     public void delete(Long rowId, AsyncDeleteListener listener) {
         mQueryHandler.startDelete(TOKEN, new AsyncDeleteWrapper(rowId, listener)
-                , Download.CONTENT_URI, Download._ID + " = ?", new String[]{Long.toString(rowId)});
+                                  , Download.CONTENT_URI, Download._ID + " = ?", new String[] {Long.toString(rowId)});
     }
 
     public void updateByDownloadId(DownloadInfo downloadInfo, AsyncUpdateListener listener) {
         mQueryHandler.startUpdate(TOKEN, listener, Download.CONTENT_URI, getContentValuesFromDownloadInfo(downloadInfo)
-                , Download.DOWNLOAD_ID + " = ?", new String[]{Long.toString(downloadInfo.getDownloadId())});
+                                  , Download.DOWNLOAD_ID + " = ?", new String[] {Long.toString(downloadInfo.getDownloadId())});
     }
 
     public void updateByRowId(DownloadInfo downloadInfo, AsyncUpdateListener listener) {
         mQueryHandler.startUpdate(TOKEN, listener, Download.CONTENT_URI, getContentValuesFromDownloadInfo(downloadInfo)
-                , Download._ID + " = ?", new String[]{Long.toString(downloadInfo.getRowId())});
+                                  , Download._ID + " = ?", new String[] {Long.toString(downloadInfo.getRowId())});
     }
 
     public void query(int offset, int limit, AsyncQueryListener listener) {
@@ -211,23 +211,23 @@ public class DownloadInfoManager {
 
     public void queryByDownloadId(Long downloadId, AsyncQueryListener listener) {
         String uri = Download.CONTENT_URI.toString();
-        mQueryHandler.startQuery(TOKEN, listener, Uri.parse(uri), null, Download.DOWNLOAD_ID + "==?", new String[]{Long.toString(downloadId)}, null);
+        mQueryHandler.startQuery(TOKEN, listener, Uri.parse(uri), null, Download.DOWNLOAD_ID + "==?", new String[] {Long.toString(downloadId)}, null);
     }
 
     public void queryByRowId(Long rowId, AsyncQueryListener listener) {
         String uri = Download.CONTENT_URI.toString();
-        mQueryHandler.startQuery(TOKEN, listener, Uri.parse(uri), null, Download._ID + "==?", new String[]{Long.toString(rowId)}, null);
+        mQueryHandler.startQuery(TOKEN, listener, Uri.parse(uri), null, Download._ID + "==?", new String[] {Long.toString(rowId)}, null);
     }
 
     public void queryDownloadingAndUnreadIds(AsyncQueryListener listener) {
         final String uri = Download.CONTENT_URI.toString();
-        mQueryHandler.startQuery(TOKEN, listener, Uri.parse(uri), null, Download.STATUS + "!=? or " + Download.IS_READ + "=?", new String[]{String.valueOf(DownloadManager.STATUS_SUCCESSFUL), String.valueOf("0")}, null);
+        mQueryHandler.startQuery(TOKEN, listener, Uri.parse(uri), null, Download.STATUS + "!=? or " + Download.IS_READ + "=?", new String[] {String.valueOf(DownloadManager.STATUS_SUCCESSFUL), String.valueOf("0")}, null);
     }
 
     public void markAllItemsAreRead(AsyncUpdateListener listener) {
         final ContentValues contentValues = new ContentValues();
         contentValues.put(Download.IS_READ, "1");
-        mQueryHandler.startUpdate(TOKEN, listener, Download.CONTENT_URI, contentValues, Download.STATUS + "=? and " + Download.IS_READ + " = ?", new String[]{String.valueOf(DownloadManager.STATUS_SUCCESSFUL), String.valueOf("0")});
+        mQueryHandler.startUpdate(TOKEN, listener, Download.CONTENT_URI, contentValues, Download.STATUS + "=? and " + Download.IS_READ + " = ?", new String[] {String.valueOf(DownloadManager.STATUS_SUCCESSFUL), String.valueOf("0")});
     }
 
     public boolean recordExists(long downloadId) {
@@ -270,18 +270,18 @@ public class DownloadInfoManager {
         final DownloadManager manager = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         final String desc = TextUtils.isEmpty(pojo.desc) ? "Downloaded from internet" : pojo.desc;
         final String mimeType = TextUtils.isEmpty(pojo.mime)
-                ? (TextUtils.isEmpty(type) ? "*/*" : type)
-                : pojo.mime;
+                                ? (TextUtils.isEmpty(type) ? "*/*" : type)
+                                : pojo.mime;
         final boolean visible = true; // otherwise we need permission DOWNLOAD_WITHOUT_NOTIFICATION
 
         final long newId = manager.addCompletedDownload(
-                newFile.getName(),
-                desc,
-                true,
-                mimeType,
-                newPath,
-                newFile.length(),
-                visible);
+                               newFile.getName(),
+                               desc,
+                               true,
+                               mimeType,
+                               newPath,
+                               newFile.length(),
+                               visible);
 
         // filename might be different from old file
         // update by row id

@@ -12,20 +12,20 @@ import java.security.MessageDigest;
  * for partial cache key signatures.
  */
 public interface Key {
-  String STRING_CHARSET_NAME = "UTF-8";
-  Charset CHARSET = Charset.forName(STRING_CHARSET_NAME);
+    String STRING_CHARSET_NAME = "UTF-8";
+    Charset CHARSET = Charset.forName(STRING_CHARSET_NAME);
 
-  /**
-   * Adds all uniquely identifying information to the given digest.
-   *
-   * <p> Note - Using {@link java.security.MessageDigest#reset()} inside of this method will result
-   * in undefined behavior. </p>
-   */
-  void updateDiskCacheKey(MessageDigest messageDigest);
+    /**
+     * Adds all uniquely identifying information to the given digest.
+     *
+     * <p> Note - Using {@link java.security.MessageDigest#reset()} inside of this method will result
+     * in undefined behavior. </p>
+     */
+    void updateDiskCacheKey(MessageDigest messageDigest);
 
-  @Override
-  boolean equals(Object o);
+    @Override
+    boolean equals(Object o);
 
-  @Override
-  int hashCode();
+    @Override
+    int hashCode();
 }

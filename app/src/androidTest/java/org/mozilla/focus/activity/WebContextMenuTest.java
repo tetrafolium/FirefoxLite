@@ -89,12 +89,12 @@ public class WebContextMenuTest {
 
             try {
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_FULL_SCREEN_IMAGE))
-                        .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_FULL_SCREEN_IMAGE))
+                                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
+                                  .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
+                                  .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
 
                 webServer.start();
             } catch (IOException e) {
@@ -117,8 +117,8 @@ public class WebContextMenuTest {
     @Before
     public void setUp() {
         new BeforeTestTask.Builder()
-                .build()
-                .execute();
+        .build()
+        .execute();
         intentsTestRule.launchActivity(new Intent());
     }
 
@@ -207,7 +207,7 @@ public class WebContextMenuTest {
 
         // Get clip data form clip board
         final ClipboardManager clipboard = (ClipboardManager)
-                intentsTestRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                                           intentsTestRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         final ClipData clipData = clipboard.getPrimaryClip();
         Assert.assertNotNull(clipData);
 
@@ -263,7 +263,7 @@ public class WebContextMenuTest {
 
         // Get clip data form clip board
         final ClipboardManager clipboard = (ClipboardManager)
-                intentsTestRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                                           intentsTestRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         final ClipData clipData = clipboard.getPrimaryClip();
         Assert.assertNotNull(clipData);
 
@@ -313,7 +313,7 @@ public class WebContextMenuTest {
 
         // Check if first download item name is matched
         onView(withId(R.id.recyclerview))
-                .check(matches(atPosition(0, hasDescendant(withText(containsString(IMAGE_FILE_NAME_DOWNLOADED_PREFIX))))));
+        .check(matches(atPosition(0, hasDescendant(withText(containsString(IMAGE_FILE_NAME_DOWNLOADED_PREFIX))))));
     }
 
     private void loadTestWebsiteAndOpenContextMenu() {

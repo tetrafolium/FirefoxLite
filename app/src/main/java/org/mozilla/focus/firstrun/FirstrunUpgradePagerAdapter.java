@@ -42,14 +42,14 @@ public class FirstrunUpgradePagerAdapter extends PagerAdapter {
     public FirstrunUpgradePagerAdapter(Context context, View.OnClickListener listener) {
         this.context = context;
         this.listener = listener;
-        pages = new FirstrunUpgradePagerAdapter.FirstrunPage[]{
-                new FirstrunPage(
-                        context.getString(R.string.first_run_upgrade_page_title),
-                        context.getString(R.string.first_run_upgrade_page_text1),
-                        context.getString(R.string.first_run_upgrade_page_text1_highlight),
-                        context.getString(R.string.first_run_upgrade_page_text2),
-                        context.getString(R.string.first_run_upgrade_page_text2_highlight)
-                )
+        pages = new FirstrunUpgradePagerAdapter.FirstrunPage[] {
+            new FirstrunPage(
+                context.getString(R.string.first_run_upgrade_page_title),
+                context.getString(R.string.first_run_upgrade_page_text1),
+                context.getString(R.string.first_run_upgrade_page_text1_highlight),
+                context.getString(R.string.first_run_upgrade_page_text2),
+                context.getString(R.string.first_run_upgrade_page_text2_highlight)
+            )
         };
     }
 

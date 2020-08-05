@@ -13,43 +13,43 @@ import java.util.WeakHashMap;
  * {@link com.bumptech.glide.RequestManager} and forwards on lifecycle events.
  */
 public final class TargetTracker implements LifecycleListener {
-  private final Set<Target<?>> targets =
-      Collections.newSetFromMap(new WeakHashMap<Target<?>, Boolean>());
+    private final Set<Target<?>> targets =
+        Collections.newSetFromMap(new WeakHashMap<Target<?>, Boolean>());
 
-  public void track(Target<?> target) {
-    targets.add(target);
-  }
-
-  public void untrack(Target<?> target) {
-    targets.remove(target);
-  }
-
-  @Override
-  public void onStart() {
-    for (Target<?> target : Util.getSnapshot(targets)) {
-      target.onStart();
+    public void track(Target<?> target) {
+        targets.add(target);
     }
-  }
 
-  @Override
-  public void onStop() {
-    for (Target<?> target : Util.getSnapshot(targets)) {
-      target.onStop();
+    public void untrack(Target<?> target) {
+        targets.remove(target);
     }
-  }
 
-  @Override
-  public void onDestroy() {
-    for (Target<?> target : Util.getSnapshot(targets)) {
-      target.onDestroy();
+    @Override
+    public void onStart() {
+        for (Target<?> target : Util.getSnapshot(targets)) {
+            target.onStart();
+        }
     }
-  }
 
-  public List<Target<?>> getAll() {
-    return new ArrayList<>(targets);
-  }
+    @Override
+    public void onStop() {
+        for (Target<?> target : Util.getSnapshot(targets)) {
+            target.onStop();
+        }
+    }
 
-  public void clear() {
-    targets.clear();
-  }
+    @Override
+    public void onDestroy() {
+        for (Target<?> target : Util.getSnapshot(targets)) {
+            target.onDestroy();
+        }
+    }
+
+    public List<Target<?>> getAll() {
+        return new ArrayList<>(targets);
+    }
+
+    public void clear() {
+        targets.clear();
+    }
 }

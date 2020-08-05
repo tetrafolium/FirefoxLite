@@ -67,14 +67,14 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerViewHolder> {
 
     private int getItemViewType(String type) {
         switch (type) {
-            case SingleButtonViewHolder.VIEW_TYPE_NAME:
-                return SingleButtonViewHolder.VIEW_TYPE;
-            case FourSitesViewHolder.VIEW_TYPE_NAME:
-                return FourSitesViewHolder.VIEW_TYPE;
-            case BasicViewHolder.VIEW_TYPE_NAME:
-                return BasicViewHolder.VIEW_TYPE;
-            default:
-                return UNKNOWN_VIEW_TYPE;
+        case SingleButtonViewHolder.VIEW_TYPE_NAME:
+            return SingleButtonViewHolder.VIEW_TYPE;
+        case FourSitesViewHolder.VIEW_TYPE_NAME:
+            return FourSitesViewHolder.VIEW_TYPE;
+        case BasicViewHolder.VIEW_TYPE_NAME:
+            return BasicViewHolder.VIEW_TYPE;
+        default:
+            return UNKNOWN_VIEW_TYPE;
         }
     }
 
@@ -82,14 +82,14 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerViewHolder> {
     @Override
     public BannerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, @ViewType int viewType) {
         switch (viewType) {
-            case SingleButtonViewHolder.VIEW_TYPE:
-                return new SingleButtonViewHolder(parent, onClickListener, telemetryListener);
-            case FourSitesViewHolder.VIEW_TYPE:
-                return new FourSitesViewHolder(parent, onClickListener, telemetryListener);
-            case BasicViewHolder.VIEW_TYPE:
-            case UNKNOWN_VIEW_TYPE:
-            default:
-                return new BasicViewHolder(parent, onClickListener, telemetryListener);
+        case SingleButtonViewHolder.VIEW_TYPE:
+            return new SingleButtonViewHolder(parent, onClickListener, telemetryListener);
+        case FourSitesViewHolder.VIEW_TYPE:
+            return new FourSitesViewHolder(parent, onClickListener, telemetryListener);
+        case BasicViewHolder.VIEW_TYPE:
+        case UNKNOWN_VIEW_TYPE:
+        default:
+            return new BasicViewHolder(parent, onClickListener, telemetryListener);
         }
     }
 

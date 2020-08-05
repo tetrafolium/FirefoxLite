@@ -78,8 +78,8 @@ class TransactionHelper implements DefaultLifecycleObserver {
         }
 
         this.prepareUrlInput(url, sourceFragment)
-                .addToBackStack(makeEntryTag(URL_INPUT_FRAGMENT_TAG, EntryData.TYPE_FLOATING))
-                .commit();
+        .addToBackStack(makeEntryTag(URL_INPUT_FRAGMENT_TAG, EntryData.TYPE_FLOATING))
+        .commit();
     }
 
     void dismissUrlInput() {
@@ -162,7 +162,7 @@ class TransactionHelper implements DefaultLifecycleObserver {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (fragmentManager.findFragmentByTag(FIRST_RUN_FRAGMENT_TAG) == null) {
             transaction.replace(R.id.container, screen.getFragment(), FIRST_RUN_FRAGMENT_TAG)
-                    .addToBackStack(makeEntryTag(FIRST_RUN_FRAGMENT_TAG, EntryData.TYPE_ROOT));
+            .addToBackStack(makeEntryTag(FIRST_RUN_FRAGMENT_TAG, EntryData.TYPE_ROOT));
         }
 
         return transaction;
@@ -194,7 +194,7 @@ class TransactionHelper implements DefaultLifecycleObserver {
     void onUrlInputScreenVisible(boolean visible) {
         final FragmentManager fragmentManager = this.activity.getSupportFragmentManager();
         final ScreenNavigator.Screen homeFragment =
-                (ScreenNavigator.Screen) fragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG);
+            (ScreenNavigator.Screen) fragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG);
         if (homeFragment != null && homeFragment.getFragment().isVisible()) {
             if (homeFragment instanceof HomeScreen) {
                 ((HomeScreen) homeFragment).onUrlInputScreenVisible(visible);
@@ -235,14 +235,14 @@ class TransactionHelper implements DefaultLifecycleObserver {
         if (this.backStackListener == null) {
             this.backStackListener = new BackStackListener(this);
             this.activity.getSupportFragmentManager().addOnBackStackChangedListener(
-                    this.backStackListener);
+                this.backStackListener);
         }
     }
 
     private void unregisterBackStackListener() {
         if (this.backStackListener != null) {
             this.activity.getSupportFragmentManager().removeOnBackStackChangedListener(
-                    this.backStackListener);
+                this.backStackListener);
             this.backStackListener.onStop();
             this.backStackListener = null;
         }

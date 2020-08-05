@@ -94,7 +94,7 @@ public class ComponentToggleService extends Service {
         }
 
         LocalBroadcastManager.getInstance(getApplicationContext())
-                .sendBroadcast(new Intent(SERVICE_STOP_ACTION));
+        .sendBroadcast(new Intent(SERVICE_STOP_ACTION));
 
         stopForeground(true);
         super.onDestroy();
@@ -117,7 +117,7 @@ public class ComponentToggleService extends Service {
         final PackageManager pkgMgr = getPackageManager();
         final ComponentName componentName = new ComponentName(getApplicationContext(), ConfigActivity.class);
         final boolean componentEnabled = (pkgMgr.getComponentEnabledSetting(componentName)
-                == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
+                                          == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
 
         // if there is default-browser-setting and it is not me, let's enable component to clear settings
         final boolean toStartJob = (!componentEnabled) && hasDefaultBrowser && !isDefaultBrowser;
@@ -127,13 +127,13 @@ public class ComponentToggleService extends Service {
 
         if (toStartJob) {
             pkgMgr.setComponentEnabledSetting(componentName,
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP);
+                                              PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                                              PackageManager.DONT_KILL_APP);
             startToForeground();
         } else if (jobFinished) {
             pkgMgr.setComponentEnabledSetting(componentName,
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP);
+                                              PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                                              PackageManager.DONT_KILL_APP);
             removeFromForeground();
         }
 
@@ -169,15 +169,15 @@ public class ComponentToggleService extends Service {
 
     private void startToForeground() {
         final NotificationCompat.Builder builder =
-                NotificationUtil.importantBuilder(getApplicationContext());
+            NotificationUtil.importantBuilder(getApplicationContext());
 
         final Notification notification = builder
-                .setContentTitle(getString(R.string.setting_default_browser_notification_title))
-                .setContentText(getString(R.string.setting_default_browser_notification_text))
-                .setAutoCancel(false)
-                .setOngoing(true)
-                .setContentIntent(buildIntent())
-                .build();
+                                          .setContentTitle(getString(R.string.setting_default_browser_notification_title))
+                                          .setContentText(getString(R.string.setting_default_browser_notification_text))
+                                          .setAutoCancel(false)
+                                          .setOngoing(true)
+                                          .setContentIntent(buildIntent())
+                                          .build();
 
         startForeground(FG_NOTIFICATION_ID, notification);
     }
@@ -186,16 +186,16 @@ public class ComponentToggleService extends Service {
         // to post a new notification so people can go to SettingsActivity easily
         // this notification will be removed by SettingsActivity if it is in foreground
         final NotificationCompat.Builder builder =
-                NotificationUtil.importantBuilder(getApplicationContext());
+            NotificationUtil.importantBuilder(getApplicationContext());
 
         final Notification notification = builder
-                .setContentTitle(getString(R.string.setting_default_browser_notification_clickable_text))
-                .setAutoCancel(true)
-                .setContentIntent(buildIntent())
-                .build();
+                                          .setContentTitle(getString(R.string.setting_default_browser_notification_clickable_text))
+                                          .setAutoCancel(true)
+                                          .setContentIntent(buildIntent())
+                                          .build();
 
         NotificationManagerCompat.from(getApplicationContext())
-                .notify(NOTIFICATION_ID, notification);
+        .notify(NOTIFICATION_ID, notification);
 
         if (timer != null) {
             timer.cancel();
@@ -207,9 +207,9 @@ public class ComponentToggleService extends Service {
 
     private PendingIntent buildIntent() {
         return PendingIntent.getActivity(getApplicationContext(),
-                INTENT_REQ_CODE,
-                new Intent(getApplicationContext(), SettingsActivity.class),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                                         INTENT_REQ_CODE,
+                                         new Intent(getApplicationContext(), SettingsActivity.class),
+                                         PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     // A TimerTask to stop service if it runs too long

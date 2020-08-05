@@ -81,7 +81,7 @@ public class SaveRestoreTabsTest {
         // is triggered unexpectedly here. i.e. pressBack() can dismiss the popup menu.
 
         onView(withId(R.id.main_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click(pressBack())));
+        .perform(RecyclerViewActions.actionOnItemAtPosition(0, click(pressBack())));
 
         relaunchActivity();
 
@@ -126,7 +126,7 @@ public class SaveRestoreTabsTest {
 
         //open first top site
         onView(ViewMatchers.withId(R.id.main_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         relaunchActivity();
 
         checkBrowserTabCounterText("3");
@@ -180,11 +180,11 @@ public class SaveRestoreTabsTest {
 
     private void checkHomeTabCounterText(String text) {
         onView(allOf(withId(R.id.counter_text), isDescendantOfA(new BottomBarRobot().homeBottomBarItemView(R.id.bottom_bar_tab_counter))))
-                .check(matches(withText(text)));
+        .check(matches(withText(text)));
     }
 
     private void checkBrowserTabCounterText(String text) {
         onView(allOf(withId(R.id.counter_text), isDescendantOfA(new BottomBarRobot().browserBottomBarItemView(R.id.bottom_bar_tab_counter))))
-                .check(matches(withText(text)));
+        .check(matches(withText(text)));
     }
 }

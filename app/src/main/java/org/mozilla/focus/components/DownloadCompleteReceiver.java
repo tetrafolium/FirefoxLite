@@ -57,10 +57,10 @@ public class DownloadCompleteReceiver extends BroadcastReceiver {
 
                                             if (downloadedFile.exists() && downloadedFile.canWrite()) {
                                                 RelocateService.startActionMove(context,
-                                                        downloadInfo.getRowId(),
-                                                        downloadInfo.getDownloadId(),
-                                                        downloadedFile,
-                                                        downloadInfo.getMimeType());
+                                                                                downloadInfo.getRowId(),
+                                                                                downloadInfo.getDownloadId(),
+                                                                                downloadedFile,
+                                                                                downloadInfo.getMimeType());
                                             }
                                         }
                                     });

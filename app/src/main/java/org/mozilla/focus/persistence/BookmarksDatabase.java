@@ -18,8 +18,8 @@ public abstract class BookmarksDatabase extends RoomDatabase {
             synchronized (BookmarksDatabase.class) {
                 if (instance == null) {
                     instance = Room.databaseBuilder(context.getApplicationContext(),
-                            BookmarksDatabase.class, "bookmarks.db")
-                            .build();
+                                                    BookmarksDatabase.class, "bookmarks.db")
+                               .build();
                 }
             }
         }

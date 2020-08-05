@@ -55,7 +55,7 @@ public class Inject {
     public static String getDefaultTopSites(Context context) {
 
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(HomeFragment.TOPSITES_PREF, null);
+               .getString(HomeFragment.TOPSITES_PREF, null);
 
     }
 

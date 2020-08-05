@@ -51,14 +51,14 @@ public class ShortcutUtils {
         }
 
         final ShortcutInfoCompat shortcut = new ShortcutInfoCompat.Builder(context, urlAsShortcutId)
-                .setShortLabel(label)
-                .setIcon(IconCompat.createWithBitmap(icon))
-                .setIntent(shortcutIntent)
-                .build();
+        .setShortLabel(label)
+        .setIcon(IconCompat.createWithBitmap(icon))
+        .setIntent(shortcutIntent)
+        .build();
 
         // Display home screen after add to home screen
         final IntentSender intentSender = IntentUtils.getLauncherHomePendingIntent(context)
-                .getIntentSender();
+                                          .getIntentSender();
 
         // Update the shortcut icon on launcher since previous one may not ready. API 26+ only.
         // TODO: find a way to update the shortcut icon for API 25 and below. Currently the only way is remove old shortcut and add again.

@@ -109,20 +109,20 @@ public class ScreenshotViewerActivity extends BaseActivity implements View.OnCli
 
             private void doAction(int actionId) {
                 switch (actionId) {
-                    case ACTION_VIEW:
-                        viewScreenshot();
-                        break;
-                    case ACTION_EDIT:
-                        onEditClick();
-                        break;
-                    case ACTION_SHARE:
-                        onShareClick();
-                        break;
-                    case ACTION_DELETE:
-                        onDeleteClick();
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Unknown Action");
+                case ACTION_VIEW:
+                    viewScreenshot();
+                    break;
+                case ACTION_EDIT:
+                    onEditClick();
+                    break;
+                case ACTION_SHARE:
+                    onShareClick();
+                    break;
+                case ACTION_DELETE:
+                    onDeleteClick();
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown Action");
                 }
             }
 
@@ -153,7 +153,7 @@ public class ScreenshotViewerActivity extends BaseActivity implements View.OnCli
 
             @Override
             public void requestPermissions(int actionId) {
-                ActivityCompat.requestPermissions(ScreenshotViewerActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, actionId);
+                ActivityCompat.requestPermissions(ScreenshotViewerActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, actionId);
             }
 
             @Override
@@ -225,32 +225,32 @@ public class ScreenshotViewerActivity extends BaseActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.screenshot_viewer_image:
-                mBottomToolBar.setVisibility((mBottomToolBar.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
-                break;
-            case R.id.screenshot_viewer_btn_open_url:
-                TelemetryWrapper.openCaptureLink(mScreenshot.getCategory(), mScreenshot.getCategoryVersion());
-                ContentPortalViewState.reset();
-                Intent urlIntent = new Intent();
-                urlIntent.putExtra(EXTRA_URL, mScreenshot.getUrl());
-                setResult(RESULT_OPEN_URL, urlIntent);
-                finish();
-                break;
-            case R.id.screenshot_viewer_btn_edit:
-                permissionHandler.tryAction(this, Manifest.permission.READ_EXTERNAL_STORAGE, ACTION_EDIT, null);
-                break;
-            case R.id.screenshot_viewer_btn_share:
-                permissionHandler.tryAction(this, Manifest.permission.READ_EXTERNAL_STORAGE, ACTION_SHARE, null);
-                break;
-            case R.id.screenshot_viewer_btn_info:
-                TelemetryWrapper.showCaptureInfo(mScreenshot.getCategory(), mScreenshot.getCategoryVersion());
-                onInfoClick();
-                break;
-            case R.id.screenshot_viewer_btn_delete:
-                permissionHandler.tryAction(this, Manifest.permission.READ_EXTERNAL_STORAGE, ACTION_DELETE, null);
-                break;
-            default:
-                break;
+        case R.id.screenshot_viewer_image:
+            mBottomToolBar.setVisibility((mBottomToolBar.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
+            break;
+        case R.id.screenshot_viewer_btn_open_url:
+            TelemetryWrapper.openCaptureLink(mScreenshot.getCategory(), mScreenshot.getCategoryVersion());
+            ContentPortalViewState.reset();
+            Intent urlIntent = new Intent();
+            urlIntent.putExtra(EXTRA_URL, mScreenshot.getUrl());
+            setResult(RESULT_OPEN_URL, urlIntent);
+            finish();
+            break;
+        case R.id.screenshot_viewer_btn_edit:
+            permissionHandler.tryAction(this, Manifest.permission.READ_EXTERNAL_STORAGE, ACTION_EDIT, null);
+            break;
+        case R.id.screenshot_viewer_btn_share:
+            permissionHandler.tryAction(this, Manifest.permission.READ_EXTERNAL_STORAGE, ACTION_SHARE, null);
+            break;
+        case R.id.screenshot_viewer_btn_info:
+            TelemetryWrapper.showCaptureInfo(mScreenshot.getCategory(), mScreenshot.getCategoryVersion());
+            onInfoClick();
+            break;
+        case R.id.screenshot_viewer_btn_delete:
+            permissionHandler.tryAction(this, Manifest.permission.READ_EXTERNAL_STORAGE, ACTION_DELETE, null);
+            break;
+        default:
+            break;
         }
 
     }
@@ -304,7 +304,7 @@ public class ScreenshotViewerActivity extends BaseActivity implements View.OnCli
 
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
+                              Manifest.permission.READ_EXTERNAL_STORAGE);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -313,7 +313,7 @@ public class ScreenshotViewerActivity extends BaseActivity implements View.OnCli
             @Override
             public void run() {
                 ContentResolver cr = getContentResolver();
-                Cursor ca = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new String[]{MediaStore.MediaColumns._ID}, MediaStore.MediaColumns.DATA + "=?", new String[]{mScreenshot.getImageUri()}, null);
+                Cursor ca = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new String[] {MediaStore.MediaColumns._ID}, MediaStore.MediaColumns.DATA + "=?", new String[] {mScreenshot.getImageUri()}, null);
                 if (ca != null && ca.moveToFirst()) {
                     int id = ca.getInt(ca.getColumnIndex(MediaStore.MediaColumns._ID));
                     ca.close();
@@ -338,7 +338,7 @@ public class ScreenshotViewerActivity extends BaseActivity implements View.OnCli
                 @Override
                 public void run() {
                     ContentResolver cr = getContentResolver();
-                    Cursor ca = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new String[]{MediaStore.MediaColumns._ID}, MediaStore.MediaColumns.DATA + "=?", new String[]{mScreenshot.getImageUri()}, null);
+                    Cursor ca = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new String[] {MediaStore.MediaColumns._ID}, MediaStore.MediaColumns.DATA + "=?", new String[] {mScreenshot.getImageUri()}, null);
                     if (ca != null && ca.moveToFirst()) {
                         int id = ca.getInt(ca.getColumnIndex(MediaStore.MediaColumns._ID));
                         ca.close();

@@ -53,18 +53,18 @@ public class FocusStringTest {
         final FocusString fullString = FocusString.create(fullStringRaw);
 
         assertEquals("FocusString length must match input string length",
-                fullStringRaw.length(), fullString.length());
+                     fullStringRaw.length(), fullString.length());
 
         final FocusString sameString = fullString.substring(0);
         assertEquals("substring(0) should equal input String",
-                fullStringRaw.length(), sameString.length());
+                     fullStringRaw.length(), sameString.length());
         assertEquals("substring(0) should equal input String",
-                fullStringRaw.charAt(0), sameString.charAt(0));
+                     fullStringRaw.charAt(0), sameString.charAt(0));
 
 
         final FocusString emptyString = fullString.substring(1);
         assertEquals("empty substring should be empty",
-                0, emptyString.length());
+                     0, emptyString.length());
     }
 
     @Test (expected = StringIndexOutOfBoundsException.class)
@@ -83,11 +83,11 @@ public class FocusStringTest {
         final FocusString fullString = FocusString.create(fullStringRaw);
 
         assertEquals("FocusString length must match input string length",
-                fullStringRaw.length(), fullString.length());
+                     fullStringRaw.length(), fullString.length());
 
         for (int i = 0; i < fullStringRaw.length(); i++) {
             assertEquals("FocusString character doesn't match input string character",
-                    fullStringRaw.charAt(i), fullString.charAt(i));
+                         fullStringRaw.charAt(i), fullString.charAt(i));
         }
 
         final String substringRaw = fullStringRaw.substring(2);
@@ -95,7 +95,7 @@ public class FocusStringTest {
 
         for (int i = 0; i < substringRaw.length(); i++) {
             assertEquals("FocusString character doesn't match input string character",
-                    substringRaw.charAt(i), substring.charAt(i));
+                         substringRaw.charAt(i), substring.charAt(i));
         }
     }
 
@@ -107,11 +107,11 @@ public class FocusStringTest {
         final FocusString fullString = FocusString.create(fullUnreversedStringRaw).reverse();
 
         assertEquals("FocusString length must match input string length",
-                fullStringRaw.length(), fullString.length());
+                     fullStringRaw.length(), fullString.length());
 
         for (int i = 0; i < fullStringRaw.length(); i++) {
             assertEquals("FocusString character doesn't match input string character",
-                    fullStringRaw.charAt(i), fullString.charAt(i));
+                         fullStringRaw.charAt(i), fullString.charAt(i));
         }
 
         final String substringRaw = fullStringRaw.substring(2);
@@ -119,7 +119,7 @@ public class FocusStringTest {
 
         for (int i = 0; i < substringRaw.length(); i++) {
             assertEquals("FocusString character doesn't match input string character",
-                    substringRaw.charAt(i), substring.charAt(i));
+                         substringRaw.charAt(i), substring.charAt(i));
         }
     }
 }

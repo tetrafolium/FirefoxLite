@@ -31,10 +31,10 @@ public class BookmarkDaoTest {
     @Before
     public void initDb() {
         bookmarksDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
-                BookmarksDatabase.class)
-                // allowing main thread queries, just for testing
-                .allowMainThreadQueries()
-                .build();
+                            BookmarksDatabase.class)
+                            // allowing main thread queries, just for testing
+                            .allowMainThreadQueries()
+                            .build();
     }
 
     @After

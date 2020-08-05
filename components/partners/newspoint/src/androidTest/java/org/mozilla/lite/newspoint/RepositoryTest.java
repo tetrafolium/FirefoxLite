@@ -34,8 +34,8 @@ public class RepositoryTest {
             final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             final String response = bufferedReader.readLine();
             webServer.enqueue(new MockResponse()
-                    .setBody(response)
-                    .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                              .setBody(response)
+                              .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
             webServer.start();
             Repository repository = new Repository<NewsPointItem>(InstrumentationRegistry.getContext(), null, SOCKET_TAG, itemPojoList -> {
                 Assert.assertEquals(LOAD_SIZE, itemPojoList.size());

@@ -62,11 +62,11 @@ public class BookmarksTest {
             webServer = new MockWebServer();
             try {
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
-                        .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
+                                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
-                        .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
+                                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
                 webServer.start();
             } catch (IOException e) {
                 throw new AssertionError("Could not start web server", e);
@@ -89,8 +89,8 @@ public class BookmarksTest {
     @Before
     public void setUp() {
         new BeforeTestTask.Builder()
-                .build()
-                .execute();
+        .build()
+        .execute();
         activityTestRule.launchActivity(new Intent());
     }
 
@@ -144,9 +144,9 @@ public class BookmarksTest {
 
         // Show bookmark saved snackbar
         onView(allOf(withId(com.google.android.material.R.id.snackbar_text), withText(R.string.bookmark_saved)))
-                .check(matches(isDisplayed()));
+        .check(matches(isDisplayed()));
         onView(allOf(withId(com.google.android.material.R.id.snackbar_action), withText(R.string.bookmark_saved_edit)))
-                .check(matches(isDisplayed()));
+        .check(matches(isDisplayed()));
 
         // Tap browser menu button
         // Since right now snackbar will overlap with menu bar and we don't want to wait until snackbar is dismissed
@@ -157,7 +157,7 @@ public class BookmarksTest {
 
         // Tap the first item in bookmark list
         onView(withId(R.id.recyclerview))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         // Show website A
         IdlingRegistry.getInstance().register(sessionLoadedIdlingResource);
@@ -170,13 +170,13 @@ public class BookmarksTest {
 
         // Bookmark button is activated, and tap it
         onView(new BottomBarRobot().menuBottomBarItemView(R.id.bottom_bar_bookmark))
-                .check(matches(CustomViewMatcher.isActivate()))
-                .perform(click());
+        .check(matches(CustomViewMatcher.isActivate()))
+        .perform(click());
 
         // Show bookmark removed toast
         onView(withText(R.string.bookmark_removed))
-                .inRoot(withDecorView(not(activityTestRule.getActivity().getWindow().getDecorView())))
-                .check(matches(isDisplayed()));
+        .inRoot(withDecorView(not(activityTestRule.getActivity().getWindow().getDecorView())))
+        .check(matches(isDisplayed()));
     }
 
     /**
@@ -194,8 +194,8 @@ public class BookmarksTest {
 
         // Click the remove button
         onView(withText(R.string.remove_from_list))
-                .inRoot(RootMatchers.isPlatformPopup())
-                .perform(click());
+        .inRoot(RootMatchers.isPlatformPopup())
+        .perform(click());
 
         // Check if bookmark list is empty
         onView(withId(R.id.empty_view_container)).check(matches(isDisplayed()));
@@ -219,8 +219,8 @@ public class BookmarksTest {
 
         // Click the edit button
         onView(withText(R.string.edit_bookmark))
-                .inRoot(RootMatchers.isPlatformPopup())
-                .perform(click());
+        .inRoot(RootMatchers.isPlatformPopup())
+        .perform(click());
 
         // Type some text in name field
         onView(withId(R.id.bookmark_name)).perform(replaceText(MOCK_BOOKMARK_CONTENT));
@@ -236,7 +236,7 @@ public class BookmarksTest {
         // Check toast work on local and ci/push but failed on ci/pr.
         // Check if the target item bookmark is updated
         onView(withId(R.id.recyclerview))
-                .check(matches(atPosition(0, hasDescendant(withText(containsString(MOCK_BOOKMARK_CONTENT))))));
+        .check(matches(atPosition(0, hasDescendant(withText(containsString(MOCK_BOOKMARK_CONTENT))))));
     }
 
     /**
@@ -255,8 +255,8 @@ public class BookmarksTest {
 
         // Click the edit button
         onView(withText(R.string.edit_bookmark))
-                .inRoot(RootMatchers.isPlatformPopup())
-                .perform(click());
+        .inRoot(RootMatchers.isPlatformPopup())
+        .perform(click());
 
         // Without changing bookmark content, check if save button is disabled
         onView(withText(R.string.bookmark_edit_save)).check(matches(not(isEnabled())));
@@ -278,8 +278,8 @@ public class BookmarksTest {
 
         // Click the edit button
         onView(withText(R.string.edit_bookmark))
-                .inRoot(RootMatchers.isPlatformPopup())
-                .perform(click());
+        .inRoot(RootMatchers.isPlatformPopup())
+        .perform(click());
 
         // Clear the content of location field
         onView(withId(R.id.bookmark_location_clear)).perform(click());
@@ -304,7 +304,7 @@ public class BookmarksTest {
 
         // Click the edit button on snackbar
         onView(allOf(withId(com.google.android.material.R.id.snackbar_action), withText(R.string.bookmark_saved_edit)))
-                .perform(click());
+        .perform(click());
 
         // Type some text in name field
         onView(withId(R.id.bookmark_name)).perform(replaceText(MOCK_BOOKMARK_CONTENT));
@@ -323,7 +323,7 @@ public class BookmarksTest {
 
         // Check if the first item of bookmark list is the bookmark we just edited
         onView(withId(R.id.recyclerview))
-                .check(matches(atPosition(0, hasDescendant(withText(containsString(MOCK_BOOKMARK_CONTENT))))));
+        .check(matches(atPosition(0, hasDescendant(withText(containsString(MOCK_BOOKMARK_CONTENT))))));
     }
 
     /**
@@ -342,8 +342,8 @@ public class BookmarksTest {
 
         // Click the edit button
         onView(withText(R.string.edit_bookmark))
-                .inRoot(RootMatchers.isPlatformPopup())
-                .perform(click());
+        .inRoot(RootMatchers.isPlatformPopup())
+        .perform(click());
 
         // Type some text in name field
         onView(withId(R.id.bookmark_name)).perform(replaceText(MOCK_BOOKMARK_CONTENT_LONG));
@@ -356,7 +356,7 @@ public class BookmarksTest {
 
         // Check if the first item of bookmark list is the bookmark we just edited
         onView(withId(R.id.recyclerview))
-                .check(matches(atPosition(0, hasDescendant(withText(containsString(MOCK_BOOKMARK_CONTENT_LONG))))));
+        .check(matches(atPosition(0, hasDescendant(withText(containsString(MOCK_BOOKMARK_CONTENT_LONG))))));
     }
 
     private String browsingPageAndBookmarkPage() {
@@ -393,10 +393,10 @@ public class BookmarksTest {
 
         // Check if the first item of bookmark list is the web page we just visited
         onView(withId(R.id.recyclerview))
-                .check(matches(atPosition(0, hasDescendant(withText(containsString(targetUrl))))));
+        .check(matches(atPosition(0, hasDescendant(withText(containsString(targetUrl))))));
 
         // Open target bookmark item's action menu
         onView(withId(R.id.recyclerview)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.history_item_btn_more)));
+            RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.history_item_btn_more)));
     }
 }

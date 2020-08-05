@@ -23,7 +23,7 @@ public class FlowLayout extends ViewGroup {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
         mSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_spacing,
-                (int) context.getResources().getDimension(R.dimen.flow_layout_spacing));
+                                           (int) context.getResources().getDimension(R.dimen.flow_layout_spacing));
         a.recycle();
     }
 

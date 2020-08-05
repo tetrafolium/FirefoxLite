@@ -17,13 +17,13 @@ public class Download implements Parcelable {
         @Override
         public Download createFromParcel(Parcel source) {
             return new Download(
-                    source.readString(),
-                    source.readString(),
-                    source.readString(),
-                    source.readString(),
-                    source.readString(),
-                    source.readLong(),
-                    source.readByte() != 0);
+                       source.readString(),
+                       source.readString(),
+                       source.readString(),
+                       source.readString(),
+                       source.readString(),
+                       source.readLong(),
+                       source.readByte() != 0);
         }
 
         @Override

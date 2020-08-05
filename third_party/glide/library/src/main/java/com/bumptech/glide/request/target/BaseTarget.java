@@ -20,46 +20,46 @@ import com.bumptech.glide.request.Request;
  */
 public abstract class BaseTarget<Z> implements Target<Z> {
 
-  private Request request;
+    private Request request;
 
-  @Override
-  public void setRequest(@Nullable Request request) {
-    this.request = request;
-  }
+    @Override
+    public void setRequest(@Nullable Request request) {
+        this.request = request;
+    }
 
-  @Override
-  @Nullable
-  public Request getRequest() {
-    return request;
-  }
+    @Override
+    @Nullable
+    public Request getRequest() {
+        return request;
+    }
 
-  @Override
-  public void onLoadCleared(@Nullable Drawable placeholder) {
-    // Do nothing.
-  }
+    @Override
+    public void onLoadCleared(@Nullable Drawable placeholder) {
+        // Do nothing.
+    }
 
-  @Override
-  public void onLoadStarted(@Nullable Drawable placeholder) {
-    // Do nothing.
-  }
+    @Override
+    public void onLoadStarted(@Nullable Drawable placeholder) {
+        // Do nothing.
+    }
 
-  @Override
-  public void onLoadFailed(@Nullable Drawable errorDrawable) {
-    // Do nothing.
-  }
+    @Override
+    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+        // Do nothing.
+    }
 
-  @Override
-  public void onStart() {
-    // Do nothing.
-  }
+    @Override
+    public void onStart() {
+        // Do nothing.
+    }
 
-  @Override
-  public void onStop() {
-    // Do nothing.
-  }
+    @Override
+    public void onStop() {
+        // Do nothing.
+    }
 
-  @Override
-  public void onDestroy() {
-    // Do nothing.
-  }
+    @Override
+    public void onDestroy() {
+        // Do nothing.
+    }
 }

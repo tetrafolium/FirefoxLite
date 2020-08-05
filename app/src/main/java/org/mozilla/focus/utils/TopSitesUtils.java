@@ -59,9 +59,9 @@ public class TopSitesUtils {
 
     public static void clearTopSiteData(Context context) {
         PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .remove(HomeFragment.TOPSITES_PREF)
-                .apply();
+        .edit()
+        .remove(HomeFragment.TOPSITES_PREF)
+        .apply();
     }
 
     public static String loadDefaultSitesFromAssets(Context context, @RawRes int resId) {
@@ -82,9 +82,9 @@ public class TopSitesUtils {
             return;
         }
         PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .putString(HomeFragment.TOPSITES_PREF, obj.toString())
-                .apply();
+        .edit()
+        .putString(HomeFragment.TOPSITES_PREF, obj.toString())
+        .apply();
     }
 
     public static List<Site> paresJsonToList(Context context, JSONArray jsonArray) {

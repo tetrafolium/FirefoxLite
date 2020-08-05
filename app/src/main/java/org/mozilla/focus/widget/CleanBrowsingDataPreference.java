@@ -73,7 +73,7 @@ public class CleanBrowsingDataPreference extends MultiSelectListPreference {
                         // Fixme: we should rely on another Android component for IPC to clear CookieManager
                         // Fixme: rather than rely on PrivateModeActivity cause it will cause UI issue easily
                         final Intent intent = PrivateSessionNotificationService.
-                                buildIntent(getContext().getApplicationContext(), true);
+                                              buildIntent(getContext().getApplicationContext(), true);
                         getContext().startActivity(intent);
                     }
                 } else if (resources.getString(R.string.pref_value_clear_cache).equals(value)) {

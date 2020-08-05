@@ -15,7 +15,7 @@ public class ImageInfo {
     @Override
     public String toString() {
         return "ImageInfo{" +
-                "title='" + title + '\'' +
-                '}';
+               "title='" + title + '\'' +
+               '}';
     }
 }

@@ -238,7 +238,7 @@ final public class FirebaseHelper {
     private static String getStringResourceByName(@NonNull Context context, @NonNull String resourceName) {
         String packageName = context.getPackageName();
         int resId = context.getResources()
-                .getIdentifier(resourceName, "string", packageName);
+                    .getIdentifier(resourceName, "string", packageName);
         if (resId == 0) {
             return "";
         } else {
@@ -263,8 +263,8 @@ final public class FirebaseHelper {
                     context.getString(R.string.app_name)));
             map.put(FirebaseHelper.STR_SHARE_APP_DIALOG_CONTENT, context.getString(R.string.share_app_dialog_text_content));
             final String shareAppDialogMsg = context.getString(R.string.share_app_promotion_text,
-                    context.getString(R.string.app_name), context.getString(R.string.share_app_google_play_url),
-                    context.getString(R.string.mozilla));
+                                             context.getString(R.string.app_name), context.getString(R.string.share_app_google_play_url),
+                                             context.getString(R.string.mozilla));
             map.put(FirebaseHelper.STR_SHARE_APP_DIALOG_MSG, shareAppDialogMsg);
 
         }

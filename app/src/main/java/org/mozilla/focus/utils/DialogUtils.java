@@ -71,32 +71,32 @@ public class DialogUtils {
         data.setShowCloseButton(true);
 
         return new PromotionDialog(context, data)
-                .onPositive(() -> {
-                    IntentUtils.goToPlayStore(context);
-                    telemetryFeedback(context, TelemetryWrapper.Value.POSITIVE);
-                    return null;
-                })
-                .onNegative(() -> {
-                    Settings.getInstance(context).setShareAppDialogDidShow();
-                    IntentUtils.openUrl(context, context.getString(R.string.rate_app_feedback_url), true);
-                    telemetryFeedback(context, TelemetryWrapper.Value.NEGATIVE);
-                    return null;
-                })
-                .onClose(() -> {
-                    Settings.getInstance(context).setRateAppDialogDidDismiss();
-                    telemetryFeedback(context, TelemetryWrapper.Value.DISMISS);
-                    return null;
-                })
-                .onCancel(() -> {
-                    Settings.getInstance(context).setRateAppDialogDidDismiss();
-                    telemetryFeedback(context, TelemetryWrapper.Value.DISMISS);
-                    return null;
-                })
-                .addOnShowListener(() -> {
-                    Settings.getInstance(context).setRateAppDialogDidShow();
-                    return null;
-                })
-                .setCancellable(true);
+        .onPositive(() -> {
+            IntentUtils.goToPlayStore(context);
+            telemetryFeedback(context, TelemetryWrapper.Value.POSITIVE);
+            return null;
+        })
+        .onNegative(() -> {
+            Settings.getInstance(context).setShareAppDialogDidShow();
+            IntentUtils.openUrl(context, context.getString(R.string.rate_app_feedback_url), true);
+            telemetryFeedback(context, TelemetryWrapper.Value.NEGATIVE);
+            return null;
+        })
+        .onClose(() -> {
+            Settings.getInstance(context).setRateAppDialogDidDismiss();
+            telemetryFeedback(context, TelemetryWrapper.Value.DISMISS);
+            return null;
+        })
+        .onCancel(() -> {
+            Settings.getInstance(context).setRateAppDialogDidDismiss();
+            telemetryFeedback(context, TelemetryWrapper.Value.DISMISS);
+            return null;
+        })
+        .addOnShowListener(() -> {
+            Settings.getInstance(context).setRateAppDialogDidShow();
+            return null;
+        })
+        .setCancellable(true);
     }
 
     private static void telemetryFeedback(final Context context, String value) {
@@ -116,28 +116,28 @@ public class DialogUtils {
         data.setShowCloseButton(true);
 
         return new PromotionDialog(context, data)
-                .onPositive(() -> {
-                    Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                    sendIntent.setType("text/plain");
-                    sendIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name));
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, AppConfigWrapper.getShareAppMessage());
-                    context.startActivity(Intent.createChooser(sendIntent, null));
-                    telemetryShareApp(context, TelemetryWrapper.Value.SHARE);
-                    return null;
-                })
-                .onClose(() -> {
-                    telemetryShareApp(context, TelemetryWrapper.Value.DISMISS);
-                    return null;
-                })
-                .onCancel(() -> {
-                    telemetryShareApp(context, TelemetryWrapper.Value.DISMISS);
-                    return null;
-                })
-                .addOnShowListener(() -> {
-                    Settings.getInstance(context).setShareAppDialogDidShow();
-                    return null;
-                })
-                .setCancellable(true);
+        .onPositive(() -> {
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.setType("text/plain");
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name));
+            sendIntent.putExtra(Intent.EXTRA_TEXT, AppConfigWrapper.getShareAppMessage());
+            context.startActivity(Intent.createChooser(sendIntent, null));
+            telemetryShareApp(context, TelemetryWrapper.Value.SHARE);
+            return null;
+        })
+        .onClose(() -> {
+            telemetryShareApp(context, TelemetryWrapper.Value.DISMISS);
+            return null;
+        })
+        .onCancel(() -> {
+            telemetryShareApp(context, TelemetryWrapper.Value.DISMISS);
+            return null;
+        })
+        .addOnShowListener(() -> {
+            Settings.getInstance(context).setShareAppDialogDidShow();
+            return null;
+        })
+        .setCancellable(true);
     }
 
     private static void telemetryShareApp(final Context context, String value) {
@@ -154,7 +154,7 @@ public class DialogUtils {
 
         final Intent openRocket = IntentUtils.genFeedbackNotificationClickForBroadcastReceiver(context);
         final PendingIntent openRocketPending = PendingIntent.getBroadcast(context, REQUEST_RATE_CLICK, openRocket,
-                PendingIntent.FLAG_ONE_SHOT);
+                                                PendingIntent.FLAG_ONE_SHOT);
         final String string = context.getString(R.string.rate_app_dialog_text_title, context.getString(R.string.app_name)) + "\uD83D\uDE00";
         final NotificationCompat.Builder builder = NotificationUtil.importantBuilder(context)
                 .setContentText(string)
@@ -164,14 +164,14 @@ public class DialogUtils {
         // Build notification action for rate 5 stars
         final Intent rateStar = IntentUtils.genRateStarNotificationActionForBroadcastReceiver(context);
         final PendingIntent rateStarPending = PendingIntent.getBroadcast(context, REQUEST_RATE_RATE, rateStar,
-                PendingIntent.FLAG_ONE_SHOT);
+                                              PendingIntent.FLAG_ONE_SHOT);
         builder.addAction(R.drawable.notification_rating, context.getString(R.string.rate_app_notification_action_rate), rateStarPending);
 
         // Send this intent in Broadcast receiver so we can canel the notification there.
         // Build notification action for  feedback
         final Intent feedback = IntentUtils.genFeedbackNotificationActionForBroadcastReceiver(context);
         final PendingIntent feedbackPending = PendingIntent.getBroadcast(context, REQUEST_RATE_FEEDBACK, feedback,
-                PendingIntent.FLAG_ONE_SHOT);
+                                              PendingIntent.FLAG_ONE_SHOT);
         builder.addAction(R.drawable.notification_feedback, context.getString(R.string.rate_app_notification_action_feedback), feedbackPending);
 
         // Show notification
@@ -188,7 +188,7 @@ public class DialogUtils {
         // Let NotificationActionBroadcastReceiver handle what to do
         final Intent openDefaultBrowserSetting = IntentUtils.genDefaultBrowserSettingIntentForBroadcastReceiver(context);
         final PendingIntent openRocketPending = PendingIntent.getBroadcast(context, REQUEST_DEFAULT_CLICK, openDefaultBrowserSetting,
-                PendingIntent.FLAG_ONE_SHOT);
+                                                PendingIntent.FLAG_ONE_SHOT);
 
         final String title;
         if (TextUtils.isEmpty(message)) {
@@ -197,8 +197,8 @@ public class DialogUtils {
             title = message;
         }
         NotificationCompat.Builder builder = NotificationUtil.importantBuilder(context)
-                .setContentTitle(title)
-                .setContentIntent(openRocketPending);
+                                             .setContentTitle(title)
+                                             .setContentIntent(openRocketPending);
 
         // Show notification
         NotificationUtil.sendNotification(context, NotificationId.DEFAULT_BROWSER, builder);
@@ -209,14 +209,14 @@ public class DialogUtils {
 
         final Intent privacyPolicyUpdateNotice = IntentUtils.genPrivacyPolicyUpdateNotificationActionForBroadcastReceiver(context);
         final PendingIntent openRocketPending = PendingIntent.getBroadcast(context, REQUEST_PRIVACY_POLICY_CLICK, privacyPolicyUpdateNotice,
-                PendingIntent.FLAG_ONE_SHOT);
+                                                PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder builder = NotificationUtil.importantBuilder(context)
-                .setContentTitle(context.getString(R.string.privacy_policy_update_notification_title))
-                .setContentText(context.getString(R.string.privacy_policy_update_notification_action))
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(context.getString(R.string.privacy_policy_update_notification_action)))
-                .setContentIntent(openRocketPending);
+                                             .setContentTitle(context.getString(R.string.privacy_policy_update_notification_title))
+                                             .setContentText(context.getString(R.string.privacy_policy_update_notification_action))
+                                             .setStyle(new NotificationCompat.BigTextStyle()
+                                                     .bigText(context.getString(R.string.privacy_policy_update_notification_action)))
+                                             .setContentIntent(openRocketPending);
 
         // Show notification
         NotificationUtil.sendNotification(context, NotificationId.PRIVACY_POLICY_UPDATE, builder);

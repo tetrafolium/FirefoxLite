@@ -40,43 +40,43 @@ import org.mozilla.rocket.tabs.TabView;
         final WebView.HitTestResult hitTestResult = webView.getHitTestResult();
 
         switch (hitTestResult.getType()) {
-            case WebView.HitTestResult.SRC_ANCHOR_TYPE:
-                final String linkURL = hitTestResult.getExtra();
-                chromeClient.onLongPress(new TabView.HitTarget(this.tabView, true, linkURL, false, null));
-                return true;
+        case WebView.HitTestResult.SRC_ANCHOR_TYPE:
+            final String linkURL = hitTestResult.getExtra();
+            chromeClient.onLongPress(new TabView.HitTarget(this.tabView, true, linkURL, false, null));
+            return true;
 
-            case WebView.HitTestResult.IMAGE_TYPE:
-                final String imageURL = hitTestResult.getExtra();
-                chromeClient.onLongPress(new TabView.HitTarget(this.tabView, false, null, true, imageURL));
-                return true;
+        case WebView.HitTestResult.IMAGE_TYPE:
+            final String imageURL = hitTestResult.getExtra();
+            chromeClient.onLongPress(new TabView.HitTarget(this.tabView, false, null, true, imageURL));
+            return true;
 
-            case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE:
-                // hitTestResult.getExtra() contains only the image URL, and not the link
-                // URL. Internally, WebView's HitTestData contains both, but they only
-                // make it available via requestFocusNodeHref...
-                final Message message = new Message();
-                message.setTarget(new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        final Bundle data = msg.getData();
-                        final String url = data.getString("url");
-                        final String src = data.getString("src");
+        case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE:
+            // hitTestResult.getExtra() contains only the image URL, and not the link
+            // URL. Internally, WebView's HitTestData contains both, but they only
+            // make it available via requestFocusNodeHref...
+            final Message message = new Message();
+            message.setTarget(new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    final Bundle data = msg.getData();
+                    final String url = data.getString("url");
+                    final String src = data.getString("src");
 
-                        if (url == null || src == null) {
-                            throw new IllegalStateException("WebView did not supply url or src for image link");
-                        }
-
-                        if (chromeClient != null) {
-                            chromeClient.onLongPress(new TabView.HitTarget(tabView, true, url, true, src));
-                        }
+                    if (url == null || src == null) {
+                        throw new IllegalStateException("WebView did not supply url or src for image link");
                     }
-                });
 
-                webView.requestFocusNodeHref(message);
-                return true;
+                    if (chromeClient != null) {
+                        chromeClient.onLongPress(new TabView.HitTarget(tabView, true, url, true, src));
+                    }
+                }
+            });
 
-            default:
-                return false;
+            webView.requestFocusNodeHref(message);
+            return true;
+
+        default:
+            return false;
         }
     }
 }

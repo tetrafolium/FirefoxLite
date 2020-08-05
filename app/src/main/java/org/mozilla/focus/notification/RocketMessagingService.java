@@ -25,7 +25,7 @@ public class RocketMessagingService extends FirebaseMessagingServiceWrapper {
         intent.setClassName(getApplicationContext(), AppConstants.LAUNCHER_ACTIVITY_ALIAS);
 
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+                                            PendingIntent.FLAG_ONE_SHOT);
 
         final NotificationCompat.Builder builder = NotificationUtil.importantBuilder(this)
                 .setContentIntent(pendingIntent);

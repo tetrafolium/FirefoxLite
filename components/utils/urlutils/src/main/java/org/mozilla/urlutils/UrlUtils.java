@@ -66,9 +66,9 @@ public class UrlUtils {
         }
 
         return scheme.startsWith("http") ||
-                scheme.startsWith("https") ||
-                scheme.startsWith("file") ||
-                scheme.startsWith("data");
+               scheme.startsWith("https") ||
+               scheme.startsWith("file") ||
+               scheme.startsWith("data");
     }
 
     public static boolean isSupportedProtocol(@NonNull final String scheme) {
@@ -76,7 +76,7 @@ public class UrlUtils {
             return false;
         }
         return isPermittedResourceProtocol(scheme) ||
-                scheme.startsWith("error");
+               scheme.startsWith("error");
     }
 
     public static boolean isInternalErrorURL(final String url) {
@@ -92,10 +92,10 @@ public class UrlUtils {
         } else if (lengthDifference == 1) {
             // url1 is longer:
             return url1.charAt(url1.length() - 1) == '/' &&
-                    url1.regionMatches(true, 0, url2, 0, url2.length());
+                   url1.regionMatches(true, 0, url2, 0, url2.length());
         } else if (lengthDifference == -1) {
             return url2.charAt(url2.length() - 1) == '/' &&
-                    url2.regionMatches(true, 0, url1, 0, url1.length());
+                   url2.regionMatches(true, 0, url1, 0, url1.length());
         }
 
         return false;

@@ -16,20 +16,20 @@ import com.bumptech.glide.util.Preconditions;
  * android.graphics.Bitmap}s into {@link android.graphics.drawable.BitmapDrawable}s.
  */
 public class BitmapDrawableTranscoder implements ResourceTranscoder<Bitmap, BitmapDrawable> {
-  private final Resources resources;
-  private final BitmapPool bitmapPool;
+    private final Resources resources;
+    private final BitmapPool bitmapPool;
 
-  public BitmapDrawableTranscoder(Context context) {
-    this(context.getResources(), Glide.get(context).getBitmapPool());
-  }
+    public BitmapDrawableTranscoder(Context context) {
+        this(context.getResources(), Glide.get(context).getBitmapPool());
+    }
 
-  public BitmapDrawableTranscoder(Resources resources, BitmapPool bitmapPool) {
-    this.resources = Preconditions.checkNotNull(resources);
-    this.bitmapPool = Preconditions.checkNotNull(bitmapPool);
-  }
+    public BitmapDrawableTranscoder(Resources resources, BitmapPool bitmapPool) {
+        this.resources = Preconditions.checkNotNull(resources);
+        this.bitmapPool = Preconditions.checkNotNull(bitmapPool);
+    }
 
-  @Override
-  public Resource<BitmapDrawable> transcode(Resource<Bitmap> toTranscode, Options options) {
-    return LazyBitmapDrawableResource.obtain(resources, bitmapPool, toTranscode.get());
-  }
+    @Override
+    public Resource<BitmapDrawable> transcode(Resource<Bitmap> toTranscode, Options options) {
+        return LazyBitmapDrawableResource.obtain(resources, bitmapPool, toTranscode.get());
+    }
 }

@@ -79,10 +79,10 @@ public class TabEntity {
     @Override
     public String toString() {
         return "TabEntity{" +
-                "id='" + id + '\'' +
-                ", parentId='" + parentId + '\'' +
-                ", title='" + title + '\'' +
-                ", url='" + url +
-                '}';
+               "id='" + id + '\'' +
+               ", parentId='" + parentId + '\'' +
+               ", title='" + title + '\'' +
+               ", url='" + url +
+               '}';
     }
 }

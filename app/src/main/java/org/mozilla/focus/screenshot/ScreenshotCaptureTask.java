@@ -56,7 +56,7 @@ public class ScreenshotCaptureTask extends AsyncTask<Object, Void, String> {
                 // We don't collect data in private mode now
                 if (!PRIVATE_MODE.equals(telemetryData.getMode())) {
                     TelemetryWrapper.clickToolbarCapture(ScreenshotManager.getInstance().getCategory(context, url), ScreenshotManager.getInstance().getCategoryVersion(),
-                            telemetryData.getMode(), telemetryData.getPosition());
+                                                         telemetryData.getMode(), telemetryData.getPosition());
                 }
             }
 
@@ -67,8 +67,8 @@ public class ScreenshotCaptureTask extends AsyncTask<Object, Void, String> {
     }
 
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
-            value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
-            justification = "We have nothing to do when the delete fails.")
+        value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
+        justification = "We have nothing to do when the delete fails.")
     private static String saveBitmapToStorage(Context context, String fileName, Bitmap bitmap) throws IOException {
         File folder = StorageUtils.getTargetDirForSaveScreenshot(context);
         if (!FileUtils.ensureDir(folder)) {

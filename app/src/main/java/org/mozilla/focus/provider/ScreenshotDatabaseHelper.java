@@ -44,25 +44,25 @@ public class ScreenshotDatabaseHelper {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(DROP_TABLE_IF_EXISTS + Tables.SCREENSHOT);
             db.execSQL(CREATE_TABLE_IF_NOT_EXISTS + Tables.SCREENSHOT + " (" +
-                    Screenshot._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    Screenshot.TITLE + " TEXT," +
-                    Screenshot.URL + " TEXT NOT NULL," +
-                    Screenshot.TIMESTAMP + " INTEGER NOT NULL," +
-                    Screenshot.IMAGE_URI + " TEXT NOT NULL" +
-                    ");");
+                       Screenshot._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                       Screenshot.TITLE + " TEXT," +
+                       Screenshot.URL + " TEXT NOT NULL," +
+                       Screenshot.TIMESTAMP + " INTEGER NOT NULL," +
+                       Screenshot.IMAGE_URI + " TEXT NOT NULL" +
+                       ");");
 
             db.execSQL(DROP_TRIGGER_IF_EXISTS + Tables.SCREENSHOT + "_inserted;");
             db.execSQL(CREATE_TRIGGER_IF_NOT_EXISTS + Tables.SCREENSHOT + "_inserted " +
-                    "   AFTER INSERT ON " + Tables.SCREENSHOT +
-                    " WHEN (SELECT count() FROM " + Tables.SCREENSHOT + ") > " + SCREENSHOT_LIMIT +
-                    " BEGIN " +
-                    "   DELETE FROM " + Tables.SCREENSHOT +
-                    "     WHERE " + Screenshot._ID + " = " +
-                    "(SELECT " + Screenshot._ID +
-                    " FROM " + Tables.SCREENSHOT +
-                    " ORDER BY " + Screenshot.TIMESTAMP +
-                    " LIMIT 1);" +
-                    " END");
+                       "   AFTER INSERT ON " + Tables.SCREENSHOT +
+                       " WHEN (SELECT count() FROM " + Tables.SCREENSHOT + ") > " + SCREENSHOT_LIMIT +
+                       " BEGIN " +
+                       "   DELETE FROM " + Tables.SCREENSHOT +
+                       "     WHERE " + Screenshot._ID + " = " +
+                       "(SELECT " + Screenshot._ID +
+                       " FROM " + Tables.SCREENSHOT +
+                       " ORDER BY " + Screenshot.TIMESTAMP +
+                       " LIMIT 1);" +
+                       " END");
         }
 
         @Override

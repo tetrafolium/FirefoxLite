@@ -38,7 +38,7 @@ public class FirstrunPagerAdapter extends PagerAdapter {
 
     protected View getView(int position, ViewPager pager) {
         final View view = LayoutInflater.from(context).inflate(
-                R.layout.firstrun_page, pager, false);
+                              R.layout.firstrun_page, pager, false);
 
         final FirstrunPage page = pages.get(position);
 
@@ -54,12 +54,12 @@ public class FirstrunPagerAdapter extends PagerAdapter {
             final LottieDrawable drawable = new LottieDrawable();
             LottieComposition.Factory.fromAssetFileName(context,
                     page.lottieString,
-                    new OnCompositionLoadedListener() {
-                        @Override
-                        public void onCompositionLoaded(@Nullable LottieComposition composition) {
-                            drawable.setComposition(composition);
-                        }
-                    });
+            new OnCompositionLoadedListener() {
+                @Override
+                public void onCompositionLoaded(@Nullable LottieComposition composition) {
+                    drawable.setComposition(composition);
+                }
+            });
             imageView.setImageDrawable(drawable);
         } else {
             imageView.setImageResource(page.imageResource);

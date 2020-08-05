@@ -23,96 +23,96 @@ import java.util.Set;
  * @param <Data> The type of data that will be retrieved for {@link android.net.Uri}s.
  */
 public class UriLoader<Data> implements ModelLoader<Uri, Data> {
-  private static final Set<String> SCHEMES = Collections.unmodifiableSet(
-      new HashSet<>(
-          Arrays.asList(
-              ContentResolver.SCHEME_FILE,
-              ContentResolver.SCHEME_ANDROID_RESOURCE,
-              ContentResolver.SCHEME_CONTENT
-          )
-      )
-  );
+    private static final Set<String> SCHEMES = Collections.unmodifiableSet(
+                new HashSet<>(
+                    Arrays.asList(
+                        ContentResolver.SCHEME_FILE,
+                        ContentResolver.SCHEME_ANDROID_RESOURCE,
+                        ContentResolver.SCHEME_CONTENT
+                    )
+                )
+            );
 
-  private final LocalUriFetcherFactory<Data> factory;
+    private final LocalUriFetcherFactory<Data> factory;
 
-  public UriLoader(LocalUriFetcherFactory<Data> factory) {
-    this.factory = factory;
-  }
-
-  @Override
-  public LoadData<Data> buildLoadData(Uri model, int width, int height,
-      Options options) {
-    return new LoadData<>(new ObjectKey(model), factory.build(model));
-  }
-
-  @Override
-  public boolean handles(Uri model) {
-    return SCHEMES.contains(model.getScheme());
-  }
-
-  /**
-   * Factory for obtaining a {@link DataFetcher} for a data type for a particular {@link Uri}.
-   *
-   * @param <Data> The type of data the returned {@link DataFetcher} will obtain.
-   */
-  public interface LocalUriFetcherFactory<Data> {
-    DataFetcher<Data> build(Uri uri);
-  }
-
-  /**
-   * Loads {@link InputStream}s from {@link Uri}s.
-   */
-  public static class StreamFactory implements ModelLoaderFactory<Uri, InputStream>,
-      LocalUriFetcherFactory<InputStream> {
-
-    private final ContentResolver contentResolver;
-
-    public StreamFactory(ContentResolver contentResolver) {
-      this.contentResolver = contentResolver;
+    public UriLoader(LocalUriFetcherFactory<Data> factory) {
+        this.factory = factory;
     }
 
     @Override
-    public DataFetcher<InputStream> build(Uri uri) {
-      return new StreamLocalUriFetcher(contentResolver, uri);
+    public LoadData<Data> buildLoadData(Uri model, int width, int height,
+                                        Options options) {
+        return new LoadData<>(new ObjectKey(model), factory.build(model));
     }
 
     @Override
-    public ModelLoader<Uri, InputStream> build(MultiModelLoaderFactory multiFactory) {
-      return new UriLoader<>(this);
+    public boolean handles(Uri model) {
+        return SCHEMES.contains(model.getScheme());
     }
 
-    @Override
-    public void teardown() {
-      // Do nothing.
-    }
-  }
-
-  /**
-   * Loads {@link ParcelFileDescriptor}s from {@link Uri}s.
-   */
-  public static class FileDescriptorFactory implements ModelLoaderFactory<Uri,
-      ParcelFileDescriptor>,
-      LocalUriFetcherFactory<ParcelFileDescriptor> {
-
-    private final ContentResolver contentResolver;
-
-    public FileDescriptorFactory(ContentResolver contentResolver) {
-      this.contentResolver = contentResolver;
+    /**
+     * Factory for obtaining a {@link DataFetcher} for a data type for a particular {@link Uri}.
+     *
+     * @param <Data> The type of data the returned {@link DataFetcher} will obtain.
+     */
+    public interface LocalUriFetcherFactory<Data> {
+        DataFetcher<Data> build(Uri uri);
     }
 
-    @Override
-    public DataFetcher<ParcelFileDescriptor> build(Uri uri) {
-      return new FileDescriptorLocalUriFetcher(contentResolver, uri);
+    /**
+     * Loads {@link InputStream}s from {@link Uri}s.
+     */
+    public static class StreamFactory implements ModelLoaderFactory<Uri, InputStream>,
+        LocalUriFetcherFactory<InputStream> {
+
+        private final ContentResolver contentResolver;
+
+        public StreamFactory(ContentResolver contentResolver) {
+            this.contentResolver = contentResolver;
+        }
+
+        @Override
+        public DataFetcher<InputStream> build(Uri uri) {
+            return new StreamLocalUriFetcher(contentResolver, uri);
+        }
+
+        @Override
+        public ModelLoader<Uri, InputStream> build(MultiModelLoaderFactory multiFactory) {
+            return new UriLoader<>(this);
+        }
+
+        @Override
+        public void teardown() {
+            // Do nothing.
+        }
     }
 
-    @Override
-    public ModelLoader<Uri, ParcelFileDescriptor> build(MultiModelLoaderFactory multiFactory) {
-      return new UriLoader<>(this);
-    }
+    /**
+     * Loads {@link ParcelFileDescriptor}s from {@link Uri}s.
+     */
+    public static class FileDescriptorFactory implements ModelLoaderFactory<Uri,
+        ParcelFileDescriptor>,
+        LocalUriFetcherFactory<ParcelFileDescriptor> {
 
-    @Override
-    public void teardown() {
-      // Do nothing.
+        private final ContentResolver contentResolver;
+
+        public FileDescriptorFactory(ContentResolver contentResolver) {
+            this.contentResolver = contentResolver;
+        }
+
+        @Override
+        public DataFetcher<ParcelFileDescriptor> build(Uri uri) {
+            return new FileDescriptorLocalUriFetcher(contentResolver, uri);
+        }
+
+        @Override
+        public ModelLoader<Uri, ParcelFileDescriptor> build(MultiModelLoaderFactory multiFactory) {
+            return new UriLoader<>(this);
+        }
+
+        @Override
+        public void teardown() {
+            // Do nothing.
+        }
     }
-  }
 }

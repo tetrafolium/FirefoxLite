@@ -103,7 +103,7 @@ public class DrawableWrapper extends Drawable {
 
     @Override
     public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs)
-            throws XmlPullParserException, IOException {
+    throws XmlPullParserException, IOException {
         mWrapped.inflate(r, parser, attrs);
     }
 

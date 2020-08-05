@@ -23,8 +23,8 @@ public class HttpTaskTest {
         MockWebServer webServer = new MockWebServer();
         try {
             webServer.enqueue(new MockResponse()
-                    .setBody(RESPONSE_BODY)
-                    .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                              .setBody(RESPONSE_BODY)
+                              .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
             webServer.start();
         } catch (IOException e) {
             throw new AssertionError("Could not start web server", e);
@@ -38,6 +38,6 @@ public class HttpTaskTest {
             }
 
 
-        }.execute(targetUrl, null, Integer.toString(SOCKET_TAG));
+        } .execute(targetUrl, null, Integer.toString(SOCKET_TAG));
     }
 }

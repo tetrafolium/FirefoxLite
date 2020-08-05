@@ -29,10 +29,10 @@ public class TabDaoTest {
 
     @Rule
     public MigrationTestHelper testHelper =
-            new MigrationTestHelper(
-                    InstrumentationRegistry.getInstrumentation(),
-                    TabsDatabase.class.getCanonicalName(),
-                    new FrameworkSQLiteOpenHelperFactory());
+        new MigrationTestHelper(
+        InstrumentationRegistry.getInstrumentation(),
+        TabsDatabase.class.getCanonicalName(),
+        new FrameworkSQLiteOpenHelperFactory());
 
     @Before
     public void initDb() throws Exception {
@@ -147,12 +147,12 @@ public class TabDaoTest {
 
     private TabsDatabase getMigratedRoomDatabase() {
         TabsDatabase database = Room.databaseBuilder(
-                InstrumentationRegistry.getTargetContext(),
-                TabsDatabase.class,
-                TEST_DB_NAME)
-                .fallbackToDestructiveMigration()
-                .addMigrations(TabsDatabase.MIGRATION_1_2)
-                .build();
+                                    InstrumentationRegistry.getTargetContext(),
+                                    TabsDatabase.class,
+                                    TEST_DB_NAME)
+                                .fallbackToDestructiveMigration()
+                                .addMigrations(TabsDatabase.MIGRATION_1_2)
+                                .build();
 
         testHelper.closeWhenFinished(database);
         return database;

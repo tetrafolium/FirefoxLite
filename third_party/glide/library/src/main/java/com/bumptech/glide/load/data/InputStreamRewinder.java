@@ -10,46 +10,46 @@ import java.io.InputStream;
  * stream.
  */
 public final class InputStreamRewinder implements DataRewinder<InputStream> {
-  // 5mb.
-  private static final int MARK_LIMIT = 5 * 1024 * 1024;
+    // 5mb.
+    private static final int MARK_LIMIT = 5 * 1024 * 1024;
 
-  private final RecyclableBufferedInputStream bufferedStream;
+    private final RecyclableBufferedInputStream bufferedStream;
 
-  InputStreamRewinder(InputStream is, ArrayPool byteArrayPool) {
-    bufferedStream = new RecyclableBufferedInputStream(is, byteArrayPool);
-    bufferedStream.mark(MARK_LIMIT);
-  }
-
-  @Override
-  public InputStream rewindAndGet() throws IOException {
-    bufferedStream.reset();
-    return bufferedStream;
-  }
-
-  @Override
-  public void cleanup() {
-    bufferedStream.release();
-  }
-
-  /**
-   * Factory for producing {@link com.bumptech.glide.load.data.InputStreamRewinder}s from {@link
-   * java.io.InputStream}s.
-   */
-  public static final class Factory implements DataRewinder.Factory<InputStream> {
-    private final ArrayPool byteArrayPool;
-
-    public Factory(ArrayPool byteArrayPool) {
-      this.byteArrayPool = byteArrayPool;
+    InputStreamRewinder(InputStream is, ArrayPool byteArrayPool) {
+        bufferedStream = new RecyclableBufferedInputStream(is, byteArrayPool);
+        bufferedStream.mark(MARK_LIMIT);
     }
 
     @Override
-    public DataRewinder<InputStream> build(InputStream data) {
-      return new InputStreamRewinder(data, byteArrayPool);
+    public InputStream rewindAndGet() throws IOException {
+        bufferedStream.reset();
+        return bufferedStream;
     }
 
     @Override
-    public Class<InputStream> getDataClass() {
-      return InputStream.class;
+    public void cleanup() {
+        bufferedStream.release();
     }
-  }
+
+    /**
+     * Factory for producing {@link com.bumptech.glide.load.data.InputStreamRewinder}s from {@link
+     * java.io.InputStream}s.
+     */
+    public static final class Factory implements DataRewinder.Factory<InputStream> {
+        private final ArrayPool byteArrayPool;
+
+        public Factory(ArrayPool byteArrayPool) {
+            this.byteArrayPool = byteArrayPool;
+        }
+
+        @Override
+        public DataRewinder<InputStream> build(InputStream data) {
+            return new InputStreamRewinder(data, byteArrayPool);
+        }
+
+        @Override
+        public Class<InputStream> getDataClass() {
+            return InputStream.class;
+        }
+    }
 }

@@ -56,8 +56,8 @@ public class InfoActivity extends BaseActivity {
 
         infoFragment = InfoFragment.create(url);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.infofragment, infoFragment)
-                .commit();
+        .replace(R.id.infofragment, infoFragment)
+        .commit();
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(title);

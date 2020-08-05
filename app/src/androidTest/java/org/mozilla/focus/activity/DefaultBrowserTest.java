@@ -95,7 +95,7 @@ public class DefaultBrowserTest {
 
         // Open default browser setting
         final UiObject allAppsButton = uiDevice
-                .findObject(new UiSelector().text(SETTING_DEFAULT_BROWSER));
+                                       .findObject(new UiSelector().text(SETTING_DEFAULT_BROWSER));
         openDefaultBrowserAndroidSetting(allAppsButton);
 
         // Choose Chrome browser
@@ -116,9 +116,9 @@ public class DefaultBrowserTest {
 
         // Check if the "Default Browser" pref switch not checked
         onData(allOf(
-                is(instanceOf(Preference.class)),
-                withKey(prefName))).
-                onChildView(withClassName(is(Switch.class.getName()))).check(matches(not(isChecked())));
+                   is(instanceOf(Preference.class)),
+                   withKey(prefName))).
+        onChildView(withClassName(is(Switch.class.getName()))).check(matches(not(isChecked())));
 
 
         // 2. Set Firefox Lite as default browser
@@ -137,9 +137,9 @@ public class DefaultBrowserTest {
 
         // Check if the "Default Browser" pref is correctly displayed (switch checked)
         onData(allOf(
-                is(instanceOf(Preference.class)),
-                withKey(prefName))).
-                onChildView(withClassName(is(Switch.class.getName()))).check(matches(isChecked()));
+                   is(instanceOf(Preference.class)),
+                   withKey(prefName))).
+        onChildView(withClassName(is(Switch.class.getName()))).check(matches(isChecked()));
 
     }
 
@@ -176,7 +176,7 @@ public class DefaultBrowserTest {
         // 2. Set Firefox Lite as default browser
         // Open default browser setting
         final UiObject allAppsButton = uiDevice
-                .findObject(new UiSelector().text(SETTING_DEFAULT_BROWSER));
+                                       .findObject(new UiSelector().text(SETTING_DEFAULT_BROWSER));
 
         openDefaultBrowserAndroidSetting(allAppsButton);
 
@@ -188,9 +188,9 @@ public class DefaultBrowserTest {
 
         // Check if the "Default Browser" pref is correctly displayed (switch checked)
         onData(allOf(
-                is(instanceOf(Preference.class)),
-                withKey(prefName))).
-                onChildView(withClassName(is(Switch.class.getName()))).check(matches(isChecked()));
+                   is(instanceOf(Preference.class)),
+                   withKey(prefName))).
+        onChildView(withClassName(is(Switch.class.getName()))).check(matches(isChecked()));
 
     }
 
@@ -222,9 +222,9 @@ public class DefaultBrowserTest {
 
     private void clickDefaultBrowserSetting(String prefName) {
         onData(allOf(
-                is(instanceOf(Preference.class)),
-                withKey(prefName))).
-                onChildView(withClassName(is(Switch.class.getName()))).perform(click());
+                   is(instanceOf(Preference.class)),
+                   withKey(prefName))).
+        onChildView(withClassName(is(Switch.class.getName()))).perform(click());
     }
 
 }

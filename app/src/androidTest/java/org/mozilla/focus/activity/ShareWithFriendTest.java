@@ -30,8 +30,8 @@ public class ShareWithFriendTest {
     @Before
     public void setup() {
         new BeforeTestTask.Builder()
-                .build()
-                .execute();
+        .build()
+        .execute();
         mainActivity.launchActivity(new Intent());
     }
 

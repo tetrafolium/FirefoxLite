@@ -371,14 +371,14 @@ public class WebkitView extends NestedWebView implements TabView {
         }
 
         evaluateJavascript("(function() { return document.getElementById('mozillaErrorPage'); })();",
-                errorPage -> {
-                    if (!"null".equals(errorPage)) {
-                        return;
-                    }
+        errorPage -> {
+            if (!"null".equals(errorPage)) {
+                return;
+            }
 
-                    Site site = BrowsingHistoryManager.prepareSiteForFirstInsert(url, getTitle(), System.currentTimeMillis());
-                    BrowsingHistoryManager.getInstance().insert(site, null);
-                });
+            Site site = BrowsingHistoryManager.prepareSiteForFirstInsert(url, getTitle(), System.currentTimeMillis());
+            BrowsingHistoryManager.getInstance().insert(site, null);
+        });
     }
 
     @Override

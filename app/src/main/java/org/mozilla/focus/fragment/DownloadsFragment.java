@@ -75,19 +75,19 @@ public class DownloadsFragment extends PanelFragment implements DownloadInfoView
         viewModel.getDownloadInfoObservable().observe(getViewLifecycleOwner(), downloadInfoPack -> {
             if (downloadInfoPack != null) {
                 switch (downloadInfoPack.getNotifyType()) {
-                    case DownloadInfoPack.Constants.NOTIFY_DATASET_CHANGED:
-                        downloadListAdapter.setList(downloadInfoPack.getList());
-                        downloadListAdapter.notifyDataSetChanged();
-                        break;
-                    case DownloadInfoPack.Constants.NOTIFY_ITEM_INSERTED:
-                        downloadListAdapter.notifyItemInserted((int) downloadInfoPack.getIndex());
-                        break;
-                    case DownloadInfoPack.Constants.NOTIFY_ITEM_REMOVED:
-                        downloadListAdapter.notifyItemRemoved((int) downloadInfoPack.getIndex());
-                        break;
-                    case DownloadInfoPack.Constants.NOTIFY_ITEM_CHANGED:
-                        downloadListAdapter.notifyItemChanged((int) downloadInfoPack.getIndex());
-                        break;
+                case DownloadInfoPack.Constants.NOTIFY_DATASET_CHANGED:
+                    downloadListAdapter.setList(downloadInfoPack.getList());
+                    downloadListAdapter.notifyDataSetChanged();
+                    break;
+                case DownloadInfoPack.Constants.NOTIFY_ITEM_INSERTED:
+                    downloadListAdapter.notifyItemInserted((int) downloadInfoPack.getIndex());
+                    break;
+                case DownloadInfoPack.Constants.NOTIFY_ITEM_REMOVED:
+                    downloadListAdapter.notifyItemRemoved((int) downloadInfoPack.getIndex());
+                    break;
+                case DownloadInfoPack.Constants.NOTIFY_ITEM_CHANGED:
+                    downloadListAdapter.notifyItemChanged((int) downloadInfoPack.getIndex());
+                    break;
                 }
             }
         });
@@ -98,23 +98,23 @@ public class DownloadsFragment extends PanelFragment implements DownloadInfoView
         viewModel.getDeleteSnackbarObservable().observe(getViewLifecycleOwner(), downloadInfo -> {
             final String deleteStr = getString(R.string.download_deleted, downloadInfo.getFileName());
             Snackbar.make(recyclerView, deleteStr, Snackbar.LENGTH_SHORT)
-                    .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                        @Override
-                        public void onDismissed(Snackbar transientBottomBar, int event) {
-                            super.onDismissed(transientBottomBar, event);
+            .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                @Override
+                public void onDismissed(Snackbar transientBottomBar, int event) {
+                    super.onDismissed(transientBottomBar, event);
 
-                            if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
-                                viewModel.confirmDelete(downloadInfo);
-                            }
-                        }
+                    if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                        viewModel.confirmDelete(downloadInfo);
+                    }
+                }
 
-                        @Override
-                        public void onShown(Snackbar transientBottomBar) {
-                            super.onShown(transientBottomBar);
-                            viewModel.hide(downloadInfo.getRowId());
-                        }
-                    })
-                    .setAction(R.string.undo, view -> viewModel.add(downloadInfo)).show();
+                @Override
+                public void onShown(Snackbar transientBottomBar) {
+                    super.onShown(transientBottomBar);
+                    viewModel.hide(downloadInfo.getRowId());
+                }
+            })
+            .setAction(R.string.undo, view -> viewModel.add(downloadInfo)).show();
         });
 
         return recyclerView;

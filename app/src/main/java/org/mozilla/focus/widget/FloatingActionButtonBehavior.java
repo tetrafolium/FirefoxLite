@@ -75,31 +75,31 @@ public class FloatingActionButtonBehavior extends CoordinatorLayout.Behavior<Flo
 
     private void animate(final View child, final boolean hide) {
         child.animate()
-                .scaleX(hide ? 0 : 1)
-                .scaleY(hide ? 0 : 1)
-                .setDuration(ANIMATION_DURATION)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        if (!hide) {
-                            // Ensure the child will be visible before starting animation: if it's hidden, we've also
-                            // set it to View.GONE, so we need to restore that now, _before_ the animation starts.
-                            child.setVisibility(View.VISIBLE);
-                        }
-                    }
+        .scaleX(hide ? 0 : 1)
+        .scaleY(hide ? 0 : 1)
+        .setDuration(ANIMATION_DURATION)
+        .setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                if (!hide) {
+                    // Ensure the child will be visible before starting animation: if it's hidden, we've also
+                    // set it to View.GONE, so we need to restore that now, _before_ the animation starts.
+                    child.setVisibility(View.VISIBLE);
+                }
+            }
 
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        visible = !hide;
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                visible = !hide;
 
-                        // Hide the FAB: even when it has size=0x0, it still intercept click events,
-                        // so we get phantom clicks causing focus to erase if the user presses
-                        // near where the FAB would usually be shown.
-                        if (hide) {
-                            child.setVisibility(View.GONE);
-                        }
-                    }
-                })
-                .start();
+                // Hide the FAB: even when it has size=0x0, it still intercept click events,
+                // so we get phantom clicks causing focus to erase if the user presses
+                // near where the FAB would usually be shown.
+                if (hide) {
+                    child.setVisibility(View.GONE);
+                }
+            }
+        })
+        .start();
     }
 }

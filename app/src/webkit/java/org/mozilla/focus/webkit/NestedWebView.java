@@ -53,40 +53,40 @@ public class NestedWebView extends WebView implements NestedScrollingChild {
         event.offsetLocation(0, mNestedOffsetY);
 
         switch (action) {
-            case MotionEvent.ACTION_MOVE:
-                int deltaY = mLastY - eventY;
+        case MotionEvent.ACTION_MOVE:
+            int deltaY = mLastY - eventY;
 
-                if (dispatchNestedPreScroll(0, deltaY, mScrollConsumed, mScrollOffset)) {
-                    deltaY -= mScrollConsumed[1];
-                    mLastY = eventY - mScrollOffset[1];
-                    event.offsetLocation(0, -mScrollOffset[1]);
-                    mNestedOffsetY += mScrollOffset[1];
-                }
+            if (dispatchNestedPreScroll(0, deltaY, mScrollConsumed, mScrollOffset)) {
+                deltaY -= mScrollConsumed[1];
+                mLastY = eventY - mScrollOffset[1];
+                event.offsetLocation(0, -mScrollOffset[1]);
+                mNestedOffsetY += mScrollOffset[1];
+            }
 
-                eventHandled = super.onTouchEvent(event);
+            eventHandled = super.onTouchEvent(event);
 
-                if (dispatchNestedScroll(0, mScrollOffset[1], 0, deltaY, mScrollOffset)) {
-                    event.offsetLocation(0, mScrollOffset[1]);
-                    mNestedOffsetY += mScrollOffset[1];
-                    mLastY -= mScrollOffset[1];
-                }
-                break;
+            if (dispatchNestedScroll(0, mScrollOffset[1], 0, deltaY, mScrollOffset)) {
+                event.offsetLocation(0, mScrollOffset[1]);
+                mNestedOffsetY += mScrollOffset[1];
+                mLastY -= mScrollOffset[1];
+            }
+            break;
 
-            case MotionEvent.ACTION_DOWN:
-                eventHandled = super.onTouchEvent(event);
-                mLastY = eventY;
+        case MotionEvent.ACTION_DOWN:
+            eventHandled = super.onTouchEvent(event);
+            mLastY = eventY;
 
-                startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
-                break;
+            startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
+            break;
 
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                eventHandled = super.onTouchEvent(event);
-                stopNestedScroll();
-                break;
+        case MotionEvent.ACTION_UP:
+        case MotionEvent.ACTION_CANCEL:
+            eventHandled = super.onTouchEvent(event);
+            stopNestedScroll();
+            break;
 
-            default:
-                // We don't care about other touch events
+        default:
+            // We don't care about other touch events
         }
 
         return eventHandled;

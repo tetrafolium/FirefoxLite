@@ -42,9 +42,9 @@ public class OnboardingScreenshot extends BaseScreenshot {
     @Before
     public void setUp() {
         new BeforeTestTask.Builder()
-                .setSkipFirstRun(false)
-                .build()
-                .execute();
+        .setSkipFirstRun(false)
+        .build()
+        .execute();
         activityTestRule.launchActivity(new Intent());
         Screengrab.setDefaultScreenshotStrategy(new FalconScreenshotStrategy(activityTestRule.getActivity()));
     }

@@ -44,11 +44,11 @@ public class ScreenshotProvider extends ContentProvider {
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         int count;
         switch (sUriMatcher.match(uri)) {
-            case SCREENSHOT:
-                count = db.delete(Tables.SCREENSHOT, selection, selectionArgs);
-                break;
-            default:
-                throw new UnsupportedOperationException("URI: " + uri);
+        case SCREENSHOT:
+            count = db.delete(Tables.SCREENSHOT, selection, selectionArgs);
+            break;
+        default:
+            throw new UnsupportedOperationException("URI: " + uri);
         }
 
         return count;
@@ -57,10 +57,10 @@ public class ScreenshotProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (sUriMatcher.match(uri)) {
-            case SCREENSHOT:
-                return Screenshot.CONTENT_TYPE;
-            default:
-                throw new IllegalArgumentException("URI: " + uri);
+        case SCREENSHOT:
+            return Screenshot.CONTENT_TYPE;
+        default:
+            throw new IllegalArgumentException("URI: " + uri);
         }
     }
 
@@ -69,12 +69,12 @@ public class ScreenshotProvider extends ContentProvider {
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         long id;
         switch (sUriMatcher.match(uri)) {
-            case SCREENSHOT:
-                final ContentValues values = new ContentValues(initialValues);
-                id = db.insert(Tables.SCREENSHOT, null, values);
-                break;
-            default:
-                throw new UnsupportedOperationException("URI: " + uri);
+        case SCREENSHOT:
+            final ContentValues values = new ContentValues(initialValues);
+            id = db.insert(Tables.SCREENSHOT, null, values);
+            break;
+        default:
+            throw new UnsupportedOperationException("URI: " + uri);
         }
 
         if (id < 0) {
@@ -90,11 +90,11 @@ public class ScreenshotProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         switch (sUriMatcher.match(uri)) {
-            case SCREENSHOT:
-                qb.setTables(Tables.SCREENSHOT);
-                break;
-            default:
-                throw new IllegalArgumentException("URI: " + uri);
+        case SCREENSHOT:
+            qb.setTables(Tables.SCREENSHOT);
+            break;
+        default:
+            throw new IllegalArgumentException("URI: " + uri);
         }
 
         final SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -109,11 +109,11 @@ public class ScreenshotProvider extends ContentProvider {
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         int count;
         switch (sUriMatcher.match(uri)) {
-            case SCREENSHOT:
-                count = db.update(Tables.SCREENSHOT, values, selection, selectionArgs);
-                break;
-            default:
-                throw new UnsupportedOperationException("URI: " + uri);
+        case SCREENSHOT:
+            count = db.update(Tables.SCREENSHOT, values, selection, selectionArgs);
+            break;
+        default:
+            throw new UnsupportedOperationException("URI: " + uri);
         }
 
         return count;

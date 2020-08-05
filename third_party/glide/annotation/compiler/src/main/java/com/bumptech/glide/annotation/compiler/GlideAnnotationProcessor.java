@@ -65,65 +65,65 @@ import javax.lang.model.element.TypeElement;
  */
 @AutoService(Processor.class)
 public final class GlideAnnotationProcessor extends AbstractProcessor {
-  static final boolean DEBUG = false;
-  private ProcessorUtil processorUtil;
-  private LibraryModuleProcessor libraryModuleProcessor;
-  private AppModuleProcessor appModuleProcessor;
-  private boolean isGeneratedAppGlideModuleWritten;
-  private ExtensionProcessor extensionProcessor;
+    static final boolean DEBUG = false;
+    private ProcessorUtil processorUtil;
+    private LibraryModuleProcessor libraryModuleProcessor;
+    private AppModuleProcessor appModuleProcessor;
+    private boolean isGeneratedAppGlideModuleWritten;
+    private ExtensionProcessor extensionProcessor;
 
-  @Override
-  public synchronized void init(ProcessingEnvironment processingEnvironment) {
-    super.init(processingEnvironment);
-    processorUtil = new ProcessorUtil(processingEnvironment);
-    IndexerGenerator indexerGenerator = new IndexerGenerator(processorUtil);
-    libraryModuleProcessor = new LibraryModuleProcessor(processorUtil, indexerGenerator);
-    appModuleProcessor = new AppModuleProcessor(processingEnvironment, processorUtil);
-    extensionProcessor = new ExtensionProcessor(processorUtil, indexerGenerator);
-  }
-
-  @Override
-  public Set<String> getSupportedAnnotationTypes() {
-    Set<String> result = new HashSet<>();
-    result.addAll(libraryModuleProcessor.getSupportedAnnotationTypes());
-    result.addAll(extensionProcessor.getSupportedAnnotationTypes());
-    return result;
-  }
-
-  @Override
-  public SourceVersion getSupportedSourceVersion() {
-    return SourceVersion.latestSupported();
-  }
-
-   /**
-   * Each round we do the following:
-   * <ol>
-   *   <li>Find all AppGlideModules and save them to an instance variable (throw if > 1).
-   *   <li>Find all LibraryGlideModules
-   *   <li>For each LibraryGlideModule, write an Indexer with an Annotation with the class name.
-   *   <li>If we wrote any Indexers, return and wait for the next round.
-   *   <li>If we didn't write any Indexers and there is a AppGlideModule, write the
-   *   GeneratedAppGlideModule. Once the GeneratedAppGlideModule is written, we expect to be
-   *   finished. Any further generation of related classes will result in errors.
-   * </ol>
-   */
-  @Override
-  public boolean process(Set<? extends TypeElement> set, RoundEnvironment env) {
-    processorUtil.process();
-    boolean newModulesWritten = libraryModuleProcessor.processModules(set, env);
-    boolean newExtensionWritten = extensionProcessor.processExtensions(set, env);
-    appModuleProcessor.processModules(set, env);
-
-    if (newExtensionWritten || newModulesWritten) {
-      if (isGeneratedAppGlideModuleWritten) {
-        throw new IllegalStateException("Cannot process annotations after writing AppGlideModule");
-      }
-      return true;
+    @Override
+    public synchronized void init(ProcessingEnvironment processingEnvironment) {
+        super.init(processingEnvironment);
+        processorUtil = new ProcessorUtil(processingEnvironment);
+        IndexerGenerator indexerGenerator = new IndexerGenerator(processorUtil);
+        libraryModuleProcessor = new LibraryModuleProcessor(processorUtil, indexerGenerator);
+        appModuleProcessor = new AppModuleProcessor(processingEnvironment, processorUtil);
+        extensionProcessor = new ExtensionProcessor(processorUtil, indexerGenerator);
     }
 
-    if (!isGeneratedAppGlideModuleWritten) {
-      isGeneratedAppGlideModuleWritten = appModuleProcessor.maybeWriteAppModule();
+    @Override
+    public Set<String> getSupportedAnnotationTypes() {
+        Set<String> result = new HashSet<>();
+        result.addAll(libraryModuleProcessor.getSupportedAnnotationTypes());
+        result.addAll(extensionProcessor.getSupportedAnnotationTypes());
+        return result;
     }
-    return true;
-  }
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latestSupported();
+    }
+
+    /**
+    * Each round we do the following:
+    * <ol>
+    *   <li>Find all AppGlideModules and save them to an instance variable (throw if > 1).
+    *   <li>Find all LibraryGlideModules
+    *   <li>For each LibraryGlideModule, write an Indexer with an Annotation with the class name.
+    *   <li>If we wrote any Indexers, return and wait for the next round.
+    *   <li>If we didn't write any Indexers and there is a AppGlideModule, write the
+    *   GeneratedAppGlideModule. Once the GeneratedAppGlideModule is written, we expect to be
+    *   finished. Any further generation of related classes will result in errors.
+    * </ol>
+    */
+    @Override
+    public boolean process(Set<? extends TypeElement> set, RoundEnvironment env) {
+        processorUtil.process();
+        boolean newModulesWritten = libraryModuleProcessor.processModules(set, env);
+        boolean newExtensionWritten = extensionProcessor.processExtensions(set, env);
+        appModuleProcessor.processModules(set, env);
+
+        if (newExtensionWritten || newModulesWritten) {
+            if (isGeneratedAppGlideModuleWritten) {
+                throw new IllegalStateException("Cannot process annotations after writing AppGlideModule");
+            }
+            return true;
+        }
+
+        if (!isGeneratedAppGlideModuleWritten) {
+            isGeneratedAppGlideModuleWritten = appModuleProcessor.maybeWriteAppModule();
+        }
+        return true;
+    }
 }

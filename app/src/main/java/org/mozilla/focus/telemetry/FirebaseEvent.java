@@ -95,7 +95,7 @@ class FirebaseEvent {
         }
 
         this.eventParam.putString(safeParamLength(name, MAX_LENGTH_PARAM_NAME),
-                safeParamLength(value, MAX_LENGTH_PARAM_VALUE));
+                                  safeParamLength(value, MAX_LENGTH_PARAM_VALUE));
 
         return this;
     }
@@ -109,7 +109,7 @@ class FirebaseEvent {
         }
         // fix the value if we just want to warn
         return str.substring(0,
-                Math.min(end, str.length()));
+                             Math.min(end, str.length()));
     }
 
     /*** Queue the events and let Firebase Analytics to decide when to upload to server
@@ -163,7 +163,7 @@ class FirebaseEvent {
         }
         FirebaseEvent event = ((FirebaseEvent) obj);
         return this.eventName.equals(event.eventName) &&
-                equalBundles(this.eventParam, event.eventParam);
+               equalBundles(this.eventParam, event.eventParam);
     }
 
     private boolean equalBundles(Bundle a, Bundle b) {

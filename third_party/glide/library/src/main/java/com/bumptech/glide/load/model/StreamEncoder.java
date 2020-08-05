@@ -15,40 +15,40 @@ import java.io.OutputStream;
  * disk.
  */
 public class StreamEncoder implements Encoder<InputStream> {
-  private static final String TAG = "StreamEncoder";
-  private final ArrayPool byteArrayPool;
+    private static final String TAG = "StreamEncoder";
+    private final ArrayPool byteArrayPool;
 
-  public StreamEncoder(ArrayPool byteArrayPool) {
-    this.byteArrayPool = byteArrayPool;
-  }
-
-  @Override
-  public boolean encode(InputStream data, File file, Options options) {
-    byte[] buffer = byteArrayPool.get(ArrayPool.STANDARD_BUFFER_SIZE_BYTES, byte[].class);
-    boolean success = false;
-    OutputStream os = null;
-    try {
-      os = new FileOutputStream(file);
-      int read;
-      while ((read = data.read(buffer)) != -1) {
-        os.write(buffer, 0, read);
-      }
-      os.close();
-      success = true;
-    } catch (IOException e) {
-      if (Log.isLoggable(TAG, Log.DEBUG)) {
-        Log.d(TAG, "Failed to encode data onto the OutputStream", e);
-      }
-    } finally {
-      if (os != null) {
-        try {
-          os.close();
-        } catch (IOException e) {
-          // Do nothing.
-        }
-      }
-      byteArrayPool.put(buffer, byte[].class);
+    public StreamEncoder(ArrayPool byteArrayPool) {
+        this.byteArrayPool = byteArrayPool;
     }
-    return success;
-  }
+
+    @Override
+    public boolean encode(InputStream data, File file, Options options) {
+        byte[] buffer = byteArrayPool.get(ArrayPool.STANDARD_BUFFER_SIZE_BYTES, byte[].class);
+        boolean success = false;
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(file);
+            int read;
+            while ((read = data.read(buffer)) != -1) {
+                os.write(buffer, 0, read);
+            }
+            os.close();
+            success = true;
+        } catch (IOException e) {
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Failed to encode data onto the OutputStream", e);
+            }
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    // Do nothing.
+                }
+            }
+            byteArrayPool.put(buffer, byte[].class);
+        }
+        return success;
+    }
 }

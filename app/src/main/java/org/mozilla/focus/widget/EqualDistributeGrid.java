@@ -72,8 +72,8 @@ public class EqualDistributeGrid extends ViewGroup {
         }
 
         int width = (reference == null || cellCount == 0)
-                ? 0
-                : reference.getMeasuredWidth() * rowLength;
+                    ? 0
+                    : reference.getMeasuredWidth() * rowLength;
 
         if (widthMode == MeasureSpec.AT_MOST) {
             width = Math.min(width, widthSize);
@@ -101,12 +101,12 @@ public class EqualDistributeGrid extends ViewGroup {
         int lines = (cellCount / rowLength) + (cellCount % rowLength == 0 ? 0 : 1);
 
         final int cellsOccupied = (reference == null || cellCount == 0)
-                ? 0
-                : lines * reference.getMeasuredHeight();
+                                  ? 0
+                                  : lines * reference.getMeasuredHeight();
 
         int height = (reference == null || cellCount == 0)
-                ? 0
-                : cellsOccupied + (lines - 1) * gutter + getPaddingTop() + getPaddingBottom();
+                     ? 0
+                     : cellsOccupied + (lines - 1) * gutter + getPaddingTop() + getPaddingBottom();
 
         if (heightMode == MeasureSpec.AT_MOST) {
             height = Math.min(height, heightSize);
@@ -136,8 +136,8 @@ public class EqualDistributeGrid extends ViewGroup {
 
         // space between cells in horizontal orientation
         int spacing = (rowLength == 1)
-                ? 0
-                : ((r - l) - (cellWidth * rowLength) - paddingStart - paddingEnd) / (rowLength - 1);
+                      ? 0
+                      : ((r - l) - (cellWidth * rowLength) - paddingStart - paddingEnd) / (rowLength - 1);
 
         final int childCount = getChildCount();
         int index = 0;

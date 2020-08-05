@@ -79,78 +79,78 @@ public class QueryHandler extends AsyncQueryHandler {
     @Override
     protected void onInsertComplete(int token, Object cookie, Uri uri) {
         switch (token) {
-            case SITE_TOKEN:
-            case SCREENSHOT_TOKEN:
-                if (cookie != null) {
-                    final long id = uri == null ? -1 : Long.parseLong(uri.getLastPathSegment());
-                    ((AsyncInsertListener) cookie).onInsertComplete(id);
-                }
-                break;
-            default:
-                // do nothing
+        case SITE_TOKEN:
+        case SCREENSHOT_TOKEN:
+            if (cookie != null) {
+                final long id = uri == null ? -1 : Long.parseLong(uri.getLastPathSegment());
+                ((AsyncInsertListener) cookie).onInsertComplete(id);
+            }
+            break;
+        default:
+            // do nothing
         }
     }
 
     @Override
     protected void onDeleteComplete(int token, Object cookie, int result) {
         switch (token) {
-            case SITE_TOKEN:
-            case SCREENSHOT_TOKEN:
-                if (cookie != null) {
-                    AsyncDeleteWrapper wrapper = ((AsyncDeleteWrapper) cookie);
-                    if (wrapper.listener != null) {
-                        wrapper.listener.onDeleteComplete(result, wrapper.id);
-                    }
+        case SITE_TOKEN:
+        case SCREENSHOT_TOKEN:
+            if (cookie != null) {
+                AsyncDeleteWrapper wrapper = ((AsyncDeleteWrapper) cookie);
+                if (wrapper.listener != null) {
+                    wrapper.listener.onDeleteComplete(result, wrapper.id);
                 }
-                break;
-            default:
-                // do nothing
+            }
+            break;
+        default:
+            // do nothing
         }
     }
 
     @Override
     protected void onUpdateComplete(int token, Object cookie, int result) {
         switch (token) {
-            case SITE_TOKEN:
-            case SCREENSHOT_TOKEN:
-                if (cookie != null) {
-                    ((AsyncUpdateListener) cookie).onUpdateComplete(result);
-                }
-                break;
-            default:
-                // do nothing
+        case SITE_TOKEN:
+        case SCREENSHOT_TOKEN:
+            if (cookie != null) {
+                ((AsyncUpdateListener) cookie).onUpdateComplete(result);
+            }
+            break;
+        default:
+            // do nothing
         }
     }
 
     @Override
     protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
         switch (token) {
-            case SITE_TOKEN:
-                if (cookie != null) {
-                    List sites = new ArrayList();
-                    if (cursor != null) {
-                        while (cursor.moveToNext()) {
-                            sites.add(cursorToSite(cursor));
-                        }
-                        cursor.close();
+        case SITE_TOKEN:
+            if (cookie != null) {
+                List sites = new ArrayList();
+                if (cursor != null) {
+                    while (cursor.moveToNext()) {
+                        sites.add(cursorToSite(cursor));
                     }
-                    ((AsyncQueryListener) cookie).onQueryComplete(sites);
+                    cursor.close();
                 }
-                break;
-            case SCREENSHOT_TOKEN:
-                if (cookie != null) {
-                    List screenshots = new ArrayList();
-                    if (cursor != null) {
-                        while (cursor.moveToNext()) {
-                            screenshots.add(cursorToScreenshot(cursor));
-                        }
-                        cursor.close();
+                ((AsyncQueryListener) cookie).onQueryComplete(sites);
+            }
+            break;
+        case SCREENSHOT_TOKEN:
+            if (cookie != null) {
+                List screenshots = new ArrayList();
+                if (cursor != null) {
+                    while (cursor.moveToNext()) {
+                        screenshots.add(cursorToScreenshot(cursor));
                     }
-                    ((AsyncQueryListener) cookie).onQueryComplete(screenshots);
+                    cursor.close();
                 }
-                break;
-            default:
-                // do nothing
+                ((AsyncQueryListener) cookie).onQueryComplete(screenshots);
+            }
+            break;
+        default:
+            // do nothing
         }
     }
 

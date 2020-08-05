@@ -149,8 +149,8 @@ public class AndroidBundleSerializer {
         public SerializedItem create(final Bundle bundle, final String key) throws IOException {
 
             byte[] value = bundle.getString(key) != null
-                    ? bundle.getString(key).getBytes(Charset.forName("UTF-8"))
-                    : null;
+                           ? bundle.getString(key).getBytes(Charset.forName("UTF-8"))
+                           : null;
             if (value == null) {
                 return null;
             }

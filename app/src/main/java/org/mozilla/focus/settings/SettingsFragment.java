@@ -168,8 +168,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
             // The easiest way to ensure we update the language is by replacing the entire fragment:
             getFragmentManager().beginTransaction()
-                    .replace(R.id.container, new SettingsFragment())
-                    .commit();
+            .replace(R.id.container, new SettingsFragment())
+            .commit();
             return;
             // we'll handle the pref_key_telemetry by TelemetrySwitchPreference
         } else if (!key.equals(getString(R.string.pref_key_telemetry))) {

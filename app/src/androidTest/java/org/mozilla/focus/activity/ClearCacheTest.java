@@ -35,9 +35,9 @@ public class ClearCacheTest {
     @Before
     public void setUp() {
         new BeforeTestTask.Builder()
-                .setSkipFirstRun(true)
-                .build()
-                .execute();
+        .setSkipFirstRun(true)
+        .build()
+        .execute();
         activityRule.launchActivity(new Intent());
     }
 
@@ -62,7 +62,7 @@ public class ClearCacheTest {
         // Check toast message "cache cleared"
         String msgClearCacheWoFormatter = AndroidTestUtils.removeStrFormatter(activityRule.getActivity().getResources().getString(R.string.message_cleared_cached));
         onView(withText(containsString(msgClearCacheWoFormatter)))
-                .inRoot(withDecorView(not(is(activityRule.getActivity().getWindow().getDecorView()))))
-                .check(matches(isDisplayed()));
+        .inRoot(withDecorView(not(is(activityRule.getActivity().getWindow().getDecorView()))))
+        .check(matches(isDisplayed()));
     }
 }

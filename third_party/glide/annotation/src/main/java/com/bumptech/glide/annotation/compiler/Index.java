@@ -15,6 +15,6 @@ import java.lang.annotation.Target;
 // Needs to be parsed from class files in JAR.
 @Retention(RetentionPolicy.CLASS)
 @interface Index {
-  String[] modules() default {};
-  String[] extensions() default {};
+    String[] modules() default {};
+    String[] extensions() default {};
 }

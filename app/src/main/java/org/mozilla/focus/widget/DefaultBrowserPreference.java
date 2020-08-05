@@ -94,8 +94,8 @@ public class DefaultBrowserPreference extends Preference {
     private void init() {
         if (action == null) {
             action = ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M))
-                    ? new DefaultAction(this)
-                    : new LowSdkAction(this);
+                     ? new DefaultAction(this)
+                     : new LowSdkAction(this);
 
         }
     }
@@ -193,13 +193,13 @@ public class DefaultBrowserPreference extends Preference {
 
         public void onFragmentResume() {
             LocalBroadcastManager.getInstance(pref.getContext())
-                    .registerReceiver(this.receiver, ComponentToggleService.SERVICE_STOP_INTENT_FILTER);
+            .registerReceiver(this.receiver, ComponentToggleService.SERVICE_STOP_INTENT_FILTER);
         }
 
         public void onFragmentPause() {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 LocalBroadcastManager.getInstance(pref.getContext())
-                        .unregisterReceiver(this.receiver);
+                .unregisterReceiver(this.receiver);
             }
         }
     }

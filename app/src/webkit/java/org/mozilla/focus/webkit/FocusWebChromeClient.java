@@ -50,7 +50,7 @@ class FocusWebChromeClient extends WebChromeClient {
     @Override
     public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message msg) {
         return (this.tabChromeClient != null)
-                && this.tabChromeClient.onCreateWindow(isDialog, isUserGesture, msg);
+               && this.tabChromeClient.onCreateWindow(isDialog, isUserGesture, msg);
     }
 
     @Override
@@ -78,9 +78,9 @@ class FocusWebChromeClient extends WebChromeClient {
 
         try {
             new FavIconUtils.SaveBitmapTask(new FileUtils.GetFaviconFolder(
-                    new WeakReference<>(view.getContext())).get(), url, icon,
-                    new BrowsingHistoryManager.UpdateHistoryWrapper(title, url),
-                    Bitmap.CompressFormat.PNG, DimenUtils.PNG_QUALITY_DONT_CARE).execute();
+                                                new WeakReference<>(view.getContext())).get(), url, icon,
+                                            new BrowsingHistoryManager.UpdateHistoryWrapper(title, url),
+                                            Bitmap.CompressFormat.PNG, DimenUtils.PNG_QUALITY_DONT_CARE).execute();
         } catch (ExecutionException | InterruptedException e) {
             LoggerWrapper.throwOrWarn(LOGGER_TAG, "Failed to get cache folder in onReceivedIcon.");
         }
@@ -122,7 +122,7 @@ class FocusWebChromeClient extends WebChromeClient {
 
     @Override
     public void onGeolocationPermissionsShowPrompt(String origin,
-                                                   GeolocationPermissions.Callback glpcallback) {
+            GeolocationPermissions.Callback glpcallback) {
         TelemetryWrapper.browseGeoLocationPermissionEvent();
         if (this.tabChromeClient != null) {
             this.tabChromeClient.onGeolocationPermissionsShowPrompt(origin, glpcallback);
@@ -140,7 +140,7 @@ class FocusWebChromeClient extends WebChromeClient {
                                      FileChooserParams fileChooserParams) {
 
         return (this.tabChromeClient != null)
-                && tabChromeClient.onShowFileChooser(this.host, filePathCallback, fileChooserParams);
+               && tabChromeClient.onShowFileChooser(this.host, filePathCallback, fileChooserParams);
     }
 
     @Override

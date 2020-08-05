@@ -32,9 +32,9 @@ public class ClearBrowsingDataTest {
     public void setUp() {
         // Set the share preferences and start the activity
         new BeforeTestTask.Builder()
-                .setSkipFirstRun(true)
-                .build()
-                .execute();
+        .setSkipFirstRun(true)
+        .build()
+        .execute();
         activityRule.launchActivity(new Intent());
     }
 

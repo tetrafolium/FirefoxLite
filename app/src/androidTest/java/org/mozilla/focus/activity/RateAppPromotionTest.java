@@ -61,10 +61,10 @@ public class RateAppPromotionTest {
     public void setUp() {
 
         new BeforeTestTask.Builder()
-                .setRateAppPromotionEnabled(true)
-                .setSkipFirstRun(true)
-                .build()
-                .execute();
+        .setRateAppPromotionEnabled(true)
+        .setSkipFirstRun(true)
+        .build()
+        .execute();
 
         AndroidTestUtils.setRateAppPromotionIsReadyToShow();
         intentTestRule.launchActivity(new Intent());
@@ -98,9 +98,9 @@ public class RateAppPromotionTest {
         // Check if the intent that open rocket in google play is fired
         final Uri uri = Uri.parse(IntentUtils.MARKET_INTENT_URI_PACKAGE_PREFIX + InstrumentationRegistry.getInstrumentation().getTargetContext().getPackageName());
         intended(allOf(
-                hasAction(equalTo(Intent.ACTION_VIEW)),
-                hasData(uri),
-                hasFlag(Intent.FLAG_ACTIVITY_NEW_TASK)));
+                     hasAction(equalTo(Intent.ACTION_VIEW)),
+                     hasData(uri),
+                     hasFlag(Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 
     /**
@@ -124,8 +124,8 @@ public class RateAppPromotionTest {
         // Check if feedback url is matched
         final String feedbackUrl = InstrumentationRegistry.getInstrumentation().getTargetContext().getString(R.string.rate_app_feedback_url);
         onView(withId(R.id.display_url))
-                .check(matches(isDisplayed()))
-                .check(matches(withText(feedbackUrl)));
+        .check(matches(isDisplayed()))
+        .check(matches(withText(feedbackUrl)));
         IdlingRegistry.getInstance().unregister(sessionLoadedIdlingResource);
     }
 

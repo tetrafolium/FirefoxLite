@@ -55,6 +55,6 @@ public class SearchEnginePreference extends DialogPreference {
         setSummary(searchEngine.getName());
 
         Settings.getInstance(getContext())
-                .setDefaultSearchEngine(searchEngine);
+        .setDefaultSearchEngine(searchEngine);
     }
 }

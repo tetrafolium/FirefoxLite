@@ -64,7 +64,7 @@ public class ViewPagerBottomSheetBehavior<V extends View> extends BottomSheetBeh
         CoordinatorLayout.Behavior behavior = ((CoordinatorLayout.LayoutParams) params).getBehavior();
         if (!(behavior instanceof ViewPagerBottomSheetBehavior)) {
             throw new IllegalArgumentException(
-                    "The view is not associated with ViewPagerBottomSheetBehavior");
+                "The view is not associated with ViewPagerBottomSheetBehavior");
         }
         return (ViewPagerBottomSheetBehavior<V>) behavior;
     }

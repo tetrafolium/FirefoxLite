@@ -5,8 +5,8 @@ import android.app.Activity;
 import java.lang.ref.WeakReference;
 
 @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
-        value = "DM_GC",
-        justification = "This code is for testing only.")
+    value = "DM_GC",
+    justification = "This code is for testing only.")
 public class LeakWatcher {
     private static volatile WeakReference<? extends Activity> reference;
 

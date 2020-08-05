@@ -77,12 +77,12 @@ public class AnimatedProgressBar extends ProgressBar {
     private EndingRunner mEndingRunner = new EndingRunner();
 
     private final ValueAnimator.AnimatorUpdateListener mListener =
-            new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    setProgressImmediately((int) mPrimaryAnimator.getAnimatedValue());
-                }
-            };
+    new ValueAnimator.AnimatorUpdateListener() {
+        @Override
+        public void onAnimationUpdate(ValueAnimator animation) {
+            setProgressImmediately((int) mPrimaryAnimator.getAnimatedValue());
+        }
+    };
 
     public AnimatedProgressBar(@NonNull Context context) {
         super(context, null);
@@ -320,8 +320,8 @@ public class AnimatedProgressBar extends ProgressBar {
                                    @InterpolatorRes int itplId) {
         if (isWrap) {
             final Interpolator interpolator = isValidInterpolator(itplId)
-                    ? AnimationUtils.loadInterpolator(getContext(), itplId)
-                    : null;
+                                              ? AnimationUtils.loadInterpolator(getContext(), itplId)
+                                              : null;
             return new ShiftDrawable(original, duration, interpolator);
         } else {
             return original;

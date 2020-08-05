@@ -45,11 +45,11 @@ public class HistoryProvider extends ContentProvider {
         final SupportSQLiteDatabase db = mDbHelper.getWritableDatabase();
         int count;
         switch (sUriMatcher.match(uri)) {
-            case BROWSING_HISTORY:
-                count = db.delete(Tables.BROWSING_HISTORY, selection, selectionArgs);
-                break;
-            default:
-                throw new UnsupportedOperationException("URI: " + uri);
+        case BROWSING_HISTORY:
+            count = db.delete(Tables.BROWSING_HISTORY, selection, selectionArgs);
+            break;
+        default:
+            throw new UnsupportedOperationException("URI: " + uri);
         }
 
         if (count > 0) {
@@ -61,10 +61,10 @@ public class HistoryProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (sUriMatcher.match(uri)) {
-            case BROWSING_HISTORY:
-                return BrowsingHistory.CONTENT_TYPE;
-            default:
-                throw new IllegalArgumentException("URI: " + uri);
+        case BROWSING_HISTORY:
+            return BrowsingHistory.CONTENT_TYPE;
+        default:
+            throw new IllegalArgumentException("URI: " + uri);
         }
     }
 
@@ -73,12 +73,12 @@ public class HistoryProvider extends ContentProvider {
         final SupportSQLiteDatabase db = mDbHelper.getWritableDatabase();
         long id;
         switch (sUriMatcher.match(uri)) {
-            case BROWSING_HISTORY:
-                final ContentValues values = new ContentValues(initialValues);
-                id = insertWithUrlUnique(db, values);
-                break;
-            default:
-                throw new UnsupportedOperationException("URI: " + uri);
+        case BROWSING_HISTORY:
+            final ContentValues values = new ContentValues(initialValues);
+            id = insertWithUrlUnique(db, values);
+            break;
+        default:
+            throw new UnsupportedOperationException("URI: " + uri);
         }
 
         if (id < 0) {
@@ -98,11 +98,11 @@ public class HistoryProvider extends ContentProvider {
 
         final SupportSQLiteDatabase db = mDbHelper.getReadableDatabase();
         SupportSQLiteQuery query = SupportSQLiteQueryBuilder.builder(Tables.BROWSING_HISTORY)
-                .columns(projection)
-                .selection(selection, selectionArgs)
-                .orderBy(sortOrder)
-                .limit(ProviderUtils.getLimitParam(uri.getQueryParameter("offset"), uri.getQueryParameter("limit")))
-                .create();
+                                   .columns(projection)
+                                   .selection(selection, selectionArgs)
+                                   .orderBy(sortOrder)
+                                   .limit(ProviderUtils.getLimitParam(uri.getQueryParameter("offset"), uri.getQueryParameter("limit")))
+                                   .create();
 
         return db.query(query);
     }
@@ -127,18 +127,18 @@ public class HistoryProvider extends ContentProvider {
         Cursor c = null;
         try {
             SupportSQLiteQuery query = SupportSQLiteQueryBuilder.builder(Tables.BROWSING_HISTORY)
-                    .columns(null)
-                    .selection(BrowsingHistory.URL + " = ?", new String[]{values.getAsString(BrowsingHistory.URL)})
-                    .groupBy(null)
-                    .having(null)
-                    .orderBy(null)
-                    .create();
+                                       .columns(null)
+                                       .selection(BrowsingHistory.URL + " = ?", new String[] {values.getAsString(BrowsingHistory.URL)})
+                                       .groupBy(null)
+                                       .having(null)
+                                       .orderBy(null)
+                                       .create();
             c = db.query(query);
             if (c != null) {
                 if (c.moveToFirst()) {
                     id = c.getLong(c.getColumnIndex(BrowsingHistory._ID));
                     values.put(BrowsingHistory.VIEW_COUNT, c.getLong((c.getColumnIndex(BrowsingHistory.VIEW_COUNT))) + 1);
-                    if (db.update(Tables.BROWSING_HISTORY, OnConflictStrategy.ROLLBACK, values, BrowsingHistory._ID + " = ?", new String[]{Long.toString(id)}) == 0) {
+                    if (db.update(Tables.BROWSING_HISTORY, OnConflictStrategy.ROLLBACK, values, BrowsingHistory._ID + " = ?", new String[] {Long.toString(id)}) == 0) {
                         id = -1;
                     }
                 } else {

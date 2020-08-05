@@ -20,9 +20,9 @@ public abstract class TabsDatabase extends RoomDatabase {
             synchronized (TabsDatabase.class) {
                 if (instance == null) {
                     instance = Room.databaseBuilder(context.getApplicationContext(),
-                            TabsDatabase.class, "tabs.db")
-                            .addMigrations(MIGRATION_1_2)
-                            .build();
+                                                    TabsDatabase.class, "tabs.db")
+                               .addMigrations(MIGRATION_1_2)
+                               .build();
                 }
             }
         }
@@ -36,9 +36,9 @@ public abstract class TabsDatabase extends RoomDatabase {
             // http://www.sqlite.org/faq.html#q11
             database.execSQL("ALTER TABLE tabs RENAME TO tabs_old");
             database.execSQL("CREATE TABLE IF NOT EXISTS tabs (tab_id TEXT NOT NULL,"
-                    + " tab_parent_id TEXT, tab_title TEXT, tab_url TEXT, PRIMARY KEY(tab_id))");
+                             + " tab_parent_id TEXT, tab_title TEXT, tab_url TEXT, PRIMARY KEY(tab_id))");
             database.execSQL("INSERT INTO tabs (tab_id, tab_parent_id, tab_title, tab_url)"
-                    + " SELECT tab_id, tab_parent_id, tab_title, tab_url FROM tabs_old");
+                             + " SELECT tab_id, tab_parent_id, tab_title, tab_url FROM tabs_old");
             database.execSQL("DROP TABLE tabs_old");
         }
     };

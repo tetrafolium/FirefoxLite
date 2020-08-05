@@ -33,7 +33,7 @@ import java.util.List;
  */
 
 public class ScreenshotItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener,
-        QueryHandler.AsyncQueryListener {
+    QueryHandler.AsyncQueryListener {
 
     public static final int VIEW_TYPE_SCREENSHOT = 1;
     private static final int VIEW_TYPE_DATE = 2;
@@ -86,12 +86,12 @@ public class ScreenshotItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             gridVH.rootView.setOnClickListener(this);
             final Screenshot item = (Screenshot) mItems.get(position);
             GlideApp
-                    .with(mActivity)
-                    .asBitmap()
-                    .placeholder(R.drawable.placeholder)
-                    .fitCenter()
-                    .load(item.getImageUri())
-                    .into(gridVH.img);
+            .with(mActivity)
+            .asBitmap()
+            .placeholder(R.drawable.placeholder)
+            .fitCenter()
+            .load(item.getImageUri())
+            .into(gridVH.img);
         } else if (holder instanceof DateItemViewHolder) {
             final DateSection item = (DateSection) mItems.get(position);
 
@@ -261,12 +261,12 @@ public class ScreenshotItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         @Override
         public int getSpanSize(int position) {
             switch (getItemViewType(position)) {
-                case VIEW_TYPE_SCREENSHOT:
-                    return 1;
-                case VIEW_TYPE_DATE:
-                    return 3;
-                default:
-                    return 1;
+            case VIEW_TYPE_SCREENSHOT:
+                return 1;
+            case VIEW_TYPE_DATE:
+                return 3;
+            default:
+                return 1;
             }
         }
     };

@@ -36,12 +36,12 @@ public class UrlMatcher implements SharedPreferences.OnSharedPreferenceChangeLis
      */
     private final Map<String, String> categoryPrefMap;
 
-    private static final String[] WEBFONT_EXTENSIONS = new String[]{
-            ".woff2",
-            ".woff",
-            ".eot",
-            ".ttf",
-            ".otf"
+    private static final String[] WEBFONT_EXTENSIONS = new String[] {
+        ".woff2",
+        ".woff",
+        ".eot",
+        ".ttf",
+        ".otf"
     };
 
     private static final String WEBFONTS = "Webfonts";
@@ -77,7 +77,7 @@ public class UrlMatcher implements SharedPreferences.OnSharedPreferenceChangeLis
 
         final Map<String, Trie> categoryMap = new HashMap<>(5);
         try (final JsonReader jsonReader =
-                     new JsonReader(new InputStreamReader(context.getResources().openRawResource(blockListFile), StandardCharsets.UTF_8))) {
+                        new JsonReader(new InputStreamReader(context.getResources().openRawResource(blockListFile), StandardCharsets.UTF_8))) {
             BlocklistProcessor.loadCategoryMap(jsonReader, categoryMap, BlocklistProcessor.ListType.BASE_LIST);
         } catch (IOException e) {
             throw new IllegalStateException("Unable to parse blacklist");
@@ -86,7 +86,7 @@ public class UrlMatcher implements SharedPreferences.OnSharedPreferenceChangeLis
         if (blockListOverrides != null) {
             for (int i = 0; i < blockListOverrides.length; i++) {
                 try (final JsonReader jsonReader =
-                             new JsonReader(new InputStreamReader(context.getResources().openRawResource(blockListOverrides[i]), StandardCharsets.UTF_8))) {
+                                new JsonReader(new InputStreamReader(context.getResources().openRawResource(blockListOverrides[i]), StandardCharsets.UTF_8))) {
                     BlocklistProcessor.loadCategoryMap(jsonReader, categoryMap, BlocklistProcessor.ListType.OVERRIDE_LIST);
                 } catch (IOException e) {
                     throw new IllegalStateException("Unable to parse override blacklist");
@@ -102,7 +102,7 @@ public class UrlMatcher implements SharedPreferences.OnSharedPreferenceChangeLis
         }
 
         try (final JsonReader jsonReader =
-                     new JsonReader(new InputStreamReader(context.getResources().openRawResource(abpindo_adserversListFile), StandardCharsets.UTF_8))) {
+                        new JsonReader(new InputStreamReader(context.getResources().openRawResource(abpindo_adserversListFile), StandardCharsets.UTF_8))) {
             BlocklistProcessor.loadCategoryMap(jsonReader, categoryMap, BlocklistProcessor.ListType.BASE_LIST);
         } catch (IOException e) {
             throw new IllegalStateException("Unable to parse abpindo list");

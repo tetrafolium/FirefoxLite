@@ -74,8 +74,8 @@ public class WebGeolocationPermissionTest {
             webServer = new MockWebServer();
             try {
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
-                        .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
+                                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
                 webServer.start();
             } catch (IOException e) {
                 throw new AssertionError("Could not start web server", e);

@@ -258,7 +258,7 @@ public class BannerHelper {
 
     private static String[] stringToStringArray(String string) {
         if (TextUtils.isEmpty(string)) {
-            return new String[]{};
+            return new String[] {};
         }
         return string.split(UNIT_SEPARATOR);
     }

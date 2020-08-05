@@ -44,9 +44,9 @@ public class OnBoardingTest {
     @Before
     public void setUp() {
         new BeforeTestTask.Builder()
-                .setSkipFirstRun(false)
-                .build()
-                .execute();
+        .setSkipFirstRun(false)
+        .build()
+        .execute();
         activityTestRule.launchActivity(new Intent());
     }
 

@@ -25,9 +25,9 @@ public class FilePickerUtil {
      * prompt for the activity, but will throw away the result.
      */
     public static Intent getFilePickerIntent(
-            final Context context,
-            final CharSequence title,
-            final String[] mimeTypes) {
+        final Context context,
+        final CharSequence title,
+        final String[] mimeTypes) {
         final List<Intent> intents = getIntentsForFilePicker(context, mimeTypes);
 
         if (intents.size() == 0) {
@@ -42,12 +42,12 @@ public class FilePickerUtil {
 
         final Intent chooser = Intent.createChooser(base, title);
         chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,
-                intents.toArray(new Parcelable[intents.size()]));
+                         intents.toArray(new Parcelable[intents.size()]));
         return chooser;
     }
 
     public static List<Intent> getIntentsForFilePicker(final Context context,
-                                                       final String[] mimeTypes) {
+            final String[] mimeTypes) {
 
         // The base intent to use for the file picker. Even if this is an implicit intent, Android will
         // still show a list of Activities that match this action/type.

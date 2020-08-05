@@ -33,61 +33,61 @@ import java.util.List;
  */
 public interface ModelLoader<Model, Data> {
 
-  /**
-   * Contains a set of {@link com.bumptech.glide.load.Key Keys} identifying the source of the load,
-   * alternate cache keys pointing to equivalent data, and a
-   * {@link com.bumptech.glide.load.data.DataFetcher} that can be used to fetch data not found in
-   * cache.
-   *
-   * @param <Data> The type of data that well be loaded.
-   */
-  class LoadData<Data> {
-    public final Key sourceKey;
-    public final List<Key> alternateKeys;
-    public final DataFetcher<Data> fetcher;
+    /**
+     * Contains a set of {@link com.bumptech.glide.load.Key Keys} identifying the source of the load,
+     * alternate cache keys pointing to equivalent data, and a
+     * {@link com.bumptech.glide.load.data.DataFetcher} that can be used to fetch data not found in
+     * cache.
+     *
+     * @param <Data> The type of data that well be loaded.
+     */
+    class LoadData<Data> {
+        public final Key sourceKey;
+        public final List<Key> alternateKeys;
+        public final DataFetcher<Data> fetcher;
 
-    public LoadData(Key sourceKey, DataFetcher<Data> fetcher) {
-      this(sourceKey, Collections.<Key>emptyList(), fetcher);
+        public LoadData(Key sourceKey, DataFetcher<Data> fetcher) {
+            this(sourceKey, Collections.<Key>emptyList(), fetcher);
+        }
+
+        public LoadData(Key sourceKey, List<Key> alternateKeys, DataFetcher<Data> fetcher) {
+            this.sourceKey = Preconditions.checkNotNull(sourceKey);
+            this.alternateKeys = Preconditions.checkNotNull(alternateKeys);
+            this.fetcher = Preconditions.checkNotNull(fetcher);
+        }
     }
 
-    public LoadData(Key sourceKey, List<Key> alternateKeys, DataFetcher<Data> fetcher) {
-      this.sourceKey = Preconditions.checkNotNull(sourceKey);
-      this.alternateKeys = Preconditions.checkNotNull(alternateKeys);
-      this.fetcher = Preconditions.checkNotNull(fetcher);
-    }
-  }
+    /**
+     * Returns a {@link com.bumptech.glide.load.model.ModelLoader.LoadData} containing a
+     * {@link com.bumptech.glide.load.data.DataFetcher} required to decode the resource
+     * represented by this model, as well as a set of {@link com.bumptech.glide.load.Key Keys} that
+     * identify the data loaded by the {@link com.bumptech.glide.load.data.DataFetcher} as well as an
+     * optional list of alternate keys from which equivalent data can be loaded. The
+     * {@link DataFetcher} will not be used if the resource is already cached.
+     *
+     * <p> Note - If no valid data fetcher can be returned (for example if a model has a null URL),
+     * then it is acceptable to return a null data fetcher from this method. </p>
+     *
+     * @param model  The model representing the resource.
+     * @param width  The width in pixels of the view or target the resource will be loaded into, or
+     *               {@link com.bumptech.glide.request.target.Target#SIZE_ORIGINAL} to indicate that
+     *               the resource should be loaded at its original width.
+     * @param height The height in pixels of the view or target the resource will be loaded into, or
+     *               {@link com.bumptech.glide.request.target.Target#SIZE_ORIGINAL} to indicate that
+     *               the resource should be loaded at its original height.
+     */
+    @Nullable
+    LoadData<Data> buildLoadData(Model model, int width, int height, Options options);
 
-  /**
-   * Returns a {@link com.bumptech.glide.load.model.ModelLoader.LoadData} containing a
-   * {@link com.bumptech.glide.load.data.DataFetcher} required to decode the resource
-   * represented by this model, as well as a set of {@link com.bumptech.glide.load.Key Keys} that
-   * identify the data loaded by the {@link com.bumptech.glide.load.data.DataFetcher} as well as an
-   * optional list of alternate keys from which equivalent data can be loaded. The
-   * {@link DataFetcher} will not be used if the resource is already cached.
-   *
-   * <p> Note - If no valid data fetcher can be returned (for example if a model has a null URL),
-   * then it is acceptable to return a null data fetcher from this method. </p>
-   *
-   * @param model  The model representing the resource.
-   * @param width  The width in pixels of the view or target the resource will be loaded into, or
-   *               {@link com.bumptech.glide.request.target.Target#SIZE_ORIGINAL} to indicate that
-   *               the resource should be loaded at its original width.
-   * @param height The height in pixels of the view or target the resource will be loaded into, or
-   *               {@link com.bumptech.glide.request.target.Target#SIZE_ORIGINAL} to indicate that
-   *               the resource should be loaded at its original height.
-   */
-  @Nullable
-  LoadData<Data> buildLoadData(Model model, int width, int height, Options options);
-
-  /**
-   * Returns true if the given model is a of a recognized type that this loader can probably load.
-   *
-   * <p> For example, you may want multiple Uri -> InputStream loaders. One might handle media
-   * store Uris, another might handle asset Uris, and a third might handle file Uris etc. </p>
-   *
-   * <p> This method is generally expected to do no I/O and complete quickly, so best effort
-   * results are acceptable. {@link ModelLoader ModelLoaders} that return true from this method may
-   * return {@code null} from {@link #buildLoadData(Object, int, int, Options)} </p>
-   */
-  boolean handles(Model model);
+    /**
+     * Returns true if the given model is a of a recognized type that this loader can probably load.
+     *
+     * <p> For example, you may want multiple Uri -> InputStream loaders. One might handle media
+     * store Uris, another might handle asset Uris, and a third might handle file Uris etc. </p>
+     *
+     * <p> This method is generally expected to do no I/O and complete quickly, so best effort
+     * results are acceptable. {@link ModelLoader ModelLoaders} that return true from this method may
+     * return {@code null} from {@link #buildLoadData(Object, int, int, Options)} </p>
+     */
+    boolean handles(Model model);
 }

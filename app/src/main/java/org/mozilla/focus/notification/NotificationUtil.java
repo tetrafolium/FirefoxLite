@@ -45,10 +45,10 @@ public class NotificationUtil {
         }
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
-                .setColor(ContextCompat.getColor(context, R.color.surveyNotificationAccent))
-                .setAutoCancel(true);
+        .setSmallIcon(R.drawable.ic_notification)
+        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+        .setColor(ContextCompat.getColor(context, R.color.surveyNotificationAccent))
+        .setAutoCancel(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             builder.setShowWhen(false);
@@ -70,7 +70,7 @@ public class NotificationUtil {
 
     public static void sendNotification(Context context, int id, NotificationCompat.Builder builder) {
         final NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (notificationManager != null) {
             notificationManager.notify(id, builder.build());
@@ -86,22 +86,22 @@ public class NotificationUtil {
         }
 
         createNotificationChannel(context, DEFAULT_CHANNEL_ID,
-                R.string.app_name,
-                NotificationManager.IMPORTANCE_HIGH);
+                                  R.string.app_name,
+                                  NotificationManager.IMPORTANCE_HIGH);
 
         createNotificationChannel(context, LOW_PRIORITY_CHANNEL_ID,
-                R.string.low_priority_notification_channel,
-                NotificationManager.IMPORTANCE_LOW);
+                                  R.string.low_priority_notification_channel,
+                                  NotificationManager.IMPORTANCE_LOW);
 
         createNotificationChannel(context, PRIVATE_MODE_CHANNEL_ID,
-                R.string.private_browsing_title,
-                NotificationManager.IMPORTANCE_LOW);
+                                  R.string.private_browsing_title,
+                                  NotificationManager.IMPORTANCE_LOW);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private static void createNotificationChannel(Context context, String channelId, int channelNameRes, int importance) {
         final NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (notificationManager == null) {
             return;
@@ -114,12 +114,12 @@ public class NotificationUtil {
     @CheckResult
     private static String getChannelD(Channel channel) {
         switch (channel) {
-            case IMPORTANT:
-                return DEFAULT_CHANNEL_ID;
-            case LOW_PRIORITY:
-                return LOW_PRIORITY_CHANNEL_ID;
-            case PRIVATE:
-                return PRIVATE_MODE_CHANNEL_ID;
+        case IMPORTANT:
+            return DEFAULT_CHANNEL_ID;
+        case LOW_PRIORITY:
+            return LOW_PRIORITY_CHANNEL_ID;
+        case PRIVATE:
+            return PRIVATE_MODE_CHANNEL_ID;
         }
         return "";
     }

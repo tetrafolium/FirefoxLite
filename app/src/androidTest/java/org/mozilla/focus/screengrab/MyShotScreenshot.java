@@ -120,7 +120,7 @@ public class MyShotScreenshot extends BaseScreenshot {
         // Click the first item in my shots panel
         // Since "index=0" in ScreenshotItemAdapter is always date label, the first screenshot item will start from "index=1".
         onView(withId(R.id.screenshot_grid_recycler_view)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(1, click()));
+            RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
         // Check if screenshot is displayed
         onView(withId(R.id.screenshot_viewer_image)).check(matches(isDisplayed()));

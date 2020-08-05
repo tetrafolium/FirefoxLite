@@ -18,21 +18,21 @@ public class DefaultFirstrunPagerAdapter extends FirstrunPagerAdapter {
         super(context, listener);
 
         this.pages.add(new FirstrunPage(
-                context.getString(R.string.first_run_page2_title),
-                context.getString(R.string.first_run_page2_text),
-                "first_run_img_2.json"));
+                           context.getString(R.string.first_run_page2_title),
+                           context.getString(R.string.first_run_page2_text),
+                           "first_run_img_2.json"));
         this.pages.add(new FirstrunPage(
-                context.getString(R.string.first_run_page4_title),
-                context.getString(R.string.first_run_page4_text),
-                "first_run_img_4.json"));
+                           context.getString(R.string.first_run_page4_title),
+                           context.getString(R.string.first_run_page4_text),
+                           "first_run_img_4.json"));
         this.pages.add(new FirstrunPage(
-                context.getString(R.string.first_run_page5_title),
-                context.getString(R.string.first_run_page5_text),
-                R.drawable.ic_onboarding_privacy));
+                           context.getString(R.string.first_run_page5_title),
+                           context.getString(R.string.first_run_page5_text),
+                           R.drawable.ic_onboarding_privacy));
         this.pages.add(new FirstrunPage(
-                context.getString(R.string.first_run_page3_title),
-                context.getString(R.string.first_run_page3_text),
-                "first_run_img_3.json"));
+                           context.getString(R.string.first_run_page3_title),
+                           context.getString(R.string.first_run_page3_text),
+                           "first_run_img_3.json"));
     }
 
     @Override

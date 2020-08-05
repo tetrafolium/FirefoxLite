@@ -43,7 +43,7 @@ public class DownloadListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ACTION_DEFAULT = 0;
     private static final int ACTION_CANCEL = 1;
     private static final List<String> SPECIFIC_FILE_EXTENSION
-            = Arrays.asList("apk", "zip", "gz", "tar", "7z", "rar", "war");
+        = Arrays.asList("apk", "zip", "gz", "tar", "7z", "rar", "war");
     private List<DownloadInfo> mDownloadInfo;
     private Context mContext;
     private DownloadInfoViewModel viewModel;
@@ -136,18 +136,18 @@ public class DownloadListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     popupMenu.getMenuInflater().inflate(R.menu.menu_download, popupMenu.getMenu());
                     popupMenu.setOnMenuItemClickListener(menuItem -> {
                         switch (menuItem.getItemId()) {
-                            case R.id.remove:
-                                viewModel.remove(rowId);
-                                TelemetryWrapper.downloadRemoveFile();
-                                popupMenu.dismiss();
-                                return true;
-                            case R.id.delete:
-                                viewModel.delete(rowId);
-                                TelemetryWrapper.downloadDeleteFile();
-                                popupMenu.dismiss();
-                                return true;
-                            default:
-                                break;
+                        case R.id.remove:
+                            viewModel.remove(rowId);
+                            TelemetryWrapper.downloadRemoveFile();
+                            popupMenu.dismiss();
+                            return true;
+                        case R.id.delete:
+                            viewModel.delete(rowId);
+                            TelemetryWrapper.downloadDeleteFile();
+                            popupMenu.dismiss();
+                            return true;
+                        default:
+                            break;
                         }
                         return false;
                     });
@@ -195,18 +195,18 @@ public class DownloadListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private String statusConvertStr(int status) {
         switch (status) {
-            case DownloadManager.STATUS_PAUSED:
-                return mContext.getResources().getString(R.string.pause);
-            case DownloadManager.STATUS_PENDING:
-                return mContext.getResources().getString(R.string.pending);
-            case DownloadManager.STATUS_RUNNING:
-                return mContext.getResources().getString(R.string.running);
-            case DownloadManager.STATUS_SUCCESSFUL:
-                return mContext.getResources().getString(R.string.successful);
-            case DownloadManager.STATUS_FAILED:
-                return mContext.getResources().getString(R.string.failed);
-            default:
-                return mContext.getResources().getString(R.string.unknown);
+        case DownloadManager.STATUS_PAUSED:
+            return mContext.getResources().getString(R.string.pause);
+        case DownloadManager.STATUS_PENDING:
+            return mContext.getResources().getString(R.string.pending);
+        case DownloadManager.STATUS_RUNNING:
+            return mContext.getResources().getString(R.string.running);
+        case DownloadManager.STATUS_SUCCESSFUL:
+            return mContext.getResources().getString(R.string.successful);
+        case DownloadManager.STATUS_FAILED:
+            return mContext.getResources().getString(R.string.failed);
+        default:
+            return mContext.getResources().getString(R.string.unknown);
         }
     }
 
@@ -219,16 +219,16 @@ public class DownloadListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (!TextUtils.isEmpty(downloadInfo.getMimeType())) {
                 String mimeType = downloadInfo.getMimeType().substring(0, downloadInfo.getMimeType().indexOf("/"));
                 switch (mimeType) {
-                    case "text":
-                        return R.drawable.file_document;
-                    case "image":
-                        return R.drawable.file_image;
-                    case "audio":
-                        return R.drawable.file_music;
-                    case "video":
-                        return R.drawable.file_video;
-                    default:
-                        return R.drawable.file_document;
+                case "text":
+                    return R.drawable.file_document;
+                case "image":
+                    return R.drawable.file_image;
+                case "audio":
+                    return R.drawable.file_music;
+                case "video":
+                    return R.drawable.file_video;
+                default:
+                    return R.drawable.file_document;
                 }
             } else {
                 return R.drawable.file_document;

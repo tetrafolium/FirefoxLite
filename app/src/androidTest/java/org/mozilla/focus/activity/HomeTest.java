@@ -80,20 +80,20 @@ public class HomeTest {
 
             // Check the title of the sample top site is correct
             onView(withId(R.id.main_list))
-                    .check(matches(atPosition(0, hasDescendant(withText(defaultSites.get(0).getTitle())))));
+            .check(matches(atPosition(0, hasDescendant(withText(defaultSites.get(0).getTitle())))));
 
             // Click and load the sample top site
             // Some intermittent issues happens when performing a single click event, we add a rollback action in case of a long click action
             // is triggered unexpectedly here. i.e. pressBack() can dismiss the popup menu.
             onView(ViewMatchers.withId(R.id.main_list))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click(pressBack())));
+            .perform(RecyclerViewActions.actionOnItemAtPosition(0, click(pressBack())));
 
             // After page loading completes
             IdlingRegistry.getInstance().register(loadingIdlingResource);
 
             // Check if the url is displayed correctly
             onView(withId(R.id.display_url))
-                    .check(matches(allOf(withText(defaultSites.get(0).getUrl()), isDisplayed())));
+            .check(matches(allOf(withText(defaultSites.get(0).getUrl()), isDisplayed())));
 
             // Always remember to unregister idling resource
             IdlingRegistry.getInstance().unregister(loadingIdlingResource);

@@ -9,16 +9,16 @@ import android.widget.ImageView;
  */
 public class DrawableImageViewTarget extends ImageViewTarget<Drawable> {
 
-  public DrawableImageViewTarget(ImageView view) {
-    super(view);
-  }
+    public DrawableImageViewTarget(ImageView view) {
+        super(view);
+    }
 
-  public DrawableImageViewTarget(ImageView view, boolean waitForLayout) {
-    super(view, waitForLayout);
-  }
+    public DrawableImageViewTarget(ImageView view, boolean waitForLayout) {
+        super(view, waitForLayout);
+    }
 
-  @Override
-  protected void setResource(@Nullable Drawable resource) {
-    view.setImageDrawable(resource);
-  }
+    @Override
+    protected void setResource(@Nullable Drawable resource) {
+        view.setImageDrawable(resource);
+    }
 }

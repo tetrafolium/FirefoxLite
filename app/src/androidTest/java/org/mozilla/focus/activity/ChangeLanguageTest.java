@@ -53,8 +53,8 @@ public class ChangeLanguageTest {
     @Before
     public void setup() {
         new BeforeTestTask.Builder()
-                .build()
-                .execute();
+        .build()
+        .execute();
         uiDevice = UiDevice.getInstance(getInstrumentation());
         mainActivity.launchActivity(new Intent());
     }
@@ -125,9 +125,9 @@ public class ChangeLanguageTest {
 
         // Check lang displayed
         onData(allOf(
-                is(instanceOf(Preference.class)),
-                withKey(activity.getResources().getString(R.string.pref_key_locale)))).
-                onChildView(withText(lang)).check(matches(isDisplayed()));
+                   is(instanceOf(Preference.class)),
+                   withKey(activity.getResources().getString(R.string.pref_key_locale)))).
+        onChildView(withText(lang)).check(matches(isDisplayed()));
         return langList;
     }
 }

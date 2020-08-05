@@ -17,75 +17,75 @@ import java.io.IOException;
  *            java.io.InputStream} or {@link android.os.ParcelFileDescriptor}.
  */
 public abstract class LocalUriFetcher<T> implements DataFetcher<T> {
-  private static final String TAG = "LocalUriFetcher";
-  private final Uri uri;
-  private final ContentResolver contentResolver;
-  private T data;
+    private static final String TAG = "LocalUriFetcher";
+    private final Uri uri;
+    private final ContentResolver contentResolver;
+    private T data;
 
-  /**
-   * Opens an input stream for a uri pointing to a local asset. Only certain uris are supported
-   *
-   * @param contentResolver Any {@link android.content.ContentResolver}.
-   * @param uri     A Uri pointing to a local asset. This load will fail if the uri isn't openable
-   *                by {@link ContentResolver#openInputStream(android.net.Uri)}
-   * @see ContentResolver#openInputStream(android.net.Uri)
-   */
-  public LocalUriFetcher(ContentResolver contentResolver, Uri uri) {
-    this.contentResolver = contentResolver;
-    this.uri = uri;
-  }
-
-  @Override
-  public final void loadData(Priority priority, DataCallback<? super T> callback) {
-    try {
-      data = loadResource(uri, contentResolver);
-    } catch (FileNotFoundException e) {
-      if (Log.isLoggable(TAG, Log.DEBUG)) {
-        Log.d(TAG, "Failed to open Uri", e);
-      }
-      callback.onLoadFailed(e);
-      return;
+    /**
+     * Opens an input stream for a uri pointing to a local asset. Only certain uris are supported
+     *
+     * @param contentResolver Any {@link android.content.ContentResolver}.
+     * @param uri     A Uri pointing to a local asset. This load will fail if the uri isn't openable
+     *                by {@link ContentResolver#openInputStream(android.net.Uri)}
+     * @see ContentResolver#openInputStream(android.net.Uri)
+     */
+    public LocalUriFetcher(ContentResolver contentResolver, Uri uri) {
+        this.contentResolver = contentResolver;
+        this.uri = uri;
     }
-    callback.onDataReady(data);
-  }
 
-  @Override
-  public void cleanup() {
-    if (data != null) {
-      try {
-        close(data);
-      } catch (IOException e) {
-        // Ignored.
-      }
+    @Override
+    public final void loadData(Priority priority, DataCallback<? super T> callback) {
+        try {
+            data = loadResource(uri, contentResolver);
+        } catch (FileNotFoundException e) {
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Failed to open Uri", e);
+            }
+            callback.onLoadFailed(e);
+            return;
+        }
+        callback.onDataReady(data);
     }
-  }
 
-  @Override
-  public void cancel() {
-    // Do nothing.
-  }
+    @Override
+    public void cleanup() {
+        if (data != null) {
+            try {
+                close(data);
+            } catch (IOException e) {
+                // Ignored.
+            }
+        }
+    }
 
-  @NonNull
-  @Override
-  public DataSource getDataSource() {
-    return DataSource.LOCAL;
-  }
+    @Override
+    public void cancel() {
+        // Do nothing.
+    }
 
-  /**
-   * Returns a concrete data type from the given {@link android.net.Uri} using the given {@link
-   * android.content.ContentResolver}.
-   */
-  protected abstract T loadResource(Uri uri, ContentResolver contentResolver)
-      throws FileNotFoundException;
+    @NonNull
+    @Override
+    public DataSource getDataSource() {
+        return DataSource.LOCAL;
+    }
 
-  /**
-   * Closes the concrete data type if necessary.
-   *
-   * <p> Note - We can't rely on the closeable interface because it was added after our min API
-   * level. See issue #157. </p>
-   *
-   * @param data The data to close.
-   */
-  protected abstract void close(T data) throws IOException;
+    /**
+     * Returns a concrete data type from the given {@link android.net.Uri} using the given {@link
+     * android.content.ContentResolver}.
+     */
+    protected abstract T loadResource(Uri uri, ContentResolver contentResolver)
+    throws FileNotFoundException;
+
+    /**
+     * Closes the concrete data type if necessary.
+     *
+     * <p> Note - We can't rely on the closeable interface because it was added after our min API
+     * level. See issue #157. </p>
+     *
+     * @param data The data to close.
+     */
+    protected abstract void close(T data) throws IOException;
 }
 

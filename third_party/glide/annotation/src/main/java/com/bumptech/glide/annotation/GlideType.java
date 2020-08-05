@@ -30,10 +30,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 public @interface GlideType {
 
-  /**
-   * A Resource class name, like GifDrawable.class, Bitmap.class etc.
-   *
-   * <p>Must match the type of the {@link com.bumptech.glide.request.RequestOptions} parameter.
-   */
-  Class<?> value();
+    /**
+     * A Resource class name, like GifDrawable.class, Bitmap.class etc.
+     *
+     * <p>Must match the type of the {@link com.bumptech.glide.request.RequestOptions} parameter.
+     */
+    Class<?> value();
 }

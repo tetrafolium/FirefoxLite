@@ -37,8 +37,8 @@ public class ErrorPageDelegate {
                     textView.setTextColor(Color.RED);
                     textView.setText(View.class.getCanonicalName());
                     errorView.addView(textView, new ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                                          ViewGroup.LayoutParams.WRAP_CONTENT,
+                                          ViewGroup.LayoutParams.WRAP_CONTENT));
                 }
 
                 HtmlErrorViewHolder holder = new HtmlErrorViewHolder(errorView);
@@ -71,8 +71,8 @@ public class ErrorPageDelegate {
             @Override
             public void onErrorViewCreated(HtmlErrorViewHolder viewHolder) {
                 webView.addView(viewHolder.rootView, new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.MATCH_PARENT));
             }
 
             @Override

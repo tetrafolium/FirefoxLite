@@ -29,7 +29,7 @@ public abstract class LocaleAwareFragment extends Fragment implements FragmentAn
         super.onResume();
 
         LocaleManager.getInstance()
-                .correctLocale(getContext(), getResources(), getResources().getConfiguration());
+        .correctLocale(getContext(), getResources(), getResources().getConfiguration());
 
         if (cachedLocale == null) {
             cachedLocale = Locale.getDefault();

@@ -72,10 +72,10 @@ public class MenuShareLinkTest {
 
             try {
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_FULL_SCREEN_IMAGE))
-                        .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_FULL_SCREEN_IMAGE))
+                                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
+                                  .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
                 webServer.start();
             } catch (IOException e) {
                 throw new AssertionError("Could not start web server", e);
@@ -97,8 +97,8 @@ public class MenuShareLinkTest {
     @Before
     public void setUp() {
         new BeforeTestTask.Builder()
-                .build()
-                .execute();
+        .build()
+        .execute();
         intentsTestRule.launchActivity(new Intent());
     }
 

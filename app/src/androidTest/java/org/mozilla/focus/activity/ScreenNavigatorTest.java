@@ -35,7 +35,7 @@ public class ScreenNavigatorTest {
 
     @Rule
     public final ActivityTestRule<MainActivity> activityTestRule =
-            new ActivityTestRule<>(MainActivity.class, true, false);
+        new ActivityTestRule<>(MainActivity.class, true, false);
 
     private static final String TARGET_URL_SITE_1 = "file:///android_asset/gpl.html";
 
@@ -84,7 +84,7 @@ public class ScreenNavigatorTest {
         // Should go back to original browser screen
         onView(withId(R.id.display_url)).check(matches(isDisplayed()));
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_1)));
+        .check(matches(withText(TARGET_URL_SITE_1)));
     }
 
     /**
@@ -121,7 +121,7 @@ public class ScreenNavigatorTest {
         IdlingRegistry.getInstance().register(loadingIdlingResource);
         onView(withId(R.id.display_url)).check(matches(isDisplayed()));
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(url)));
+        .check(matches(withText(url)));
         Assert.assertEquals(true, navigator.isBrowserInForeground());
         IdlingRegistry.getInstance().unregister(loadingIdlingResource);
     }
@@ -135,7 +135,7 @@ public class ScreenNavigatorTest {
 
         void showBrowserScreen(final String url) {
             activity.runOnUiThread(() -> activity.getScreenNavigator().showBrowserScreen(url,
-                    true, false));
+                                   true, false));
         }
 
         void addHomeScreen() {

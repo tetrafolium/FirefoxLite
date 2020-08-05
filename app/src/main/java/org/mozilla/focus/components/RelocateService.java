@@ -78,14 +78,14 @@ public class RelocateService extends IntentService {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), notificationChannelId);
 
         Notification notification = builder
-                .build();
+                                    .build();
         startForeground(NotificationId.RELOCATE_SERVICE, notification);
     }
 
     // Configure the notification channel if needed
     private static void configForegroundChannel(Context context) {
         final NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         // NotificationChannel API is only available for Android O and above, so we need to add the check here so IDE won't complain
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final String channelName = context.getString(R.string.app_name);
@@ -183,7 +183,7 @@ public class RelocateService extends IntentService {
                 boolean copied = FileUtils.copy(srcFile, destFile);
                 if (!copied) {
                     Log.w(TAG, String.format("cannot copy file from %s to %s",
-                            srcFile.getPath(), destFile.getPath()));
+                                             srcFile.getPath(), destFile.getPath()));
                     broadcastRelocateFinished(rowId);
                     return;
                 }

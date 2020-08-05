@@ -101,15 +101,15 @@ public class DownloadTest {
 
             try {
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset("image_test.html"))
-                        .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                                  .setBody(AndroidTestUtils.readTestAsset("image_test.html"))
+                                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
                 // TODO: Below response are reserved for future download tests
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_RABBIT)));
+                                  .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_RABBIT)));
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
+                                  .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
+                                  .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
 
                 webServer.start();
             } catch (IOException e) {
@@ -152,8 +152,8 @@ public class DownloadTest {
 
             // Check if toast is displayed.
             onView(withText(R.string.download_started))
-                    .inRoot(withDecorView(not(is(activityRule.getActivity().getWindow().getDecorView()))))
-                    .check(matches(isDisplayed()));
+            .inRoot(withDecorView(not(is(activityRule.getActivity().getWindow().getDecorView()))))
+            .check(matches(isDisplayed()));
             // Open menu
             AndroidTestUtils.tapHomeMenuButton();
 
@@ -198,11 +198,11 @@ public class DownloadTest {
 
             // Click first item menu action
             onView(withId(R.id.recyclerview)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.menu_action)));
+                RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.menu_action)));
 
             // Click delete file
             onView(withText(R.string.remove_from_list))
-                    .inRoot(RootMatchers.isPlatformPopup()).check(matches(isDisplayed())).perform(click());
+            .inRoot(RootMatchers.isPlatformPopup()).check(matches(isDisplayed())).perform(click());
 
             //Check file is not in the list
             onView(allOf(withId(R.id.title), withText(IMAGE_FILE_NAME_DOWNLOADED))).check(doesNotExist());
@@ -230,8 +230,8 @@ public class DownloadTest {
 
         // Find the element in HTML with id "download" after the page is loaded
         onWebView()
-                .withElement(findElement(Locator.ID, HTML_ELEMENT_ID_DOWNLOAD))
-                .perform(webClick());
+        .withElement(findElement(Locator.ID, HTML_ELEMENT_ID_DOWNLOAD))
+        .perform(webClick());
 
         // Unregister session loaded idling resource
         IdlingRegistry.getInstance().unregister(sessionLoadedIdlingResource);

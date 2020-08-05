@@ -50,8 +50,8 @@ public class EnqueueDownloadTask extends AsyncTask<Void, Void, EnqueueDownloadTa
 
         final String cookie = CookieManager.getInstance().getCookie(download.getUrl());
         final String fileName = (download.getName() != null)
-                ? download.getName()
-                : URLUtil.guessFileName(download.getUrl(), download.getContentDisposition(), download.getMimeType());
+                                ? download.getName()
+                                : URLUtil.guessFileName(download.getUrl(), download.getContentDisposition(), download.getMimeType());
 
         // so far each download always return null even for an image.
         // But we might move downloaded file to another directory.
@@ -72,12 +72,12 @@ public class EnqueueDownloadTask extends AsyncTask<Void, Void, EnqueueDownloadTa
         }
 
         final DownloadManager.Request request = new DownloadManager.Request(Uri.parse(download.getUrl()))
-                .addRequestHeader("User-Agent", download.getUserAgent())
-                .addRequestHeader("Cookie", cookie)
-                .addRequestHeader("Referer", refererUrl)
-                .setDestinationInExternalPublicDir(dir, fileName)
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setMimeType(download.getMimeType());
+        .addRequestHeader("User-Agent", download.getUserAgent())
+        .addRequestHeader("Cookie", cookie)
+        .addRequestHeader("Referer", refererUrl)
+        .setDestinationInExternalPublicDir(dir, fileName)
+        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        .setMimeType(download.getMimeType());
 
         request.allowScanningByMediaScanner();
 
@@ -129,23 +129,23 @@ public class EnqueueDownloadTask extends AsyncTask<Void, Void, EnqueueDownloadTa
         }
 
         switch (errorCode) {
-            case STORAGE_UNAVAILABLE:
-                Toast.makeText(activity,
-                        R.string.message_storage_unavailable_cancel_download,
-                        Toast.LENGTH_LONG)
-                        .show();
-                break;
-            case FILE_NOT_SUPPORTED:
-                Toast.makeText(activity, R.string.download_file_not_supported, Toast.LENGTH_LONG).show();
-                break;
-            case SUCCESS:
-                if (!download.isStartFromContextMenu()) {
-                    Toast.makeText(activity, R.string.download_started, Toast.LENGTH_LONG).show();
-                }
-                break;
-            case GENERAL_ERROR:
-            default:
-                break;
+        case STORAGE_UNAVAILABLE:
+            Toast.makeText(activity,
+                           R.string.message_storage_unavailable_cancel_download,
+                           Toast.LENGTH_LONG)
+            .show();
+            break;
+        case FILE_NOT_SUPPORTED:
+            Toast.makeText(activity, R.string.download_file_not_supported, Toast.LENGTH_LONG).show();
+            break;
+        case SUCCESS:
+            if (!download.isStartFromContextMenu()) {
+                Toast.makeText(activity, R.string.download_started, Toast.LENGTH_LONG).show();
+            }
+            break;
+        case GENERAL_ERROR:
+        default:
+            break;
         }
     }
 

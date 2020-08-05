@@ -18,30 +18,30 @@ import com.bumptech.glide.util.Util;
  */
 public class BitmapDrawableResource extends DrawableResource<BitmapDrawable>
     implements Initializable {
-  private final BitmapPool bitmapPool;
+    private final BitmapPool bitmapPool;
 
-  public BitmapDrawableResource(BitmapDrawable drawable, BitmapPool bitmapPool) {
-    super(drawable);
-    this.bitmapPool = bitmapPool;
-  }
+    public BitmapDrawableResource(BitmapDrawable drawable, BitmapPool bitmapPool) {
+        super(drawable);
+        this.bitmapPool = bitmapPool;
+    }
 
-  @Override
-  public Class<BitmapDrawable> getResourceClass() {
-    return BitmapDrawable.class;
-  }
+    @Override
+    public Class<BitmapDrawable> getResourceClass() {
+        return BitmapDrawable.class;
+    }
 
-  @Override
-  public int getSize() {
-    return Util.getBitmapByteSize(drawable.getBitmap());
-  }
+    @Override
+    public int getSize() {
+        return Util.getBitmapByteSize(drawable.getBitmap());
+    }
 
-  @Override
-  public void recycle() {
-    bitmapPool.put(drawable.getBitmap());
-  }
+    @Override
+    public void recycle() {
+        bitmapPool.put(drawable.getBitmap());
+    }
 
-  @Override
-  public void initialize() {
-    drawable.getBitmap().prepareToDraw();
-  }
+    @Override
+    public void initialize() {
+        drawable.getBitmap().prepareToDraw();
+    }
 }

@@ -192,29 +192,29 @@ public class ListPanelDialog extends DialogFragment {
 
     private int getTitle(int type) {
         switch (type) {
-            default:
-            case TYPE_DOWNLOADS:
-                return R.string.label_menu_download;
-            case TYPE_HISTORY:
-                return R.string.label_menu_history;
-            case TYPE_SCREENSHOTS:
-                return R.string.label_menu_my_shots;
-            case TYPE_BOOKMARKS:
-                return R.string.label_menu_bookmark;
+        default:
+        case TYPE_DOWNLOADS:
+            return R.string.label_menu_download;
+        case TYPE_HISTORY:
+            return R.string.label_menu_history;
+        case TYPE_SCREENSHOTS:
+            return R.string.label_menu_my_shots;
+        case TYPE_BOOKMARKS:
+            return R.string.label_menu_bookmark;
         }
     }
 
     private PanelFragment createFragmentByType(int type) {
         switch (type) {
-            default:
-            case TYPE_DOWNLOADS:
-                return DownloadsFragment.newInstance();
-            case TYPE_HISTORY:
-                return BrowsingHistoryFragment.newInstance();
-            case TYPE_SCREENSHOTS:
-                return ScreenshotGridFragment.newInstance();
-            case TYPE_BOOKMARKS:
-                return BookmarksFragment.newInstance();
+        default:
+        case TYPE_DOWNLOADS:
+            return DownloadsFragment.newInstance();
+        case TYPE_HISTORY:
+            return BrowsingHistoryFragment.newInstance();
+        case TYPE_SCREENSHOTS:
+            return ScreenshotGridFragment.newInstance();
+        case TYPE_BOOKMARKS:
+            return BookmarksFragment.newInstance();
         }
     }
 
@@ -229,20 +229,20 @@ public class ListPanelDialog extends DialogFragment {
         historyTouchArea.setSelected(false);
         screenshotsTouchArea.setSelected(false);
         switch (getArguments().getInt(TYPE)) {
-            case TYPE_BOOKMARKS:
-                bookmarksTouchArea.setSelected(true);
-                break;
-            case TYPE_DOWNLOADS:
-                downloadsTouchArea.setSelected(true);
-                break;
-            case TYPE_HISTORY:
-                historyTouchArea.setSelected(true);
-                break;
-            case TYPE_SCREENSHOTS:
-                screenshotsTouchArea.setSelected(true);
-                break;
-            default:
-                throw new RuntimeException("There is no view type " + getArguments().getInt(TYPE));
+        case TYPE_BOOKMARKS:
+            bookmarksTouchArea.setSelected(true);
+            break;
+        case TYPE_DOWNLOADS:
+            downloadsTouchArea.setSelected(true);
+            break;
+        case TYPE_HISTORY:
+            historyTouchArea.setSelected(true);
+            break;
+        case TYPE_SCREENSHOTS:
+            screenshotsTouchArea.setSelected(true);
+            break;
+        default:
+            throw new RuntimeException("There is no view type " + getArguments().getInt(TYPE));
         }
     }
 }

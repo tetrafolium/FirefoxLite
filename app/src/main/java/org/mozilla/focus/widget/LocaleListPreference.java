@@ -122,7 +122,7 @@ public class LocaleListPreference extends ListPreference {
             final byte directionality = Character.getDirectionality(displayName.charAt(0));
             if (directionality == Character.DIRECTIONALITY_LEFT_TO_RIGHT) {
                 this.nativeName = displayName.substring(0, 1).toUpperCase(locale) +
-                        displayName.substring(1);
+                                  displayName.substring(1);
                 return;
             }
 

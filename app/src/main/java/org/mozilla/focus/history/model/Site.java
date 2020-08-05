@@ -115,21 +115,21 @@ public class Site {
 
     private String toStringRelease() {
         return "Site{" +
-                "id='" + id + '\'' +
-                ", viewCount='" + viewCount + '\'' +
-                ", lastViewTimestamp='" + lastViewTimestamp + '\'' +
-                '}';
+               "id='" + id + '\'' +
+               ", viewCount='" + viewCount + '\'' +
+               ", lastViewTimestamp='" + lastViewTimestamp + '\'' +
+               '}';
     }
 
     private String toStringNormal() {
         return "Site{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", url='" + url + '\'' +
-                ", viewCount='" + viewCount + '\'' +
-                ", lastViewTimestamp='" + lastViewTimestamp + '\'' +
-                ", favIconUri='" + favIconUri + '\'' +
-                '}';
+               "id='" + id + '\'' +
+               ", title='" + title + '\'' +
+               ", url='" + url + '\'' +
+               ", viewCount='" + viewCount + '\'' +
+               ", lastViewTimestamp='" + lastViewTimestamp + '\'' +
+               ", favIconUri='" + favIconUri + '\'' +
+               '}';
     }
 
     public boolean isDefault() {

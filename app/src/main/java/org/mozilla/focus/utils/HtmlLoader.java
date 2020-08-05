@@ -44,7 +44,7 @@ public class HtmlLoader {
                                           @Nullable final Map<String, String> substitutionTable) {
 
         try (final BufferedReader fileReader =
-                     new BufferedReader(new InputStreamReader(context.getResources().openRawResource(resourceID), StandardCharsets.UTF_8))) {
+                        new BufferedReader(new InputStreamReader(context.getResources().openRawResource(resourceID), StandardCharsets.UTF_8))) {
 
             final StringBuilder outputBuffer = new StringBuilder();
 
@@ -65,11 +65,11 @@ public class HtmlLoader {
         }
     }
 
-    private final static byte[] pngHeader = new byte[]{-119, 80, 78, 71, 13, 10, 26, 10};
+    private final static byte[] pngHeader = new byte[] {-119, 80, 78, 71, 13, 10, 26, 10};
 
     public static String loadDrawableAsDataURI(@NonNull final Context context,
-                                               @NonNull final @DrawableRes int resourceID,
-                                               int color) {
+            @NonNull final @DrawableRes int resourceID,
+            int color) {
 
         final StringBuilder builder = new StringBuilder();
         builder.append("data:image/png;base64,");

@@ -62,7 +62,7 @@ public class NavigationTest {
 
         // Click search field
         onView(withId(R.id.home_fragment_fake_input))
-                .perform(click());
+        .perform(click());
 
         // Enter site 1 url
         onView(withId(R.id.url_edit)).check(matches(isDisplayed()));
@@ -72,7 +72,7 @@ public class NavigationTest {
         // Check if site 1 url is loaded
         IdlingRegistry.getInstance().register(loadingIdlingResource);
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_1)));
+        .check(matches(withText(TARGET_URL_SITE_1)));
         IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
         // Click search button and clear existing text in search field
@@ -86,14 +86,14 @@ public class NavigationTest {
         // Check if site 2 url is loaded
         IdlingRegistry.getInstance().register(loadingIdlingResource);
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_2)));
+        .check(matches(withText(TARGET_URL_SITE_2)));
         IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
         // Press back and check if go back to site 1
         Espresso.pressBack();
         IdlingRegistry.getInstance().register(loadingIdlingResource);
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_1)));
+        .check(matches(withText(TARGET_URL_SITE_1)));
         IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
         // Open menu and click next button
@@ -103,14 +103,14 @@ public class NavigationTest {
         // Check if site 2 is loaded again
         IdlingRegistry.getInstance().register(loadingIdlingResource);
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_2)));
+        .check(matches(withText(TARGET_URL_SITE_2)));
         IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
         // Press back and check if site 1 is loading again
         Espresso.pressBack();
         IdlingRegistry.getInstance().register(loadingIdlingResource);
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_1)));
+        .check(matches(withText(TARGET_URL_SITE_1)));
         IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
     }

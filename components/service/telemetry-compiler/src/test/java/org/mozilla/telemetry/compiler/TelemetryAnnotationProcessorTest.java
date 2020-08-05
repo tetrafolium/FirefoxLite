@@ -20,23 +20,23 @@ public class TelemetryAnnotationProcessorTest {
         final ImmutableList<JavaFileObject> telemetryWrapper = Compiler.javac()
                 .withProcessors(new TelemetryAnnotationProcessor())
                 .compile(
-                        JavaFileObjects.forSourceLines(
-                                "TelemetryWrapper",
-                                "package com.bumptech.glide.test;",
-                                "import org.mozilla.telemetry.annotation.TelemetryDoc;\n",
-                                "import org.mozilla.telemetry.annotation.TelemetryExtra;\n",
-                                "class TelemetryWrapper {" +
-                                        "@TelemetryDoc(\n" +
-                                        "        name = \"n\",\n" +
-                                        "        category = \"a\",\n" +
-                                        "        method = \"m\",\n" +
+                    JavaFileObjects.forSourceLines(
+                        "TelemetryWrapper",
+                        "package com.bumptech.glide.test;",
+                        "import org.mozilla.telemetry.annotation.TelemetryDoc;\n",
+                        "import org.mozilla.telemetry.annotation.TelemetryExtra;\n",
+                        "class TelemetryWrapper {" +
+                        "@TelemetryDoc(\n" +
+                        "        name = \"n\",\n" +
+                        "        category = \"a\",\n" +
+                        "        method = \"m\",\n" +
 //                                        "        object = \"o\",\n" +
-                                        "        value = \"v\",\n" +
-                                        "        extras = {@TelemetryExtra(name = \"a\", value = \"v\")})",
-                                "        public void send(){" +
-                                        "}",
-                                "}"
-                        )).generatedFiles();
+                        "        value = \"v\",\n" +
+                        "        extras = {@TelemetryExtra(name = \"a\", value = \"v\")})",
+                        "        public void send(){" +
+                        "}",
+                        "}"
+                    )).generatedFiles();
         assert (telemetryWrapper.size() == 1);
         assert (new File(TelemetryAnnotationProcessor.FILE_README).exists());
     }
@@ -46,23 +46,23 @@ public class TelemetryAnnotationProcessorTest {
         final ImmutableList<JavaFileObject> telemetryWrapper = Compiler.javac()
                 .withProcessors(new TelemetryAnnotationProcessor())
                 .compile(
-                        JavaFileObjects.forSourceLines(
-                                "TelemetryWrapper",
-                                "package com.bumptech.glide.test;",
-                                "import org.mozilla.telemetry.annotation.TelemetryDoc;\n",
-                                "import org.mozilla.telemetry.annotation.TelemetryExtra;\n",
-                                "class TelemetryWrapper {" +
-                                        "@TelemetryDoc(\n" +
-                                        "        name = \"n\",\n" +
-                                        "        category = \"a\",\n" +
-                                        "        method = \"m\",\n" +
-                                        "        object = \"o\",\n" +
-                                        "        value = \"v\",\n" +
-                                        "        extras = {@TelemetryExtra(name = \"a\", value = \"v\")})",
-                                "        public void send(){" +
-                                        "}",
-                                "}"
-                        )).generatedFiles();
+                    JavaFileObjects.forSourceLines(
+                        "TelemetryWrapper",
+                        "package com.bumptech.glide.test;",
+                        "import org.mozilla.telemetry.annotation.TelemetryDoc;\n",
+                        "import org.mozilla.telemetry.annotation.TelemetryExtra;\n",
+                        "class TelemetryWrapper {" +
+                        "@TelemetryDoc(\n" +
+                        "        name = \"n\",\n" +
+                        "        category = \"a\",\n" +
+                        "        method = \"m\",\n" +
+                        "        object = \"o\",\n" +
+                        "        value = \"v\",\n" +
+                        "        extras = {@TelemetryExtra(name = \"a\", value = \"v\")})",
+                        "        public void send(){" +
+                        "}",
+                        "}"
+                    )).generatedFiles();
         assert (telemetryWrapper.size() == 1);
     }
 

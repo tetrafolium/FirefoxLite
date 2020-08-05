@@ -49,9 +49,9 @@ public class BookmarkModel {
     @Override
     public String toString() {
         return "BookmarkModel{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", url='" + url + '\'' +
-                '}';
+               "id='" + id + '\'' +
+               ", title='" + title + '\'' +
+               ", url='" + url + '\'' +
+               '}';
     }
 }

@@ -44,66 +44,66 @@ import javax.lang.model.element.TypeElement;
  * </p>
  */
 final class IndexerGenerator {
-  private static final String INDEXER_NAME_PREFIX = "GlideIndexer_";
-  private final ProcessorUtil processorUtil;
+    private static final String INDEXER_NAME_PREFIX = "GlideIndexer_";
+    private final ProcessorUtil processorUtil;
 
-  IndexerGenerator(ProcessorUtil processorUtil) {
-    this.processorUtil = processorUtil;
-  }
-
-  TypeSpec generate(List<TypeElement> types) {
-    List<TypeElement> modules =  new ArrayList<>();
-    List<TypeElement> extensions = new ArrayList<>();
-    for (TypeElement element : types) {
-      if (processorUtil.isExtension(element)) {
-        extensions.add(element);
-      } else if (processorUtil.isLibraryGlideModule(element)) {
-        modules.add(element);
-      } else {
-        throw new IllegalArgumentException("Unrecognized type: " + element);
-      }
-    }
-    if (!modules.isEmpty() && !extensions.isEmpty()) {
-      throw new IllegalArgumentException("Given both modules and extensions, expected one or the "
-          + "other. Modules: " + modules + " Extensions: " + extensions);
-    }
-    if (!modules.isEmpty()) {
-      return generate(types, GlideModule.class);
-    } else {
-      return generate(types, GlideExtension.class);
-    }
-  }
-
-  private static TypeSpec generate(List<TypeElement> libraryModules,
-      Class<? extends Annotation> annotation) {
-    AnnotationSpec.Builder annotationBuilder =
-        AnnotationSpec.builder(Index.class);
-
-    String value = getAnnotationValue(annotation);
-    for (TypeElement childModule : libraryModules) {
-      annotationBuilder.addMember(value, "$S", ClassName.get(childModule).toString());
+    IndexerGenerator(ProcessorUtil processorUtil) {
+        this.processorUtil = processorUtil;
     }
 
-    String indexerName = INDEXER_NAME_PREFIX + annotation.getSimpleName() + "_";
-    for (TypeElement element : libraryModules) {
-      indexerName += element.getQualifiedName().toString().replace(".", "_");
-      indexerName += "_";
+    TypeSpec generate(List<TypeElement> types) {
+        List<TypeElement> modules =  new ArrayList<>();
+        List<TypeElement> extensions = new ArrayList<>();
+        for (TypeElement element : types) {
+            if (processorUtil.isExtension(element)) {
+                extensions.add(element);
+            } else if (processorUtil.isLibraryGlideModule(element)) {
+                modules.add(element);
+            } else {
+                throw new IllegalArgumentException("Unrecognized type: " + element);
+            }
+        }
+        if (!modules.isEmpty() && !extensions.isEmpty()) {
+            throw new IllegalArgumentException("Given both modules and extensions, expected one or the "
+                                               + "other. Modules: " + modules + " Extensions: " + extensions);
+        }
+        if (!modules.isEmpty()) {
+            return generate(types, GlideModule.class);
+        } else {
+            return generate(types, GlideExtension.class);
+        }
     }
-    indexerName = indexerName.substring(0, indexerName.length() - 1);
 
-    return TypeSpec.classBuilder(indexerName)
-        .addAnnotation(annotationBuilder.build())
-        .addModifiers(Modifier.PUBLIC)
-        .build();
-  }
+    private static TypeSpec generate(List<TypeElement> libraryModules,
+                                     Class<? extends Annotation> annotation) {
+        AnnotationSpec.Builder annotationBuilder =
+            AnnotationSpec.builder(Index.class);
 
-  private static String getAnnotationValue(Class<? extends Annotation> annotation) {
-    if (annotation == GlideModule.class) {
-      return "modules";
-    } else if (annotation == GlideExtension.class) {
-      return "extensions";
-    } else {
-      throw new IllegalArgumentException("Unrecognized annotation: " + annotation);
+        String value = getAnnotationValue(annotation);
+        for (TypeElement childModule : libraryModules) {
+            annotationBuilder.addMember(value, "$S", ClassName.get(childModule).toString());
+        }
+
+        String indexerName = INDEXER_NAME_PREFIX + annotation.getSimpleName() + "_";
+        for (TypeElement element : libraryModules) {
+            indexerName += element.getQualifiedName().toString().replace(".", "_");
+            indexerName += "_";
+        }
+        indexerName = indexerName.substring(0, indexerName.length() - 1);
+
+        return TypeSpec.classBuilder(indexerName)
+               .addAnnotation(annotationBuilder.build())
+               .addModifiers(Modifier.PUBLIC)
+               .build();
     }
-  }
+
+    private static String getAnnotationValue(Class<? extends Annotation> annotation) {
+        if (annotation == GlideModule.class) {
+            return "modules";
+        } else if (annotation == GlideExtension.class) {
+            return "extensions";
+        } else {
+            throw new IllegalArgumentException("Unrecognized annotation: " + annotation);
+        }
+    }
 }

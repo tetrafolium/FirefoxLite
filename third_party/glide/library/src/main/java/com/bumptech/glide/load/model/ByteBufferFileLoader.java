@@ -16,79 +16,79 @@ import java.nio.ByteBuffer;
  * Loads {@link java.nio.ByteBuffer}s using NIO for {@link java.io.File}.
  */
 public class ByteBufferFileLoader implements ModelLoader<File, ByteBuffer> {
-  private static final String TAG = "ByteBufferFileLoader";
-
-  @Override
-  public LoadData<ByteBuffer> buildLoadData(File file, int width, int height,
-      Options options) {
-    return new LoadData<>(new ObjectKey(file), new ByteBufferFetcher(file));
-  }
-
-  @Override
-  public boolean handles(File file) {
-    return true;
-  }
-
-  /**
-   * Factory for {@link com.bumptech.glide.load.model.ByteBufferFileLoader}.
-   */
-  public static class Factory implements ModelLoaderFactory<File, ByteBuffer> {
+    private static final String TAG = "ByteBufferFileLoader";
 
     @Override
-    public ModelLoader<File, ByteBuffer> build(MultiModelLoaderFactory multiFactory) {
-      return new ByteBufferFileLoader();
+    public LoadData<ByteBuffer> buildLoadData(File file, int width, int height,
+            Options options) {
+        return new LoadData<>(new ObjectKey(file), new ByteBufferFetcher(file));
     }
 
     @Override
-    public void teardown() {
-      // Do nothing.
-    }
-  }
-
-  private static class ByteBufferFetcher implements DataFetcher<ByteBuffer> {
-
-    private final File file;
-
-    public ByteBufferFetcher(File file) {
-      this.file = file;
+    public boolean handles(File file) {
+        return true;
     }
 
-    @Override
-    public void loadData(Priority priority, DataCallback<? super ByteBuffer> callback) {
-      ByteBuffer result = null;
-      try {
-        result = ByteBufferUtil.fromFile(file);
-      } catch (IOException e) {
-        if (Log.isLoggable(TAG, Log.DEBUG)) {
-          Log.d(TAG, "Failed to obtain ByteBuffer for file", e);
+    /**
+     * Factory for {@link com.bumptech.glide.load.model.ByteBufferFileLoader}.
+     */
+    public static class Factory implements ModelLoaderFactory<File, ByteBuffer> {
+
+        @Override
+        public ModelLoader<File, ByteBuffer> build(MultiModelLoaderFactory multiFactory) {
+            return new ByteBufferFileLoader();
         }
-        callback.onLoadFailed(e);
-        return;
-      }
 
-      callback.onDataReady(result);
+        @Override
+        public void teardown() {
+            // Do nothing.
+        }
     }
 
-    @Override
-    public void cleanup() {
-      // Do nothing.
-    }
+    private static class ByteBufferFetcher implements DataFetcher<ByteBuffer> {
 
-    @Override
-    public void cancel() {
-      // Do nothing.
-    }
+        private final File file;
 
-    @NonNull
-    @Override
-    public Class<ByteBuffer> getDataClass() {
-      return ByteBuffer.class;
-    }
+        public ByteBufferFetcher(File file) {
+            this.file = file;
+        }
 
-    @NonNull
-    @Override
-    public DataSource getDataSource() {
-      return DataSource.LOCAL;
+        @Override
+        public void loadData(Priority priority, DataCallback<? super ByteBuffer> callback) {
+            ByteBuffer result = null;
+            try {
+                result = ByteBufferUtil.fromFile(file);
+            } catch (IOException e) {
+                if (Log.isLoggable(TAG, Log.DEBUG)) {
+                    Log.d(TAG, "Failed to obtain ByteBuffer for file", e);
+                }
+                callback.onLoadFailed(e);
+                return;
+            }
+
+            callback.onDataReady(result);
+        }
+
+        @Override
+        public void cleanup() {
+            // Do nothing.
+        }
+
+        @Override
+        public void cancel() {
+            // Do nothing.
+        }
+
+        @NonNull
+        @Override
+        public Class<ByteBuffer> getDataClass() {
+            return ByteBuffer.class;
+        }
+
+        @NonNull
+        @Override
+        public DataSource getDataSource() {
+            return DataSource.LOCAL;
+        }
     }
-  }
 }

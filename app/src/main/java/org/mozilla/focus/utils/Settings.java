@@ -74,8 +74,8 @@ public class Settings {
 
     public boolean shouldBlockImages() {
         return preferences.getBoolean(
-                resources.getString(R.string.pref_key_performance_block_images),
-                BLOCK_IMAGE_DEFAULT);
+                   resources.getString(R.string.pref_key_performance_block_images),
+                   BLOCK_IMAGE_DEFAULT);
     }
 
     public void setBlockImages(boolean blockImages) {
@@ -89,8 +89,8 @@ public class Settings {
 
     public boolean shouldBlockJavaScript() {
         return preferences.getBoolean(
-                resources.getString(R.string.pref_key_performance_block_java_script),
-                BLOCK_JAVA_SCRIPT_DEFAULT);
+                   resources.getString(R.string.pref_key_performance_block_java_script),
+                   BLOCK_JAVA_SCRIPT_DEFAULT);
     }
 
     public SharedPreferenceLiveData<Boolean> isNightModeEnablLiveData() {
@@ -137,8 +137,8 @@ public class Settings {
 
     public boolean shouldUseTurboMode() {
         return preferences.getBoolean(
-                resources.getString(R.string.pref_key_turbo_mode),
-                TURBO_MODE_DEFAULT);
+                   resources.getString(R.string.pref_key_turbo_mode),
+                   TURBO_MODE_DEFAULT);
     }
 
     public void setTurboMode(boolean toEnable) {
@@ -170,8 +170,8 @@ public class Settings {
 
         final String key = getPreferenceKey(R.string.pref_key_showed_storage_message);
         preferences.edit()
-                .putInt(key, type)
-                .apply();
+        .putInt(key, type)
+        .apply();
     }
 
     @Nullable
@@ -181,8 +181,8 @@ public class Settings {
 
     public void setNewsSource(String source) {
         preferences.edit()
-                .putString(getPreferenceKey(R.string.pref_s_news), source)
-                .apply();
+        .putString(getPreferenceKey(R.string.pref_s_news), source)
+        .apply();
     }
 
     public String getLifeFeedSettings() {
@@ -200,20 +200,20 @@ public class Settings {
 
     public void setRateAppDialogDidShow() {
         preferences.edit()
-                .putBoolean(getPreferenceKey(R.string.pref_key_did_show_rate_app_dialog), true)
-                .apply();
+        .putBoolean(getPreferenceKey(R.string.pref_key_did_show_rate_app_dialog), true)
+        .apply();
     }
 
     public void setRateAppDialogDidDismiss() {
         preferences.edit()
-                .putBoolean(getPreferenceKey(R.string.pref_key_did_dismiss_rate_app_dialog), true)
-                .apply();
+        .putBoolean(getPreferenceKey(R.string.pref_key_did_dismiss_rate_app_dialog), true)
+        .apply();
     }
 
     public void setRateAppNotificationDidShow() {
         preferences.edit()
-                .putBoolean(getPreferenceKey(R.string.pref_key_did_show_rate_app_notification), true)
-                .apply();
+        .putBoolean(getPreferenceKey(R.string.pref_key_did_show_rate_app_notification), true)
+        .apply();
     }
 
     public int getMenuPreferenceClickCount() {
@@ -230,8 +230,8 @@ public class Settings {
 
     public void setDefaultBrowserSettingDidShow() {
         preferences.edit()
-                .putBoolean(getPreferenceKey(R.string.pref_key_did_show_default_browser_setting), true)
-                .apply();
+        .putBoolean(getPreferenceKey(R.string.pref_key_did_show_default_browser_setting), true)
+        .apply();
     }
 
     public SharedPreferenceLiveData<Boolean> hasUnreadMyShotLiveData() {
@@ -244,8 +244,8 @@ public class Settings {
 
     public void setHasUnreadMyShot(boolean hasUnreadMyShot) {
         preferences.edit()
-                .putBoolean(getPreferenceKey(R.string.pref_has_unread_my_shot), hasUnreadMyShot)
-                .apply();
+        .putBoolean(getPreferenceKey(R.string.pref_has_unread_my_shot), hasUnreadMyShot)
+        .apply();
     }
 
     public boolean didShowShareAppDialog() {
@@ -254,15 +254,15 @@ public class Settings {
 
     public void setShareAppDialogDidShow() {
         preferences.edit()
-                .putBoolean(getPreferenceKey(R.string.pref_key_did_show_share_app_dialog), true)
-                .apply();
+        .putBoolean(getPreferenceKey(R.string.pref_key_did_show_share_app_dialog), true)
+        .apply();
     }
 
     public void increaseAppCreateCounter() {
         int count = getAppCreateCount();
         preferences.edit()
-                .putInt(getPreferenceKey(R.string.pref_key_app_create_counter), ++count)
-                .apply();
+        .putInt(getPreferenceKey(R.string.pref_key_app_create_counter), ++count)
+        .apply();
     }
 
     public int getAppCreateCount() {
@@ -271,8 +271,8 @@ public class Settings {
 
     public void setDefaultSearchEngine(SearchEngine searchEngine) {
         preferences.edit()
-                .putString(getPreferenceKey(R.string.pref_key_search_engine), searchEngine.getName())
-                .apply();
+        .putString(getPreferenceKey(R.string.pref_key_search_engine), searchEngine.getName())
+        .apply();
     }
 
     public float getNightModeBrightnessValue() {
@@ -289,8 +289,8 @@ public class Settings {
 
     public void setLastPromptInAppUpdateVersion(int version) {
         preferences.edit()
-                .putInt(getPreferenceKey(R.string.pref_int_last_prompt_in_app_update_version), version)
-                .apply();
+        .putInt(getPreferenceKey(R.string.pref_int_last_prompt_in_app_update_version), version)
+        .apply();
     }
 
     public static void updatePrefDefaultBrowserIfNeeded(Context context, boolean isDefaultBrowser) {

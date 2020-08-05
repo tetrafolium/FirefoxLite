@@ -44,12 +44,12 @@ public class DownloadInfoProvider extends ContentProvider {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
         switch (sUriMatcher.match(uri)) {
-            case DownloadContract.CODE:
+        case DownloadContract.CODE:
 
-                queryBuilder.setTables(Download.TABLE_DOWNLOAD);
-                break;
-            default:
-                throw new IllegalArgumentException("URI: " + uri);
+            queryBuilder.setTables(Download.TABLE_DOWNLOAD);
+            break;
+        default:
+            throw new IllegalArgumentException("URI: " + uri);
         }
 
         SQLiteDatabase sqLiteDatabase = mDbHelper.getReadableDB();
@@ -62,10 +62,10 @@ public class DownloadInfoProvider extends ContentProvider {
     public String getType(@NonNull Uri uri) {
 
         switch (sUriMatcher.match(uri)) {
-            case DownloadContract.CODE:
-                return Download.CONTENT_TYPE;
-            default:
-                throw new IllegalArgumentException("URI: " + uri);
+        case DownloadContract.CODE:
+            return Download.CONTENT_TYPE;
+        default:
+            throw new IllegalArgumentException("URI: " + uri);
         }
     }
 
@@ -76,11 +76,11 @@ public class DownloadInfoProvider extends ContentProvider {
         SQLiteDatabase sqLiteDatabase = mDbHelper.getWritableDB();
         Long id;
         switch (sUriMatcher.match(uri)) {
-            case DownloadContract.CODE:
-                id = sqLiteDatabase.insert(Download.TABLE_DOWNLOAD, null, contentValues);
-                break;
-            default:
-                throw new UnsupportedOperationException("URI: " + uri);
+        case DownloadContract.CODE:
+            id = sqLiteDatabase.insert(Download.TABLE_DOWNLOAD, null, contentValues);
+            break;
+        default:
+            throw new UnsupportedOperationException("URI: " + uri);
         }
 
         Uri uriWithId;
@@ -99,11 +99,11 @@ public class DownloadInfoProvider extends ContentProvider {
         SQLiteDatabase sqLiteDatabase = mDbHelper.getWritableDB();
         int count;
         switch (sUriMatcher.match(uri)) {
-            case DownloadContract.CODE:
-                count = sqLiteDatabase.delete(Download.TABLE_DOWNLOAD, selection, selectionArgs);
-                break;
-            default:
-                throw new UnsupportedOperationException("URI: " + uri);
+        case DownloadContract.CODE:
+            count = sqLiteDatabase.delete(Download.TABLE_DOWNLOAD, selection, selectionArgs);
+            break;
+        default:
+            throw new UnsupportedOperationException("URI: " + uri);
         }
 
         if (count > 0) {
@@ -117,11 +117,11 @@ public class DownloadInfoProvider extends ContentProvider {
         SQLiteDatabase sqLiteDatabase = mDbHelper.getWritableDB();
         int count;
         switch (sUriMatcher.match(uri)) {
-            case DownloadContract.CODE:
-                count = sqLiteDatabase.update(Download.TABLE_DOWNLOAD, contentValues, selection, selectionArgs);
-                break;
-            default:
-                throw new UnsupportedOperationException("URI: " + uri);
+        case DownloadContract.CODE:
+            count = sqLiteDatabase.update(Download.TABLE_DOWNLOAD, contentValues, selection, selectionArgs);
+            break;
+        default:
+            throw new UnsupportedOperationException("URI: " + uri);
         }
 
         if (count > 0) {

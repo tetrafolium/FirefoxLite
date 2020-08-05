@@ -35,11 +35,11 @@ public class BackgroundCachedRequestLoaderTest {
         final CountDownLatch latch2 = new CountDownLatch(1);
         try {
             webServer.enqueue(new MockResponse()
-                    .setBody(RESPONSE_BODY)
-                    .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                              .setBody(RESPONSE_BODY)
+                              .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
             webServer.enqueue(new MockResponse()
-                    .setBody(RESPONSE_BODY2)
-                    .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                              .setBody(RESPONSE_BODY2)
+                              .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
             webServer.start();
         } catch (IOException e) {
             throw new AssertionError("Could not start web server", e);
@@ -88,11 +88,11 @@ public class BackgroundCachedRequestLoaderTest {
         final CountDownLatch latch2 = new CountDownLatch(1);
         try {
             webServer.enqueue(new MockResponse()
-                    .setBody(RESPONSE_BODY)
-                    .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                              .setBody(RESPONSE_BODY)
+                              .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
             webServer.enqueue(new MockResponse()
-                    .setBody(RESPONSE_BODY2)
-                    .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                              .setBody(RESPONSE_BODY2)
+                              .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
             webServer.start();
         } catch (IOException e) {
             throw new AssertionError("Could not start web server", e);

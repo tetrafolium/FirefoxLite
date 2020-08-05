@@ -61,7 +61,7 @@ public class FileChooseAction {
 
         try {
             final Uri uri = data.getData();
-            uris = (uri == null) ? null : new Uri[]{uri};
+            uris = (uri == null) ? null : new Uri[] {uri};
 
             // FIXME: check permission before access the uri
             // if file locates on external storage and we haven't granted permission

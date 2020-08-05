@@ -44,12 +44,12 @@ public class SettingsActivity extends BaseActivity {
         final Intent intent = getIntent();
         if (intent != null && intent.getStringExtra(ContentFeature.EXTRA_CONFIG_NEWS) != null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new NewsSettingFragment())
-                    .commit();
+            .replace(R.id.container, new NewsSettingFragment())
+            .commit();
         } else {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.container, new SettingsFragment())
-                    .commit();
+            .replace(R.id.container, new SettingsFragment())
+            .commit();
         }
 
 

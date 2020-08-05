@@ -48,7 +48,7 @@ import java.util.List;
  */
 
 public class HistoryItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener,
-        QueryHandler.AsyncQueryListener, QueryHandler.AsyncDeleteListener {
+    QueryHandler.AsyncQueryListener, QueryHandler.AsyncDeleteListener {
 
     private static final int VIEW_TYPE_SITE = 1;
     private static final int VIEW_TYPE_DATE = 2;
@@ -108,18 +108,18 @@ public class HistoryItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 String favIconUri = item.getFavIconUri();
                 if (favIconUri != null) {
                     Glide.with(siteVH.imgFav.getContext())
-                            .asBitmap()
-                            .load(favIconUri)
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                                    if (DimenUtils.iconTooBlurry(siteVH.imgFav.getResources(), resource.getWidth())) {
-                                        setImageViewWithDefaultBitmap(siteVH.imgFav, item.getUrl());
-                                    } else {
-                                        siteVH.imgFav.setImageBitmap(resource);
-                                    }
-                                }
-                            });
+                    .asBitmap()
+                    .load(favIconUri)
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            if (DimenUtils.iconTooBlurry(siteVH.imgFav.getResources(), resource.getWidth())) {
+                                setImageViewWithDefaultBitmap(siteVH.imgFav, item.getUrl());
+                            } else {
+                                siteVH.imgFav.setImageBitmap(resource);
+                            }
+                        }
+                    });
                 } else {
                     setImageViewWithDefaultBitmap(siteVH.imgFav, item.getUrl());
                 }

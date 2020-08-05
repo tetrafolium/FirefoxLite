@@ -204,7 +204,7 @@ public class FileUtils {
     }
 
     public static void notifyMediaScanner(Context context, String path) {
-        MediaScannerConnection.scanFile(context, new String[]{path}, new String[]{null}, null);
+        MediaScannerConnection.scanFile(context, new String[] {path}, new String[] {null}, null);
     }
 
     public static long clearCache(Context context) {
@@ -238,7 +238,7 @@ public class FileUtils {
     }
 
     public static Bundle readBundleFromStorage(@NonNull final File dir,
-                                               @NonNull final String fileName) {
+            @NonNull final String fileName) {
         ensureDir(dir);
 
         final File input = new File(dir, fileName);
@@ -270,7 +270,7 @@ public class FileUtils {
     }
 
     public static String readStringFromFile(@NonNull final File dir,
-                                         @NonNull final String fileName) {
+                                            @NonNull final String fileName) {
         ensureDir(dir);
 
         final File inputFile = new File(dir, fileName);
@@ -311,7 +311,7 @@ public class FileUtils {
 
         // try with resource so br will call close() automatically
         try (InputStream inputStream = new FileInputStream(file);
-             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
             String line;
 
             while ((line = br.readLine()) != null) {

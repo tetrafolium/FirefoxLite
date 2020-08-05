@@ -52,8 +52,8 @@ public final class AndroidTestUtils {
 
     public static void beforeTest() {
         new BeforeTestTask.Builder()
-                .build()
-                .execute();
+        .build()
+        .execute();
     }
 
     public static Buffer readTestAsset(String filename) throws IOException {
@@ -71,7 +71,7 @@ public final class AndroidTestUtils {
     public static void removeNewAddedTab() {
         onView(withId(R.id.counter_box)).perform(click());
         onView(withId(R.id.tab_tray)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.close_button)));
+            RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.close_button)));
     }
 
     public static String getResourceId(String id) {
@@ -91,21 +91,21 @@ public final class AndroidTestUtils {
 
     public static ViewAction clickXY(final int x, final int y, final Tap tap) {
         return new GeneralClickAction(
-                tap,
-                new CoordinatesProvider() {
-                    @Override
-                    public float[] calculateCoordinates(View view) {
+                   tap,
+        new CoordinatesProvider() {
+            @Override
+            public float[] calculateCoordinates(View view) {
 
-                        final int[] screenPos = new int[2];
-                        view.getLocationOnScreen(screenPos);
+                final int[] screenPos = new int[2];
+                view.getLocationOnScreen(screenPos);
 
-                        final float screenX = screenPos[0] + x;
-                        final float screenY = screenPos[1] + y;
-                        float[] coordinates = {screenX, screenY};
+                final float screenX = screenPos[0] + x;
+                final float screenY = screenPos[1] + y;
+                float[] coordinates = {screenX, screenY};
 
-                        return coordinates;
-                    }
-                }, Press.FINGER, 0, 0, null);
+                return coordinates;
+            }
+        }, Press.FINGER, 0, 0, null);
     }
 
     @Deprecated
@@ -153,8 +153,8 @@ public final class AndroidTestUtils {
 
     public static void toastContainsText(@NotNull final Activity activity, final int strId) {
         onView(withText(strId))
-                .inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
-                .check(matches(isDisplayed()));
+        .inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
+        .check(matches(isDisplayed()));
 
     }
 

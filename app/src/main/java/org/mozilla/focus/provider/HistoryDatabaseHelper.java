@@ -45,26 +45,26 @@ public class HistoryDatabaseHelper {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(DROP_TABLE_IF_EXISTS + Tables.BROWSING_HISTORY);
             db.execSQL(CREATE_TABLE_IF_NOT_EXISTS + Tables.BROWSING_HISTORY + " (" +
-                    BrowsingHistory._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    BrowsingHistory.TITLE + " TEXT," +
-                    BrowsingHistory.URL + " TEXT NOT NULL," +
-                    BrowsingHistory.VIEW_COUNT + " INTEGER NOT NULL DEFAULT 1," +
-                    BrowsingHistory.LAST_VIEW_TIMESTAMP + " INTEGER NOT NULL," +
-                    BrowsingHistory.FAV_ICON + " BLOB" +
-                    ");");
+                       BrowsingHistory._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                       BrowsingHistory.TITLE + " TEXT," +
+                       BrowsingHistory.URL + " TEXT NOT NULL," +
+                       BrowsingHistory.VIEW_COUNT + " INTEGER NOT NULL DEFAULT 1," +
+                       BrowsingHistory.LAST_VIEW_TIMESTAMP + " INTEGER NOT NULL," +
+                       BrowsingHistory.FAV_ICON + " BLOB" +
+                       ");");
 
             db.execSQL(DROP_TRIGGER_IF_EXISTS + Tables.BROWSING_HISTORY + "_inserted;");
             db.execSQL(CREATE_TRIGGER_IF_NOT_EXISTS + Tables.BROWSING_HISTORY + "_inserted " +
-                    "   AFTER INSERT ON " + Tables.BROWSING_HISTORY +
-                    " WHEN (SELECT count() FROM " + Tables.BROWSING_HISTORY + ") > " + HISTORY_LIMIT +
-                    " BEGIN " +
-                    "   DELETE FROM " + Tables.BROWSING_HISTORY +
-                    "     WHERE " + BrowsingHistory._ID + " = " +
-                    "(SELECT " + BrowsingHistory._ID +
-                    " FROM " + Tables.BROWSING_HISTORY +
-                    " ORDER BY " + BrowsingHistory.LAST_VIEW_TIMESTAMP +
-                    " LIMIT 1);" +
-                    " END");
+                       "   AFTER INSERT ON " + Tables.BROWSING_HISTORY +
+                       " WHEN (SELECT count() FROM " + Tables.BROWSING_HISTORY + ") > " + HISTORY_LIMIT +
+                       " BEGIN " +
+                       "   DELETE FROM " + Tables.BROWSING_HISTORY +
+                       "     WHERE " + BrowsingHistory._ID + " = " +
+                       "(SELECT " + BrowsingHistory._ID +
+                       " FROM " + Tables.BROWSING_HISTORY +
+                       " ORDER BY " + BrowsingHistory.LAST_VIEW_TIMESTAMP +
+                       " LIMIT 1);" +
+                       " END");
         }
 
         @Override

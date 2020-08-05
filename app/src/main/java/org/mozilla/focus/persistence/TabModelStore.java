@@ -61,9 +61,9 @@ public class TabModelStore {
                          @Nullable final AsyncSaveListener listener) {
 
         PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .putString(context.getResources().getString(R.string.pref_key_focus_tab_id), focusTabId)
-                .apply();
+        .edit()
+        .putString(context.getResources().getString(R.string.pref_key_focus_tab_id), focusTabId)
+        .apply();
 
         new SaveTabsTask(context, tabsDatabase, listener).executeOnExecutor(SERIAL_EXECUTOR, sessionList.toArray(new Session[0]));
     }
@@ -89,8 +89,8 @@ public class TabModelStore {
                 List<Session> sessions = new ArrayList<>();
                 for (final TabEntity entity : tabEntityList) {
                     Session session = new Session(entity.getId(),
-                            entity.getParentId(),
-                            entity.getUrl());
+                                                  entity.getParentId(),
+                                                  entity.getUrl());
                     // We seemed to have historically stored null into the DB. This patch help guarantee Session.title
                     // will be non-null.
                     final String title = entity.getTitle() == null ? "" : entity.getTitle();
@@ -121,7 +121,7 @@ public class TabModelStore {
             AsyncQueryListener listener = listenerRef.get();
             if (listener != null && context != null) {
                 String focusTabId = PreferenceManager.getDefaultSharedPreferences(context)
-                        .getString(context.getResources().getString(R.string.pref_key_focus_tab_id), "");
+                                    .getString(context.getResources().getString(R.string.pref_key_focus_tab_id), "");
                 listener.onQueryComplete(list, focusTabId);
             }
         }
@@ -151,7 +151,7 @@ public class TabModelStore {
                     TabEntity[] entities = new TabEntity[sessionList.length];
                     for (int i = 0; i < entities.length; i++) {
                         entities[i] = new TabEntity(sessionList[i].getId(),
-                                sessionList[i].getParentId());
+                                                    sessionList[i].getParentId());
 
                         entities[i].setTitle(sessionList[i].getTitle());
                         entities[i].setUrl(sessionList[i].getUrl());
@@ -172,8 +172,8 @@ public class TabModelStore {
                         && session.getEngineSession() != null
                         && session.getEngineSession().getWebViewState() != null) {
                     FileUtils.writeBundleToStorage(cacheDir,
-                            session.getId(),
-                            session.getEngineSession().getWebViewState());
+                                                   session.getId(),
+                                                   session.getEngineSession().getWebViewState());
                     updateFileList.add(new File(cacheDir, session.getId()));
                 }
             }

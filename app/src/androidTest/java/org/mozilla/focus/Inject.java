@@ -65,7 +65,7 @@ public class Inject {
                     // using an in-memory database because the information stored here disappears
                     // when the process is killed
                     tabsDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(), TabsDatabase.class)
-                            .build();
+                                   .build();
                 }
             }
         }

@@ -13,23 +13,23 @@ import java.io.ByteArrayOutputStream;
  * int, java.io.OutputStream)}.
  */
 public class BitmapBytesTranscoder implements ResourceTranscoder<Bitmap, byte[]> {
-  private final Bitmap.CompressFormat compressFormat;
-  private final int quality;
+    private final Bitmap.CompressFormat compressFormat;
+    private final int quality;
 
-  public BitmapBytesTranscoder() {
-    this(Bitmap.CompressFormat.JPEG, 100);
-  }
+    public BitmapBytesTranscoder() {
+        this(Bitmap.CompressFormat.JPEG, 100);
+    }
 
-  public BitmapBytesTranscoder(Bitmap.CompressFormat compressFormat, int quality) {
-    this.compressFormat = compressFormat;
-    this.quality = quality;
-  }
+    public BitmapBytesTranscoder(Bitmap.CompressFormat compressFormat, int quality) {
+        this.compressFormat = compressFormat;
+        this.quality = quality;
+    }
 
-  @Override
-  public Resource<byte[]> transcode(Resource<Bitmap> toTranscode, Options options) {
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
-    toTranscode.get().compress(compressFormat, quality, os);
-    toTranscode.recycle();
-    return new BytesResource(os.toByteArray());
-  }
+    @Override
+    public Resource<byte[]> transcode(Resource<Bitmap> toTranscode, Options options) {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        toTranscode.get().compress(compressFormat, quality, os);
+        toTranscode.recycle();
+        return new BytesResource(os.toByteArray());
+    }
 }

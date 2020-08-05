@@ -41,7 +41,7 @@ public class FaviconDecoder implements ResourceDecoder<FaviconModel, Bitmap> {
         }
 
         Bitmap refinedBitmap = DimenUtils.getRefinedBitmap(context.getResources(), source.originalIcon,
-                FavIconUtils.getRepresentativeCharacter(source.url));
+                               FavIconUtils.getRepresentativeCharacter(source.url));
         if (refinedBitmap == source.originalIcon) {
             refinedBitmap = Bitmap.createBitmap(source.originalIcon);
         }

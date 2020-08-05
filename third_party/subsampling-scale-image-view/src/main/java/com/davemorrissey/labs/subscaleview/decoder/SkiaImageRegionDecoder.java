@@ -84,7 +84,10 @@ public class SkiaImageRegionDecoder implements ImageRegionDecoder {
                 decoder = BitmapRegionDecoder.newInstance(inputStream, false);
             } finally {
                 if (inputStream != null) {
-                    try { inputStream.close(); } catch (Exception e) { }
+                    try {
+                        inputStream.close();
+                    }
+                    catch (Exception e) { }
                 }
             }
         }

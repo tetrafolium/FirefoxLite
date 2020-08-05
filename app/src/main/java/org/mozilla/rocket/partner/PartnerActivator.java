@@ -63,21 +63,21 @@ public class PartnerActivator {
 
     private boolean statusInvalidate(Status currentStatus) {
         switch (currentStatus) {
-            case Disabled:
-            case Done:
-                PartnerUtil.log("status: " + currentStatus);
+        case Disabled:
+        case Done:
+            PartnerUtil.log("status: " + currentStatus);
+            return true;
+        case Snooze:
+            if (inSnooze()) {
+                PartnerUtil.log("status: inSnooze");
                 return true;
-            case Snooze:
-                if (inSnooze()) {
-                    PartnerUtil.log("status: inSnooze");
-                    return true;
-                }
-                currentStatus = Status.Default;
-                setStatus(currentStatus);
-                return false;
-            case Default:
-            default:
-                return false;
+            }
+            currentStatus = Status.Default;
+            setStatus(currentStatus);
+            return false;
+        case Default:
+        default:
+            return false;
         }
     }
 

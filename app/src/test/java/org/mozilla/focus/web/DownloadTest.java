@@ -19,13 +19,13 @@ public class DownloadTest {
     @Test
     public void testGetters() {
         final Download download = new Download(
-                "https://www.mozilla.org/image.png",
-                null,
-                "Focus/1.0",
-                "Content-Disposition: attachment; filename=\"filename.png\"",
-                "image/png",
-                1024,
-                false);
+            "https://www.mozilla.org/image.png",
+            null,
+            "Focus/1.0",
+            "Content-Disposition: attachment; filename=\"filename.png\"",
+            "image/png",
+            1024,
+            false);
 
         assertEquals("https://www.mozilla.org/image.png", download.getUrl());
         assertEquals("Focus/1.0", download.getUserAgent());
@@ -40,13 +40,13 @@ public class DownloadTest {
 
         {
             final Download download = new Download(
-                    "https://www.mozilla.org/image.png",
-                    null,
-                    "Focus/1.0",
-                    "Content-Disposition: attachment; filename=\"filename.png\"",
-                    "image/png",
-                    1024,
-                    false);
+                "https://www.mozilla.org/image.png",
+                null,
+                "Focus/1.0",
+                "Content-Disposition: attachment; filename=\"filename.png\"",
+                "image/png",
+                1024,
+                false);
             download.writeToParcel(parcel, 0);
         }
 

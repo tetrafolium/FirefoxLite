@@ -45,18 +45,18 @@ public class DimenUtils {
     @Deprecated
     public static Bitmap getRefinedBitmap(Resources res, Bitmap source, char initial) {
         switch (getFavIconType(res, source)) {
-            case TYPE_ORIGINAL:
-                return source;
+        case TYPE_ORIGINAL:
+            return source;
 
-            case TYPE_SCALED_DOWN:
-                int targetSize = res.getDimensionPixelSize(R.dimen.favicon_target_size);
-                return Bitmap.createScaledBitmap(source, targetSize, targetSize, false);
+        case TYPE_SCALED_DOWN:
+            int targetSize = res.getDimensionPixelSize(R.dimen.favicon_target_size);
+            return Bitmap.createScaledBitmap(source, targetSize, targetSize, false);
 
-            case TYPE_GENERATED:
-                return DimenUtils.getInitialBitmap(res, source, initial);
+        case TYPE_GENERATED:
+            return DimenUtils.getInitialBitmap(res, source, initial);
 
-            default:
-                return DimenUtils.getInitialBitmap(res, source, initial);
+        default:
+            return DimenUtils.getInitialBitmap(res, source, initial);
         }
     }
 

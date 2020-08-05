@@ -107,8 +107,8 @@ public class IntentUtils {
             final ResolveInfo info = packageManager.resolveActivity(marketIntent, 0);
             final CharSequence marketTitle = info.loadLabel(packageManager);
             showConfirmationDialog(context, marketIntent,
-                    context.getString(R.string.external_app_prompt_no_app_title),
-                    R.string.external_app_prompt_no_app, marketTitle);
+                                   context.getString(R.string.external_app_prompt_no_app_title),
+                                   R.string.external_app_prompt_no_app, marketTitle);
 
             // Stop loading, we essentially have a result.
             return true;
@@ -169,7 +169,7 @@ public class IntentUtils {
             Intent launchIntent = new Intent(Intent.ACTION_VIEW);
             launchIntent.setDataAndType(fileUri, mimeType);
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                    | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                  | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             try {
                 context.startActivity(launchIntent);
@@ -194,9 +194,9 @@ public class IntentUtils {
 
     public static Intent createInternalOpenUrlIntent(Context context, String url, boolean openInNewTab) {
         Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse(url),
-                context,
-                MainActivity.class);
+                                   Uri.parse(url),
+                                   context,
+                                   MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(IntentUtils.EXTRA_IS_INTERNAL_REQUEST, true);
         intent.putExtra(IntentUtils.EXTRA_OPEN_NEW_TAB, openInNewTab);
@@ -279,6 +279,6 @@ public class IntentUtils {
 
     public static PendingIntent getLauncherHomePendingIntent(Context context) {
         return PendingIntent.getActivity(context, 0, getLauncherHomeIntent(),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                                         PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }

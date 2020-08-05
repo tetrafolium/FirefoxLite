@@ -64,11 +64,11 @@ public class BrowsingHistoryTest {
             webServer = new MockWebServer();
             try {
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
-                        .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
+                                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
-                        .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
+                                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
 
                 webServer.start();
             } catch (IOException e) {
@@ -92,9 +92,9 @@ public class BrowsingHistoryTest {
     @Before
     public void setUp() {
         new BeforeTestTask.Builder()
-                .clearBrowsingHistory()
-                .build()
-                .execute();
+        .clearBrowsingHistory()
+        .build()
+        .execute();
         activityTestRule.launchActivity(new Intent());
         // loadingIdlingResource needs to be initialized here cause activity only exist till above line is called.
         loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
@@ -155,15 +155,15 @@ public class BrowsingHistoryTest {
 
         // Check site_2 locates first in the list
         onView(withId(R.id.browsing_history_recycler_view))
-                .check(matches(atPosition(1, hasDescendant(withText(targetUrlSite2)))));
+        .check(matches(atPosition(1, hasDescendant(withText(targetUrlSite2)))));
 
         // Check site_1 locates second in the list
         onView(withId(R.id.browsing_history_recycler_view))
-                .check(matches(atPosition(2, hasDescendant(withText(targetUrlSite1)))));
+        .check(matches(atPosition(2, hasDescendant(withText(targetUrlSite1)))));
 
         // Tap the second item in history panel (index 0 is date label so index 2 is the latest one of history item)
         onView(ViewMatchers.withId(R.id.browsing_history_recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
 
         // Check the opened tab url is site_1
         onView(withId(R.id.display_url)).check(matches(withText(targetUrlSite1)));
@@ -187,16 +187,16 @@ public class BrowsingHistoryTest {
 
         // Click the first history item
         onView(withId(R.id.browsing_history_recycler_view))
-                .check(matches(atPosition(1, hasDescendant(withText(targetUrl)))));
+        .check(matches(atPosition(1, hasDescendant(withText(targetUrl)))));
 
         // Open target history item's action menu
         onView(withId(R.id.browsing_history_recycler_view)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(1, clickChildViewWithId(R.id.history_item_btn_more)));
+            RecyclerViewActions.actionOnItemAtPosition(1, clickChildViewWithId(R.id.history_item_btn_more)));
 
         // Click the delete button
         onView(withText(R.string.browsing_history_menu_delete))
-                .inRoot(RootMatchers.isPlatformPopup())
-                .perform(click());
+        .inRoot(RootMatchers.isPlatformPopup())
+        .perform(click());
 
         // Check if browsing history is cleared
         onView(withText(R.string.browsing_history_empty_view_msg)).check(matches(isDisplayed()));

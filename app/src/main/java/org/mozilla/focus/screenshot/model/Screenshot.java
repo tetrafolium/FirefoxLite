@@ -93,11 +93,11 @@ public class Screenshot implements Serializable {
     @Override
     public String toString() {
         return "Screenshot{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", url='" + url + '\'' +
-                ", timestamp=" + timestamp +
-                ", imageUri='" + imageUri + '\'' +
-                '}';
+               "id=" + id +
+               ", title='" + title + '\'' +
+               ", url='" + url + '\'' +
+               ", timestamp=" + timestamp +
+               ", imageUri='" + imageUri + '\'' +
+               '}';
     }
 }

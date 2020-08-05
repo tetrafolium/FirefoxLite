@@ -58,12 +58,12 @@ public class DisconnectTest {
         // Enable everything
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
         prefs.edit()
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_ads), true)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_analytics), true)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_other), true)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_social), true)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_abpindo), true)
-                .apply();
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_ads), true)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_analytics), true)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_other), true)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_social), true)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_abpindo), true)
+        .apply();
 
         // We check that our google_mapping was loaded correctly. We do these checks per-category, so we have:
         // ads:
@@ -83,12 +83,12 @@ public class DisconnectTest {
 
         // Now disable social, and check that only social sites have changed:
         prefs.edit()
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_ads), true)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_analytics), true)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_other), true)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_abpindo), true)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_social), false)
-                .apply();
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_ads), true)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_analytics), true)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_other), true)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_abpindo), true)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_social), false)
+        .apply();
 
         // ads:
         assertTrue(matcher.matches(Uri.parse("http://admeld.com/foobar"), Uri.parse("http://mozilla.org")));
@@ -106,12 +106,12 @@ public class DisconnectTest {
 
         // Now disable everything - all sites should work:
         prefs.edit()
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_ads), false)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_analytics), false)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_other), false)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_social), false)
-                .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_abpindo), false)
-                .apply();
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_ads), false)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_analytics), false)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_other), false)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_social), false)
+        .putBoolean(ApplicationProvider.getApplicationContext().getString(R.string.pref_key_privacy_block_abpindo), false)
+        .apply();
 
         // ads:
         assertFalse(matcher.matches(Uri.parse("http://admeld.com/foobar"), Uri.parse("http://mozilla.org")));

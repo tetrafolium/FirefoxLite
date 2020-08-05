@@ -111,7 +111,7 @@ import static org.mozilla.rocket.chrome.BottomBarItemAdapter.DOWNLOAD_STATE_UNRE
 import static org.mozilla.rocket.chrome.BottomBarItemAdapter.DOWNLOAD_STATE_WARNING;
 
 public class HomeFragment extends LocaleAwareFragment implements TopSitesContract.View, TopSitesContract.Model,
-        ScreenNavigator.HomeScreen, BannerHelper.HomeBannerHelperListener {
+    ScreenNavigator.HomeScreen, BannerHelper.HomeBannerHelperListener {
     private static final String TAG = "HomeFragment";
 
     public static final String TOPSITES_PREF = "topsites_pref";
@@ -509,16 +509,16 @@ public class HomeFragment extends LocaleAwareFragment implements TopSitesContrac
         bottomBar.setItemVisibility(3, View.INVISIBLE);
         bottomBar.setOnItemClickListener((type, position) -> {
             switch (type) {
-                case BottomBarItemAdapter.TYPE_TAB_COUNTER:
-                    chromeViewModel.getShowTabTray().call();
-                    TelemetryWrapper.showTabTrayHome();
-                    break;
-                case BottomBarItemAdapter.TYPE_MENU:
-                    chromeViewModel.getShowMenu().call();
-                    TelemetryWrapper.showMenuHome();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unhandled bottom bar item, type: " + type);
+            case BottomBarItemAdapter.TYPE_TAB_COUNTER:
+                chromeViewModel.getShowTabTray().call();
+                TelemetryWrapper.showTabTrayHome();
+                break;
+            case BottomBarItemAdapter.TYPE_MENU:
+                chromeViewModel.getShowMenu().call();
+                TelemetryWrapper.showMenuHome();
+                break;
+            default:
+                throw new IllegalArgumentException("Unhandled bottom bar item, type: " + type);
             }
         });
         bottomBar.setOnItemLongClickListener((type, position) -> {
@@ -534,9 +534,9 @@ public class HomeFragment extends LocaleAwareFragment implements TopSitesContrac
         bottomBarViewModel.getItems().observe(this, bottomBarItemAdapter::setItems);
 
         LiveDataExtensionKt.switchFrom(chromeViewModel.isNightMode(), bottomBarViewModel.getItems())
-                .observe(this, nightModeSettings -> bottomBarItemAdapter.setNightMode(nightModeSettings.isEnabled()));
+        .observe(this, nightModeSettings -> bottomBarItemAdapter.setNightMode(nightModeSettings.isEnabled()));
         LiveDataExtensionKt.switchFrom(chromeViewModel.getTabCount(), bottomBarViewModel.getItems())
-                .observe(this, bottomBarItemAdapter::setTabCount);
+        .observe(this, bottomBarItemAdapter::setTabCount);
 
         setupDownloadIndicator();
     }
@@ -560,22 +560,22 @@ public class HomeFragment extends LocaleAwareFragment implements TopSitesContrac
         BottomBarViewModel bottomBarViewModel = Inject.obtainBottomBarViewModel(getActivity());
         DownloadIndicatorViewModel downloadIndicatorViewModel = Inject.obtainDownloadIndicatorViewModel(getActivity());
         LiveDataExtensionKt.switchFrom(downloadIndicatorViewModel.getDownloadIndicatorObservable(), bottomBarViewModel.getItems())
-                .observe(getViewLifecycleOwner(), status -> {
-                    switch (status) {
-                        case DOWNLOADING:
-                            bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_DOWNLOADING);
-                            break;
-                        case UNREAD:
-                            bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_UNREAD);
-                            break;
-                        case WARNING:
-                            bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_WARNING);
-                            break;
-                        case DEFAULT:
-                            bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_DEFAULT);
-                            break;
-                    }
-                });
+        .observe(getViewLifecycleOwner(), status -> {
+            switch (status) {
+            case DOWNLOADING:
+                bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_DOWNLOADING);
+                break;
+            case UNREAD:
+                bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_UNREAD);
+                break;
+            case WARNING:
+                bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_WARNING);
+                break;
+            case DEFAULT:
+                bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_DEFAULT);
+                break;
+            }
+        });
     }
 
     private class SiteItemClickListener implements View.OnClickListener, View.OnLongClickListener {
@@ -610,25 +610,25 @@ public class HomeFragment extends LocaleAwareFragment implements TopSitesContrac
 
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
-                    case R.id.pin:
-                        presenter.pinSite(site, HomeFragment.this::refreshTopSites);
-                        break;
-                    case R.id.remove:
-                        if (site.getId() < 0) {
-                            presenter.removeSite(site);
-                            removeDefaultSites(site);
-                            TopSitesUtils.saveDefaultSites(getContext(), HomeFragment.this.orginalDefaultSites);
-                            refreshTopSites();
-                            TelemetryWrapper.removeTopSite(true);
-                        } else {
-                            site.setViewCount(1);
-                            BrowsingHistoryManager.getInstance().updateLastEntry(site, mTopSiteUpdateListener);
-                            TelemetryWrapper.removeTopSite(false);
-                        }
-                        pinSiteManager.unpinned(site);
-                        break;
-                    default:
-                        throw new IllegalStateException("Unhandled menu item");
+                case R.id.pin:
+                    presenter.pinSite(site, HomeFragment.this::refreshTopSites);
+                    break;
+                case R.id.remove:
+                    if (site.getId() < 0) {
+                        presenter.removeSite(site);
+                        removeDefaultSites(site);
+                        TopSitesUtils.saveDefaultSites(getContext(), HomeFragment.this.orginalDefaultSites);
+                        refreshTopSites();
+                        TelemetryWrapper.removeTopSite(true);
+                    } else {
+                        site.setViewCount(1);
+                        BrowsingHistoryManager.getInstance().updateLastEntry(site, mTopSiteUpdateListener);
+                        TelemetryWrapper.removeTopSite(false);
+                    }
+                    pinSiteManager.unpinned(site);
+                    break;
+                default:
+                    throw new IllegalStateException("Unhandled menu item");
                 }
 
                 return true;
@@ -683,8 +683,8 @@ public class HomeFragment extends LocaleAwareFragment implements TopSitesContrac
     private void mergeHistorySiteToTopSites(List<Site> historySites, List<Site> topSites) {
         for (Site topSite : topSites) {
             removeDuplicatedSites(historySites,
-                    topSite,
-                    site -> topSite.setViewCount(topSite.getViewCount() + site.getViewCount()));
+                                  topSite,
+                                  site -> topSite.setViewCount(topSite.getViewCount() + site.getViewCount()));
         }
         topSites.addAll(historySites);
     }
@@ -889,7 +889,7 @@ public class HomeFragment extends LocaleAwareFragment implements TopSitesContrac
             } else {
                 // Refresh is still scheduled implicitly in SaveBitmapsTask
                 new FavIconUtils.SaveBitmapsTask(faviconFolder, urls, icons, new UpdateHistoryWrapper(urls, handlerWeakReference),
-                        Bitmap.CompressFormat.PNG, DimenUtils.PNG_QUALITY_DONT_CARE).execute();
+                                                 Bitmap.CompressFormat.PNG, DimenUtils.PNG_QUALITY_DONT_CARE).execute();
             }
             db.execSQL("DROP TABLE " + HistoryDatabaseHelper.Tables.BROWSING_HISTORY_LEGACY);
             PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(TOP_SITES_V2_PREF, true).apply();

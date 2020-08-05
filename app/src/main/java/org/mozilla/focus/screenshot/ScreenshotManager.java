@@ -86,11 +86,11 @@ public class ScreenshotManager {
     }
 
     public void delete(long id, AsyncDeleteListener listener) {
-        mQueryHandler.startDelete(QueryHandler.SCREENSHOT_TOKEN, new AsyncDeleteWrapper(id, listener), Screenshot.CONTENT_URI, Screenshot._ID + " = ?", new String[]{Long.toString(id)});
+        mQueryHandler.startDelete(QueryHandler.SCREENSHOT_TOKEN, new AsyncDeleteWrapper(id, listener), Screenshot.CONTENT_URI, Screenshot._ID + " = ?", new String[] {Long.toString(id)});
     }
 
     public void update(org.mozilla.focus.screenshot.model.Screenshot screenshot, AsyncUpdateListener listener) {
-        mQueryHandler.startUpdate(QueryHandler.SCREENSHOT_TOKEN, listener, Screenshot.CONTENT_URI, QueryHandler.getContentValuesFromScreenshot(screenshot), Screenshot._ID + " = ?", new String[]{Long.toString(screenshot.getId())});
+        mQueryHandler.startUpdate(QueryHandler.SCREENSHOT_TOKEN, listener, Screenshot.CONTENT_URI, QueryHandler.getContentValuesFromScreenshot(screenshot), Screenshot._ID + " = ?", new String[] {Long.toString(screenshot.getId())});
     }
 
     public void query(int offset, int limit, AsyncQueryListener listener) {
@@ -110,7 +110,7 @@ public class ScreenshotManager {
             } catch (InterruptedException e) {
                 initFromLocal(context);
             }
-        // initFromLocal fails
+            // initFromLocal fails
         } catch (IOException e) {
             Log.e(TAG, "ScreenshotManager init error: ", e);
         }
@@ -132,10 +132,10 @@ public class ScreenshotManager {
                 , manifest, WebViewProvider.getUserAgentString(context), SocketTags.SCREENSHOT_CATEGORY);
         responseData = cachedRequestLoader.getStringLiveData();
         ThreadUtils.postToMainThread(() ->
-            responseData.observeForever(integerStringPair ->
-                handleRemoteDataAsync(integerStringPair, countDownLatch::countDown)
-            )
-        );
+                                     responseData.observeForever(integerStringPair ->
+                                             handleRemoteDataAsync(integerStringPair, countDownLatch::countDown)
+                                                                )
+                                    );
         countDownLatch.await(5, TimeUnit.SECONDS);
         return countDownLatch.getCount() == 0;
     }

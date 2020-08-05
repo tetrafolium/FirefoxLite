@@ -23,7 +23,7 @@ import org.mozilla.focus.utils.Settings;
 import java.util.Locale;
 
 public abstract class BaseActivity
-        extends AppCompatActivity {
+    extends AppCompatActivity {
 
     private volatile Locale mLastLocale;
 
@@ -72,13 +72,13 @@ public abstract class BaseActivity
      */
     public static void setLayoutDirection(View view, Locale locale) {
         switch (TextUtilsCompat.getLayoutDirectionFromLocale(locale)) {
-            case ViewCompat.LAYOUT_DIRECTION_RTL:
-                ViewCompat.setLayoutDirection(view, ViewCompat.LAYOUT_DIRECTION_RTL);
-                break;
-            case ViewCompat.LAYOUT_DIRECTION_LTR:
-            default:
-                ViewCompat.setLayoutDirection(view, ViewCompat.LAYOUT_DIRECTION_LTR);
-                break;
+        case ViewCompat.LAYOUT_DIRECTION_RTL:
+            ViewCompat.setLayoutDirection(view, ViewCompat.LAYOUT_DIRECTION_RTL);
+            break;
+        case ViewCompat.LAYOUT_DIRECTION_LTR:
+        default:
+            ViewCompat.setLayoutDirection(view, ViewCompat.LAYOUT_DIRECTION_LTR);
+            break;
         }
     }
 

@@ -97,11 +97,11 @@ public class SupportUtilsTest {
 
         Locale.setDefault(Locale.GERMANY);
         assertEquals("https://support.mozilla.org/1/mobile/" + appVersion + "/Android/de-DE/foobar",
-                SupportUtils.getSumoURLForTopic(ApplicationProvider.getApplicationContext(), "foobar"));
+                     SupportUtils.getSumoURLForTopic(ApplicationProvider.getApplicationContext(), "foobar"));
 
         Locale.setDefault(Locale.CANADA_FRENCH);
         assertEquals("https://support.mozilla.org/1/mobile/" + appVersion + "/Android/fr-CA/foobar",
-                SupportUtils.getSumoURLForTopic(ApplicationProvider.getApplicationContext(), "foobar"));
+                     SupportUtils.getSumoURLForTopic(ApplicationProvider.getApplicationContext(), "foobar"));
     }
 
     /**
@@ -112,11 +112,11 @@ public class SupportUtilsTest {
     public void getManifestoURL() throws Exception {
         Locale.setDefault(Locale.UK);
         assertEquals("https://www.mozilla.org/en-GB/about/manifesto/",
-                SupportUtils.getManifestoURL());
+                     SupportUtils.getManifestoURL());
 
         Locale.setDefault(Locale.KOREA);
         assertEquals("https://www.mozilla.org/ko-KR/about/manifesto/",
-                SupportUtils.getManifestoURL());
+                     SupportUtils.getManifestoURL());
     }
 
 }

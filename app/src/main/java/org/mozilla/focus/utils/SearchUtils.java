@@ -9,7 +9,7 @@ public class SearchUtils {
 
     public static String createSearchUrl(Context context, String searchTerm) {
         final SearchEngine searchEngine = SearchEngineManager.getInstance()
-                .getDefaultSearchEngine(context);
+                                          .getDefaultSearchEngine(context);
 
         return searchEngine.buildSearchUrl(searchTerm);
     }

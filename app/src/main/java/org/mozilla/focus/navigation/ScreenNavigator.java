@@ -83,13 +83,13 @@ public class ScreenNavigator implements DefaultLifecycleObserver {
     @Override
     public void onStart(@NonNull LifecycleOwner owner) {
         this.activity.getSupportFragmentManager()
-                .registerFragmentLifecycleCallbacks(lifecycleCallbacks, false);
+        .registerFragmentLifecycleCallbacks(lifecycleCallbacks, false);
     }
 
     @Override
     public void onStop(@NonNull LifecycleOwner owner) {
         this.activity.getSupportFragmentManager()
-                .unregisterFragmentLifecycleCallbacks(lifecycleCallbacks);
+        .unregisterFragmentLifecycleCallbacks(lifecycleCallbacks);
     }
 
     /**
@@ -139,13 +139,13 @@ public class ScreenNavigator implements DefaultLifecycleObserver {
         logMethod();
 
         boolean found = this.transactionHelper.popScreensUntil(HOME_FRAGMENT_TAG,
-                TransactionHelper.EntryData.TYPE_ATTACHED,
-                false);
+                        TransactionHelper.EntryData.TYPE_ATTACHED,
+                        false);
         log("found exist home: " + found);
         if (!found) {
             this.transactionHelper.showHomeScreen(animate,
-                    TransactionHelper.EntryData.TYPE_ATTACHED,
-                    false);
+                                                  TransactionHelper.EntryData.TYPE_ATTACHED,
+                                                  false);
         }
         this.transactionHelper.executePendingTransaction();
     }
@@ -157,7 +157,7 @@ public class ScreenNavigator implements DefaultLifecycleObserver {
         logMethod();
 
         boolean found = this.transactionHelper.popScreensUntil(HOME_FRAGMENT_TAG,
-                TransactionHelper.EntryData.TYPE_ROOT, false);
+                        TransactionHelper.EntryData.TYPE_ROOT, false);
         log("found exist home: " + found);
         if (!found) {
             this.transactionHelper.showHomeScreen(animate, TransactionHelper.EntryData.TYPE_ROOT, false);
@@ -216,7 +216,7 @@ public class ScreenNavigator implements DefaultLifecycleObserver {
 
     public LiveData<NavigationState> getNavigationState() {
         return Transformations.map(transactionHelper.getTopFragmentState(),
-                fragmentTag -> new NavigationState(fragmentTag.isEmpty() ? BROWSER_FRAGMENT_TAG : fragmentTag));
+                                   fragmentTag -> new NavigationState(fragmentTag.isEmpty() ? BROWSER_FRAGMENT_TAG : fragmentTag));
     }
 
     private void logMethod(Object... args) {

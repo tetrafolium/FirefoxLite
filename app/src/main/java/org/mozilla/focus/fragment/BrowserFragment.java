@@ -118,8 +118,8 @@ import static org.mozilla.rocket.chrome.BottomBarItemAdapter.DOWNLOAD_STATE_WARN
  * Fragment for displaying the browser UI.
  */
 public class BrowserFragment extends LocaleAwareFragment implements ScreenNavigator.BrowserScreen,
-        LifecycleOwner,
-        BackKeyHandleable {
+    LifecycleOwner,
+    BackKeyHandleable {
 
     /**
      * Custom data that is passed when calling {@link SessionManager#addTab(String, Bundle)}
@@ -228,30 +228,30 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
             @Override
             public void doActionDirect(String permission, int actionId, Parcelable params) {
                 switch (actionId) {
-                    case ACTION_DOWNLOAD:
-                        if (getContext() == null) {
-                            Log.w(BROWSER_FRAGMENT_TAG, "No context to use, abort callback onDownloadStart");
-                            return;
-                        }
+                case ACTION_DOWNLOAD:
+                    if (getContext() == null) {
+                        Log.w(BROWSER_FRAGMENT_TAG, "No context to use, abort callback onDownloadStart");
+                        return;
+                    }
 
-                        Download download = (Download) params;
+                    Download download = (Download) params;
 
-                        if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            // We do have the permission to write to the external storage. Proceed with the download.
-                            queueDownload(download);
-                        }
-                        break;
-                    case ACTION_PICK_FILE:
-                        fileChooseAction.startChooserActivity();
-                        break;
-                    case ACTION_GEO_LOCATION:
-                        showGeolocationPermissionPrompt();
-                        break;
-                    case ACTION_CAPTURE:
-                        showLoadingAndCapture((ScreenCaptureTelemetryData) params);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Unknown actionId");
+                    if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        // We do have the permission to write to the external storage. Proceed with the download.
+                        queueDownload(download);
+                    }
+                    break;
+                case ACTION_PICK_FILE:
+                    fileChooseAction.startChooserActivity();
+                    break;
+                case ACTION_GEO_LOCATION:
+                    showGeolocationPermissionPrompt();
+                    break;
+                case ACTION_CAPTURE:
+                    showLoadingAndCapture((ScreenCaptureTelemetryData) params);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown actionId");
                 }
             }
 
@@ -272,20 +272,20 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
 
             private void doActionGrantedOrSetting(String permission, int actionId, Parcelable params) {
                 switch (actionId) {
-                    case ACTION_DOWNLOAD:
-                        actionDownloadGranted(params);
-                        break;
-                    case ACTION_PICK_FILE:
-                        actionPickFileGranted();
-                        break;
-                    case ACTION_GEO_LOCATION:
-                        showGeolocationPermissionPrompt();
-                        break;
-                    case ACTION_CAPTURE:
-                        actionCaptureGranted((ScreenCaptureTelemetryData) params);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Unknown actionId");
+                case ACTION_DOWNLOAD:
+                    actionDownloadGranted(params);
+                    break;
+                case ACTION_PICK_FILE:
+                    actionPickFileGranted();
+                    break;
+                case ACTION_GEO_LOCATION:
+                    showGeolocationPermissionPrompt();
+                    break;
+                case ACTION_CAPTURE:
+                    actionCaptureGranted((ScreenCaptureTelemetryData) params);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown actionId");
                 }
             }
 
@@ -302,28 +302,28 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
             @Override
             public void doActionNoPermission(String permission, int actionId, Parcelable params) {
                 switch (actionId) {
-                    case ACTION_DOWNLOAD:
-                        // Do nothing
-                        break;
-                    case ACTION_PICK_FILE:
-                        if (fileChooseAction != null) {
-                            fileChooseAction.cancel();
-                            fileChooseAction = null;
-                        }
-                        break;
-                    case ACTION_GEO_LOCATION:
-                        if (geolocationCallback != null) {
-                            // I'm not sure why it's so. This method already on Main thread.
-                            // But if I don't do this, webview will keeps requesting for permission.
-                            // See https://github.com/mozilla-tw/Rocket/blob/765f6a1ddbc2b9058813e930f63c62a9797c5fa0/app/src/webkit/java/org/mozilla/focus/webkit/FocusWebChromeClient.java#L126
-                            ThreadUtils.postToMainThread(() -> BrowserFragment.this.rejectGeoRequest(false));
-                        }
-                        break;
-                    case ACTION_CAPTURE:
-                        // Do nothing
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Unknown actionId");
+                case ACTION_DOWNLOAD:
+                    // Do nothing
+                    break;
+                case ACTION_PICK_FILE:
+                    if (fileChooseAction != null) {
+                        fileChooseAction.cancel();
+                        fileChooseAction = null;
+                    }
+                    break;
+                case ACTION_GEO_LOCATION:
+                    if (geolocationCallback != null) {
+                        // I'm not sure why it's so. This method already on Main thread.
+                        // But if I don't do this, webview will keeps requesting for permission.
+                        // See https://github.com/mozilla-tw/Rocket/blob/765f6a1ddbc2b9058813e930f63c62a9797c5fa0/app/src/webkit/java/org/mozilla/focus/webkit/FocusWebChromeClient.java#L126
+                        ThreadUtils.postToMainThread(() -> BrowserFragment.this.rejectGeoRequest(false));
+                    }
+                    break;
+                case ACTION_CAPTURE:
+                    // Do nothing
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown actionId");
                 }
             }
 
@@ -355,18 +355,18 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
             @Override
             public void requestPermissions(int actionId) {
                 switch (actionId) {
-                    case ACTION_DOWNLOAD:
-                    case ACTION_CAPTURE:
-                        BrowserFragment.this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, actionId);
-                        break;
-                    case ACTION_PICK_FILE:
-                        BrowserFragment.this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, actionId);
-                        break;
-                    case ACTION_GEO_LOCATION:
-                        BrowserFragment.this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, actionId);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Unknown Action");
+                case ACTION_DOWNLOAD:
+                case ACTION_CAPTURE:
+                    BrowserFragment.this.requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, actionId);
+                    break;
+                case ACTION_PICK_FILE:
+                    BrowserFragment.this.requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, actionId);
+                    break;
+                case ACTION_GEO_LOCATION:
+                    BrowserFragment.this.requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, actionId);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown Action");
                 }
             }
 
@@ -486,49 +486,49 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
         bottomBar = rootView.findViewById(R.id.browser_bottom_bar);
         bottomBar.setOnItemClickListener((type, position) -> {
             switch (type) {
-                case BottomBarItemAdapter.TYPE_TAB_COUNTER:
-                    chromeViewModel.getShowTabTray().call();
-                    TelemetryWrapper.showTabTrayToolbar(WEBVIEW, position);
-                    break;
-                case BottomBarItemAdapter.TYPE_MENU:
-                    chromeViewModel.getShowMenu().call();
-                    TelemetryWrapper.showMenuToolbar(WEBVIEW, position);
-                    break;
-                case BottomBarItemAdapter.TYPE_NEW_TAB:
-                    chromeViewModel.getShowNewTab().call();
-                    TelemetryWrapper.clickAddTabToolbar(WEBVIEW, position);
-                    break;
-                case BottomBarItemAdapter.TYPE_SEARCH:
-                    chromeViewModel.getShowUrlInput().setValue(getUrl());
-                    TelemetryWrapper.clickToolbarSearch(WEBVIEW, position);
-                    break;
-                case BottomBarItemAdapter.TYPE_CAPTURE:
-                    chromeViewModel.onDoScreenshot(new ScreenCaptureTelemetryData(WEBVIEW, position));
-                    // move Telemetry to ScreenCaptureTask doInBackground() cause we need to init category first.
-                    break;
-                case BottomBarItemAdapter.TYPE_PIN_SHORTCUT:
-                    chromeViewModel.getPinShortcut().call();
-                    TelemetryWrapper.clickAddToHome(WEBVIEW, position);
-                    break;
-                case BottomBarItemAdapter.TYPE_BOOKMARK:
-                    boolean isActivated = bottomBarItemAdapter.getItem(BottomBarItemAdapter.TYPE_BOOKMARK).getView().isActivated();
-                    TelemetryWrapper.clickToolbarBookmark(!isActivated, WEBVIEW, position);
-                    chromeViewModel.toggleBookmark();
-                    break;
-                case BottomBarItemAdapter.TYPE_REFRESH:
-                    chromeViewModel.getRefreshOrStop().call();
-                    TelemetryWrapper.clickToolbarReload(WEBVIEW, position);
-                    break;
-                case BottomBarItemAdapter.TYPE_SHARE:
-                    chromeViewModel.getShare().call();
-                    TelemetryWrapper.clickToolbarShare(WEBVIEW, position);
-                    break;
-                case BottomBarItemAdapter.TYPE_NEXT:
-                    chromeViewModel.getGoNext().call();
-                    TelemetryWrapper.clickToolbarForward(WEBVIEW, position);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unhandled bottom bar item, type: " + type);
+            case BottomBarItemAdapter.TYPE_TAB_COUNTER:
+                chromeViewModel.getShowTabTray().call();
+                TelemetryWrapper.showTabTrayToolbar(WEBVIEW, position);
+                break;
+            case BottomBarItemAdapter.TYPE_MENU:
+                chromeViewModel.getShowMenu().call();
+                TelemetryWrapper.showMenuToolbar(WEBVIEW, position);
+                break;
+            case BottomBarItemAdapter.TYPE_NEW_TAB:
+                chromeViewModel.getShowNewTab().call();
+                TelemetryWrapper.clickAddTabToolbar(WEBVIEW, position);
+                break;
+            case BottomBarItemAdapter.TYPE_SEARCH:
+                chromeViewModel.getShowUrlInput().setValue(getUrl());
+                TelemetryWrapper.clickToolbarSearch(WEBVIEW, position);
+                break;
+            case BottomBarItemAdapter.TYPE_CAPTURE:
+                chromeViewModel.onDoScreenshot(new ScreenCaptureTelemetryData(WEBVIEW, position));
+                // move Telemetry to ScreenCaptureTask doInBackground() cause we need to init category first.
+                break;
+            case BottomBarItemAdapter.TYPE_PIN_SHORTCUT:
+                chromeViewModel.getPinShortcut().call();
+                TelemetryWrapper.clickAddToHome(WEBVIEW, position);
+                break;
+            case BottomBarItemAdapter.TYPE_BOOKMARK:
+                boolean isActivated = bottomBarItemAdapter.getItem(BottomBarItemAdapter.TYPE_BOOKMARK).getView().isActivated();
+                TelemetryWrapper.clickToolbarBookmark(!isActivated, WEBVIEW, position);
+                chromeViewModel.toggleBookmark();
+                break;
+            case BottomBarItemAdapter.TYPE_REFRESH:
+                chromeViewModel.getRefreshOrStop().call();
+                TelemetryWrapper.clickToolbarReload(WEBVIEW, position);
+                break;
+            case BottomBarItemAdapter.TYPE_SHARE:
+                chromeViewModel.getShare().call();
+                TelemetryWrapper.clickToolbarShare(WEBVIEW, position);
+                break;
+            case BottomBarItemAdapter.TYPE_NEXT:
+                chromeViewModel.getGoNext().call();
+                TelemetryWrapper.clickToolbarForward(WEBVIEW, position);
+                break;
+            default:
+                throw new IllegalArgumentException("Unhandled bottom bar item, type: " + type);
             }
         });
         bottomBar.setOnItemLongClickListener((type, position) -> {
@@ -544,15 +544,15 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
         bottomBarViewModel.getItems().observe(this, bottomBarItemAdapter::setItems);
 
         LiveDataExtensionKt.switchFrom(chromeViewModel.isNightMode(), bottomBarViewModel.getItems())
-                .observe(this, nightModeSettings -> bottomBarItemAdapter.setNightMode(nightModeSettings.isEnabled()));
+        .observe(this, nightModeSettings -> bottomBarItemAdapter.setNightMode(nightModeSettings.isEnabled()));
         LiveDataExtensionKt.switchFrom(chromeViewModel.getTabCount(), bottomBarViewModel.getItems())
-                .observe(this, count -> bottomBarItemAdapter.setTabCount(count, true));
+        .observe(this, count -> bottomBarItemAdapter.setTabCount(count, true));
         LiveDataExtensionKt.switchFrom(chromeViewModel.isRefreshing(), bottomBarViewModel.getItems())
-                .observe(this, bottomBarItemAdapter::setRefreshing);
+        .observe(this, bottomBarItemAdapter::setRefreshing);
         LiveDataExtensionKt.switchFrom(chromeViewModel.getCanGoForward(), bottomBarViewModel.getItems())
-                .observe(this, bottomBarItemAdapter::setCanGoForward);
+        .observe(this, bottomBarItemAdapter::setCanGoForward);
         LiveDataExtensionKt.switchFrom(chromeViewModel.isCurrentUrlBookmarked(), bottomBarViewModel.getItems())
-                .observe(this, bottomBarItemAdapter::setBookmark);
+        .observe(this, bottomBarItemAdapter::setBookmark);
 
         setupDownloadIndicator(rootView);
     }
@@ -562,30 +562,30 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
 
         DownloadIndicatorViewModel downloadIndicatorViewModel = Inject.obtainDownloadIndicatorViewModel(getActivity());
         LiveDataExtensionKt.switchFrom(downloadIndicatorViewModel.getDownloadIndicatorObservable(), bottomBarViewModel.getItems())
-                .observe(this, status -> {
-                    switch (status) {
-                        case DOWNLOADING:
-                            bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_DOWNLOADING);
-                            break;
-                        case UNREAD:
-                            bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_UNREAD);
-                            break;
-                        case WARNING:
-                            bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_WARNING);
-                            break;
-                        case DEFAULT:
-                            bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_DEFAULT);
-                            break;
-                    }
-                    final Settings.EventHistory eventHistory = Settings.getInstance(getActivity()).getEventHistory();
-                    if (!eventHistory.contains(Settings.Event.ShowDownloadIndicatorIntro) && status != DownloadIndicatorViewModel.Status.DEFAULT) {
-                        eventHistory.add(Settings.Event.ShowDownloadIndicatorIntro);
-                        BottomBar.BottomBarItem menuItem = bottomBarItemAdapter.getItem(BottomBarItemAdapter.TYPE_MENU);
-                        if (menuItem != null && menuItem.getView() != null) {
-                            DownloadIndicatorIntroViewHelper.INSTANCE.initDownloadIndicatorIntroView(this, menuItem.getView(), browserRoot, viewRef -> downloadIndicatorIntro = viewRef);
-                        }
-                    }
-                });
+        .observe(this, status -> {
+            switch (status) {
+            case DOWNLOADING:
+                bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_DOWNLOADING);
+                break;
+            case UNREAD:
+                bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_UNREAD);
+                break;
+            case WARNING:
+                bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_WARNING);
+                break;
+            case DEFAULT:
+                bottomBarItemAdapter.setDownloadState(DOWNLOAD_STATE_DEFAULT);
+                break;
+            }
+            final Settings.EventHistory eventHistory = Settings.getInstance(getActivity()).getEventHistory();
+            if (!eventHistory.contains(Settings.Event.ShowDownloadIndicatorIntro) && status != DownloadIndicatorViewModel.Status.DEFAULT) {
+                eventHistory.add(Settings.Event.ShowDownloadIndicatorIntro);
+                BottomBar.BottomBarItem menuItem = bottomBarItemAdapter.getItem(BottomBarItemAdapter.TYPE_MENU);
+                if (menuItem != null && menuItem.getView() != null) {
+                    DownloadIndicatorIntroViewHelper.INSTANCE.initDownloadIndicatorIntroView(this, menuItem.getView(), browserRoot, viewRef -> downloadIndicatorIntro = viewRef);
+                }
+            }
+        });
     }
 
     @Override
@@ -846,7 +846,7 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
         if (portraitState != null) {
             portraitState.request(PortraitComponent.ScreenCapture.INSTANCE);
             capturingFragment.addOnDismissListener(dialog ->
-                    portraitState.cancelRequest(PortraitComponent.ScreenCapture.INSTANCE));
+                                                   portraitState.cancelRequest(PortraitComponent.ScreenCapture.INSTANCE));
         }
 
         capturingFragment.show(getChildFragmentManager(), "capturingFragment");
@@ -922,30 +922,30 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
         });
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(customContent)
-                .setMessage(getString(R.string.geolocation_dialog_message, geolocationOrigin))
-                .setCancelable(true)
-                .setPositiveButton(getString(R.string.geolocation_dialog_allow), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        acceptGeoRequest(checkBox.isChecked());
-                    }
-                })
-                .setNegativeButton(getString(R.string.geolocation_dialog_block), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        rejectGeoRequest(checkBox.isChecked());
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        rejectGeoRequest(false);
-                    }
-                })
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        rejectGeoRequest(false);
-                    }
-                });
+        .setMessage(getString(R.string.geolocation_dialog_message, geolocationOrigin))
+        .setCancelable(true)
+        .setPositiveButton(getString(R.string.geolocation_dialog_allow), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                acceptGeoRequest(checkBox.isChecked());
+            }
+        })
+        .setNegativeButton(getString(R.string.geolocation_dialog_block), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                rejectGeoRequest(checkBox.isChecked());
+            }
+        })
+        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                rejectGeoRequest(false);
+            }
+        })
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                rejectGeoRequest(false);
+            }
+        });
         return builder.create();
     }
 
@@ -1059,7 +1059,7 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
 
     public boolean canGoForward() {
         return sessionManager.getFocusSession() != null
-                && sessionManager.getFocusSession().getCanGoForward();
+               && sessionManager.getFocusSession().getCanGoForward();
     }
 
     public boolean isLoading() {
@@ -1068,7 +1068,7 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
 
     public boolean canGoBack() {
         return sessionManager.getFocusSession() != null
-                && sessionManager.getFocusSession().getCanGoBack();
+               && sessionManager.getFocusSession().getCanGoBack();
     }
 
     public void goBack() {
@@ -1297,7 +1297,7 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
                 // Some new url may give 100 directly and then start from 0 again. don't treat
                 // as loaded for these urls;
                 final boolean urlBarLoadingToFinished =
-                        progressView.getMax() != progressView.getProgress() && progress == progressView.getMax();
+                    progressView.getMax() != progressView.getProgress() && progress == progressView.getMax();
                 if (urlBarLoadingToFinished) {
                     loadedUrl = currentUrl;
                 }
@@ -1374,7 +1374,7 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
 
                 // Add view to video container and make it visible
                 final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 videoContainer.addView(fullscreenContentView, params);
                 videoContainer.setVisibility(View.VISIBLE);
 
@@ -1419,7 +1419,7 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
 
         @Override
         public void onGeolocationPermissionsShowPrompt(@NonNull String origin,
-                                                       @Nullable GeolocationPermissions.Callback callback) {
+                @Nullable GeolocationPermissions.Callback callback) {
             if (session == null) {
                 return;
             }
@@ -1430,9 +1430,9 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
             geolocationOrigin = origin;
             geolocationCallback = callback;
             permissionHandler.tryAction(BrowserFragment.this,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    ACTION_GEO_LOCATION,
-                    null);
+                                        Manifest.permission.ACCESS_FINE_LOCATION,
+                                        ACTION_GEO_LOCATION,
+                                        null);
         }
 
         void changeSession(@Nullable Session nextSession) {
@@ -1471,12 +1471,12 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
             }
 
             Download d = new Download(download.getUrl(),
-                    download.getFileName(),
-                    download.getUserAgent(),
-                    "",
-                    download.getContentType(),
-                    download.getContentLength(),
-                    false);
+                                      download.getFileName(),
+                                      download.getUserAgent(),
+                                      "",
+                                      download.getContentType(),
+                                      download.getContentLength(),
+                                      false);
             permissionHandler.tryAction(BrowserFragment.this, Manifest.permission.WRITE_EXTERNAL_STORAGE, ACTION_DOWNLOAD, d);
             return true;
         }
@@ -1489,9 +1489,9 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
         @Override
         public void onHttpAuthRequest(@NotNull TabViewClient.HttpAuthCallback callback, @Nullable String host, @Nullable String realm) {
             HttpAuthenticationDialogBuilder builder = new HttpAuthenticationDialogBuilder.Builder(getActivity(), host, realm)
-                    .setOkListener((host1, realm1, username, password) -> callback.proceed(username, password))
-                    .setCancelListener(callback::cancel)
-                    .build();
+            .setOkListener((host1, realm1, username, password) -> callback.proceed(username, password))
+            .setCancelListener(callback::cancel)
+            .build();
 
             builder.createDialog();
             builder.show();
@@ -1530,12 +1530,12 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
 
             int src = arguments.getInt(EXTRA_NEW_TAB_SRC, -1);
             switch (src) {
-                case SRC_CONTEXT_MENU:
-                    onTabAddedByContextMenu(tab, arguments);
-                    break;
+            case SRC_CONTEXT_MENU:
+                onTabAddedByContextMenu(tab, arguments);
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
         }
 
@@ -1645,12 +1645,12 @@ public class BrowserFragment extends LocaleAwareFragment implements ScreenNaviga
         private void onTabAddedByContextMenu(@NonNull final Session tab, @NonNull Bundle arguments) {
             if (!TabUtil.toFocus(arguments)) {
                 Snackbar.make(webViewSlot, R.string.new_background_tab_hint, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.new_background_tab_switch, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                sessionManager.switchToTab(tab.getId());
-                            }
-                        }).show();
+                .setAction(R.string.new_background_tab_switch, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sessionManager.switchToTab(tab.getId());
+                    }
+                }).show();
             }
         }
 

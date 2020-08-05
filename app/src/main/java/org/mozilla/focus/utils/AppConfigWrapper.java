@@ -47,10 +47,10 @@ public class AppConfigWrapper {
 
     static {
         lifeFeedProviderConfigNameMapping.put("Newspoint",
-                new NewsProviderConfig(
-                        "NewspointCategory",
-                        "http://partnersnp.indiatimes.com/feed/fx/atp?channel=*&section=%s&lang=%s&curpg=%s&pp=%s&v=v1&fromtime=1551267146210"
-                ));
+                                              new NewsProviderConfig(
+                                                      "NewspointCategory",
+                                                      "http://partnersnp.indiatimes.com/feed/fx/atp?channel=*&section=%s&lang=%s&curpg=%s&pp=%s&v=v1&fromtime=1551267146210"
+                                              ));
     }
 
     public static long getRateAppNotificationLaunchTimeThreshold() {
@@ -60,8 +60,8 @@ public class AppConfigWrapper {
     public static long getShareDialogLaunchTimeThreshold(final boolean needExtend) {
         if (needExtend) {
             return FirebaseHelper.getFirebase().getRcLong(FirebaseHelper.SHARE_APP_DIALOG_THRESHOLD) +
-                    getRateAppNotificationLaunchTimeThreshold() -
-                    getRateDialogLaunchTimeThreshold();
+                   getRateAppNotificationLaunchTimeThreshold() -
+                   getRateDialogLaunchTimeThreshold();
         }
         return FirebaseHelper.getFirebase().getRcLong(FirebaseHelper.SHARE_APP_DIALOG_THRESHOLD);
     }
@@ -168,10 +168,10 @@ public class AppConfigWrapper {
     @NonNull
     private static ShoppingLink toShoppingLink(JSONObject object) {
         return new ShoppingLink(
-                object.optString(ShoppingLinkKey.KEY_URL),
-                object.optString(ShoppingLinkKey.KEY_NAME),
-                object.optString(ShoppingLinkKey.KEY_IMAGE),
-                object.optString(ShoppingLinkKey.KEY_SOURCE));
+                   object.optString(ShoppingLinkKey.KEY_URL),
+                   object.optString(ShoppingLinkKey.KEY_NAME),
+                   object.optString(ShoppingLinkKey.KEY_IMAGE),
+                   object.optString(ShoppingLinkKey.KEY_SOURCE));
     }
 
     public static boolean hasEcommerceCoupons() {
@@ -188,14 +188,14 @@ public class AppConfigWrapper {
                 final JSONObject object = (JSONObject) jsonArray.get(i);
                 final ShoppingLink shoppingLink = toShoppingLink(object);
                 final Coupon coupon = new Coupon(
-                        object.optString(CouponKey.KEY_ID),
-                        object.optString(CouponKey.KEY_CATEGORY),
-                        object.optString(CouponKey.KEY_SUBCATEGORY),
-                        object.optString(CouponKey.KEY_FEED),
-                        object.optLong(CouponKey.KEY_START),
-                        object.optLong(CouponKey.KEY_END),
-                        object.optBoolean(CouponKey.KEY_ACTIVE),
-                        shoppingLink
+                    object.optString(CouponKey.KEY_ID),
+                    object.optString(CouponKey.KEY_CATEGORY),
+                    object.optString(CouponKey.KEY_SUBCATEGORY),
+                    object.optString(CouponKey.KEY_FEED),
+                    object.optLong(CouponKey.KEY_START),
+                    object.optLong(CouponKey.KEY_END),
+                    object.optBoolean(CouponKey.KEY_ACTIVE),
+                    shoppingLink
                 );
 
                 // Filter out the invalid coupons - NotStartYet, Expired and Inactive
@@ -346,9 +346,9 @@ public class AppConfigWrapper {
         try {
             JSONObject introObj = obj.getJSONObject("intro");
             return new InAppUpdateIntro(introObj.getString("title"),
-                    introObj.getString("description"),
-                    introObj.getString("positive"),
-                    introObj.getString("negative"));
+                                        introObj.getString("description"),
+                                        introObj.getString("positive"),
+                                        introObj.getString("negative"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -361,9 +361,9 @@ public class AppConfigWrapper {
             JSONObject obj = new JSONObject(config);
             InAppUpdateIntro intro = getInAppUpdateIntro(obj);
             return new InAppUpdateConfig(obj.getInt("targetVersion"),
-                    obj.getBoolean("forceClose"),
-                    showIntro,
-                    intro);
+                                         obj.getBoolean("forceClose"),
+                                         showIntro,
+                                         intro);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

@@ -62,7 +62,7 @@ public class TabTrayAdapter extends RecyclerView.Adapter<TabTrayAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final ViewHolder holder = new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_tab_tray, parent, false));
+                    R.layout.item_tab_tray, parent, false));
 
         InternalTabClickListener listener = new InternalTabClickListener(holder, tabClickListener);
 
@@ -81,7 +81,7 @@ public class TabTrayAdapter extends RecyclerView.Adapter<TabTrayAdapter.ViewHold
 
         String title = getTitle(tab, holder);
         holder.websiteTitle.setText(TextUtils.isEmpty(title) ?
-                resources.getString(R.string.app_name) : title);
+                                    resources.getString(R.string.app_name) : title);
 
         String url = tab.getUrl();
         if (!TextUtils.isEmpty(url)) {
@@ -158,41 +158,41 @@ public class TabTrayAdapter extends RecyclerView.Adapter<TabTrayAdapter.ViewHold
 
     private void loadCachedFavicon(final Session tab, final ViewHolder holder) {
         RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .dontAnimate();
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        .dontAnimate();
 
         Bitmap favicon = tab.getFavicon();
         FaviconModel model = new FaviconModel(tab.getUrl(),
-                DimenUtils.getFavIconType(holder.itemView.getResources(), favicon),
-                favicon);
+                                              DimenUtils.getFavIconType(holder.itemView.getResources(), favicon),
+                                              favicon);
 
         requestManager
-                .load(model)
-                .apply(options)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                                Target<Drawable> target,
-                                                boolean isFirstResource) {
-                        loadGeneratedFavicon(tab, holder);
-                        return true;
-                    }
+        .load(model)
+        .apply(options)
+        .listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                        Target<Drawable> target,
+                                        boolean isFirstResource) {
+                loadGeneratedFavicon(tab, holder);
+                return true;
+            }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model,
-                                                   Target<Drawable> target,
-                                                   DataSource dataSource,
-                                                   boolean isFirstResource) {
-                        return false;
-                    }
-                })
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(Drawable resource,
-                                                Transition<? super Drawable> transition) {
-                        updateFavicon(holder, resource);
-                    }
-                });
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model,
+                                           Target<Drawable> target,
+                                           DataSource dataSource,
+                                           boolean isFirstResource) {
+                return false;
+            }
+        })
+        .into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource,
+                                        Transition<? super Drawable> transition) {
+                updateFavicon(holder, resource);
+            }
+        });
     }
 
     private void loadGeneratedFavicon(Session tab, final ViewHolder holder) {
@@ -263,16 +263,16 @@ public class TabTrayAdapter extends RecyclerView.Adapter<TabTrayAdapter.ViewHold
 
         private void dispatchOnClick(View v, int position) {
             switch (v.getId()) {
-                case R.id.root_view:
-                    tabClickListener.onTabClick(position);
-                    break;
+            case R.id.root_view:
+                tabClickListener.onTabClick(position);
+                break;
 
-                case R.id.close_button:
-                    tabClickListener.onTabCloseClick(position);
-                    break;
+            case R.id.close_button:
+                tabClickListener.onTabCloseClick(position);
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
         }
     }

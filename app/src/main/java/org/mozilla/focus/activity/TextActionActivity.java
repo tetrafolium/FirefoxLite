@@ -35,20 +35,20 @@ public class TextActionActivity extends Activity {
         final CharSequence searchTextCharSequence;
         final String extraKey;
         switch (intent.getAction()) {
-            case Intent.ACTION_PROCESS_TEXT: {
-                searchTextCharSequence = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
-                extraKey = LaunchIntentDispatcher.LaunchMethod.EXTRA_BOOL_TEXT_SELECTION.getValue();
-                break;
-            }
-            case Intent.ACTION_WEB_SEARCH: {
-                searchTextCharSequence = intent.getStringExtra(SearchManager.QUERY);
-                extraKey = LaunchIntentDispatcher.LaunchMethod.EXTRA_BOOL_WEB_SEARCH.getValue();
-                break;
-            }
-            default: {
-                searchTextCharSequence = "";
-                extraKey = null;
-            }
+        case Intent.ACTION_PROCESS_TEXT: {
+            searchTextCharSequence = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
+            extraKey = LaunchIntentDispatcher.LaunchMethod.EXTRA_BOOL_TEXT_SELECTION.getValue();
+            break;
+        }
+        case Intent.ACTION_WEB_SEARCH: {
+            searchTextCharSequence = intent.getStringExtra(SearchManager.QUERY);
+            extraKey = LaunchIntentDispatcher.LaunchMethod.EXTRA_BOOL_WEB_SEARCH.getValue();
+            break;
+        }
+        default: {
+            searchTextCharSequence = "";
+            extraKey = null;
+        }
         }
         searchText = searchTextCharSequence.toString();
 

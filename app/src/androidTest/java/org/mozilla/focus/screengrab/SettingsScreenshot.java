@@ -95,8 +95,8 @@ public class SettingsScreenshot extends BaseScreenshot {
 
         onView(withText(R.string.setting_dialog_clear_data)).inRoot(isDialog()).perform(click());
         onView(withText(R.string.message_cleared_browsing_data))
-                .inRoot(withDecorView(not(is(activityTestRule.getActivity().getWindow().getDecorView()))))
-                .check(matches(isDisplayed()));
+        .inRoot(withDecorView(not(is(activityTestRule.getActivity().getWindow().getDecorView()))))
+        .check(matches(isDisplayed()));
         Screengrab.screenshot(ScreenshotNamingUtils.SETTINGS_CLEAR_DATA_TOAST);
         SystemClock.sleep(MockUIUtils.SHORT_DELAY);
 

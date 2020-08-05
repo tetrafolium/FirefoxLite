@@ -52,7 +52,7 @@ public class NotificationActionBroadcastReceiver extends BroadcastReceiver {
         } else if (bundle.getBoolean(IntentUtils.EXTRA_NOTIFICATION_ACTION_FEEDBACK)) {
 
             nexStep = IntentUtils.createInternalOpenUrlIntent(context,
-                    context.getString(R.string.rate_app_feedback_url), true);
+                      context.getString(R.string.rate_app_feedback_url), true);
 
             // Users set negative feedback, don't ask them to rate/feedback again.
             Settings.getInstance(context).setShareAppDialogDidShow();

@@ -58,29 +58,29 @@ public class BrowsingHistoryFragment extends PanelFragment implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.browsing_history_btn_clear:
-                // if Fragment is detached but AlertDialog still on the screen, we might get null context in callback
-                final Context ctx = getContext();
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
-                builder.setTitle(R.string.browsing_history_dialog_confirm_clear_message);
-                builder.setPositiveButton(R.string.browsing_history_dialog_btn_clear, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (ctx == null) {
-                            return;
-                        }
-                        mAdapter.clear();
-                        TopSitesUtils.getDefaultSitesJsonArrayFromAssets(ctx);
-                        ChromeViewModel chromeViewModel = Inject.obtainChromeViewModel(getActivity());
-                        chromeViewModel.getClearBrowsingHistory().call();
-                        TelemetryWrapper.clearHistory();
+        case R.id.browsing_history_btn_clear:
+            // if Fragment is detached but AlertDialog still on the screen, we might get null context in callback
+            final Context ctx = getContext();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogStyle);
+            builder.setTitle(R.string.browsing_history_dialog_confirm_clear_message);
+            builder.setPositiveButton(R.string.browsing_history_dialog_btn_clear, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (ctx == null) {
+                        return;
                     }
-                });
-                builder.setNegativeButton(R.string.action_cancel, null);
-                builder.create().show();
-                break;
-            default:
-                break;
+                    mAdapter.clear();
+                    TopSitesUtils.getDefaultSitesJsonArrayFromAssets(ctx);
+                    ChromeViewModel chromeViewModel = Inject.obtainChromeViewModel(getActivity());
+                    chromeViewModel.getClearBrowsingHistory().call();
+                    TelemetryWrapper.clearHistory();
+                }
+            });
+            builder.setNegativeButton(R.string.action_cancel, null);
+            builder.create().show();
+            break;
+        default:
+            break;
         }
     }
 

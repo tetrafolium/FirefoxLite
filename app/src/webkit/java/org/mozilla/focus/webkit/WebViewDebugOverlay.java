@@ -69,18 +69,18 @@ public class WebViewDebugOverlay {
 
             insertSectionTitle("WebViewClient", panelLayout);
             panelLayout.addView(createCallbackList(context), new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT));
 
             insertSectionTitle("BackForwardList", panelLayout);
             panelLayout.addView(createBackForwardList(context), new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT));
 
             insertSectionTitle("View tree", panelLayout);
             panelLayout.addView(createViewTreeList(context), new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.MATCH_PARENT));
 
             // Init DrawerLayout
             drawerLayout = new FullScreenDrawerLayout(context);
@@ -118,11 +118,11 @@ public class WebViewDebugOverlay {
                 }
             };
             drawerLayout.addView(ghostView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
+                                 ViewGroup.LayoutParams.MATCH_PARENT));
 
             DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
             params.gravity = Gravity.START;
             panelLayout.setLayoutParams(params);
             drawerLayout.addView(panelLayout);
@@ -213,7 +213,7 @@ public class WebViewDebugOverlay {
         if (isEnable()) {
             this.webView = webView;
             webView.addView(drawerLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
+                            ViewGroup.LayoutParams.MATCH_PARENT));
             updateHistory();
             drawerLayout.setElevation(100);
         }
@@ -292,8 +292,8 @@ public class WebViewDebugOverlay {
             view.setTypeface(Typeface.MONOSPACE);
             float density = view.getResources().getDisplayMetrics().density;
             ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
             params.topMargin = (layout.getChildCount() == 0) ? 0 : (int) (density * 16);
             layout.addView(view, params);
         }
@@ -370,9 +370,9 @@ public class WebViewDebugOverlay {
                 if (isContentView(child)) {
                     // Content views get measured at exactly the layout's size.
                     final int contentWidthSpec = MeasureSpec.makeMeasureSpec(
-                            widthSize - lp.leftMargin - lp.rightMargin, MeasureSpec.EXACTLY);
+                                                     widthSize - lp.leftMargin - lp.rightMargin, MeasureSpec.EXACTLY);
                     final int contentHeightSpec = MeasureSpec.makeMeasureSpec(
-                            heightSize - lp.topMargin - lp.bottomMargin, MeasureSpec.EXACTLY);
+                                                      heightSize - lp.topMargin - lp.bottomMargin, MeasureSpec.EXACTLY);
                     child.measure(contentWidthSpec, contentHeightSpec);
                 } else if (isDrawerView(child)) {
                     if (Build.VERSION.SDK_INT >= 21) {
@@ -382,7 +382,7 @@ public class WebViewDebugOverlay {
                         }
                     }
                     final int childGravity =
-                            getDrawerViewAbsoluteGravity(child) & Gravity.HORIZONTAL_GRAVITY_MASK;
+                        getDrawerViewAbsoluteGravity(child) & Gravity.HORIZONTAL_GRAVITY_MASK;
                     // Note that the isDrawerView check guarantees that childGravity here is either
                     // LEFT or RIGHT
                     boolean isLeftEdgeDrawer = (childGravity == Gravity.LEFT);
@@ -396,16 +396,16 @@ public class WebViewDebugOverlay {
                         hasDrawerOnRightEdge = true;
                     }
                     final int drawerWidthSpec = getChildMeasureSpec(widthMeasureSpec,
-                            lp.leftMargin + lp.rightMargin,
-                            lp.width);
+                                                lp.leftMargin + lp.rightMargin,
+                                                lp.width);
                     final int drawerHeightSpec = getChildMeasureSpec(heightMeasureSpec,
-                            lp.topMargin + lp.bottomMargin,
-                            lp.height);
+                                                 lp.topMargin + lp.bottomMargin,
+                                                 lp.height);
                     child.measure(drawerWidthSpec, drawerHeightSpec);
                 } else {
                     throw new IllegalStateException("Child " + child + " at index " + i
-                            + " does not have a valid layout_gravity - must be Gravity.LEFT, "
-                            + "Gravity.RIGHT or Gravity.NO_GRAVITY");
+                                                    + " does not have a valid layout_gravity - must be Gravity.LEFT, "
+                                                    + "Gravity.RIGHT or Gravity.NO_GRAVITY");
                 }
             }
         }
@@ -417,7 +417,7 @@ public class WebViewDebugOverlay {
         boolean isDrawerView(View child) {
             final int gravity = ((LayoutParams) child.getLayoutParams()).gravity;
             final int absGravity = GravityCompat.getAbsoluteGravity(gravity,
-                    ViewCompat.getLayoutDirection(child));
+                                   ViewCompat.getLayoutDirection(child));
             return (absGravity & Gravity.LEFT) != 0 || (absGravity & Gravity.RIGHT) != 0;
         }
 

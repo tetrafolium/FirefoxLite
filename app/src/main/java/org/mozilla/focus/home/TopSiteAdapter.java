@@ -51,7 +51,7 @@ class TopSiteAdapter extends RecyclerView.Adapter<SiteViewHolder> {
     @Override
     public SiteViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_top_site, parent, false);
+                          .inflate(R.layout.item_top_site, parent, false);
 
         return new SiteViewHolder(view);
     }
@@ -119,7 +119,7 @@ class TopSiteAdapter extends RecyclerView.Adapter<SiteViewHolder> {
 
     private Bitmap createFavicon(Resources resources, String url, int backgroundColor) {
         return DimenUtils.getInitialBitmap(resources, FavIconUtils.getRepresentativeCharacter(url),
-                backgroundColor);
+                                           backgroundColor);
     }
 
     private int calculateBackgroundColor(Bitmap favicon) {

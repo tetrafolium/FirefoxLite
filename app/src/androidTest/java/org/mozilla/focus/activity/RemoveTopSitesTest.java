@@ -82,23 +82,23 @@ public class RemoveTopSitesTest {
 
         // Check the title of test site is matched
         onView(withId(R.id.main_list))
-                .check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
+        .check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
 
         // Long click the test site
         onView(ViewMatchers.withId(R.id.main_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(siteIndex, longClick()));
+        .perform(RecyclerViewActions.actionOnItemAtPosition(siteIndex, longClick()));
 
         // Check the remove button is displayed
         onView(withText(removeLabel)).check(matches(isDisplayed()));
 
         // Click the remove button
         onView(withText(removeLabel))
-                .inRoot(RootMatchers.isPlatformPopup())
-                .perform(click());
+        .inRoot(RootMatchers.isPlatformPopup())
+        .perform(click());
 
         // Check the test site is removed
         onView(withId(R.id.main_list))
-                .check(matches(not(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle()))))));
+        .check(matches(not(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle()))))));
     }
 
     /**
@@ -120,22 +120,22 @@ public class RemoveTopSitesTest {
 
         // Check the title of test site is matched
         onView(withId(R.id.main_list))
-                .check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
+        .check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
 
         // Long click the test site
         onView(ViewMatchers.withId(R.id.main_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(siteIndex, longClick()));
+        .perform(RecyclerViewActions.actionOnItemAtPosition(siteIndex, longClick()));
 
         // Check the remove button is displayed
         onView(withText(removeLabel))
-                .check(matches(isDisplayed()));
+        .check(matches(isDisplayed()));
 
         // Press the back key
         Espresso.pressBack();
 
         // Check the title of test site is matched
         onView(withId(R.id.main_list))
-                .check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
+        .check(matches(atPosition(siteIndex, hasDescendant(withText(testSite.getTitle())))));
     }
 
     /**
@@ -158,15 +158,15 @@ public class RemoveTopSitesTest {
         for (int i = 0; i < countTopSite; i++) {
             // Long click the first top site
             onView(withId(R.id.main_list))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
+            .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
             // Check the remove button is displayed
             onView(withText(removeLabel)).check(matches(isDisplayed()));
 
             // Click the remove button
             onView(withText(removeLabel))
-                    .inRoot(RootMatchers.isPlatformPopup())
-                    .perform(click());
+            .inRoot(RootMatchers.isPlatformPopup())
+            .perform(click());
         }
 
         // Exit app

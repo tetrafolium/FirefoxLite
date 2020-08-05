@@ -36,13 +36,13 @@ public class ViewUtils {
 
     public static void showKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+                                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
     public static void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+                                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
@@ -110,12 +110,12 @@ public class ViewUtils {
         final int original = window.getDecorView().getSystemUiVisibility();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         window.getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         return original;
     }

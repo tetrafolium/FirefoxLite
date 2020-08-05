@@ -19,34 +19,34 @@ import java.io.IOException;
  */
 public class BitmapDrawableDecoder<DataType> implements ResourceDecoder<DataType, BitmapDrawable> {
 
-  private final ResourceDecoder<DataType, Bitmap> decoder;
-  private final Resources resources;
-  private final BitmapPool bitmapPool;
+    private final ResourceDecoder<DataType, Bitmap> decoder;
+    private final Resources resources;
+    private final BitmapPool bitmapPool;
 
-  public BitmapDrawableDecoder(Context context, ResourceDecoder<DataType, Bitmap> decoder) {
-    this(context.getResources(), Glide.get(context).getBitmapPool(), decoder);
-  }
-
-  public BitmapDrawableDecoder(Resources resources, BitmapPool bitmapPool,
-      ResourceDecoder<DataType, Bitmap> decoder) {
-    this.resources = Preconditions.checkNotNull(resources);
-    this.bitmapPool = Preconditions.checkNotNull(bitmapPool);
-    this.decoder = Preconditions.checkNotNull(decoder);
-  }
-
-  @Override
-  public boolean handles(DataType source, Options options) throws IOException {
-    return decoder.handles(source, options);
-  }
-
-  @Override
-  public Resource<BitmapDrawable> decode(DataType source, int width, int height, Options options)
-      throws IOException {
-    Resource<Bitmap> bitmapResource = decoder.decode(source, width, height, options);
-    if (bitmapResource == null) {
-      return null;
+    public BitmapDrawableDecoder(Context context, ResourceDecoder<DataType, Bitmap> decoder) {
+        this(context.getResources(), Glide.get(context).getBitmapPool(), decoder);
     }
 
-    return LazyBitmapDrawableResource.obtain(resources, bitmapPool, bitmapResource.get());
-  }
+    public BitmapDrawableDecoder(Resources resources, BitmapPool bitmapPool,
+                                 ResourceDecoder<DataType, Bitmap> decoder) {
+        this.resources = Preconditions.checkNotNull(resources);
+        this.bitmapPool = Preconditions.checkNotNull(bitmapPool);
+        this.decoder = Preconditions.checkNotNull(decoder);
+    }
+
+    @Override
+    public boolean handles(DataType source, Options options) throws IOException {
+        return decoder.handles(source, options);
+    }
+
+    @Override
+    public Resource<BitmapDrawable> decode(DataType source, int width, int height, Options options)
+    throws IOException {
+        Resource<Bitmap> bitmapResource = decoder.decode(source, width, height, options);
+        if (bitmapResource == null) {
+            return null;
+        }
+
+        return LazyBitmapDrawableResource.obtain(resources, bitmapPool, bitmapResource.get());
+    }
 }

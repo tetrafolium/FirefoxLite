@@ -76,7 +76,7 @@ public class BrowsingIntentTest {
 
         // Check if target url is resolved and site 1 is loaded
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_1)));
+        .check(matches(withText(TARGET_URL_SITE_1)));
 
         // Click search button
         onView(withId(R.id.bottom_bar_search)).perform(click());
@@ -84,7 +84,7 @@ public class BrowsingIntentTest {
         // Browsing site 2
         onView(withId(R.id.url_edit)).perform(replaceText(TARGET_URL_SITE_2), pressImeActionButton());
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_2)));
+        .check(matches(withText(TARGET_URL_SITE_2)));
 
         // Currently BrowserFragment need tabSession completes it's job to know if we can go back.
         // Without an idling resource there is pressBack() will leave the app and make the test crash
@@ -116,7 +116,7 @@ public class BrowsingIntentTest {
         onView(allOf(withId(R.id.url_edit), isDisplayed())).perform(replaceText(TARGET_URL_SITE_2), pressImeActionButton());
         IdlingRegistry.getInstance().register(loadingIdlingResource);
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_2)));
+        .check(matches(withText(TARGET_URL_SITE_2)));
 
         SessionManager sessionManager = TabsSessionProvider.getOrThrow(activityTestRule.getActivity());
         final int tabCount = sessionManager.getTabsCount();
@@ -130,7 +130,7 @@ public class BrowsingIntentTest {
 
         // Check if target url is resolved and site 1 is loaded
         onView(withId(R.id.display_url)).check(matches(isDisplayed()))
-                .check(matches(withText(TARGET_URL_SITE_1)));
+        .check(matches(withText(TARGET_URL_SITE_1)));
         IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
         // Check if tab count is increased

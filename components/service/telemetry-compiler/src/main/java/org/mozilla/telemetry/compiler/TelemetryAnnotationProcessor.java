@@ -59,14 +59,14 @@ public class TelemetryAnnotationProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment env) {
         Collection<? extends Element> annotatedElements =
-                env.getElementsAnnotatedWith(TelemetryDoc.class);
+            env.getElementsAnnotatedWith(TelemetryDoc.class);
 
         if (annotatedElements.size() == 0) {
             return false;
         }
         try {
             final String header = "| Event | category | method | object | value | extra |\n" +
-                    "| ---- | ---- | ---- | ---- | ---- | ---- |\n";
+                                  "| ---- | ---- | ---- | ---- | ---- | ---- |\n";
             genDoc(annotatedElements, header, FILE_README, '|');
 
 
@@ -116,10 +116,10 @@ public class TelemetryAnnotationProcessor extends AbstractProcessor {
 
                 // value may have ',' so we add a placeholder '"' for csv files
                 sb.append(start).append(annotation.name()).append(separator)
-                        .append(annotation.category()).append(separator)
-                        .append(annotation.method()).append(separator)
-                        .append(annotation.object()).append(separator)
-                        .append('"').append(annotation.value()).append('"').append(separator);
+                .append(annotation.category()).append(separator)
+                .append(annotation.method()).append(separator)
+                .append(annotation.object()).append(separator)
+                .append('"').append(annotation.value()).append('"').append(separator);
 
                 // extras may have ',' so we add a placeholder '"' for csv files
                 sb.append('"');

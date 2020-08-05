@@ -31,14 +31,16 @@ class FourSitesViewHolder extends BannerViewHolder {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.banner2, parent, false), telemetryListener);
         this.onClickListener = onClickListener;
         background = itemView.findViewById(R.id.banner_background);
-        icons = new ImageView[]{itemView.findViewById(R.id.banner_icon_1),
-                itemView.findViewById(R.id.banner_icon_2),
-                itemView.findViewById(R.id.banner_icon_3),
-                itemView.findViewById(R.id.banner_icon_4)};
-        textViews = new TextView[]{itemView.findViewById(R.id.banner_label_1),
-                itemView.findViewById(R.id.banner_label_2),
-                itemView.findViewById(R.id.banner_label_3),
-                itemView.findViewById(R.id.banner_label_4)};
+        icons = new ImageView[] {itemView.findViewById(R.id.banner_icon_1),
+                                 itemView.findViewById(R.id.banner_icon_2),
+                                 itemView.findViewById(R.id.banner_icon_3),
+                                 itemView.findViewById(R.id.banner_icon_4)
+                                };
+        textViews = new TextView[] {itemView.findViewById(R.id.banner_label_1),
+                                    itemView.findViewById(R.id.banner_label_2),
+                                    itemView.findViewById(R.id.banner_label_3),
+                                    itemView.findViewById(R.id.banner_label_4)
+                                   };
     }
 
     @Override
@@ -55,16 +57,16 @@ class FourSitesViewHolder extends BannerViewHolder {
                 final int itemIndex = i;
                 PorterDuffColorFilter alphaToWhitePorterDuff = new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.DST_OVER);
                 Glide.with(context)
-                        .load(bannerDAO.values.getString(1 + i))
-                        .apply(new RequestOptions().transforms(new ShrinkSizeTransformation(0.62f), new PorterDuffTransformation(alphaToWhitePorterDuff), new CircleCrop()))
-                        .into(new SimpleTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                                icons[itemIndex].setImageDrawable(resource);
-                                icons[itemIndex].setVisibility(View.VISIBLE);
-                                textViews[itemIndex].setVisibility(View.VISIBLE);
-                            }
-                        });
+                .load(bannerDAO.values.getString(1 + i))
+                .apply(new RequestOptions().transforms(new ShrinkSizeTransformation(0.62f), new PorterDuffTransformation(alphaToWhitePorterDuff), new CircleCrop()))
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                        icons[itemIndex].setImageDrawable(resource);
+                        icons[itemIndex].setVisibility(View.VISIBLE);
+                        textViews[itemIndex].setVisibility(View.VISIBLE);
+                    }
+                });
             }
             for (int i = 0; i < icons.length; i++) {
                 textViews[i].setText(bannerDAO.values.getString(9 + i));

@@ -107,12 +107,12 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
     /** @hide */
     @RestrictTo(LIBRARY_GROUP)
     @IntDef({
-            STATE_EXPANDED,
-            STATE_COLLAPSED,
-            STATE_DRAGGING,
-            STATE_SETTLING,
-            STATE_HIDDEN,
-            STATE_HALF_EXPANDED
+        STATE_EXPANDED,
+        STATE_COLLAPSED,
+        STATE_DRAGGING,
+        STATE_SETTLING,
+        STATE_HIDDEN,
+        STATE_HALF_EXPANDED
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface State {}
@@ -193,14 +193,14 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
             setPeekHeight(value.data);
         } else {
             setPeekHeight(
-                    a.getDimensionPixelSize(
-                            R.styleable.BottomSheetBehavior_Layout_behavior_peekHeight, PEEK_HEIGHT_AUTO));
+                a.getDimensionPixelSize(
+                    R.styleable.BottomSheetBehavior_Layout_behavior_peekHeight, PEEK_HEIGHT_AUTO));
         }
         setHideable(a.getBoolean(R.styleable.BottomSheetBehavior_Layout_behavior_hideable, false));
         setFitToContents(
-                a.getBoolean(R.styleable.BottomSheetBehavior_Layout_behavior_fitToContents, true));
+            a.getBoolean(R.styleable.BottomSheetBehavior_Layout_behavior_fitToContents, true));
         setSkipCollapsed(
-                a.getBoolean(R.styleable.BottomSheetBehavior_Layout_behavior_skipCollapsed, false));
+            a.getBoolean(R.styleable.BottomSheetBehavior_Layout_behavior_skipCollapsed, false));
         a.recycle();
         ViewConfiguration configuration = ViewConfiguration.get(context);
         maximumVelocity = configuration.getScaledMaximumFlingVelocity();
@@ -236,9 +236,9 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
         if (peekHeightAuto) {
             if (peekHeightMin == 0) {
                 peekHeightMin =
-                        parent
-                                .getResources()
-                                .getDimensionPixelSize(R.dimen.design_bottom_sheet_peek_height_min);
+                    parent
+                    .getResources()
+                    .getDimensionPixelSize(R.dimen.design_bottom_sheet_peek_height_min);
             }
             lastPeekHeight = Math.max(peekHeightMin, parentHeight - parent.getWidth() * 9 / 16);
         } else {
@@ -283,29 +283,29 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
         }
         velocityTracker.addMovement(event);
         switch (action) {
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                touchingScrollingChild = false;
-                activePointerId = MotionEvent.INVALID_POINTER_ID;
-                // Reset the ignore flag
-                if (ignoreEvents) {
-                    ignoreEvents = false;
-                    return false;
-                }
-                break;
-            case MotionEvent.ACTION_DOWN:
-                int initialX = (int) event.getX();
-                initialY = (int) event.getY();
-                View scroll = nestedScrollingChildRef != null ? nestedScrollingChildRef.get() : null;
-                if (scroll != null && parent.isPointInChildBounds(scroll, initialX, initialY)) {
-                    activePointerId = event.getPointerId(event.getActionIndex());
-                    touchingScrollingChild = true;
-                }
-                ignoreEvents =
-                        activePointerId == MotionEvent.INVALID_POINTER_ID
-                                && !parent.isPointInChildBounds(child, initialX, initialY);
-                break;
-            default: // fall out
+        case MotionEvent.ACTION_UP:
+        case MotionEvent.ACTION_CANCEL:
+            touchingScrollingChild = false;
+            activePointerId = MotionEvent.INVALID_POINTER_ID;
+            // Reset the ignore flag
+            if (ignoreEvents) {
+                ignoreEvents = false;
+                return false;
+            }
+            break;
+        case MotionEvent.ACTION_DOWN:
+            int initialX = (int) event.getX();
+            initialY = (int) event.getY();
+            View scroll = nestedScrollingChildRef != null ? nestedScrollingChildRef.get() : null;
+            if (scroll != null && parent.isPointInChildBounds(scroll, initialX, initialY)) {
+                activePointerId = event.getPointerId(event.getActionIndex());
+                touchingScrollingChild = true;
+            }
+            ignoreEvents =
+                activePointerId == MotionEvent.INVALID_POINTER_ID
+                && !parent.isPointInChildBounds(child, initialX, initialY);
+            break;
+        default: // fall out
         }
         if (!ignoreEvents
                 && viewDragHelper != null
@@ -317,12 +317,12 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
         // happening over the scrolling content as nested scrolling logic handles that case.
         View scroll = nestedScrollingChildRef != null ? nestedScrollingChildRef.get() : null;
         return action == MotionEvent.ACTION_MOVE
-                && scroll != null
-                && !ignoreEvents
-                && state != STATE_DRAGGING
-                && !parent.isPointInChildBounds(scroll, (int) event.getX(), (int) event.getY())
-                && viewDragHelper != null
-                && Math.abs(initialY - event.getY()) > viewDragHelper.getTouchSlop();
+               && scroll != null
+               && !ignoreEvents
+               && state != STATE_DRAGGING
+               && !parent.isPointInChildBounds(scroll, (int) event.getX(), (int) event.getY())
+               && viewDragHelper != null
+               && Math.abs(initialY - event.getY()) > viewDragHelper.getTouchSlop();
     }
 
     @Override
@@ -357,12 +357,12 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
 
     @Override
     public boolean onStartNestedScroll(
-            @NonNull CoordinatorLayout coordinatorLayout,
-            @NonNull V child,
-            @NonNull View directTargetChild,
-            @NonNull View target,
-            int axes,
-            int type) {
+        @NonNull CoordinatorLayout coordinatorLayout,
+        @NonNull V child,
+        @NonNull View directTargetChild,
+        @NonNull View target,
+        int axes,
+        int type) {
         lastNestedScrollDy = 0;
         nestedScrolled = false;
         return (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
@@ -370,13 +370,13 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
 
     @Override
     public void onNestedPreScroll(
-            @NonNull CoordinatorLayout coordinatorLayout,
-            @NonNull V child,
-            @NonNull View target,
-            int dx,
-            int dy,
-            @NonNull int[] consumed,
-            int type) {
+        @NonNull CoordinatorLayout coordinatorLayout,
+        @NonNull V child,
+        @NonNull View target,
+        int dx,
+        int dy,
+        @NonNull int[] consumed,
+        int type) {
         if (type == ViewCompat.TYPE_NON_TOUCH) {
             // Ignore fling here. The ViewDragHelper handles it.
             return;
@@ -417,10 +417,10 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
 
     @Override
     public void onStopNestedScroll(
-            @NonNull CoordinatorLayout coordinatorLayout,
-            @NonNull V child,
-            @NonNull View target,
-            int type) {
+        @NonNull CoordinatorLayout coordinatorLayout,
+        @NonNull V child,
+        @NonNull View target,
+        int type) {
         if (child.getTop() == getExpandedOffset()) {
             setStateInternal(STATE_EXPANDED);
             return;
@@ -482,15 +482,15 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
 
     @Override
     public boolean onNestedPreFling(
-            @NonNull CoordinatorLayout coordinatorLayout,
-            @NonNull V child,
-            @NonNull View target,
-            float velocityX,
-            float velocityY) {
+        @NonNull CoordinatorLayout coordinatorLayout,
+        @NonNull V child,
+        @NonNull View target,
+        float velocityX,
+        float velocityY) {
         if (nestedScrollingChildRef != null) {
             return target == nestedScrollingChildRef.get()
-                    && (state != STATE_EXPANDED
-                    || super.onNestedPreFling(coordinatorLayout, child, target, velocityX, velocityY));
+                   && (state != STATE_EXPANDED
+                       || super.onNestedPreFling(coordinatorLayout, child, target, velocityX, velocityY));
         } else {
             return false;
         }
@@ -668,12 +668,12 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
         if (parent != null && parent.isLayoutRequested() && ViewCompat.isAttachedToWindow(child)) {
             final int finalState = state;
             child.post(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            startSettlingAnimation(child, finalState);
-                        }
-                    });
+            new Runnable() {
+                @Override
+                public void run() {
+                    startSettlingAnimation(child, finalState);
+                }
+            });
         } else {
             startSettlingAnimation(child, state);
         }
@@ -712,7 +712,7 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
         }
 
         ViewCompat.setImportantForAccessibility(
-                bottomSheet, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
+            bottomSheet, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
         bottomSheet.sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
 
         if (callback != null) {
@@ -804,140 +804,140 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
     }
 
     private final ViewDragHelper.Callback dragCallback =
-            new ViewDragHelper.Callback() {
+    new ViewDragHelper.Callback() {
 
-                @Override
-                public boolean tryCaptureView(@NonNull View child, int pointerId) {
-                    if (state == STATE_DRAGGING) {
-                        return false;
-                    }
-                    if (touchingScrollingChild) {
-                        return false;
-                    }
-                    if (state == STATE_EXPANDED && activePointerId == pointerId) {
-                        View scroll = nestedScrollingChildRef != null ? nestedScrollingChildRef.get() : null;
-                        if (scroll != null && scroll.canScrollVertically(-1)) {
-                            // Let the content scroll up
-                            return false;
-                        }
-                    }
-                    return viewRef != null && viewRef.get() == child;
+        @Override
+        public boolean tryCaptureView(@NonNull View child, int pointerId) {
+            if (state == STATE_DRAGGING) {
+                return false;
+            }
+            if (touchingScrollingChild) {
+                return false;
+            }
+            if (state == STATE_EXPANDED && activePointerId == pointerId) {
+                View scroll = nestedScrollingChildRef != null ? nestedScrollingChildRef.get() : null;
+                if (scroll != null && scroll.canScrollVertically(-1)) {
+                    // Let the content scroll up
+                    return false;
                 }
+            }
+            return viewRef != null && viewRef.get() == child;
+        }
 
-                @Override
-                public void onViewPositionChanged(
-                        @NonNull View changedView, int left, int top, int dx, int dy) {
-                    dispatchOnSlide(top);
-                }
+        @Override
+        public void onViewPositionChanged(
+            @NonNull View changedView, int left, int top, int dx, int dy) {
+            dispatchOnSlide(top);
+        }
 
-                @Override
-                public void onViewDragStateChanged(int state) {
-                    if (state == ViewDragHelper.STATE_DRAGGING) {
-                        setStateInternal(STATE_DRAGGING);
+        @Override
+        public void onViewDragStateChanged(int state) {
+            if (state == ViewDragHelper.STATE_DRAGGING) {
+                setStateInternal(STATE_DRAGGING);
+            }
+        }
+
+        @Override
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
+            int top;
+            @State int targetState;
+            if (yvel < 0) { // Moving up
+                if (fitToContents) {
+                    top = fitToContentsOffset;
+                    targetState = STATE_EXPANDED;
+                } else {
+                    int currentTop = releasedChild.getTop();
+                    if (currentTop > halfExpandedOffset) {
+                        top = halfExpandedOffset;
+                        targetState = STATE_HALF_EXPANDED;
+                    } else {
+                        top = 0;
+                        targetState = STATE_EXPANDED;
                     }
                 }
-
-                @Override
-                public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
-                    int top;
-                    @State int targetState;
-                    if (yvel < 0) { // Moving up
-                        if (fitToContents) {
-                            top = fitToContentsOffset;
-                            targetState = STATE_EXPANDED;
-                        } else {
-                            int currentTop = releasedChild.getTop();
-                            if (currentTop > halfExpandedOffset) {
-                                top = halfExpandedOffset;
-                                targetState = STATE_HALF_EXPANDED;
-                            } else {
-                                top = 0;
-                                targetState = STATE_EXPANDED;
-                            }
-                        }
-                    } else if (hideable
-                            && shouldHide(releasedChild, yvel)
-                            && (releasedChild.getTop() > collapsedOffset || Math.abs(xvel) < Math.abs(yvel))) {
-                        // Hide if we shouldn't collapse and the view was either released low or it was a
-                        // vertical swipe.
-                        top = parentHeight;
-                        targetState = STATE_HIDDEN;
-                    } else if (yvel == 0.f || Math.abs(xvel) > Math.abs(yvel)) {
-                        // If the Y velocity is 0 or the swipe was mostly horizontal indicated by the X velocity
-                        // being greater than the Y velocity, settle to the nearest correct height.
-                        int currentTop = releasedChild.getTop();
-                        if (fitToContents) {
-                            if (Math.abs(currentTop - fitToContentsOffset)
-                                    < Math.abs(currentTop - collapsedOffset)) {
-                                top = fitToContentsOffset;
-                                targetState = STATE_EXPANDED;
-                            } else {
-                                top = collapsedOffset;
-                                targetState = STATE_COLLAPSED;
-                            }
-                        } else {
-                            if (currentTop < halfExpandedOffset) {
-                                if (currentTop < Math.abs(currentTop - collapsedOffset)) {
-                                    top = 0;
-                                    targetState = STATE_EXPANDED;
-                                } else {
-                                    top = halfExpandedOffset;
-                                    targetState = STATE_HALF_EXPANDED;
-                                }
-                            } else {
-                                if (Math.abs(currentTop - halfExpandedOffset)
-                                        < Math.abs(currentTop - collapsedOffset)) {
-                                    top = halfExpandedOffset;
-                                    targetState = STATE_HALF_EXPANDED;
-                                } else {
-                                    top = collapsedOffset;
-                                    targetState = STATE_COLLAPSED;
-                                }
-                            }
-                        }
+            } else if (hideable
+                       && shouldHide(releasedChild, yvel)
+                       && (releasedChild.getTop() > collapsedOffset || Math.abs(xvel) < Math.abs(yvel))) {
+                // Hide if we shouldn't collapse and the view was either released low or it was a
+                // vertical swipe.
+                top = parentHeight;
+                targetState = STATE_HIDDEN;
+            } else if (yvel == 0.f || Math.abs(xvel) > Math.abs(yvel)) {
+                // If the Y velocity is 0 or the swipe was mostly horizontal indicated by the X velocity
+                // being greater than the Y velocity, settle to the nearest correct height.
+                int currentTop = releasedChild.getTop();
+                if (fitToContents) {
+                    if (Math.abs(currentTop - fitToContentsOffset)
+                            < Math.abs(currentTop - collapsedOffset)) {
+                        top = fitToContentsOffset;
+                        targetState = STATE_EXPANDED;
                     } else {
                         top = collapsedOffset;
                         targetState = STATE_COLLAPSED;
                     }
-                    if (viewDragHelper.settleCapturedViewAt(releasedChild.getLeft(), top)) {
-                        setStateInternal(STATE_SETTLING);
-                        ViewCompat.postOnAnimation(
-                                releasedChild, new SettleRunnable(releasedChild, targetState));
+                } else {
+                    if (currentTop < halfExpandedOffset) {
+                        if (currentTop < Math.abs(currentTop - collapsedOffset)) {
+                            top = 0;
+                            targetState = STATE_EXPANDED;
+                        } else {
+                            top = halfExpandedOffset;
+                            targetState = STATE_HALF_EXPANDED;
+                        }
                     } else {
-                        setStateInternal(targetState);
+                        if (Math.abs(currentTop - halfExpandedOffset)
+                                < Math.abs(currentTop - collapsedOffset)) {
+                            top = halfExpandedOffset;
+                            targetState = STATE_HALF_EXPANDED;
+                        } else {
+                            top = collapsedOffset;
+                            targetState = STATE_COLLAPSED;
+                        }
                     }
                 }
+            } else {
+                top = collapsedOffset;
+                targetState = STATE_COLLAPSED;
+            }
+            if (viewDragHelper.settleCapturedViewAt(releasedChild.getLeft(), top)) {
+                setStateInternal(STATE_SETTLING);
+                ViewCompat.postOnAnimation(
+                    releasedChild, new SettleRunnable(releasedChild, targetState));
+            } else {
+                setStateInternal(targetState);
+            }
+        }
 
-                @Override
-                public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
-                    return MathUtils.clamp(
-                            top, getExpandedOffset(), hideable ? parentHeight : collapsedOffset);
-                }
+        @Override
+        public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
+            return MathUtils.clamp(
+                       top, getExpandedOffset(), hideable ? parentHeight : collapsedOffset);
+        }
 
-                @Override
-                public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
-                    return child.getLeft();
-                }
+        @Override
+        public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
+            return child.getLeft();
+        }
 
-                @Override
-                public int getViewVerticalDragRange(@NonNull View child) {
-                    if (hideable) {
-                        return parentHeight;
-                    } else {
-                        return collapsedOffset;
-                    }
-                }
-            };
+        @Override
+        public int getViewVerticalDragRange(@NonNull View child) {
+            if (hideable) {
+                return parentHeight;
+            } else {
+                return collapsedOffset;
+            }
+        }
+    };
 
     void dispatchOnSlide(int top) {
         View bottomSheet = viewRef.get();
         if (bottomSheet != null && callback != null) {
             if (top > collapsedOffset) {
                 callback.onSlide(
-                        bottomSheet, (float) (collapsedOffset - top) / (parentHeight - collapsedOffset));
+                    bottomSheet, (float) (collapsedOffset - top) / (parentHeight - collapsedOffset));
             } else {
                 callback.onSlide(
-                        bottomSheet, (float) (collapsedOffset - top) / (collapsedOffset - getExpandedOffset()));
+                    bottomSheet, (float) (collapsedOffset - top) / (collapsedOffset - getExpandedOffset()));
             }
         }
     }
@@ -994,22 +994,22 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
         }
 
         public static final Creator<SavedState> CREATOR =
-                new ClassLoaderCreator<SavedState>() {
-                    @Override
-                    public SavedState createFromParcel(Parcel in, ClassLoader loader) {
-                        return new SavedState(in, loader);
-                    }
+        new ClassLoaderCreator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in, ClassLoader loader) {
+                return new SavedState(in, loader);
+            }
 
-                    @Override
-                    public SavedState createFromParcel(Parcel in) {
-                        return new SavedState(in, null);
-                    }
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in, null);
+            }
 
-                    @Override
-                    public SavedState[] newArray(int size) {
-                        return new SavedState[size];
-                    }
-                };
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 
     /**
@@ -1076,7 +1076,7 @@ public class BottomSheetBehavior<V extends View> extends CoordinatorLayout.Behav
                 }
 
                 ViewCompat.setImportantForAccessibility(
-                        child, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+                    child, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
             }
         }
 

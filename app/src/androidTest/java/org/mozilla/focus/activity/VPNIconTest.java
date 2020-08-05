@@ -29,9 +29,9 @@ public class VPNIconTest {
     @Before
     public void setUp() {
         new BeforeTestTask.Builder()
-                .setSkipFirstRun(true)
-                .build()
-                .execute();
+        .setSkipFirstRun(true)
+        .build()
+        .execute();
         activityRule.launchActivity(new Intent());
     }
 

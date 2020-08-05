@@ -59,7 +59,7 @@ import java.nio.charset.StandardCharsets;
         final String name = parser.getName();
         if (!"SearchPlugin".equals(name) && !"OpenSearchDescription".equals(name)) {
             throw new XmlPullParserException("Expected <SearchPlugin> or <OpenSearchDescription> as root tag: "
-                    + parser.getPositionDescription());
+                                             + parser.getPositionDescription());
         }
 
         while (parser.next() != XmlPullParser.END_TAG) {
@@ -126,14 +126,14 @@ import java.nio.charset.StandardCharsets;
         int depth = 1;
         while (depth != 0) {
             switch (parser.next()) {
-                case XmlPullParser.END_TAG:
-                    depth--;
-                    break;
-                case XmlPullParser.START_TAG:
-                    depth++;
-                    break;
-                default:
-                    // Do nothing - we're skipping content
+            case XmlPullParser.END_TAG:
+                depth--;
+                break;
+            case XmlPullParser.START_TAG:
+                depth++;
+                break;
+            default:
+                // Do nothing - we're skipping content
             }
         }
     }

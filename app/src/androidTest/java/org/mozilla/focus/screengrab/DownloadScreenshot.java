@@ -82,12 +82,12 @@ public class DownloadScreenshot extends BaseScreenshot {
 
             try {
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_FULL_SCREEN_IMAGE))
-                        .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+                                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_FULL_SCREEN_IMAGE))
+                                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
+                                  .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
                 webServer.enqueue(new MockResponse()
-                        .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
+                                  .setBody(AndroidTestUtils.readTestAsset(IMAGE_FILE_NAME_DOWNLOADED)));
 
                 webServer.start();
             } catch (IOException e) {
@@ -180,7 +180,7 @@ public class DownloadScreenshot extends BaseScreenshot {
         // Wait for download complete
         IdlingRegistry.getInstance().register(downloadCompleteIdlingResource);
         onView(allOf(withId(com.google.android.material.R.id.snackbar_text), withText(containsString(IMAGE_FILE_NAME_DOWNLOADED_PREFIX))))
-                .check(matches(isDisplayed()));
+        .check(matches(isDisplayed()));
         Screengrab.screenshot(ScreenshotNamingUtils.DOWNLOAD_DOWNLOADED);
 
         SystemClock.sleep(MockUIUtils.LONG_DELAY);
@@ -198,24 +198,24 @@ public class DownloadScreenshot extends BaseScreenshot {
 
         // Click the first download item and check if the name is matched
         onView(withId(R.id.recyclerview))
-                .check(matches(atPosition(0, hasDescendant(withText(containsString(IMAGE_FILE_NAME_DOWNLOADED_PREFIX))))));
+        .check(matches(atPosition(0, hasDescendant(withText(containsString(IMAGE_FILE_NAME_DOWNLOADED_PREFIX))))));
 
         // Open target download item's action menu
         onView(withId(R.id.recyclerview)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.menu_action)));
+            RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.menu_action)));
 
         onView(withText(R.string.delete_file))
-                .inRoot(RootMatchers.isPlatformPopup()).check(matches(isDisplayed()));
+        .inRoot(RootMatchers.isPlatformPopup()).check(matches(isDisplayed()));
         Screengrab.screenshot(ScreenshotNamingUtils.DOWNLOAD_LIST_MENU);
         // Click the remove button
         onView(withText(context.getString(R.string.delete_file)))
-                .inRoot(RootMatchers.isPlatformPopup())
-                .perform(click());
+        .inRoot(RootMatchers.isPlatformPopup())
+        .perform(click());
 
         SystemClock.sleep(MockUIUtils.POPUP_DELAY);
         // Check if delete successfully message is displayed
         onView(allOf(withId(com.google.android.material.R.id.snackbar_text), withText(containsString(IMAGE_FILE_NAME_DOWNLOADED_PREFIX))))
-                .check(matches(isDisplayed()));
+        .check(matches(isDisplayed()));
 
         Screengrab.screenshot(ScreenshotNamingUtils.DOWNLOAD_DELETED);
         SystemClock.sleep(MockUIUtils.SHORT_DELAY);

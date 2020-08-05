@@ -104,24 +104,24 @@ public class HttpAuthenticationDialogBuilder {
 
     private void buildDialog(View view) {
         dialog = new AlertDialog.Builder(context)
-                .setIconAttribute(android.R.attr.alertDialogIcon)
-                .setView(view)
-                .setPositiveButton(R.string.action_ok, (dialog, whichButton) -> {
-                    if (okListener != null) {
-                        okListener.onOk(host, realm, getUsername(), getPassword());
-                    }
-                })
-                .setNegativeButton(R.string.action_cancel, (dialog, whichButton) -> {
-                    if (cancelListener != null) {
-                        cancelListener.onCancel();
-                    }
-                })
-                .setOnCancelListener(dialog -> {
-                    if (cancelListener != null) {
-                        cancelListener.onCancel();
-                    }
-                })
-                .create();
+        .setIconAttribute(android.R.attr.alertDialogIcon)
+        .setView(view)
+        .setPositiveButton(R.string.action_ok, (dialog, whichButton) -> {
+            if (okListener != null) {
+                okListener.onOk(host, realm, getUsername(), getPassword());
+            }
+        })
+        .setNegativeButton(R.string.action_cancel, (dialog, whichButton) -> {
+            if (cancelListener != null) {
+                cancelListener.onCancel();
+            }
+        })
+        .setOnCancelListener(dialog -> {
+            if (cancelListener != null) {
+                cancelListener.onCancel();
+            }
+        })
+        .create();
         final Window window = dialog.getWindow();
         if (window != null) {
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

@@ -38,12 +38,12 @@ public class DownloadInfoDbHelper {
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
             String CREATE_TABLE = CREATE_TABLE_IF_NOT_EXISTS + Download.TABLE_DOWNLOAD + "("
-                    + Download._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + Download.DOWNLOAD_ID + " INTEGER,"
-                    + Download.FILE_PATH + " TEXT,"
-                    + Download.STATUS + " INTEGER,"
-                    + Download.IS_READ + " INTEGER DEFAULT 0" // Download item default is unread
-                    + ")";
+                                  + Download._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                  + Download.DOWNLOAD_ID + " INTEGER,"
+                                  + Download.FILE_PATH + " TEXT,"
+                                  + Download.STATUS + " INTEGER,"
+                                  + Download.IS_READ + " INTEGER DEFAULT 0" // Download item default is unread
+                                  + ")";
 
             sqLiteDatabase.execSQL(CREATE_TABLE);
         }

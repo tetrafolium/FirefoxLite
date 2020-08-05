@@ -30,7 +30,7 @@ public class StorageUtils {
      * @throws NoRemovableStorageException if there is no removable storage to use.
      */
     public static File getAppMediaDirOnRemovableStorage(@NonNull Context ctx)
-            throws NoRemovableStorageException {
+    throws NoRemovableStorageException {
 
         final File media = getFirstRemovableMedia(ctx);
         if (media == null) {
@@ -54,7 +54,7 @@ public class StorageUtils {
      * @throws NoRemovableStorageException if user's preference is on, but there is no removable storage to use.
      */
     public static File getTargetDirOnRemovableStorageForDownloads(@NonNull Context ctx, String type)
-            throws NoRemovableStorageException {
+    throws NoRemovableStorageException {
 
         if (!Settings.getInstance(ctx).shouldSaveToRemovableStorage()) {
             return null;

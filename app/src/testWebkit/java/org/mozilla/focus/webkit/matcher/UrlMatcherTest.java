@@ -28,8 +28,8 @@ public class UrlMatcherTest {
     @Test
     public void matches() throws Exception {
         final UrlMatcher matcher = new UrlMatcher(new String[] {
-                "bcd.random"
-        });
+                    "bcd.random"
+                });
 
         assertTrue(matcher.matches(Uri.parse("http://bcd.random/something"), Uri.parse("http://mozilla.org")));
         assertTrue(matcher.matches(Uri.parse("http://bcd.random"), Uri.parse("http://mozilla.org")));
@@ -68,7 +68,7 @@ public class UrlMatcherTest {
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
-        { // Setup for category tests
+        {   // Setup for category tests
             final SharedPreferences.Editor editor = preferences.edit();
 
             for (int i = 0; i < CAT_COUNT; i++) {
@@ -131,7 +131,7 @@ public class UrlMatcherTest {
                 final String url = "http://category" + currentCategory + ".com";
 
                 Assert.assertEquals("Incorrect category matched for combo=" + categoryPattern + " url=" + url,
-                        enabled, matcher.matches(Uri.parse(url), Uri.parse("http://www.mozilla.org")));
+                                    enabled, matcher.matches(Uri.parse(url), Uri.parse("http://www.mozilla.org")));
             }
         }
     }

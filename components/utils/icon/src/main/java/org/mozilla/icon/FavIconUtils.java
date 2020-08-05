@@ -260,10 +260,10 @@ public class FavIconUtils {
     }
 
     public static String saveBitmapToDirectory(@NonNull final File dir,
-                                               @NonNull final String url,
-                                               @NonNull final Bitmap bitmap,
-                                               @NonNull final Bitmap.CompressFormat compressFormat,
-                                               final int quality) {
+            @NonNull final String url,
+            @NonNull final Bitmap bitmap,
+            @NonNull final Bitmap.CompressFormat compressFormat,
+            final int quality) {
         // Use encoded url as default if No MD5 algorithm
         String fileName = Uri.encode(url);
         try {
@@ -289,11 +289,11 @@ public class FavIconUtils {
                 return Uri.fromFile(file).toString();
             }
             if (!file.createNewFile()) {
-               if (file.exists()) {
-                   return Uri.fromFile(file).toString();
-               } else {
-                   return null;
-               }
+                if (file.exists()) {
+                    return Uri.fromFile(file).toString();
+                } else {
+                    return null;
+                }
             }
             //Convert bitmap to byte array
             ByteArrayOutputStream bos = new ByteArrayOutputStream();

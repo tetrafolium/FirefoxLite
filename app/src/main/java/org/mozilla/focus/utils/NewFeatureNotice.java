@@ -69,16 +69,16 @@ public class NewFeatureNotice {
 
     public void setFirstRunDidShow() {
         preferences.edit()
-                .putBoolean(PREF_KEY_BOOLEAN_FIRSTRUN_SHOWN, true)
-                .apply();
+        .putBoolean(PREF_KEY_BOOLEAN_FIRSTRUN_SHOWN, true)
+        .apply();
     }
 
     @VisibleForTesting
     public void resetFirstRunDidShow() {
         preferences.edit()
-                .putBoolean(PREF_KEY_BOOLEAN_FIRSTRUN_SHOWN, false)
-                .putInt(PREF_KEY_INT_FEATURE_UPGRADE_VERSION, 0)
-                .apply();
+        .putBoolean(PREF_KEY_BOOLEAN_FIRSTRUN_SHOWN, false)
+        .putInt(PREF_KEY_INT_FEATURE_UPGRADE_VERSION, 0)
+        .apply();
     }
 
     private boolean isNewlyInstalled() {
@@ -91,8 +91,8 @@ public class NewFeatureNotice {
         }
 
         preferences.edit()
-                .putInt(PREF_KEY_INT_FEATURE_UPGRADE_VERSION, featureVersion)
-                .apply();
+        .putInt(PREF_KEY_INT_FEATURE_UPGRADE_VERSION, featureVersion)
+        .apply();
     }
 
     public int getLastShownFeatureVersion() {

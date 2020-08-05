@@ -65,7 +65,7 @@ import org.mozilla.rocket.tabs.TabsSessionProvider;
 import java.util.List;
 
 public class TabTrayFragment extends DialogFragment implements TabTrayContract.View,
-        View.OnClickListener, TabTrayAdapter.TabClickListener {
+    View.OnClickListener, TabTrayAdapter.TabClickListener {
 
     public static final String FRAGMENT_TAG = "tab_tray";
 
@@ -209,22 +209,22 @@ public class TabTrayFragment extends DialogFragment implements TabTrayContract.V
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.new_tab_button:
-                onNewTabClicked();
-                break;
+        case R.id.new_tab_button:
+            onNewTabClicked();
+            break;
 
-            case R.id.close_all_tabs_btn:
-                onCloseAllTabsClicked();
-                break;
+        case R.id.close_all_tabs_btn:
+            onCloseAllTabsClicked();
+            break;
 
-            case R.id.btn_private_browsing:
-                TelemetryWrapper.privateModeTray();
-                startActivity(new Intent(getContext(), PrivateModeActivity.class));
-                getActivity().overridePendingTransition(R.anim.pb_enter, R.anim.pb_exit);
-                break;
+        case R.id.btn_private_browsing:
+            TelemetryWrapper.privateModeTray();
+            startActivity(new Intent(getContext(), PrivateModeActivity.class));
+            getActivity().overridePendingTransition(R.anim.pb_enter, R.anim.pb_exit);
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
     }
 
@@ -419,9 +419,9 @@ public class TabTrayFragment extends DialogFragment implements TabTrayContract.V
     private boolean isPositionVisibleWhenCollapse(int focusedPosition) {
         Resources res = getResources();
         int visiblePanelHeight = res.getDimensionPixelSize(R.dimen.tab_tray_peekHeight) -
-                res.getDimensionPixelSize(R.dimen.tab_tray_new_tab_btn_height);
+                                 res.getDimensionPixelSize(R.dimen.tab_tray_new_tab_btn_height);
         int itemHeightWithDivider = res.getDimensionPixelSize(R.dimen.tab_tray_item_height) +
-                res.getDimensionPixelSize(R.dimen.tab_tray_item_space);
+                                    res.getDimensionPixelSize(R.dimen.tab_tray_item_space);
         final int visibleItemCount = visiblePanelHeight / itemHeightWithDivider;
 
         return focusedPosition < visibleItemCount;
@@ -499,18 +499,18 @@ public class TabTrayFragment extends DialogFragment implements TabTrayContract.V
 
     private void setupTapBackgroundToExpand() {
         final GestureDetectorCompat detector = new GestureDetectorCompat(getContext(),
-                new SimpleOnGestureListener() {
-                    @Override
-                    public boolean onSingleTapUp(MotionEvent e) {
-                        setBottomSheetState(BottomSheetBehavior.STATE_EXPANDED);
-                        return true;
-                    }
+        new SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                setBottomSheetState(BottomSheetBehavior.STATE_EXPANDED);
+                return true;
+            }
 
-                    @Override
-                    public boolean onDown(MotionEvent e) {
-                        return true;
-                    }
-                });
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+        });
 
         backgroundView.setOnTouchListener((v, event) -> {
             boolean result = detector.onTouchEvent(event);
@@ -532,13 +532,13 @@ public class TabTrayFragment extends DialogFragment implements TabTrayContract.V
         if (closeTabsDialog == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             closeTabsDialog = builder.setMessage(R.string.tab_tray_close_tabs_dialog_msg)
-                    .setPositiveButton(R.string.action_ok, (dialog, which) -> {
-                        ContentPortalViewState.reset();
-                        presenter.closeAllTabs();
-                        TelemetryWrapper.closeAllTabFromTabTray();
-                    })
-                    .setNegativeButton(R.string.action_cancel, (dialog, which) -> dialog.dismiss())
-                    .show();
+            .setPositiveButton(R.string.action_ok, (dialog, which) -> {
+                ContentPortalViewState.reset();
+                presenter.closeAllTabs();
+                TelemetryWrapper.closeAllTabFromTabTray();
+            })
+            .setNegativeButton(R.string.action_cancel, (dialog, which) -> dialog.dismiss())
+            .show();
         } else {
             closeTabsDialog.show();
         }

@@ -33,12 +33,12 @@ public class SupportUtils {
 
     private final static Pattern schemePattern = Pattern.compile("^.+://");
 
-    static final String[] SUPPORTED_URLS = new String[]{
-            BLANK_URL,
-            FOCUS_ABOUT_URL,
-            YOUR_RIGHTS_URI,
-            PRIVACY_URL,
-            ABOUT_URI
+    static final String[] SUPPORTED_URLS = new String[] {
+        BLANK_URL,
+        FOCUS_ABOUT_URL,
+        YOUR_RIGHTS_URI,
+        PRIVACY_URL,
+        ABOUT_URI
     };
 
     public static String normalize(@NonNull String input) {
@@ -81,39 +81,39 @@ public class SupportUtils {
         }
 
         Uri uri = schemePattern.matcher(trimmedUrl).find()
-                ? Uri.parse(trimmedUrl)
-                : Uri.parse("http://" + trimmedUrl);
+                  ? Uri.parse(trimmedUrl)
+                  : Uri.parse("http://" + trimmedUrl);
 
         final String host = TextUtils.isEmpty(uri.getHost()) ? "" : uri.getHost();
         switch (uri.getScheme()) {
-            case "http":
-            case "https":
-                // localhost allows zero dot
-                if (!host.contains(".")) {
-                    return host.equals("localhost");
-                }
+        case "http":
+        case "https":
+            // localhost allows zero dot
+            if (!host.contains(".")) {
+                return host.equals("localhost");
+            }
 
-                // .a.b.c  and a.b.c. are not allowed
-                return !host.startsWith(".") && !host.endsWith(".");
-            case "file":
-                // only "file" scheme allows empty domain
-                return !TextUtils.isEmpty(uri.getPath());
-            default:
-                //  unknown schema will treated as app link
-                return true;
+            // .a.b.c  and a.b.c. are not allowed
+            return !host.startsWith(".") && !host.endsWith(".");
+        case "file":
+            // only "file" scheme allows empty domain
+            return !TextUtils.isEmpty(uri.getPath());
+        default:
+            //  unknown schema will treated as app link
+            return true;
         }
     }
 
     public static boolean isTemplateSupportPages(String url) {
         final boolean isTemplate;
         switch (url) {
-            case FOCUS_ABOUT_URL:
-            case YOUR_RIGHTS_URI:
-                isTemplate = true;
-                break;
-            default:
-                isTemplate = false;
-                break;
+        case FOCUS_ABOUT_URL:
+        case YOUR_RIGHTS_URI:
+            isTemplate = true;
+            break;
+        default:
+            isTemplate = false;
+            break;
         }
         return isTemplate;
     }
@@ -159,14 +159,14 @@ public class SupportUtils {
 
     public static void loadSupportPages(WebView webview, String url) {
         switch (url) {
-            case FOCUS_ABOUT_URL:
-                loadAbout(webview);
-                break;
-            case YOUR_RIGHTS_URI:
-                loadRights(webview);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown internal pages url: " + url);
+        case FOCUS_ABOUT_URL:
+            loadAbout(webview);
+            break;
+        case YOUR_RIGHTS_URI:
+            loadRights(webview);
+            break;
+        default:
+            throw new IllegalArgumentException("Unknown internal pages url: " + url);
         }
     }
 
@@ -239,18 +239,18 @@ public class SupportUtils {
         substitutionMap.put("%about-version%", aboutVersion);
 
         final String aboutContent = resources.getString(R.string.about_content
-                , aboutBody
-                , learnMoreURL
-                , linkLearnMore
-                , supportURL
-                , linkSupport
-                , rightURL
-                , linkYourRights
-                , privacyURL
-                , linkPrivacy
-                , feedURL
-                , linkLifeFeed
-        );
+                                    , aboutBody
+                                    , learnMoreURL
+                                    , linkLearnMore
+                                    , supportURL
+                                    , linkSupport
+                                    , rightURL
+                                    , linkYourRights
+                                    , privacyURL
+                                    , linkPrivacy
+                                    , feedURL
+                                    , linkLifeFeed
+                                                       );
         substitutionMap.put("%about-content%", aboutContent);
 
         final String wordmark = HtmlLoader.loadDrawableAsDataURI(webView.getContext(), R.drawable.ic_firefox_lite_logo, R.color.about_logo_color);
