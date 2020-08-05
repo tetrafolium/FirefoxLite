@@ -7,5 +7,5 @@ package org.mozilla.rocket.tabs.web;
 import androidx.annotation.NonNull;
 
 public interface DownloadCallback {
-void onDownloadStart(@NonNull Download download);
+  void onDownloadStart(@NonNull Download download);
 }

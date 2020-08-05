@@ -6,7 +6,6 @@
 package org.mozilla.focus.persistence;
 
 import junit.framework.Assert;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -14,14 +13,14 @@ import org.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class TabEntityTest {
 
-@Test
-public void testSanity() {
-	Assert.assertFalse(new TabEntity(null, null).isValid());
-	Assert.assertFalse(new TabEntity(null, null, "title", "").isValid());
-	Assert.assertFalse(new TabEntity(null, null, null, "url").isValid());
-	Assert.assertFalse(new TabEntity("id", null, null, null).isValid());
+  @Test
+  public void testSanity() {
+    Assert.assertFalse(new TabEntity(null, null).isValid());
+    Assert.assertFalse(new TabEntity(null, null, "title", "").isValid());
+    Assert.assertFalse(new TabEntity(null, null, null, "url").isValid());
+    Assert.assertFalse(new TabEntity("id", null, null, null).isValid());
 
-	Assert.assertTrue(new TabEntity("id", null, null, "url").isValid());
-	Assert.assertTrue(new TabEntity("id", null, "title", "url").isValid());
-}
+    Assert.assertTrue(new TabEntity("id", null, null, "url").isValid());
+    Assert.assertTrue(new TabEntity("id", null, "title", "url").isValid());
+  }
 }

@@ -12,8 +12,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TelemetryExtra {
-String name();
+  String name();
 
-String value();
-
+  String value();
 }

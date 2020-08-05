@@ -11,7 +11,8 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
-
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import org.mozilla.focus.history.model.Site;
 import org.mozilla.focus.provider.HistoryContract;
 import org.mozilla.focus.provider.HistoryContract.BrowsingHistory;
@@ -23,148 +24,177 @@ import org.mozilla.focus.provider.QueryHandler.AsyncQueryListener;
 import org.mozilla.focus.provider.QueryHandler.AsyncUpdateListener;
 import org.mozilla.icon.FavIconUtils;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-
 /**
  * Created by hart on 07/08/2017.
  */
 
 public class BrowsingHistoryManager {
 
-private static BrowsingHistoryManager sInstance;
+  private static BrowsingHistoryManager sInstance;
 
-private WeakReference<ContentResolver> mResolver;
-private QueryHandler mQueryHandler;
-private BrowsingHistoryContentObserver mContentObserver;
-private ArrayList<ContentChangeListener> mListeners;
+  private WeakReference<ContentResolver> mResolver;
+  private QueryHandler mQueryHandler;
+  private BrowsingHistoryContentObserver mContentObserver;
+  private ArrayList<ContentChangeListener> mListeners;
 
-private final class BrowsingHistoryContentObserver extends ContentObserver {
+  private final class BrowsingHistoryContentObserver extends ContentObserver {
 
-public BrowsingHistoryContentObserver(Handler handler) {
-	super(handler);
-}
+    public BrowsingHistoryContentObserver(Handler handler) { super(handler); }
 
-@Override
-public void onChange(boolean selfChange) {
-	for (ContentChangeListener listener : mListeners) {
-		listener.onContentChanged();
-	}
-}
-}
+    @Override
+    public void onChange(boolean selfChange) {
+      for (ContentChangeListener listener : mListeners) {
+        listener.onContentChanged();
+      }
+    }
+  }
 
-public interface ContentChangeListener {
-void onContentChanged();
-}
+  public interface ContentChangeListener { void onContentChanged(); }
 
-public static BrowsingHistoryManager getInstance() {
-	if (sInstance == null) {
-		sInstance = new BrowsingHistoryManager();
-	}
-	return sInstance;
-}
+  public static BrowsingHistoryManager getInstance() {
+    if (sInstance == null) {
+      sInstance = new BrowsingHistoryManager();
+    }
+    return sInstance;
+  }
 
-public void init(Context context) {
-	ContentResolver resolver = context.getContentResolver();
-	mResolver = new WeakReference<>(resolver);
-	mQueryHandler = new QueryHandler(resolver);
-	mContentObserver = new BrowsingHistoryContentObserver(null);
-	mListeners = new ArrayList<>();
-}
+  public void init(Context context) {
+    ContentResolver resolver = context.getContentResolver();
+    mResolver = new WeakReference<>(resolver);
+    mQueryHandler = new QueryHandler(resolver);
+    mContentObserver = new BrowsingHistoryContentObserver(null);
+    mListeners = new ArrayList<>();
+  }
 
-public void registerContentChangeListener(ContentChangeListener listener) {
-	if (listener == null) {
-		return;
-	}
+  public void registerContentChangeListener(ContentChangeListener listener) {
+    if (listener == null) {
+      return;
+    }
 
-	mListeners.add(listener);
-	if (mListeners.size() == 1) {
-		ContentResolver resolver = mResolver.get();
-		if (resolver != null) {
-			resolver.registerContentObserver(BrowsingHistory.CONTENT_URI, false, mContentObserver);
-		}
-	}
-}
+    mListeners.add(listener);
+    if (mListeners.size() == 1) {
+      ContentResolver resolver = mResolver.get();
+      if (resolver != null) {
+        resolver.registerContentObserver(BrowsingHistory.CONTENT_URI, false,
+                                         mContentObserver);
+      }
+    }
+  }
 
-public void unregisterContentChangeListener(ContentChangeListener listener) {
-	if (listener == null) {
-		return;
-	}
+  public void unregisterContentChangeListener(ContentChangeListener listener) {
+    if (listener == null) {
+      return;
+    }
 
-	mListeners.remove(listener);
-	if (mListeners.size() == 0) {
-		ContentResolver resolver = mResolver.get();
-		if (resolver != null) {
-			resolver.unregisterContentObserver(mContentObserver);
-		}
-	}
-}
+    mListeners.remove(listener);
+    if (mListeners.size() == 0) {
+      ContentResolver resolver = mResolver.get();
+      if (resolver != null) {
+        resolver.unregisterContentObserver(mContentObserver);
+      }
+    }
+  }
 
-public static Site prepareSiteForFirstInsert(String url, String title, long timeStamp) {
-	return new Site(QueryHandler.LONG_NO_VALUE, title, url, QueryHandler.LONG_NO_VALUE, timeStamp, (String) QueryHandler.OBJECT_NO_VALUE);
-}
+  public static Site prepareSiteForFirstInsert(String url, String title,
+                                               long timeStamp) {
+    return new Site(QueryHandler.LONG_NO_VALUE, title, url,
+                    QueryHandler.LONG_NO_VALUE, timeStamp,
+                    (String)QueryHandler.OBJECT_NO_VALUE);
+  }
 
-public void insert(final Site site, final AsyncInsertListener listener) {
-	mQueryHandler.postWorker(new Runnable() {
-			@Override
-			public void run() {
-			        final ContentValues contentValues = QueryHandler.getContentValuesFromSite(site);
-			        mQueryHandler.startInsert(QueryHandler.SITE_TOKEN, listener, BrowsingHistory.CONTENT_URI, contentValues);
-			}
-		});
-}
+  public void insert(final Site site, final AsyncInsertListener listener) {
+    mQueryHandler.postWorker(new Runnable() {
+      @Override
+      public void run() {
+        final ContentValues contentValues =
+            QueryHandler.getContentValuesFromSite(site);
+        mQueryHandler.startInsert(QueryHandler.SITE_TOKEN, listener,
+                                  BrowsingHistory.CONTENT_URI, contentValues);
+      }
+    });
+  }
 
-public void delete(long id, AsyncDeleteListener listener) {
-	mQueryHandler.startDelete(QueryHandler.SITE_TOKEN, new AsyncDeleteWrapper(id, listener), BrowsingHistory.CONTENT_URI, BrowsingHistory._ID + " = ?", new String[] {Long.toString(id)});
-}
+  public void delete(long id, AsyncDeleteListener listener) {
+    mQueryHandler.startDelete(
+        QueryHandler.SITE_TOKEN, new AsyncDeleteWrapper(id, listener),
+        BrowsingHistory.CONTENT_URI, BrowsingHistory._ID + " = ?",
+        new String[] {Long.toString(id)});
+  }
 
-public void deleteAll(AsyncDeleteListener listener) {
-	mQueryHandler.startDelete(QueryHandler.SITE_TOKEN, new AsyncDeleteWrapper(-1, listener), BrowsingHistory.CONTENT_URI, "1", null);
-}
+  public void deleteAll(AsyncDeleteListener listener) {
+    mQueryHandler.startDelete(QueryHandler.SITE_TOKEN,
+                              new AsyncDeleteWrapper(-1, listener),
+                              BrowsingHistory.CONTENT_URI, "1", null);
+  }
 
-public void updateLastEntry(final Site site, final AsyncUpdateListener listener) {
-	mQueryHandler.postWorker(new Runnable() {
-			@Override
-			public void run() {
-			        final ContentValues contentValues = QueryHandler.getContentValuesFromSite(site);
-			        mQueryHandler.startUpdate(QueryHandler.SITE_TOKEN, listener, BrowsingHistory.CONTENT_URI, contentValues, BrowsingHistory._ID + " = ( SELECT " + BrowsingHistory._ID + " FROM " + HistoryContract.TABLE_NAME + " WHERE " + BrowsingHistory.URL + " = ? ORDER BY " + BrowsingHistory.LAST_VIEW_TIMESTAMP + " DESC)", new String[] {site.getUrl()});
-			}
-		});
-}
+  public void updateLastEntry(final Site site,
+                              final AsyncUpdateListener listener) {
+    mQueryHandler.postWorker(new Runnable() {
+      @Override
+      public void run() {
+        final ContentValues contentValues =
+            QueryHandler.getContentValuesFromSite(site);
+        mQueryHandler.startUpdate(
+            QueryHandler.SITE_TOKEN, listener, BrowsingHistory.CONTENT_URI,
+            contentValues,
+            BrowsingHistory._ID + " = ( SELECT " + BrowsingHistory._ID +
+                " FROM " + HistoryContract.TABLE_NAME + " WHERE " +
+                BrowsingHistory.URL + " = ? ORDER BY " +
+                BrowsingHistory.LAST_VIEW_TIMESTAMP + " DESC)",
+            new String[] {site.getUrl()});
+      }
+    });
+  }
 
-public void query(int offset, int limit, AsyncQueryListener listener) {
-	mQueryHandler.startQuery(QueryHandler.SITE_TOKEN, listener, Uri.parse(BrowsingHistory.CONTENT_URI.toString() + "?offset=" + offset + "&limit=" + limit), null, null, null, BrowsingHistory.LAST_VIEW_TIMESTAMP + " DESC");
-}
+  public void query(int offset, int limit, AsyncQueryListener listener) {
+    mQueryHandler.startQuery(QueryHandler.SITE_TOKEN, listener,
+                             Uri.parse(BrowsingHistory.CONTENT_URI.toString() +
+                                       "?offset=" + offset + "&limit=" + limit),
+                             null, null, null,
+                             BrowsingHistory.LAST_VIEW_TIMESTAMP + " DESC");
+  }
 
-public void queryTopSites(int limit, int minViewCount, AsyncQueryListener listener) {
-	mQueryHandler.startQuery(QueryHandler.SITE_TOKEN, listener, Uri.parse(BrowsingHistory.CONTENT_URI.toString() + "?limit=" + limit), null, BrowsingHistory.VIEW_COUNT + " >= ?", new String[] {Integer.toString(minViewCount)}, BrowsingHistory.VIEW_COUNT + " DESC");
-}
+  public void queryTopSites(int limit, int minViewCount,
+                            AsyncQueryListener listener) {
+    mQueryHandler.startQuery(
+        QueryHandler.SITE_TOKEN, listener,
+        Uri.parse(BrowsingHistory.CONTENT_URI.toString() + "?limit=" + limit),
+        null, BrowsingHistory.VIEW_COUNT + " >= ?",
+        new String[] {Integer.toString(minViewCount)},
+        BrowsingHistory.VIEW_COUNT + " DESC");
+  }
 
-private static Site prepareSiteForUpdate(String title, String url, String fileUri) {
-	return new Site(QueryHandler.LONG_NO_VALUE, title, url, QueryHandler.LONG_NO_VALUE, QueryHandler.LONG_NO_VALUE, fileUri);
-}
+  private static Site prepareSiteForUpdate(String title, String url,
+                                           String fileUri) {
+    return new Site(QueryHandler.LONG_NO_VALUE, title, url,
+                    QueryHandler.LONG_NO_VALUE, QueryHandler.LONG_NO_VALUE,
+                    fileUri);
+  }
 
-public static void updateHistory(String title, String url, String fileUri) {
-	updateHistory(title, url, fileUri, null);
-}
+  public static void updateHistory(String title, String url, String fileUri) {
+    updateHistory(title, url, fileUri, null);
+  }
 
-public static void updateHistory(String title, String url, String fileUri, AsyncUpdateListener callback) {
-	BrowsingHistoryManager.getInstance().updateLastEntry(prepareSiteForUpdate(title, url, fileUri), callback);
-}
+  public static void updateHistory(String title, String url, String fileUri,
+                                   AsyncUpdateListener callback) {
+    BrowsingHistoryManager.getInstance().updateLastEntry(
+        prepareSiteForUpdate(title, url, fileUri), callback);
+  }
 
-public static class UpdateHistoryWrapper implements FavIconUtils.Consumer<String> {
+  public static class UpdateHistoryWrapper
+      implements FavIconUtils.Consumer<String> {
 
-private String title;
-private String url;
+    private String title;
+    private String url;
 
-public UpdateHistoryWrapper(String title, String url) {
-	this.title = title;
-	this.url = url;
-}
+    public UpdateHistoryWrapper(String title, String url) {
+      this.title = title;
+      this.url = url;
+    }
 
-@Override
-public void accept(String fileUri) {
-	BrowsingHistoryManager.updateHistory(title, url, fileUri);
-}
-}
+    @Override
+    public void accept(String fileUri) {
+      BrowsingHistoryManager.updateHistory(title, url, fileUri);
+    }
+  }
 }

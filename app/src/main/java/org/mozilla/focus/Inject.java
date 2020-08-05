@@ -13,10 +13,9 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.animation.Animation;
-
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
-
+import javax.annotation.Nullable;
 import org.mozilla.focus.home.HomeFragment;
 import org.mozilla.focus.persistence.BookmarksDatabase;
 import org.mozilla.focus.persistence.TabsDatabase;
@@ -46,122 +45,140 @@ import org.mozilla.rocket.urlinput.QuickSearchViewModel;
 import org.mozilla.rocket.urlinput.QuickSearchViewModelFactory;
 import org.mozilla.strictmodeviolator.StrictModeViolation;
 
-import javax.annotation.Nullable;
-
 public class Inject {
 
-private static boolean sIsNewCreated = true;
+  private static boolean sIsNewCreated = true;
 
-public static String getDefaultTopSites(Context context) {
+  public static String getDefaultTopSites(Context context) {
 
-	return PreferenceManager.getDefaultSharedPreferences(context)
-	       .getString(HomeFragment.TOPSITES_PREF, null);
+    return PreferenceManager.getDefaultSharedPreferences(context).getString(
+        HomeFragment.TOPSITES_PREF, null);
+  }
 
-}
+  public static TabsDatabase getTabsDatabase(Context context) {
+    return TabsDatabase.getInstance(context);
+  }
 
-public static TabsDatabase getTabsDatabase(Context context) {
-	return TabsDatabase.getInstance(context);
-}
+  public static boolean isTelemetryEnabled(Context context) {
+    // The first access to shared preferences will require a disk read.
+    return StrictModeViolation.tempGrant(
+        StrictMode.ThreadPolicy.Builder::permitDiskReads, () -> {
+          final Resources resources = context.getResources();
+          final SharedPreferences preferences =
+              PreferenceManager.getDefaultSharedPreferences(context);
+          final boolean isEnabledByDefault = AppConstants.isBuiltWithFirebase();
+          // Telemetry is not enable by default in debug build. But the user /
+          // developer can choose to turn it on in AndroidTest, this is enabled
+          // by default
+          return preferences.getBoolean(
+              resources.getString(R.string.pref_key_telemetry),
+              isEnabledByDefault);
+        });
+  }
 
+  public static void enableStrictMode() {
+    if (AppConstants.isReleaseBuild()) {
+      return;
+    }
 
-public static boolean isTelemetryEnabled(Context context) {
-	// The first access to shared preferences will require a disk read.
-	return StrictModeViolation.tempGrant(StrictMode.ThreadPolicy.Builder::permitDiskReads, ()->{
-			final Resources resources = context.getResources();
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			final boolean isEnabledByDefault = AppConstants.isBuiltWithFirebase();
-			// Telemetry is not enable by default in debug build. But the user / developer can choose to turn it on
-			// in AndroidTest, this is enabled by default
-			return preferences.getBoolean(resources.getString(R.string.pref_key_telemetry), isEnabledByDefault);
-		});
-}
+    final StrictMode.ThreadPolicy.Builder threadPolicyBuilder =
+        new StrictMode.ThreadPolicy.Builder().detectAll();
+    final StrictMode.VmPolicy.Builder vmPolicyBuilder =
+        new StrictMode.VmPolicy.Builder().detectAll();
 
-public static void enableStrictMode() {
-	if (AppConstants.isReleaseBuild()) {
-		return;
-	}
+    threadPolicyBuilder.penaltyLog().penaltyDialog();
+    // Previously we have penaltyDeath() for debug build, but in order to add
+    // crashlytics, we can't use it here. ( crashlytics has untagged Network
+    // violation so it always crashes
+    vmPolicyBuilder.penaltyLog();
 
-	final StrictMode.ThreadPolicy.Builder threadPolicyBuilder = new StrictMode.ThreadPolicy.Builder().detectAll();
-	final StrictMode.VmPolicy.Builder vmPolicyBuilder = new StrictMode.VmPolicy.Builder().detectAll();
+    StrictMode.setThreadPolicy(threadPolicyBuilder.build());
+    StrictMode.setVmPolicy(vmPolicyBuilder.build());
+  }
 
-	threadPolicyBuilder.penaltyLog().penaltyDialog();
-	// Previously we have penaltyDeath() for debug build, but in order to add crashlytics, we can't use it here.
-	// ( crashlytics has untagged Network violation so it always crashes
-	vmPolicyBuilder.penaltyLog();
+  public static final boolean getActivityNewlyCreatedFlag() {
+    return sIsNewCreated;
+  }
 
-	StrictMode.setThreadPolicy(threadPolicyBuilder.build());
-	StrictMode.setVmPolicy(vmPolicyBuilder.build());
-}
+  public static void setActivityNewlyCreatedFlag() { sIsNewCreated = false; }
 
-public static final boolean getActivityNewlyCreatedFlag() {
-	return sIsNewCreated;
-}
+  public static boolean isUnderEspressoTest() { return false; }
 
-public static void setActivityNewlyCreatedFlag() {
-	sIsNewCreated = false;
-}
+  public static RemoteConfigConstants.SURVEY getDefaultFeatureSurvey() {
+    return RemoteConfigConstants.SURVEY.NONE;
+  }
 
-public static boolean isUnderEspressoTest() {
-	return false;
-}
+  public static DownloadInfoRepository provideDownloadInfoRepository() {
+    // TODO inject data source, ex production DB or mock DB here
+    return DownloadInfoRepository.getInstance();
+  }
 
-public static RemoteConfigConstants.SURVEY getDefaultFeatureSurvey() {
-	return RemoteConfigConstants.SURVEY.NONE;
-}
+  public static DownloadIndicatorViewModel
+  obtainDownloadIndicatorViewModel(FragmentActivity activity) {
+    DownloadViewModelFactory factory = DownloadViewModelFactory.getInstance();
+    return ViewModelProviders.of(activity, factory)
+        .get(DownloadIndicatorViewModel.class);
+  }
 
-public static DownloadInfoRepository provideDownloadInfoRepository() {
-	//TODO inject data source, ex production DB or mock DB here
-	return DownloadInfoRepository.getInstance();
-}
+  public static DownloadInfoViewModel
+  obtainDownloadInfoViewModel(FragmentActivity activity) {
+    DownloadViewModelFactory factory = DownloadViewModelFactory.getInstance();
+    return ViewModelProviders.of(activity, factory)
+        .get(DownloadInfoViewModel.class);
+  }
 
-public static DownloadIndicatorViewModel obtainDownloadIndicatorViewModel(FragmentActivity activity) {
-	DownloadViewModelFactory factory = DownloadViewModelFactory.getInstance();
-	return ViewModelProviders.of(activity, factory).get(DownloadIndicatorViewModel.class);
-}
+  private static QuickSearchRepository
+  provideQuickSearchRepository(Application application) {
+    return QuickSearchRepository.getInstance(
+        GlobalDataSource.getInstance(application),
+        LocaleDataSource.getInstance(application));
+  }
 
-public static DownloadInfoViewModel obtainDownloadInfoViewModel(FragmentActivity activity) {
-	DownloadViewModelFactory factory = DownloadViewModelFactory.getInstance();
-	return ViewModelProviders.of(activity, factory).get(DownloadInfoViewModel.class);
-}
+  public static QuickSearchViewModel
+  obtainQuickSearchViewModel(FragmentActivity activity) {
+    QuickSearchViewModelFactory factory = new QuickSearchViewModelFactory(
+        provideQuickSearchRepository(activity.getApplication()));
+    return ViewModelProviders.of(activity, factory)
+        .get(QuickSearchViewModel.class);
+  }
 
-private static QuickSearchRepository provideQuickSearchRepository(Application application) {
-	return QuickSearchRepository.getInstance(GlobalDataSource.getInstance(application), LocaleDataSource.getInstance(application));
-}
+  public static BottomBarViewModel
+  obtainBottomBarViewModel(FragmentActivity activity) {
+    BottomBarViewModelFactory factory = BottomBarViewModelFactory.getInstance();
+    return ViewModelProviders.of(activity, factory)
+        .get(BottomBarViewModel.class);
+  }
 
-public static QuickSearchViewModel obtainQuickSearchViewModel(FragmentActivity activity) {
-	QuickSearchViewModelFactory factory = new QuickSearchViewModelFactory(provideQuickSearchRepository(activity.getApplication()));
-	return ViewModelProviders.of(activity, factory).get(QuickSearchViewModel.class);
-}
+  public static MenuViewModel obtainMenuViewModel(FragmentActivity activity) {
+    MenuViewModelFactory factory = MenuViewModelFactory.getInstance();
+    return ViewModelProviders.of(activity, factory).get(MenuViewModel.class);
+  }
 
-public static BottomBarViewModel obtainBottomBarViewModel(FragmentActivity activity) {
-	BottomBarViewModelFactory factory = BottomBarViewModelFactory.getInstance();
-	return ViewModelProviders.of(activity, factory).get(BottomBarViewModel.class);
-}
+  public static PrivateBottomBarViewModel
+  obtainPrivateBottomBarViewModel(FragmentActivity activity) {
+    PrivateBottomBarViewModelFactory factory =
+        PrivateBottomBarViewModelFactory.getInstance();
+    return ViewModelProviders.of(activity, factory)
+        .get(PrivateBottomBarViewModel.class);
+  }
 
-public static MenuViewModel obtainMenuViewModel(FragmentActivity activity) {
-	MenuViewModelFactory factory = MenuViewModelFactory.getInstance();
-	return ViewModelProviders.of(activity, factory).get(MenuViewModel.class);
-}
+  public static ChromeViewModel
+  obtainChromeViewModel(FragmentActivity activity) {
+    Settings settings = Settings.getInstance(activity);
+    BookmarkRepository bookmarkRepo =
+        BookmarkRepository.getInstance(BookmarksDatabase.getInstance(activity));
+    PrivateMode privateMode = PrivateMode.getInstance(activity);
+    Browsers Browsers = new Browsers(activity, "http://mozilla.org");
+    StorageHelper storageHelper = new StorageHelper(activity);
+    ChromeViewModelFactory factory = ChromeViewModelFactory.getInstance(
+        settings, bookmarkRepo, privateMode, Browsers, storageHelper);
+    return ViewModelProviders.of(activity, factory).get(ChromeViewModel.class);
+  }
 
-public static PrivateBottomBarViewModel obtainPrivateBottomBarViewModel(FragmentActivity activity) {
-	PrivateBottomBarViewModelFactory factory = PrivateBottomBarViewModelFactory.getInstance();
-	return ViewModelProviders.of(activity, factory).get(PrivateBottomBarViewModel.class);
-}
-
-public static ChromeViewModel obtainChromeViewModel(FragmentActivity activity) {
-	Settings settings = Settings.getInstance(activity);
-	BookmarkRepository bookmarkRepo = BookmarkRepository.getInstance(BookmarksDatabase.getInstance(activity));
-	PrivateMode privateMode = PrivateMode.getInstance(activity);
-	Browsers Browsers = new Browsers(activity, "http://mozilla.org");
-	StorageHelper storageHelper = new StorageHelper(activity);
-	ChromeViewModelFactory factory = ChromeViewModelFactory.getInstance(settings, bookmarkRepo, privateMode, Browsers, storageHelper);
-	return ViewModelProviders.of(activity, factory).get(ChromeViewModel.class);
-}
-
-public static void startAnimation(@Nullable View view, Animation animation) {
-	if (view == null) {
-		return;
-	}
-	view.startAnimation(animation);
-}
+  public static void startAnimation(@Nullable View view, Animation animation) {
+    if (view == null) {
+      return;
+    }
+    view.startAnimation(animation);
+  }
 }

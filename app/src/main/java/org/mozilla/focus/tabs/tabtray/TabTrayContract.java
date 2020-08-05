@@ -5,64 +5,63 @@
 
 package org.mozilla.focus.tabs.tabtray;
 
+import java.util.List;
 import org.mozilla.rocket.tabs.Session;
 
-import java.util.List;
-
 class TabTrayContract {
-interface Presenter {
-void viewReady();
+  interface Presenter {
+    void viewReady();
 
-void tabClicked(int tabPosition);
+    void tabClicked(int tabPosition);
 
-void tabCloseClicked(int tabPosition);
+    void tabCloseClicked(int tabPosition);
 
-void tabTrayClosed();
+    void tabTrayClosed();
 
-void closeAllTabs();
-}
+    void closeAllTabs();
+  }
 
-interface View {
-void initData(List<Session> newTabs, Session newFocusedTab);
+  interface View {
+    void initData(List<Session> newTabs, Session newFocusedTab);
 
-void refreshData(List<Session> newTabs, Session newFocusedTab);
+    void refreshData(List<Session> newTabs, Session newFocusedTab);
 
-void refreshTabData(Session tab);
+    void refreshTabData(Session tab);
 
-void showFocusedTab(int tabPosition);
+    void showFocusedTab(int tabPosition);
 
-void tabSwitched(int tabPosition);
+    void tabSwitched(int tabPosition);
 
-void closeTabTray();
+    void closeTabTray();
 
-void navigateToHome();
-}
+    void navigateToHome();
+  }
 
-interface Model {
-void loadTabs(OnLoadCompleteListener listener);
+  interface Model {
+    void loadTabs(OnLoadCompleteListener listener);
 
-List<Session> getTabs();
+    List<Session> getTabs();
 
-Session getFocusedTab();
+    Session getFocusedTab();
 
-void switchTab(int tabPosition);
+    void switchTab(int tabPosition);
 
-void removeTab(int tabPosition);
+    void removeTab(int tabPosition);
 
-void clearTabs();
+    void clearTabs();
 
-void subscribe(Observer observer);
+    void subscribe(Observer observer);
 
-void unsubscribe();
+    void unsubscribe();
 
-interface OnLoadCompleteListener {
-void onLoadComplete();
-}
+    interface OnLoadCompleteListener {
+      void onLoadComplete();
+    }
 
-interface Observer {
-void onUpdate(List<Session> newTabs);
+    interface Observer {
+      void onUpdate(List<Session> newTabs);
 
-void onTabUpdate(Session tab);
-}
-}
+      void onTabUpdate(Session tab);
+    }
+  }
 }

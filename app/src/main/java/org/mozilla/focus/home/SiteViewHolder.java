@@ -5,24 +5,23 @@
 
 package org.mozilla.focus.home;
 
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.RecyclerView;
 import org.mozilla.focus.R;
 import org.mozilla.rocket.home.pinsite.PinViewWrapper;
 
 class SiteViewHolder extends RecyclerView.ViewHolder {
 
-AppCompatImageView img;
-TextView text;
-PinViewWrapper pinView;
+  AppCompatImageView img;
+  TextView text;
+  PinViewWrapper pinView;
 
-public SiteViewHolder(View itemView) {
-	super(itemView);
-	img = (AppCompatImageView) itemView.findViewById(R.id.content_image);
-	text = (TextView) itemView.findViewById(R.id.text);
-	pinView = new PinViewWrapper(itemView.findViewById(R.id.pin_indicator));
-}
+  public SiteViewHolder(View itemView) {
+    super(itemView);
+    img = (AppCompatImageView)itemView.findViewById(R.id.content_image);
+    text = (TextView)itemView.findViewById(R.id.text);
+    pinView = new PinViewWrapper(itemView.findViewById(R.id.pin_indicator));
+  }
 }

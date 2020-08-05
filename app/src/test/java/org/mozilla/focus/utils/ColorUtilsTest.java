@@ -5,34 +5,33 @@
 
 package org.mozilla.focus.utils;
 
-import android.graphics.Color;
+import static org.junit.Assert.*;
 
+import android.graphics.Color;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import static org.junit.Assert.*;
-
 @RunWith(RobolectricTestRunner.class)
 public class ColorUtilsTest {
-@Test
-public void testGetReadableTextColor() {
-	assertEquals(Color.BLACK, ColorUtils.getReadableTextColor(Color.WHITE));
-	assertEquals(Color.WHITE, ColorUtils.getReadableTextColor(Color.BLACK));
+  @Test
+  public void testGetReadableTextColor() {
+    assertEquals(Color.BLACK, ColorUtils.getReadableTextColor(Color.WHITE));
+    assertEquals(Color.WHITE, ColorUtils.getReadableTextColor(Color.BLACK));
 
-	// Slack
-	assertEquals(Color.BLACK, ColorUtils.getReadableTextColor(0xfff6f4ec));
+    // Slack
+    assertEquals(Color.BLACK, ColorUtils.getReadableTextColor(0xfff6f4ec));
 
-	// Google+
-	assertEquals(Color.WHITE, ColorUtils.getReadableTextColor(0xffdb4437));
+    // Google+
+    assertEquals(Color.WHITE, ColorUtils.getReadableTextColor(0xffdb4437));
 
-	// Telegram
-	assertEquals(Color.WHITE, ColorUtils.getReadableTextColor(0xff527da3));
+    // Telegram
+    assertEquals(Color.WHITE, ColorUtils.getReadableTextColor(0xff527da3));
 
-	// IRCCloud
-	assertEquals(Color.BLACK, ColorUtils.getReadableTextColor(0xfff2f7fc));
+    // IRCCloud
+    assertEquals(Color.BLACK, ColorUtils.getReadableTextColor(0xfff2f7fc));
 
-	// Yahnac
-	assertEquals(Color.WHITE, ColorUtils.getReadableTextColor(0xfff57c00));
-}
+    // Yahnac
+    assertEquals(Color.WHITE, ColorUtils.getReadableTextColor(0xfff57c00));
+  }
 }

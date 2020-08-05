@@ -5,30 +5,6 @@
 
 package org.mozilla.focus.activity;
 
-import android.content.Intent;
-import androidx.annotation.Keep;
-import androidx.test.espresso.IdlingRegistry;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.matcher.RootMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mozilla.focus.R;
-import org.mozilla.focus.helper.BeforeTestTask;
-import org.mozilla.focus.helper.SessionLoadedIdlingResource;
-import org.mozilla.focus.utils.AndroidTestUtils;
-
-import java.io.IOException;
-
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
@@ -43,228 +19,268 @@ import static org.hamcrest.core.AllOf.allOf;
 import static org.mozilla.focus.utils.RecyclerViewTestUtils.atPosition;
 import static org.mozilla.focus.utils.RecyclerViewTestUtils.clickChildViewWithId;
 
+import android.content.Intent;
+import androidx.annotation.Keep;
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.RootMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
+import java.io.IOException;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mozilla.focus.R;
+import org.mozilla.focus.helper.BeforeTestTask;
+import org.mozilla.focus.helper.SessionLoadedIdlingResource;
+import org.mozilla.focus.utils.AndroidTestUtils;
+
 @Keep
 @RunWith(AndroidJUnit4.class)
 public class BrowsingHistoryTest {
 
-private static final String PATH_SITE_1 = "/site1/";
-private static final String PATH_SITE_2 = "/site2/";
-private static final String HTML_FILE_GET_LOCATION = "get_location.html";
+  private static final String PATH_SITE_1 = "/site1/";
+  private static final String PATH_SITE_2 = "/site2/";
+  private static final String HTML_FILE_GET_LOCATION = "get_location.html";
 
-private MockWebServer webServer;
+  private MockWebServer webServer;
 
-private SessionLoadedIdlingResource loadingIdlingResource;
+  private SessionLoadedIdlingResource loadingIdlingResource;
 
-@Rule
-public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class, true, false) {
-	@Override
-	protected void beforeActivityLaunched() {
-		super.beforeActivityLaunched();
+  @Rule
+  public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<
+      MainActivity>(MainActivity.class, true, false) {
+    @Override
+    protected void beforeActivityLaunched() {
+      super.beforeActivityLaunched();
 
-		webServer = new MockWebServer();
-		try {
-			webServer.enqueue(new MockResponse()
-			                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
-			                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
-			webServer.enqueue(new MockResponse()
-			                  .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
-			                  .addHeader("Set-Cookie", "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+      webServer = new MockWebServer();
+      try {
+        webServer.enqueue(
+            new MockResponse()
+                .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
+                .addHeader(
+                    "Set-Cookie",
+                    "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
+        webServer.enqueue(
+            new MockResponse()
+                .setBody(AndroidTestUtils.readTestAsset(HTML_FILE_GET_LOCATION))
+                .addHeader(
+                    "Set-Cookie",
+                    "sphere=battery; Expires=Wed, 21 Oct 2035 07:28:00 GMT;"));
 
-			webServer.start();
-		} catch (IOException e) {
-			throw new AssertionError("Could not start web server", e);
-		}
-	}
+        webServer.start();
+      } catch (IOException e) {
+        throw new AssertionError("Could not start web server", e);
+      }
+    }
 
-	@Override
-	protected void afterActivityFinished() {
-		super.afterActivityFinished();
+    @Override
+    protected void afterActivityFinished() {
+      super.afterActivityFinished();
 
-		try {
-			webServer.close();
-			webServer.shutdown();
-		} catch (IOException e) {
-			throw new AssertionError("Could not stop web server", e);
-		}
-	}
-};
+      try {
+        webServer.close();
+        webServer.shutdown();
+      } catch (IOException e) {
+        throw new AssertionError("Could not stop web server", e);
+      }
+    }
+  };
 
-@Before
-public void setUp() {
-	new BeforeTestTask.Builder()
-	.clearBrowsingHistory()
-	.build()
-	.execute();
-	activityTestRule.launchActivity(new Intent());
-	// loadingIdlingResource needs to be initialized here cause activity only exist till above line is called.
-	loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
-}
+  @Before
+  public void setUp() {
+    new BeforeTestTask.Builder().clearBrowsingHistory().build().execute();
+    activityTestRule.launchActivity(new Intent());
+    // loadingIdlingResource needs to be initialized here cause activity only
+    // exist till above line is called.
+    loadingIdlingResource =
+        new SessionLoadedIdlingResource(activityTestRule.getActivity());
+  }
 
-@After
-public void tearDown() {
-	// We unregister loadingIdlingResource here so other tests will not be affected.
-	if (loadingIdlingResource != null) {
-		IdlingRegistry.getInstance().unregister(loadingIdlingResource);
-	}
-}
+  @After
+  public void tearDown() {
+    // We unregister loadingIdlingResource here so other tests will not be
+    // affected.
+    if (loadingIdlingResource != null) {
+      IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+    }
+  }
 
-/**
- * Test case no: TC0050
- * Test case name: History is recorded correctly
- * Steps:
- * 1. Launch app
- * 2. Tap site_1
- * 3. Tap site_2
- * 4. Tap Menu
- * 5. Tap History
- * 6. Check site_2 locates first in the list
- * 7. Check site_1 locates second in the list
- * 8. Tap the second item in history panel
- * 9. Check the opened tab url is site_1
- */
-@Test
-public void browsingTwoWebSites_sitesAreDisplayedInOrderInHistoryPanel() {
+  /**
+   * Test case no: TC0050
+   * Test case name: History is recorded correctly
+   * Steps:
+   * 1. Launch app
+   * 2. Tap site_1
+   * 3. Tap site_2
+   * 4. Tap Menu
+   * 5. Tap History
+   * 6. Check site_2 locates first in the list
+   * 7. Check site_1 locates second in the list
+   * 8. Tap the second item in history panel
+   * 9. Check the opened tab url is site_1
+   */
+  @Test
+  public void browsingTwoWebSites_sitesAreDisplayedInOrderInHistoryPanel() {
 
-	final String targetUrlSite1 = webServer.url(PATH_SITE_1).toString();
-	final String targetUrlSite2 = webServer.url(PATH_SITE_2).toString();
+    final String targetUrlSite1 = webServer.url(PATH_SITE_1).toString();
+    final String targetUrlSite2 = webServer.url(PATH_SITE_2).toString();
 
-	// Click search field
-	onView(withId(R.id.home_fragment_fake_input)).perform(click());
+    // Click search field
+    onView(withId(R.id.home_fragment_fake_input)).perform(click());
 
-	// Enter target url
-	onView(withId(R.id.url_edit)).perform(replaceText(targetUrlSite1), pressImeActionButton());
+    // Enter target url
+    onView(withId(R.id.url_edit))
+        .perform(replaceText(targetUrlSite1), pressImeActionButton());
 
-	// Check if site 1 is loaded
-	IdlingRegistry.getInstance().register(loadingIdlingResource);
-	onView(withId(R.id.display_url)).check(matches(withText(targetUrlSite1)));
-	IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+    // Check if site 1 is loaded
+    IdlingRegistry.getInstance().register(loadingIdlingResource);
+    onView(withId(R.id.display_url)).check(matches(withText(targetUrlSite1)));
+    IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
-	onView(withId(R.id.display_url)).perform(click());
-	onView(withId(R.id.url_edit)).perform(replaceText(targetUrlSite2), pressImeActionButton());
+    onView(withId(R.id.display_url)).perform(click());
+    onView(withId(R.id.url_edit))
+        .perform(replaceText(targetUrlSite2), pressImeActionButton());
 
-	// Check if site 2 is loaded
-	IdlingRegistry.getInstance().register(loadingIdlingResource);
-	onView(withId(R.id.display_url)).check(matches(withText(targetUrlSite2)));
-	IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+    // Check if site 2 is loaded
+    IdlingRegistry.getInstance().register(loadingIdlingResource);
+    onView(withId(R.id.display_url)).check(matches(withText(targetUrlSite2)));
+    IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
-	// Open menu
-	AndroidTestUtils.tapBrowserMenuButton();
+    // Open menu
+    AndroidTestUtils.tapBrowserMenuButton();
 
-	// Open history panel
-	onView(allOf(withId(R.id.menu_history), isDisplayed())).perform(click());
+    // Open history panel
+    onView(allOf(withId(R.id.menu_history), isDisplayed())).perform(click());
 
-	// Check site_2 locates first in the list
-	onView(withId(R.id.browsing_history_recycler_view))
-	.check(matches(atPosition(1, hasDescendant(withText(targetUrlSite2)))));
+    // Check site_2 locates first in the list
+    onView(withId(R.id.browsing_history_recycler_view))
+        .check(matches(atPosition(1, hasDescendant(withText(targetUrlSite2)))));
 
-	// Check site_1 locates second in the list
-	onView(withId(R.id.browsing_history_recycler_view))
-	.check(matches(atPosition(2, hasDescendant(withText(targetUrlSite1)))));
+    // Check site_1 locates second in the list
+    onView(withId(R.id.browsing_history_recycler_view))
+        .check(matches(atPosition(2, hasDescendant(withText(targetUrlSite1)))));
 
-	// Tap the second item in history panel (index 0 is date label so index 2 is the latest one of history item)
-	onView(ViewMatchers.withId(R.id.browsing_history_recycler_view))
-	.perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+    // Tap the second item in history panel (index 0 is date label so index 2 is
+    // the latest one of history item)
+    onView(ViewMatchers.withId(R.id.browsing_history_recycler_view))
+        .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
 
-	// Check the opened tab url is site_1
-	onView(withId(R.id.display_url)).check(matches(withText(targetUrlSite1)));
+    // Check the opened tab url is site_1
+    onView(withId(R.id.display_url)).check(matches(withText(targetUrlSite1)));
+  }
 
-}
+  /**
+   * Test case no: TC0051
+   * Test case name: Remove a history record
+   * Steps:
+   * 1. Follow steps in his_001
+   * 2. Tap on settings of a history record
+   * 3. Context menu is shown with "delete" option
+   * 4. Tap on delete
+   * 5. History is deleted
+   */
+  @Test
+  public void browsingWebsiteAndDeleteItsHistoryItem_deleteSuccessfully() {
 
-/**
- * Test case no: TC0051
- * Test case name: Remove a history record
- * Steps:
- * 1. Follow steps in his_001
- * 2. Tap on settings of a history record
- * 3. Context menu is shown with "delete" option
- * 4. Tap on delete
- * 5. History is deleted
- */
-@Test
-public void browsingWebsiteAndDeleteItsHistoryItem_deleteSuccessfully() {
+    final String targetUrl = browsingWebsiteAndOpenHistoryPanel();
 
-	final String targetUrl = browsingWebsiteAndOpenHistoryPanel();
+    // Click the first history item
+    onView(withId(R.id.browsing_history_recycler_view))
+        .check(matches(atPosition(1, hasDescendant(withText(targetUrl)))));
 
-	// Click the first history item
-	onView(withId(R.id.browsing_history_recycler_view))
-	.check(matches(atPosition(1, hasDescendant(withText(targetUrl)))));
+    // Open target history item's action menu
+    onView(withId(R.id.browsing_history_recycler_view))
+        .perform(RecyclerViewActions.actionOnItemAtPosition(
+            1, clickChildViewWithId(R.id.history_item_btn_more)));
 
-	// Open target history item's action menu
-	onView(withId(R.id.browsing_history_recycler_view)).perform(
-		RecyclerViewActions.actionOnItemAtPosition(1, clickChildViewWithId(R.id.history_item_btn_more)));
+    // Click the delete button
+    onView(withText(R.string.browsing_history_menu_delete))
+        .inRoot(RootMatchers.isPlatformPopup())
+        .perform(click());
 
-	// Click the delete button
-	onView(withText(R.string.browsing_history_menu_delete))
-	.inRoot(RootMatchers.isPlatformPopup())
-	.perform(click());
+    // Check if browsing history is cleared
+    onView(withText(R.string.browsing_history_empty_view_msg))
+        .check(matches(isDisplayed()));
+  }
 
-	// Check if browsing history is cleared
-	onView(withText(R.string.browsing_history_empty_view_msg)).check(matches(isDisplayed()));
+  /**
+   * Test case no: TC0052
+   * Test case name: Clear all history record
+   * Steps:
+   * 1. Follow steps in his_001
+   * 2. Tap "CLEAR BROWSING HISTORY"
+   * 3. Dialog shows up
+   * 4. Tap "CANCEL"
+   * 5. History is not changed
+   * 6. Tap "CLEAR BROWSING HISTORY"
+   * 7. Dialog shows up again
+   * 8. Tap "CLEAR"
+   * 9. History cleared
+   */
+  @Test
+  public void clearBrowsingHistory_cancelAndClearWorkCorrectly() {
 
-}
+    browsingWebsiteAndOpenHistoryPanel();
 
-/**
- * Test case no: TC0052
- * Test case name: Clear all history record
- * Steps:
- * 1. Follow steps in his_001
- * 2. Tap "CLEAR BROWSING HISTORY"
- * 3. Dialog shows up
- * 4. Tap "CANCEL"
- * 5. History is not changed
- * 6. Tap "CLEAR BROWSING HISTORY"
- * 7. Dialog shows up again
- * 8. Tap "CLEAR"
- * 9. History cleared
- */
-@Test
-public void clearBrowsingHistory_cancelAndClearWorkCorrectly() {
+    // Click the "Clear browsing history" button
+    onView(withId(R.id.browsing_history_btn_clear)).perform(click());
 
-	browsingWebsiteAndOpenHistoryPanel();
+    // Check if the dialog is showed
+    onView(withText(R.string.browsing_history_dialog_confirm_clear_message))
+        .check(matches(isDisplayed()));
 
-	// Click the "Clear browsing history" button
-	onView(withId(R.id.browsing_history_btn_clear)).perform(click());
+    // Click cancel button
+    onView(withText(R.string.action_cancel))
+        .inRoot(isDialog())
+        .perform(click());
 
-	// Check if the dialog is showed
-	onView(withText(R.string.browsing_history_dialog_confirm_clear_message)).check(matches(isDisplayed()));
+    // Click the "Clear browsing history" button
+    onView(withId(R.id.browsing_history_btn_clear))
+        .inRoot(isDialog())
+        .perform(click());
 
-	// Click cancel button
-	onView(withText(R.string.action_cancel)).inRoot(isDialog()).perform(click());
+    // Check if the dialog is showed
+    onView(withText(R.string.browsing_history_dialog_confirm_clear_message))
+        .check(matches(isDisplayed()));
 
-	// Click the "Clear browsing history" button
-	onView(withId(R.id.browsing_history_btn_clear)).inRoot(isDialog()).perform(click());
+    // Click clear button
+    onView(withText(R.string.browsing_history_dialog_btn_clear))
+        .inRoot(isDialog())
+        .perform(click());
 
-	// Check if the dialog is showed
-	onView(withText(R.string.browsing_history_dialog_confirm_clear_message)).check(matches(isDisplayed()));
+    // Check if browsing history is cleared
+    onView(withText(R.string.browsing_history_empty_view_msg))
+        .check(matches(isDisplayed()));
+  }
 
-	// Click clear button
-	onView(withText(R.string.browsing_history_dialog_btn_clear)).inRoot(isDialog()).perform(click());
+  private String browsingWebsiteAndOpenHistoryPanel() {
+    final String targetUrl = webServer.url(PATH_SITE_1).toString();
 
-	// Check if browsing history is cleared
-	onView(withText(R.string.browsing_history_empty_view_msg)).check(matches(isDisplayed()));
+    // Click search field
+    onView(withId(R.id.home_fragment_fake_input)).perform(click());
 
-}
+    // Enter target url
+    onView(withId(R.id.url_edit))
+        .perform(replaceText(targetUrl), pressImeActionButton());
 
-private String browsingWebsiteAndOpenHistoryPanel() {
-	final String targetUrl = webServer.url(PATH_SITE_1).toString();
+    // Check if target url is loaded
+    IdlingRegistry.getInstance().register(loadingIdlingResource);
+    onView(withId(R.id.display_url)).check(matches(withText(targetUrl)));
+    IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
-	// Click search field
-	onView(withId(R.id.home_fragment_fake_input)).perform(click());
+    // Open menu
+    AndroidTestUtils.tapBrowserMenuButton();
 
-	// Enter target url
-	onView(withId(R.id.url_edit)).perform(replaceText(targetUrl), pressImeActionButton());
+    // Open history panel
+    onView(withId(R.id.menu_history)).perform(click());
 
-	// Check if target url is loaded
-	IdlingRegistry.getInstance().register(loadingIdlingResource);
-	onView(withId(R.id.display_url)).check(matches(withText(targetUrl)));
-	IdlingRegistry.getInstance().unregister(loadingIdlingResource);
-
-	// Open menu
-	AndroidTestUtils.tapBrowserMenuButton();
-
-	// Open history panel
-	onView(withId(R.id.menu_history)).perform(click());
-
-	return targetUrl;
-}
+    return targetUrl;
+  }
 }

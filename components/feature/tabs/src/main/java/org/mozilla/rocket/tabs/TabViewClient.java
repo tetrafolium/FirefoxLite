@@ -12,32 +12,26 @@ import androidx.annotation.NonNull;
  */
 public class TabViewClient {
 
-public void onPageStarted(String url) {
-}
+  public void onPageStarted(String url) {}
 
-public void onPageFinished(boolean isSecure) {
-}
+  public void onPageFinished(boolean isSecure) {}
 
-public void onURLChanged(String url) {
-}
+  public void onURLChanged(String url) {}
 
-/**
- * Return true if the URL was handled, false if we should continue loading the current URL.
- */
-public boolean handleExternalUrl(String url) {
-	return false;
-}
+  /**
+   * Return true if the URL was handled, false if we should continue loading the
+   * current URL.
+   */
+  public boolean handleExternalUrl(String url) { return false; }
 
+  public void updateFailingUrl(String url, boolean updateFromError) {}
 
-public void updateFailingUrl(String url, boolean updateFromError) {
-}
+  public void onHttpAuthRequest(@NonNull HttpAuthCallback callback, String host,
+                                String realm) {}
 
-public void onHttpAuthRequest(@NonNull HttpAuthCallback callback, String host, String realm) {
-}
+  public interface HttpAuthCallback {
+    void proceed(String username, String password);
 
-public interface HttpAuthCallback {
-void proceed(String username, String password);
-
-void cancel();
-}
+    void cancel();
+  }
 }

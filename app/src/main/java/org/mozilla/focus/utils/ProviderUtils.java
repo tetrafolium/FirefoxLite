@@ -10,7 +10,8 @@ package org.mozilla.focus.utils;
  */
 
 public class ProviderUtils {
-public static String getLimitParam(String offset, String limit) {
-	return (limit == null) ? null : (offset == null) ? limit : offset + "," + limit;
-}
+  public static String getLimitParam(String offset, String limit) {
+    return (limit == null) ? null
+                           : (offset == null) ? limit : offset + "," + limit;
+  }
 }

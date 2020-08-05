@@ -12,53 +12,57 @@ import com.bumptech.glide.util.Preconditions;
 import com.bumptech.glide.util.Util;
 
 /**
- * Lazily allocates a {@link android.graphics.drawable.BitmapDrawable} from a given
+ * Lazily allocates a {@link android.graphics.drawable.BitmapDrawable} from a
+ * given
  * {@link android.graphics.Bitmap} on the first call to {@link #get()}.
  */
-public class LazyBitmapDrawableResource implements Resource<BitmapDrawable>,
-	                                           Initializable {
+public class LazyBitmapDrawableResource
+    implements Resource<BitmapDrawable>, Initializable {
 
-private final Bitmap bitmap;
-private final Resources resources;
-private final BitmapPool bitmapPool;
+  private final Bitmap bitmap;
+  private final Resources resources;
+  private final BitmapPool bitmapPool;
 
-public static LazyBitmapDrawableResource obtain(Context context, Bitmap bitmap) {
-	return obtain(context.getResources(), Glide.get(context).getBitmapPool(), bitmap);
-}
+  public static LazyBitmapDrawableResource obtain(Context context,
+                                                  Bitmap bitmap) {
+    return obtain(context.getResources(), Glide.get(context).getBitmapPool(),
+                  bitmap);
+  }
 
-public static LazyBitmapDrawableResource obtain(Resources resources, BitmapPool bitmapPool,
-                                                Bitmap bitmap) {
-	return new LazyBitmapDrawableResource(resources, bitmapPool, bitmap);
-}
+  public static LazyBitmapDrawableResource
+  obtain(Resources resources, BitmapPool bitmapPool, Bitmap bitmap) {
+    return new LazyBitmapDrawableResource(resources, bitmapPool, bitmap);
+  }
 
-LazyBitmapDrawableResource(Resources resources, BitmapPool bitmapPool, Bitmap bitmap) {
-	this.resources = Preconditions.checkNotNull(resources);
-	this.bitmapPool = Preconditions.checkNotNull(bitmapPool);
-	this.bitmap = Preconditions.checkNotNull(bitmap);
-}
+  LazyBitmapDrawableResource(Resources resources, BitmapPool bitmapPool,
+                             Bitmap bitmap) {
+    this.resources = Preconditions.checkNotNull(resources);
+    this.bitmapPool = Preconditions.checkNotNull(bitmapPool);
+    this.bitmap = Preconditions.checkNotNull(bitmap);
+  }
 
-@Override
-public Class<BitmapDrawable> getResourceClass() {
-	return BitmapDrawable.class;
-}
+  @Override
+  public Class<BitmapDrawable> getResourceClass() {
+    return BitmapDrawable.class;
+  }
 
-@Override
-public BitmapDrawable get() {
-	return new BitmapDrawable(resources, bitmap);
-}
+  @Override
+  public BitmapDrawable get() {
+    return new BitmapDrawable(resources, bitmap);
+  }
 
-@Override
-public int getSize() {
-	return Util.getBitmapByteSize(bitmap);
-}
+  @Override
+  public int getSize() {
+    return Util.getBitmapByteSize(bitmap);
+  }
 
-@Override
-public void recycle() {
-	bitmapPool.put(bitmap);
-}
+  @Override
+  public void recycle() {
+    bitmapPool.put(bitmap);
+  }
 
-@Override
-public void initialize() {
-	bitmap.prepareToDraw();
-}
+  @Override
+  public void initialize() {
+    bitmap.prepareToDraw();
+  }
 }

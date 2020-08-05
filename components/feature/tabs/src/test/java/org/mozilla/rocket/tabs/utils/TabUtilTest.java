@@ -6,7 +6,6 @@
 package org.mozilla.rocket.tabs.utils;
 
 import junit.framework.Assert;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -16,21 +15,24 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 public class TabUtilTest {
 
-@Test
-public void testCreation() {
-	Assert.assertNotNull(TabUtil.argument("parent_id", false, false));
-	Assert.assertNotNull(TabUtil.argument(null, false, false));
-	Assert.assertNotNull(TabUtil.argument(null, false, true));
-	Assert.assertNotNull(TabUtil.argument(null, true, false));
-}
+  @Test
+  public void testCreation() {
+    Assert.assertNotNull(TabUtil.argument("parent_id", false, false));
+    Assert.assertNotNull(TabUtil.argument(null, false, false));
+    Assert.assertNotNull(TabUtil.argument(null, false, true));
+    Assert.assertNotNull(TabUtil.argument(null, true, false));
+  }
 
-@Test
-public void testReturnValue() {
-	Assert.assertNull(TabUtil.getParentId(TabUtil.argument(null, true, false)));
-	Assert.assertEquals("foobar", TabUtil.getParentId(TabUtil.argument("foobar", true, false)));
-	Assert.assertTrue(TabUtil.isFromExternal(TabUtil.argument(null, true, false)));
-	Assert.assertFalse(TabUtil.isFromExternal(TabUtil.argument(null, false, false)));
-	Assert.assertTrue(TabUtil.toFocus(TabUtil.argument(null, false, true)));
-	Assert.assertFalse(TabUtil.toFocus(TabUtil.argument(null, false, false)));
-}
+  @Test
+  public void testReturnValue() {
+    Assert.assertNull(TabUtil.getParentId(TabUtil.argument(null, true, false)));
+    Assert.assertEquals(
+        "foobar", TabUtil.getParentId(TabUtil.argument("foobar", true, false)));
+    Assert.assertTrue(
+        TabUtil.isFromExternal(TabUtil.argument(null, true, false)));
+    Assert.assertFalse(
+        TabUtil.isFromExternal(TabUtil.argument(null, false, false)));
+    Assert.assertTrue(TabUtil.toFocus(TabUtil.argument(null, false, true)));
+    Assert.assertFalse(TabUtil.toFocus(TabUtil.argument(null, false, false)));
+  }
 }

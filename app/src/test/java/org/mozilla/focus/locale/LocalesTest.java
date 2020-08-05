@@ -5,50 +5,49 @@
 
 package org.mozilla.focus.locale;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Locale;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import java.util.Locale;
-
-import static org.junit.Assert.assertEquals;
-
 @RunWith(RobolectricTestRunner.class)
 public class LocalesTest {
-@Test
-public void testLanguage() {
-	assertEquals("en", Locales.getLanguage(Locale.ENGLISH));
-}
+  @Test
+  public void testLanguage() {
+    assertEquals("en", Locales.getLanguage(Locale.ENGLISH));
+  }
 
-@Test
-public void testHebrewIsrael() {
-	final Locale locale = new Locale("iw", "IL");
+  @Test
+  public void testHebrewIsrael() {
+    final Locale locale = new Locale("iw", "IL");
 
-	assertEquals("he", Locales.getLanguage(locale));
-	assertEquals("he-IL", Locales.getLanguageTag(locale));
-}
+    assertEquals("he", Locales.getLanguage(locale));
+    assertEquals("he-IL", Locales.getLanguageTag(locale));
+  }
 
-@Test
-public void testIndonesianIndonesia() {
-	final Locale locale = new Locale("in", "ID");
+  @Test
+  public void testIndonesianIndonesia() {
+    final Locale locale = new Locale("in", "ID");
 
-	assertEquals("id", Locales.getLanguage(locale));
-	assertEquals("id-ID", Locales.getLanguageTag(locale));
-}
+    assertEquals("id", Locales.getLanguage(locale));
+    assertEquals("id-ID", Locales.getLanguageTag(locale));
+  }
 
-@Test
-public void testYiddishUnitedStates() {
-	final Locale locale = new Locale("ji", "US");
+  @Test
+  public void testYiddishUnitedStates() {
+    final Locale locale = new Locale("ji", "US");
 
-	assertEquals("yi", Locales.getLanguage(locale));
-	assertEquals("yi-US", Locales.getLanguageTag(locale));
-}
+    assertEquals("yi", Locales.getLanguage(locale));
+    assertEquals("yi-US", Locales.getLanguageTag(locale));
+  }
 
-@Test
-public void testEmptyCountry() {
-	final Locale locale = new Locale("en");
+  @Test
+  public void testEmptyCountry() {
+    final Locale locale = new Locale("en");
 
-	assertEquals("en", Locales.getLanguage(locale));
-	assertEquals("en", Locales.getLanguageTag(locale));
-}
+    assertEquals("en", Locales.getLanguage(locale));
+    assertEquals("en", Locales.getLanguageTag(locale));
+  }
 }

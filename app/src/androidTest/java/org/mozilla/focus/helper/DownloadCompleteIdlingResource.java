@@ -7,63 +7,64 @@ package org.mozilla.focus.helper;
 import android.database.ContentObserver;
 import android.net.Uri;
 import androidx.test.espresso.IdlingResource;
-
+import java.lang.ref.WeakReference;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.mozilla.focus.activity.MainActivity;
 import org.mozilla.focus.provider.DownloadContract;
 
-import java.lang.ref.WeakReference;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-/** DownloadCompleteIdlingResource utilize {@link org.mozilla.focus.provider.DownloadInfoProvider} to notify and
- *  determine when a download task is completed. Call registerDownloadCompleteObserver() before register this IdlingResource.
+/**
+ * DownloadCompleteIdlingResource utilize {@link
+ * org.mozilla.focus.provider.DownloadInfoProvider} to notify and determine when
+ * a download task is completed. Call registerDownloadCompleteObserver() before
+ * register this IdlingResource.
  */
 public class DownloadCompleteIdlingResource implements IdlingResource {
-private ResourceCallback resourceCallback;
-private WeakReference<MainActivity> activityWeakReference;
-private AtomicBoolean isDownloadComplete = new AtomicBoolean(false);
-private ContentObserver contentObserver = new ContentObserver(null) {
-	@Override
-	public void onChange(boolean selfChange, Uri uri) {
-		super.onChange(selfChange, uri);
-		downloadComplete();
-	}
-};
+  private ResourceCallback resourceCallback;
+  private WeakReference<MainActivity> activityWeakReference;
+  private AtomicBoolean isDownloadComplete = new AtomicBoolean(false);
+  private ContentObserver contentObserver = new ContentObserver(null) {
+    @Override
+    public void onChange(boolean selfChange, Uri uri) {
+      super.onChange(selfChange, uri);
+      downloadComplete();
+    }
+  };
 
-public DownloadCompleteIdlingResource(MainActivity activity) {
-	activityWeakReference = new WeakReference<>(activity);
-}
+  public DownloadCompleteIdlingResource(MainActivity activity) {
+    activityWeakReference = new WeakReference<>(activity);
+  }
 
-@Override
-public String getName() {
-	return DownloadCompleteIdlingResource.class.getSimpleName();
-}
+  @Override
+  public String getName() {
+    return DownloadCompleteIdlingResource.class.getSimpleName();
+  }
 
-@Override
-public boolean isIdleNow() {
-	return isDownloadComplete.get();
-}
+  @Override
+  public boolean isIdleNow() {
+    return isDownloadComplete.get();
+  }
 
-private void downloadComplete() {
-	isDownloadComplete.set(true);
-	if (resourceCallback != null) {
-		resourceCallback.onTransitionToIdle();
-	}
-	final MainActivity activity = activityWeakReference.get();
-	if (activity != null) {
-		activity.getContentResolver().unregisterContentObserver(contentObserver);
-	}
-}
+  private void downloadComplete() {
+    isDownloadComplete.set(true);
+    if (resourceCallback != null) {
+      resourceCallback.onTransitionToIdle();
+    }
+    final MainActivity activity = activityWeakReference.get();
+    if (activity != null) {
+      activity.getContentResolver().unregisterContentObserver(contentObserver);
+    }
+  }
 
-@Override
-public void registerIdleTransitionCallback(ResourceCallback callback) {
-	this.resourceCallback = callback;
-}
+  @Override
+  public void registerIdleTransitionCallback(ResourceCallback callback) {
+    this.resourceCallback = callback;
+  }
 
-public void registerDownloadCompleteObserver() {
-	final MainActivity activity = activityWeakReference.get();
-	if (activity != null) {
-		activity.getContentResolver().registerContentObserver(DownloadContract.Download.CONTENT_URI, true, contentObserver);
-	}
-}
-
+  public void registerDownloadCompleteObserver() {
+    final MainActivity activity = activityWeakReference.get();
+    if (activity != null) {
+      activity.getContentResolver().registerContentObserver(
+          DownloadContract.Download.CONTENT_URI, true, contentObserver);
+    }
+  }
 }

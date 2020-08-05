@@ -1,5 +1,6 @@
 package org.mozilla.focus.fragment;
 
-public interface ItemClosingPanelFragmentStatusListener extends PanelFragmentStatusListener {
-void onItemClicked();
+public interface ItemClosingPanelFragmentStatusListener
+    extends PanelFragmentStatusListener {
+  void onItemClicked();
 }

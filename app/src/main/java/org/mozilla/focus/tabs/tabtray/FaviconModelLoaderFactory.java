@@ -7,7 +7,6 @@ package org.mozilla.focus.tabs.tabtray;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.Options;
@@ -17,61 +16,61 @@ import com.bumptech.glide.load.model.ModelLoaderFactory;
 import com.bumptech.glide.load.model.MultiModelLoaderFactory;
 import com.bumptech.glide.signature.ObjectKey;
 
-public class FaviconModelLoaderFactory implements ModelLoaderFactory<FaviconModel, FaviconModel> {
+public class FaviconModelLoaderFactory
+    implements ModelLoaderFactory<FaviconModel, FaviconModel> {
 
-@Override
-public ModelLoader<FaviconModel, FaviconModel> build(MultiModelLoaderFactory multiFactory) {
-	return new FaviconModelLoader();
-}
+  @Override
+  public ModelLoader<FaviconModel, FaviconModel>
+  build(MultiModelLoaderFactory multiFactory) {
+    return new FaviconModelLoader();
+  }
 
-@Override
-public void teardown() {
-}
+  @Override
+  public void teardown() {}
 
-public static class FaviconModelLoader implements ModelLoader<FaviconModel, FaviconModel> {
+  public static class FaviconModelLoader
+      implements ModelLoader<FaviconModel, FaviconModel> {
 
-@Nullable
-@Override
-public LoadData<FaviconModel> buildLoadData(FaviconModel model, int width, int height, Options options) {
-	return new LoadData<>(new ObjectKey(model.url), new Fetcher(model));
-}
+    @Nullable
+    @Override
+    public LoadData<FaviconModel> buildLoadData(FaviconModel model, int width,
+                                                int height, Options options) {
+      return new LoadData<>(new ObjectKey(model.url), new Fetcher(model));
+    }
 
-@Override
-public boolean handles(FaviconModel faviconModel) {
-	return true;
-}
-}
+    @Override
+    public boolean handles(FaviconModel faviconModel) {
+      return true;
+    }
+  }
 
-public static class Fetcher implements DataFetcher<FaviconModel> {
-private FaviconModel model;
+  public static class Fetcher implements DataFetcher<FaviconModel> {
+    private FaviconModel model;
 
-Fetcher(FaviconModel model) {
-	this.model = model;
-}
+    Fetcher(FaviconModel model) { this.model = model; }
 
-@Override
-public void loadData(Priority priority, DataCallback<? super FaviconModel> callback) {
-	callback.onDataReady(model);
-}
+    @Override
+    public void loadData(Priority priority,
+                         DataCallback<? super FaviconModel> callback) {
+      callback.onDataReady(model);
+    }
 
-@Override
-public void cleanup() {
-}
+    @Override
+    public void cleanup() {}
 
-@Override
-public void cancel() {
-}
+    @Override
+    public void cancel() {}
 
-@NonNull
-@Override
-public Class<FaviconModel> getDataClass() {
-	return FaviconModel.class;
-}
+    @NonNull
+    @Override
+    public Class<FaviconModel> getDataClass() {
+      return FaviconModel.class;
+    }
 
-@NonNull
-@Override
-public DataSource getDataSource() {
-	return DataSource.LOCAL;
-}
-}
+    @NonNull
+    @Override
+    public DataSource getDataSource() {
+      return DataSource.LOCAL;
+    }
+  }
 }

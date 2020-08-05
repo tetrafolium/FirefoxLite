@@ -5,72 +5,72 @@
 
 package org.mozilla.focus.locale;
 
-import androidx.fragment.app.Fragment;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
+import androidx.fragment.app.Fragment;
+import java.util.Locale;
 import org.mozilla.focus.navigation.FragmentAnimationAccessor;
 
-import java.util.Locale;
+public abstract class LocaleAwareFragment
+    extends Fragment implements FragmentAnimationAccessor {
+  private Locale cachedLocale = null;
+  private Animation enterTransition;
+  private Animation exitTransition;
 
-public abstract class LocaleAwareFragment extends Fragment implements FragmentAnimationAccessor {
-private Locale cachedLocale = null;
-private Animation enterTransition;
-private Animation exitTransition;
+  /**
+   * Is called whenever the application locale has changed. Your fragment must
+   * either update all localised Strings, or replace itself with an updated
+   * version.
+   */
+  public abstract void applyLocale();
 
-/**
- * Is called whenever the application locale has changed. Your fragment must either update
- * all localised Strings, or replace itself with an updated version.
- */
-public abstract void applyLocale();
+  @Override
+  public void onResume() {
+    super.onResume();
 
-@Override
-public void onResume() {
-	super.onResume();
+    LocaleManager.getInstance().correctLocale(
+        getContext(), getResources(), getResources().getConfiguration());
 
-	LocaleManager.getInstance()
-	.correctLocale(getContext(), getResources(), getResources().getConfiguration());
+    if (cachedLocale == null) {
+      cachedLocale = Locale.getDefault();
+    } else {
+      Locale newLocale = LocaleManager.getInstance().getCurrentLocale(
+          getActivity().getApplicationContext());
 
-	if (cachedLocale == null) {
-		cachedLocale = Locale.getDefault();
-	} else {
-		Locale newLocale = LocaleManager.getInstance().getCurrentLocale(getActivity().getApplicationContext());
+      if (newLocale == null) {
+        // Using system locale:
+        newLocale = Locale.getDefault();
+      }
+      if (!newLocale.equals(cachedLocale)) {
+        cachedLocale = newLocale;
+        applyLocale();
+      }
+    }
+  }
 
-		if (newLocale == null) {
-			// Using system locale:
-			newLocale = Locale.getDefault();
-		}
-		if (!newLocale.equals(cachedLocale)) {
-			cachedLocale = newLocale;
-			applyLocale();
-		}
-	}
-}
+  @Override
+  public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+    Animation anim = null;
+    if (nextAnim != 0) {
+      anim = AnimationUtils.loadAnimation(getContext(), nextAnim);
+    }
 
-@Override
-public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-	Animation anim = null;
-	if (nextAnim != 0) {
-		anim = AnimationUtils.loadAnimation(getContext(), nextAnim);
-	}
+    if (enter) {
+      enterTransition = anim;
+    } else {
+      exitTransition = anim;
+    }
 
-	if (enter) {
-		enterTransition = anim;
-	} else {
-		exitTransition = anim;
-	}
+    return anim;
+  }
 
-	return anim;
-}
+  @Override
+  public Animation getCustomEnterTransition() {
+    return enterTransition;
+  }
 
-
-@Override
-public Animation getCustomEnterTransition() {
-	return enterTransition;
-}
-
-@Override
-public Animation getCustomExitTransition() {
-	return exitTransition;
-}
+  @Override
+  public Animation getCustomExitTransition() {
+    return exitTransition;
+  }
 }

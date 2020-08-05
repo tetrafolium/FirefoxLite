@@ -6,19 +6,19 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 /**
- * Efficiently displays multiple Bitmaps loaded serially into a single {@link android.view.View}.
+ * Efficiently displays multiple Bitmaps loaded serially into a single {@link
+ * android.view.View}.
  */
-public class BitmapThumbnailImageViewTarget extends ThumbnailImageViewTarget<Bitmap> {
-public BitmapThumbnailImageViewTarget(ImageView view) {
-	super(view);
-}
+public class BitmapThumbnailImageViewTarget
+    extends ThumbnailImageViewTarget<Bitmap> {
+  public BitmapThumbnailImageViewTarget(ImageView view) { super(view); }
 
-public BitmapThumbnailImageViewTarget(ImageView view, boolean waitForLayout) {
-	super(view, waitForLayout);
-}
+  public BitmapThumbnailImageViewTarget(ImageView view, boolean waitForLayout) {
+    super(view, waitForLayout);
+  }
 
-@Override
-protected Drawable getDrawable(Bitmap resource) {
-	return new BitmapDrawable(view.getResources(), resource);
-}
+  @Override
+  protected Drawable getDrawable(Bitmap resource) {
+    return new BitmapDrawable(view.getResources(), resource);
+  }
 }

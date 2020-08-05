@@ -10,84 +10,84 @@ import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-
 import org.mozilla.focus.BuildConfig;
 import org.mozilla.urlutils.UrlUtils;
 
 public class DefaultWebView extends NestedWebView {
 
-private TrackingProtectionWebViewClient webViewClient;
-private WebChromeClient webChromeClient;
+  private TrackingProtectionWebViewClient webViewClient;
+  private WebChromeClient webChromeClient;
 
-private boolean shouldReloadOnAttached = false;
+  private boolean shouldReloadOnAttached = false;
 
-private String lastNonErrorPageUrl;
+  private String lastNonErrorPageUrl;
 
-public DefaultWebView(Context context, AttributeSet attrs) {
-	super(context, attrs);
+  public DefaultWebView(Context context, AttributeSet attrs) {
+    super(context, attrs);
 
-	webViewClient = new DefaultWebViewClient(getContext().getApplicationContext()) {
-		@Override
-		public void onPageStarted(WebView view, String url, Bitmap favicon) {
-			if (!UrlUtils.isInternalErrorURL(url)) {
-				lastNonErrorPageUrl = url;
-			}
-			super.onPageStarted(view, url, favicon);
-		}
-	};
+    webViewClient =
+        new DefaultWebViewClient(getContext().getApplicationContext()) {
+          @Override
+          public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            if (!UrlUtils.isInternalErrorURL(url)) {
+              lastNonErrorPageUrl = url;
+            }
+            super.onPageStarted(view, url, favicon);
+          }
+        };
 
-	webChromeClient = new WebChromeClient();
-	setWebViewClient(webViewClient);
-	setWebChromeClient(webChromeClient);
+    webChromeClient = new WebChromeClient();
+    setWebViewClient(webViewClient);
+    setWebChromeClient(webChromeClient);
 
-	if (BuildConfig.DEBUG) {
-		setWebContentsDebuggingEnabled(true);
-	}
+    if (BuildConfig.DEBUG) {
+      setWebContentsDebuggingEnabled(true);
+    }
 
-	setLongClickable(true);
-}
+    setLongClickable(true);
+  }
 
-@Override
-protected void onAttachedToWindow() {
-	super.onAttachedToWindow();
+  @Override
+  protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
 
-	if (shouldReloadOnAttached) {
-		shouldReloadOnAttached = false;
-		reload();
-	}
-}
+    if (shouldReloadOnAttached) {
+      shouldReloadOnAttached = false;
+      reload();
+    }
+  }
 
-public void loadUrl(String url) {
-	// We need to check external URL handling here - shouldOverrideUrlLoading() is only
-	// called by webview when clicking on a link, and not when opening a new page for the
-	// first time using loadUrl().
-	if (!webViewClient.shouldOverrideUrlLoading(this, url)) {
-		super.loadUrl(url);
-	}
+  public void loadUrl(String url) {
+    // We need to check external URL handling here - shouldOverrideUrlLoading()
+    // is only called by webview when clicking on a link, and not when opening a
+    // new page for the first time using loadUrl().
+    if (!webViewClient.shouldOverrideUrlLoading(this, url)) {
+      super.loadUrl(url);
+    }
 
-	webViewClient.notifyCurrentURL(url);
-}
+    webViewClient.notifyCurrentURL(url);
+  }
 
-public void reload() {
-	if (UrlUtils.isInternalErrorURL(getOriginalUrl())) {
-		super.loadUrl(getUrl());
-	} else {
-		super.reload();
-	}
-}
+  public void reload() {
+    if (UrlUtils.isInternalErrorURL(getOriginalUrl())) {
+      super.loadUrl(getUrl());
+    } else {
+      super.reload();
+    }
+  }
 
-@Override
-public void goBack() {
-	super.goBack();
-}
+  @Override
+  public void goBack() {
+    super.goBack();
+  }
 
-@Override
-public String getUrl() {
-	final String currentUrl = super.getUrl();
-	if (UrlUtils.isInternalErrorURL(currentUrl)) {
-		return lastNonErrorPageUrl;
-	} else {
-		return currentUrl;
-	}
-}
+  @Override
+  public String getUrl() {
+    final String currentUrl = super.getUrl();
+    if (UrlUtils.isInternalErrorURL(currentUrl)) {
+      return lastNonErrorPageUrl;
+    } else {
+      return currentUrl;
+    }
+  }
 }

@@ -12,91 +12,71 @@ import androidx.annotation.Nullable;
 
 public class Download implements Parcelable {
 
-public static final Parcelable.Creator<Download> CREATOR = new Parcelable.Creator<Download>() {
+  public static final Parcelable.Creator<Download> CREATOR =
+      new Parcelable.Creator<Download>() {
+        @Override
+        public Download createFromParcel(Parcel source) {
+          return new Download(source.readString(), source.readString(),
+                              source.readString(), source.readString(),
+                              source.readString(), source.readLong(),
+                              source.readByte() != 0);
+        }
 
-	@Override
-	public Download createFromParcel(Parcel source) {
-		return new Download(
-			source.readString(),
-			source.readString(),
-			source.readString(),
-			source.readString(),
-			source.readString(),
-			source.readLong(),
-			source.readByte() != 0);
-	}
+        @Override
+        public Download[] newArray(int size) {
+          return new Download[size];
+        }
+      };
 
-	@Override
-	public Download[] newArray(int size) {
-		return new Download[size];
-	}
-};
+  private final String url;
+  private final String name;
+  private final String contentDisposition;
+  private final String mimeType;
+  private final long contentLength;
+  private final String userAgent;
+  private final boolean startFromContextMenu;
 
-private final String url;
-private final String name;
-private final String contentDisposition;
-private final String mimeType;
-private final long contentLength;
-private final String userAgent;
-private final boolean startFromContextMenu;
+  public Download(@NonNull String url, @Nullable String name,
+                  @Nullable String userAgent,
+                  @Nullable String contentDisposition,
+                  @Nullable String mimeType, long contentLength,
+                  boolean startFromContextMenu) {
+    this.url = url;
+    this.name = name;
+    this.userAgent = userAgent;
+    this.contentDisposition = contentDisposition;
+    this.mimeType = mimeType;
+    this.contentLength = contentLength;
+    this.startFromContextMenu = startFromContextMenu;
+  }
 
-public Download(@NonNull String url,
-                @Nullable String name,
-                @Nullable String userAgent,
-                @Nullable String contentDisposition,
-                @Nullable String mimeType,
-                long contentLength,
-                boolean startFromContextMenu) {
-	this.url = url;
-	this.name = name;
-	this.userAgent = userAgent;
-	this.contentDisposition = contentDisposition;
-	this.mimeType = mimeType;
-	this.contentLength = contentLength;
-	this.startFromContextMenu = startFromContextMenu;
-}
+  public String getUrl() { return url; }
 
-public String getUrl() {
-	return url;
-}
+  public String getName() { return name; }
 
-public String getName() {
-	return name;
-}
+  public String getContentDisposition() { return contentDisposition; }
 
-public String getContentDisposition() {
-	return contentDisposition;
-}
+  public String getMimeType() { return mimeType; }
 
-public String getMimeType() {
-	return mimeType;
-}
+  public long getContentLength() { return contentLength; }
 
-public long getContentLength() {
-	return contentLength;
-}
+  public String getUserAgent() { return userAgent; }
 
-public String getUserAgent() {
-	return userAgent;
-}
+  public boolean isStartFromContextMenu() { return startFromContextMenu; }
 
-public boolean isStartFromContextMenu() {
-	return startFromContextMenu;
-}
+  @Override
+  public int describeContents() {
+    return 0;
+  }
 
-@Override
-public int describeContents() {
-	return 0;
-}
-
-@Override
-public void writeToParcel(Parcel dest, int flags) {
-	dest.writeString(url);
-	dest.writeString(name);
-	dest.writeString(userAgent);
-	dest.writeString(contentDisposition);
-	dest.writeString(mimeType);
-	dest.writeLong(contentLength);
-	dest.writeByte((byte) (startFromContextMenu ? 0 : 1));
-}
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(url);
+    dest.writeString(name);
+    dest.writeString(userAgent);
+    dest.writeString(contentDisposition);
+    dest.writeString(mimeType);
+    dest.writeLong(contentLength);
+    dest.writeByte((byte)(startFromContextMenu ? 0 : 1));
+  }
 }

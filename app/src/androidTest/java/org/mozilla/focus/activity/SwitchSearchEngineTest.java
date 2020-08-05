@@ -5,17 +5,24 @@
 
 package org.mozilla.focus.activity;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.containsString;
+
 import android.Manifest;
 import android.content.Intent;
+import android.text.TextUtils;
 import androidx.annotation.Keep;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.IdlingRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import android.text.TextUtils;
-
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,119 +34,124 @@ import org.mozilla.focus.search.SearchEngine;
 import org.mozilla.focus.search.SearchEngineManager;
 import org.mozilla.focus.utils.AndroidTestUtils;
 
-import java.util.List;
-
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.containsString;
-
 @Keep
 @RunWith(AndroidJUnit4.class)
 public class SwitchSearchEngineTest {
 
-@Rule
-public final GrantPermissionRule grantPermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION);
+  @Rule
+  public final GrantPermissionRule grantPermissionRule =
+      GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION);
 
-@Rule
-public final ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
+  @Rule
+  public final ActivityTestRule<MainActivity> activityTestRule =
+      new ActivityTestRule<>(MainActivity.class, true, false);
 
-private static final String SEARCH_KEYWORD = "zerda";
-private final List<SearchEngine> searchEngines = SearchEngineManager.getInstance().getSearchEngines();
-private SessionLoadedIdlingResource loadingIdlingResource;
+  private static final String SEARCH_KEYWORD = "zerda";
+  private final List<SearchEngine> searchEngines =
+      SearchEngineManager.getInstance().getSearchEngines();
+  private SessionLoadedIdlingResource loadingIdlingResource;
 
-@Before
-public void setUp() {
-	// Load mock search engines
-	SearchEngineManager.getInstance().loadSearchEngines(InstrumentationRegistry.getContext());
-	AndroidTestUtils.beforeTest();
-}
+  @Before
+  public void setUp() {
+    // Load mock search engines
+    SearchEngineManager.getInstance().loadSearchEngines(
+        InstrumentationRegistry.getContext());
+    AndroidTestUtils.beforeTest();
+  }
 
-@After
-public void tearDown() {
-	if (loadingIdlingResource != null) {
-		IdlingRegistry.getInstance().unregister(loadingIdlingResource);
-	}
-}
+  @After
+  public void tearDown() {
+    if (loadingIdlingResource != null) {
+      IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+    }
+  }
 
-/**
- * Test case no: TC_0004
- * Test case name: Change default search engine
- * Steps:
- * 1. Launch Rocket
- * 2. Tap on Menu and then Settings
- * 3. Tap on "Default search engine"
- * 4. Change a different search engine
- * 5. Back to home and search for something
- * 6. Search result is provided by selected search engine
- * 7. Repeat 2~6 for different search engines */
+  /**
+   * Test case no: TC_0004
+   * Test case name: Change default search engine
+   * Steps:
+   * 1. Launch Rocket
+   * 2. Tap on Menu and then Settings
+   * 3. Tap on "Default search engine"
+   * 4. Change a different search engine
+   * 5. Back to home and search for something
+   * 6. Search result is provided by selected search engine
+   * 7. Repeat 2~6 for different search engines
+   */
 
-@Test
-public void switchSearchEngine_searchViaSearchEngineAccordingly() {
-	activityTestRule.launchActivity(new Intent());
-	final SearchEngine defaultSearchEngine = SearchEngineManager.getInstance().getDefaultSearchEngine(InstrumentationRegistry.getInstrumentation().getTargetContext());
-	loadingIdlingResource = new SessionLoadedIdlingResource(activityTestRule.getActivity());
+  @Test
+  public void switchSearchEngine_searchViaSearchEngineAccordingly() {
+    activityTestRule.launchActivity(new Intent());
+    final SearchEngine defaultSearchEngine =
+        SearchEngineManager.getInstance().getDefaultSearchEngine(
+            InstrumentationRegistry.getInstrumentation().getTargetContext());
+    loadingIdlingResource =
+        new SessionLoadedIdlingResource(activityTestRule.getActivity());
 
-	for (SearchEngine searchEngine: searchEngines) {
-		final String[] searchEngineName = searchEngine.getName().split(" ");
+    for (SearchEngine searchEngine : searchEngines) {
+      final String[] searchEngineName = searchEngine.getName().split(" ");
 
-		switchSearchEngine(searchEngine);
+      switchSearchEngine(searchEngine);
 
-		// Tap search field
-		AndroidTestUtils.tapHomeSearchField();
+      // Tap search field
+      AndroidTestUtils.tapHomeSearchField();
 
-		// Type search keyword and browse
-		AndroidTestUtils.typeTextInSearchFieldAndGo(SEARCH_KEYWORD);
+      // Type search keyword and browse
+      AndroidTestUtils.typeTextInSearchFieldAndGo(SEARCH_KEYWORD);
 
-		IdlingRegistry.getInstance().register(loadingIdlingResource);
+      IdlingRegistry.getInstance().register(loadingIdlingResource);
 
-		// Check is url contains search keyword
-		AndroidTestUtils.urlBarContainsText(SEARCH_KEYWORD);
+      // Check is url contains search keyword
+      AndroidTestUtils.urlBarContainsText(SEARCH_KEYWORD);
 
-		// Check is url contains search engine name
-		AndroidTestUtils.urlBarContainsText(searchEngineName[0].toLowerCase());
+      // Check is url contains search engine name
+      AndroidTestUtils.urlBarContainsText(searchEngineName[0].toLowerCase());
 
-		IdlingRegistry.getInstance().unregister(loadingIdlingResource);
+      IdlingRegistry.getInstance().unregister(loadingIdlingResource);
 
-		// Remove tab and back to home
-		AndroidTestUtils.removeNewAddedTab();
-	}
+      // Remove tab and back to home
+      AndroidTestUtils.removeNewAddedTab();
+    }
 
-	// Restore default search engine setting
-	switchSearchEngine(defaultSearchEngine);
+    // Restore default search engine setting
+    switchSearchEngine(defaultSearchEngine);
+  }
 
-}
+  private void switchSearchEngine(SearchEngine engine) {
 
-private void switchSearchEngine(SearchEngine engine) {
+    final SearchEngine currentSearchEngine =
+        SearchEngineManager.getInstance().getDefaultSearchEngine(
+            InstrumentationRegistry.getInstrumentation().getTargetContext());
+    // When target search engine and current search engine is the same, skip
+    // switch
 
-	final SearchEngine currentSearchEngine = SearchEngineManager.getInstance().getDefaultSearchEngine(InstrumentationRegistry.getInstrumentation().getTargetContext());
-	// When target search engine and current search engine is the same, skip switch
+    if (TextUtils.equals(currentSearchEngine.getName(), engine.getName())) {
+      return;
+    }
 
-	if (TextUtils.equals(currentSearchEngine.getName(), engine.getName())) {
-		return;
-	}
+    final String[] searchEngineName = engine.getName().split(" ");
 
-	final String[] searchEngineName = engine.getName().split(" ");
+    // Open menu
+    AndroidTestUtils.tapBrowserMenuButton();
 
-	// Open menu
-	AndroidTestUtils.tapBrowserMenuButton();
+    // Open settings
+    AndroidTestUtils.tapSettingButton();
 
-	// Open settings
-	AndroidTestUtils.tapSettingButton();
+    // Open default search engine setting
+    onView(withText(R.string.preference_search_engine_default))
+        .check(matches(isDisplayed()))
+        .perform(click());
 
-	// Open default search engine setting
-	onView(withText(R.string.preference_search_engine_default)).check(matches(isDisplayed())).perform(click());
+    // Set target search engine as default
+    onView(withText(containsString(searchEngineName[0])))
+        .check(matches(isDisplayed()))
+        .perform(click());
 
-	// Set target search engine as default
-	onView(withText(containsString(searchEngineName[0]))).check(matches(isDisplayed())).perform(click());
+    // Check setting is showed again
+    onView(withText(R.string.preference_search_engine_default))
+        .check(matches(isDisplayed()));
 
-	// Check setting is showed again
-	onView(withText(R.string.preference_search_engine_default)).check(matches(isDisplayed()));
-
-	// Back to home
-	Espresso.pressBack();
-}
-
+    // Back to home
+    Espresso.pressBack();
+  }
 }

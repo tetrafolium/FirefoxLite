@@ -7,48 +7,47 @@ package org.mozilla.focus.urlinput;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.List;
 
 public class UrlInputContract {
 
-interface View {
-/**
- * To set Url bar content directly
- *
- * @param text
- */
-void setUrlText(@Nullable CharSequence text);
+  interface View {
+    /**
+     * To set Url bar content directly
+     *
+     * @param text
+     */
+    void setUrlText(@Nullable CharSequence text);
 
-/**
- * Use these suggestions, or replace existing ones, if any.
- *
- * @param texts
- */
-void setSuggestions(@Nullable List<CharSequence> texts);
+    /**
+     * Use these suggestions, or replace existing ones, if any.
+     *
+     * @param texts
+     */
+    void setSuggestions(@Nullable List<CharSequence> texts);
 
-/**
- * Set quick search view's visibility
- *
- * @param visible
- */
-void setQuickSearchVisible(boolean visible);
-}
+    /**
+     * Set quick search view's visibility
+     *
+     * @param visible
+     */
+    void setQuickSearchVisible(boolean visible);
+  }
 
-interface Presenter {
-/**
- * Connect this Presenter to a View
- *
- * @param view to be connected
- */
-void setView(View view);
+  interface Presenter {
+    /**
+     * Connect this Presenter to a View
+     *
+     * @param view to be connected
+     */
+    void setView(View view);
 
-/**
- * Called when user input any text in Url bar
- *
- * @param input
- * @param isThrottled
- */
-void onInput(@NonNull CharSequence input, boolean isThrottled);
-}
+    /**
+     * Called when user input any text in Url bar
+     *
+     * @param input
+     * @param isThrottled
+     */
+    void onInput(@NonNull CharSequence input, boolean isThrottled);
+  }
 }

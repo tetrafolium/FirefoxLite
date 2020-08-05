@@ -14,13 +14,12 @@ import android.webkit.WebViewDatabase;
  * A class to create TabView instance.
  */
 public abstract class TabViewProvider {
-public abstract TabView create();
+  public abstract TabView create();
 
-/**
- * To clean up some persistent data which effect provided TabView, but not directly inside the TabView.
- * <p>
- * For instance, a cookie effect a @see{android.webkit.WebView} but it is stores in another place.
- */
-public void purify(final Context context) {
-}
+  /**
+   * To clean up some persistent data which effect provided TabView, but not
+   * directly inside the TabView. <p> For instance, a cookie effect a
+   * @see{android.webkit.WebView} but it is stores in another place.
+   */
+  public void purify(final Context context) {}
 }

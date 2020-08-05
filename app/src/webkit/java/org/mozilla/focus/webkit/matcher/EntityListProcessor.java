@@ -4,76 +4,76 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.mozilla.focus.webkit.matcher;
 
-
 import android.util.JsonReader;
-
-import org.mozilla.focus.webkit.matcher.util.FocusString;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import org.mozilla.focus.webkit.matcher.util.FocusString;
 
 /**
- * Parses an entitylist json file, and returns an EntityList representation thereof.
+ * Parses an entitylist json file, and returns an EntityList representation
+ * thereof.
  */
 /* package-private */ class EntityListProcessor {
 
-private final EntityList entityMap = new EntityList();
+  private final EntityList entityMap = new EntityList();
 
-public static EntityList getEntityMapFromJSON(final JsonReader reader) throws IOException {
-	EntityListProcessor processor = new EntityListProcessor(reader);
+  public static EntityList getEntityMapFromJSON(final JsonReader reader)
+      throws IOException {
+    EntityListProcessor processor = new EntityListProcessor(reader);
 
-	return processor.entityMap;
-}
+    return processor.entityMap;
+  }
 
-private EntityListProcessor(final JsonReader reader) throws IOException {
-	reader.beginObject();
+  private EntityListProcessor(final JsonReader reader) throws IOException {
+    reader.beginObject();
 
-	while (reader.hasNext()) {
-		// We can get the siteName using reader.nextName() here
-		reader.skipValue();
+    while (reader.hasNext()) {
+      // We can get the siteName using reader.nextName() here
+      reader.skipValue();
 
-		handleSite(reader);
-	}
+      handleSite(reader);
+    }
 
-	reader.endObject();
-}
+    reader.endObject();
+  }
 
-private void handleSite(final JsonReader reader) throws IOException {
-	reader.beginObject();
+  private void handleSite(final JsonReader reader) throws IOException {
+    reader.beginObject();
 
-	final Trie whitelist = Trie.createRootNode();
-	final ArrayList<String> propertyList = new ArrayList<>();
+    final Trie whitelist = Trie.createRootNode();
+    final ArrayList<String> propertyList = new ArrayList<>();
 
-	while (reader.hasNext()) {
-		final String itemName = reader.nextName();
+    while (reader.hasNext()) {
+      final String itemName = reader.nextName();
 
-		if (itemName.equals("properties")) {
-			reader.beginArray();
+      if (itemName.equals("properties")) {
+        reader.beginArray();
 
-			while (reader.hasNext()) {
-				propertyList.add(reader.nextString());
-			}
+        while (reader.hasNext()) {
+          propertyList.add(reader.nextString());
+        }
 
-			reader.endArray();
-		} else if (itemName.equals("resources")) {
-			reader.beginArray();
+        reader.endArray();
+      } else if (itemName.equals("resources")) {
+        reader.beginArray();
 
-			while (reader.hasNext()) {
-				final FocusString revhost = FocusString.create(reader.nextString()).reverse();
+        while (reader.hasNext()) {
+          final FocusString revhost =
+              FocusString.create(reader.nextString()).reverse();
 
-				whitelist.put(revhost);
-			}
+          whitelist.put(revhost);
+        }
 
-			reader.endArray();
-		}
-	}
+        reader.endArray();
+      }
+    }
 
-	for (final String property : propertyList) {
-		final FocusString revhost = FocusString.create(property).reverse();
+    for (final String property : propertyList) {
+      final FocusString revhost = FocusString.create(property).reverse();
 
-		entityMap.putWhiteList(revhost, whitelist);
-	}
+      entityMap.putWhiteList(revhost, whitelist);
+    }
 
-	reader.endObject();
-}
+    reader.endObject();
+  }
 }
